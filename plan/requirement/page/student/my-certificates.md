@@ -1,0 +1,284 @@
+# `/my-certificates` — Chứng chỉ của tôi
+
+## 1. Mục tiêu
+
+Học viên vào trang này để:
+
+```text
+1. Xem các chứng chỉ đã được cấp
+2. Tải file PDF certificate
+3. Copy Certificate ID
+4. Mở trang verify certificate
+5. Biết mình chưa có chứng chỉ vì lý do gì
+```
+
+---
+
+# 2. Layout đề xuất
+
+```text
+My Certificates
+
+[Summary Cards]
+- Total certificates
+- Valid certificates
+- Pending certificates nếu có
+
+[Certificate List]
+[Certificate Card]
+[Certificate Card]
+
+[Empty State nếu chưa có chứng chỉ]
+```
+
+---
+
+# 3. Các vùng chính trên trang
+
+## A. Page Header
+
+| Thành phần | Yêu cầu                                                           |
+| ---------- | ----------------------------------------------------------------- |
+| Title      | `Chứng chỉ của tôi`                                               |
+| Subtitle   | “Xem, tải và xác thực các chứng chỉ bạn đã nhận tại May Academy.” |
+| CTA phụ    | `Xem khóa học của tôi` dẫn về `/my-courses`                       |
+
+---
+
+## B. Summary Cards
+
+| Card                 | Nội dung                           |
+| -------------------- | ---------------------------------- |
+| Total certificates   | Tổng số chứng chỉ đã được cấp      |
+| Valid certificates   | Số chứng chỉ còn hiệu lực          |
+| Revoked certificates | Số chứng chỉ đã bị thu hồi, nếu có |
+| Pending certificate  | Chứng chỉ đang chờ cấp, nếu có     |
+
+**MVP có thể chỉ cần:**
+
+```text
+Total certificates
+Valid certificates
+```
+
+---
+
+## C. Certificate List
+
+Hiển thị danh sách chứng chỉ học viên đã được cấp.
+
+Mỗi chứng chỉ hiển thị dạng card.
+
+| Thành phần     | Mô tả                    |
+| -------------- | ------------------------ |
+| Tên khóa       | Khóa đã hoàn thành       |
+| Certificate ID | Mã chứng chỉ             |
+| Ngày cấp       | Issued date              |
+| Status         | Valid / Revoked          |
+| Actions        | Tải PDF, verify, copy ID |
+
+---
+
+# 4. Certificate Card
+
+## Card trạng thái valid
+
+```text
+AI Agent & Vibe Coding Bootcamp
+
+Certificate of Completion
+Certificate ID: MAY-AI-2026-0001
+Issued date: 21/05/2026
+Status: Valid
+
+[Download PDF] [Verify] [Copy ID]
+```
+
+## Card trạng thái revoked
+
+```text
+AI Agent & Vibe Coding Bootcamp
+
+Certificate ID: MAY-AI-2026-0001
+Issued date: 21/05/2026
+Status: Revoked
+
+This certificate is no longer valid.
+
+[Verify] [Contact Support]
+```
+
+---
+
+# 5. Actions trên certificate card
+
+| Action            | Chức năng                                    |
+| ----------------- | -------------------------------------------- |
+| `Download PDF`    | Tải file chứng chỉ                           |
+| `Verify`          | Mở `/verify-certificate?id=certificate_id`   |
+| `Copy ID`         | Copy mã chứng chỉ                            |
+| `Contact Support` | Dẫn đến `/support` nếu certificate có vấn đề |
+
+---
+
+# 6. Empty State
+
+Nếu học viên chưa có chứng chỉ nào:
+
+```text
+Bạn chưa có chứng chỉ nào.
+
+Hoàn thành khóa học và final project để nhận Certificate of Completion.
+[Xem khóa học của tôi]
+```
+
+Nếu học viên đã hoàn thành nhưng đang chờ cấp:
+
+```text
+Bạn đã đủ điều kiện nhận chứng chỉ.
+
+Certificate của bạn đang chờ May Academy xử lý.
+[Xem trạng thái khóa học]
+```
+
+---
+
+# 7. Rule cấp chứng chỉ
+
+Certificate chỉ hiển thị khi đã được cấp trong bảng `certificates`.
+
+Điều kiện để đủ điều kiện nhận certificate:
+
+```text
+1. Học viên đã enrolled khóa học
+2. Hoàn thành các lesson bắt buộc
+3. Assignment bắt buộc, nếu có, đã approved
+4. Final project đã approved
+5. Admin hoặc hệ thống cấp certificate
+```
+
+---
+
+# 8. Yêu cầu chức năng cụ thể
+
+| Nhóm             | Yêu cầu                                      |
+| ---------------- | -------------------------------------------- |
+| Auth             | Chỉ user đăng nhập mới xem được              |
+| Data access      | Chỉ xem certificate của chính user đó        |
+| Certificate list | Lấy danh sách từ bảng `certificates`         |
+| Status           | Hiển thị Valid / Revoked / Pending nếu có    |
+| Download         | Cho tải PDF nếu có `certificate_url`         |
+| Verify           | Dẫn sang `/verify-certificate?id=...`        |
+| Copy ID          | Copy Certificate ID vào clipboard            |
+| Empty state      | Hiển thị khi chưa có certificate             |
+| Privacy          | Không hiển thị email/số điện thoại trên card |
+| Responsive       | Mobile card xếp 1 cột                        |
+
+---
+
+# 9. Data cần dùng
+
+| Bảng           | Dữ liệu                                                |
+| -------------- | ------------------------------------------------------ |
+| `users`        | ID học viên hiện tại                                   |
+| `certificates` | Certificate ID, status, issued date, PDF URL           |
+| `courses`      | Tên khóa liên quan                                     |
+| `enrollments`  | Kiểm tra khóa học của học viên                         |
+| `submissions`  | Kiểm tra final project nếu cần hiển thị pending reason |
+
+---
+
+# 10. Cấu trúc dữ liệu `certificates`
+
+| Field              | Mục đích                |
+| ------------------ | ----------------------- |
+| `id`               | ID certificate          |
+| `certificate_code` | Mã chứng chỉ duy nhất   |
+| `user_id`          | Học viên nhận chứng chỉ |
+| `course_id`        | Khóa học liên quan      |
+| `issued_at`        | Ngày cấp                |
+| `certificate_url`  | Link file PDF           |
+| `status`           | valid / revoked         |
+| `revoked_reason`   | Lý do thu hồi, nếu có   |
+| `created_at`       | Ngày tạo record         |
+
+---
+
+# 11. Logic chính
+
+## Lấy danh sách certificate
+
+```text
+Lấy tất cả certificates có user_id = current_user.id
+→ join với courses để lấy tên khóa
+→ sắp xếp issued_at mới nhất lên trước
+```
+
+## Verify link
+
+```text
+/verify-certificate?id=MAY-AI-2026-0001
+```
+
+## Download PDF
+
+```text
+Nếu certificate_url tồn tại:
+→ cho tải PDF
+
+Nếu chưa có certificate_url:
+→ hiển thị “Certificate file is being prepared”
+```
+
+---
+
+# 12. Component cần có
+
+| Component                 | Mục đích                  |
+| ------------------------- | ------------------------- |
+| `StudentLayout`           | Sidebar + topbar          |
+| `CertificateSummaryCards` | Tổng số certificate       |
+| `CertificateCard`         | Hiển thị từng certificate |
+| `StatusBadge`             | Valid / Revoked / Pending |
+| `CopyButton`              | Copy Certificate ID       |
+| `EmptyState`              | Khi chưa có chứng chỉ     |
+| `LoadingState`            | Khi đang tải dữ liệu      |
+
+---
+
+# 13. Acceptance Criteria
+
+Trang `/my-certificates` đạt nếu:
+
+| Tiêu chí                                           | Đạt / Không |
+| -------------------------------------------------- | ----------- |
+| User chưa login bị chuyển về login                 |             |
+| Chỉ hiển thị certificate của user hiện tại         |             |
+| Certificate card có tên khóa, ID, ngày cấp, status |             |
+| Nút Download PDF hoạt động nếu có file             |             |
+| Nút Verify mở đúng trang xác thực                  |             |
+| Nút Copy ID copy đúng mã chứng chỉ                 |             |
+| Revoked certificate hiển thị rõ trạng thái         |             |
+| Có empty state nếu chưa có chứng chỉ               |             |
+| Responsive tốt trên mobile                         |             |
+
+---
+
+# 14. Chốt scope `/my-certificates`
+
+```text
+/my-certificates cần có:
+
+1. Student layout chung
+2. Page header
+3. Summary cards
+4. Certificate list
+5. Certificate card
+6. Download PDF
+7. Verify link
+8. Copy Certificate ID
+9. Empty state
+10. Loading/error state
+```
+
+Nói ngắn gọn: **trang này chỉ để quản lý chứng chỉ đã được cấp. Việc xét đủ điều kiện nằm ở course/lesson/final project, còn `/my-certificates` chỉ hiển thị, tải và xác thực certificate.**

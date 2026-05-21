@@ -1,4 +1,4 @@
-Đúng hướng hơn đó em. Với bộ sản phẩm này, trang `/courses` nên là **Product Catalog Page gọn**, không phải learning path. Trọng tâm là **4 thẻ khóa học chính**, còn **Premium** và **B2B** tách thành 2 section riêng phía dưới. Dựa trên plan trang `/courses` ban đầu của em là nơi hiển thị khóa học và dẫn sang chi tiết khóa. 
+Đúng hướng hơn đó em. Với bộ sản phẩm này, trang `/courses` nên là **Product Catalog Page gọn**, không phải learning path. Trọng tâm là **4 thẻ khóa học chính**, còn **Premium** và **B2B** tách thành 2 section riêng phía dưới. Dựa trên plan trang `/courses` ban đầu của em là nơi hiển thị khóa học và dẫn sang chi tiết khóa.
 
 # Trang `/courses` — Bản chỉnh theo bộ khóa học mới
 
@@ -265,25 +265,3 @@ Final CTA
 ```
 
 ---
-
-# 14. Chốt scope mới cho `/courses`
-
-```text
-Trang /courses cần có:
-
-1. Page Header
-2. 4 course cards chính:
-   - Free Workshop
-   - Starter Mini Course
-   - Core Bootcamp
-   - Advanced Automation
-3. Preview nhẹ: nội dung học
-4. Preview nhẹ: project làm được
-5. Section riêng cho Premium 1:1 Mentoring
-6. Section riêng cho B2B Training
-7. Certificate preview
-8. FAQ ngắn
-9. Final CTA
-```
-
-Nói ngắn gọn: **trang `/courses` không cần learning path, không cần filter/search. Nó nên là trang giới thiệu bộ sản phẩm học AI, trong đó Core Bootcamp là sản phẩm chính, còn Premium và B2B được tách ra như hai offer riêng để tư vấn.**
