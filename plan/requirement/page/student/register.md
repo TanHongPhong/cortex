@@ -13,7 +13,7 @@
 ## 2. Bố cục trang
 
 ```text
-Logo May Academy
+Logo CORTEX
 
 Tạo tài khoản học viên
 

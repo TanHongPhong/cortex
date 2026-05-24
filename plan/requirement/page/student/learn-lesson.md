@@ -474,7 +474,7 @@ Hiển thị rõ điều kiện nhận certificate:
 Để nhận Certificate of Completion, bạn cần:
 1. Hoàn thành các lesson bắt buộc
 2. Nộp final project
-3. Final project được May Academy duyệt
+3. Final project được CORTEX duyệt
 ```
 
 Nếu final project approved:

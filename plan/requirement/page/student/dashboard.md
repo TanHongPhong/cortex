@@ -281,7 +281,7 @@ Dẫn đến:
 ```text
 Bạn chưa có khóa học nào.
 
-Khám phá các khóa học AI tại May Academy để bắt đầu lộ trình học của bạn.
+Khám phá các khóa học AI tại CORTEX để bắt đầu lộ trình học của bạn.
 [Xem khóa học]
 ```
 

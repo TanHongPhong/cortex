@@ -2,13 +2,13 @@
 
 ## `/` Trang chủ
 
-**Mục tiêu:** làm người mới hiểu May Academy là gì và bấm đăng ký.
+**Mục tiêu:** làm người mới hiểu CORTEX là gì và bấm đăng ký.
 
 | Khu vực             | Nên làm như nào                                                                                                 |
 | ------------------- | --------------------------------------------------------------------------------------------------------------- |
 | Hero section        | Có headline mạnh, subheadline ngắn, mascot/visual Rubik 3D, 2 nút CTA: “Đăng ký học thử” và “Xem lộ trình học”. |
 | Problem section     | Nêu vấn đề: người mới học AI bị rối, không biết bắt đầu, học tool rời rạc, không làm được sản phẩm.             |
-| Solution section    | Giới thiệu May Academy là nơi học AI thực chiến qua project.                                                    |
+| Solution section    | Giới thiệu CORTEX là nơi học AI thực chiến qua project.                                                         |
 | Learning path       | Hiển thị 3–4 bước: AI Foundation → Vibe Coding → AI Agent → Portfolio Project.                                  |
 | Featured courses    | Hiển thị 3 khóa nổi bật bằng card.                                                                              |
 | Project showcase    | Show vài project mẫu/học viên để tăng niềm tin.                                                                 |
@@ -22,17 +22,24 @@
 
 ## `/courses` Trang danh sách khóa học
 
-**Mục tiêu:** giúp người học chọn khóa phù hợp.
+**Mục tiêu:** hiển thị bộ sản phẩm học AI của CORTEX, giúp người học chọn khóa phù hợp.
 
-| Khu vực      | Nên làm như nào                                                                              |
-| ------------ | -------------------------------------------------------------------------------------------- |
-| Header       | Tiêu đề: “Chọn lộ trình học AI phù hợp với bạn”.                                             |
-| Filter       | Lọc theo level: Beginner, Intermediate; lọc theo chủ đề: AI, Vibe Coding, Automation, Agent. |
-| Course cards | Mỗi khóa có ảnh, tên, mô tả ngắn, level, thời lượng, giá, kết quả học được.                  |
-| CTA card     | Nút “Xem chi tiết” và “Đăng ký học thử”.                                                     |
+**Cấu trúc theo website/courses.md:**
 
-**Nút chính:** `Xem chi tiết`
-**Không nên:** nhồi quá nhiều text vào card. Card chỉ nên ngắn, rõ, dễ so sánh.
+- Hiển thị **4 khóa chính** (Free Workshop, Starter Mini Course, Core Bootcamp, Advanced Automation) dưới dạng card grid.
+- Phần **Premium Mentoring** và **B2B Training** tách riêng (không trong grid).
+- Các section preview: “What you can learn”, “Projects you can build”, “Certificate preview”, FAQ, Final CTA.
+
+| Khu vực    | Nên làm như nào                                                                            |
+| ---------- | ------------------------------------------------------------------------------------------ |
+| Header     | Tiêu đề: “Khóa học AI tại CORTEX”, subtitle giới thiệu 4 loại khóa.                        |
+| Main cards | 4 card: Free/Starter/Core/Advanced, mỗi card có level badge, tên, mô tả ngắn, output, CTA. |
+| Premium    | Section riêng: “1:1 Mentoring / Portfolio Coaching” với CTA đăng ký tư vấn.                |
+| B2B        | Section riêng: “AI Training for Teams & Organizations” với CTA liên hệ B2B.                |
+| CTA card   | Mỗi card có nút `Xem chi tiết` hoặc `Đăng ký ngay` theo loại khóa.                         |
+
+**Nút chính:** `Xem chi tiết` (với Free Workshop thì là `Đăng ký workshop miễn phí`)
+**Không nên:** Không cần search/filter vì số khóa ít (4–6). Không gộp Premium/B2B vào grid.
 
 ---
 
@@ -40,19 +47,40 @@
 
 **Mục tiêu:** thuyết phục người xem đăng ký khóa đó.
 
+**Cấu trúc theo website/course-detail.md:**
+
+- Course Hero: Level badge, tên khóa, mô tả ngắn, thông tin nhanh (duration, format, certificate), CTA chính, CTA phụ, visual.
+- Course Overview: Khóa này là gì, vấn đề giải quyết, cách giúp, kết quả chính.
+- Who is this for?: Đối tượng phù hợp.
+- What you will learn: 6–7 điểm chính dạng icon grid.
+- Curriculum / Modules: Accordion hiển thị module và lesson preview.
+- Project Output: Nhấn mạnh project cuối khóa.
+- Certificate Preview: Nếu khóa có certificate.
+- Pricing / Enrollment: Giá, bao gồm gì, CTA theo loại khóa.
+- FAQ, Related Courses, Final CTA.
+
 | Khu vực           | Nên làm như nào                                                         |
 | ----------------- | ----------------------------------------------------------------------- |
-| Course hero       | Tên khóa, mô tả ngắn, level, thời lượng, giá, CTA đăng ký.              |
+| Course hero       | Level badge, tên khóa, mô tả ngắn, thời lượng, hình thức, certificate.  |
 | Who is this for   | Khóa này dành cho ai: sinh viên, người mới, người muốn làm project AI.  |
 | Learning outcomes | Học xong làm được gì, ví dụ: tạo landing page, chatbot, AI workflow.    |
-| Curriculum        | Danh sách module và lesson dạng accordion.                              |
+| Curriculum        | Danh sách module và lesson dạng accordion, có preview lesson.           |
 | Project output    | Project cuối khóa học viên phải làm.                                    |
-| Certificate       | Điều kiện nhận chứng chỉ.                                               |
+| Certificate       | Điều kiện nhận chứng chỉ (nếu khóa có).                                 |
+| Pricing           | Giá theo loại: Free/Low/Main product/Higher/Custom.                     |
 | FAQ ngắn          | Trả lời các câu hỏi: cần biết code không, học bao lâu, có hỗ trợ không. |
 | Sticky CTA        | Desktop có nút đăng ký cố định bên phải hoặc cuối trang.                |
 
-**Nút chính:** `Đăng ký khóa học` hoặc `Đăng ký tư vấn`
-**Quan trọng:** trang này phải bán được, không chỉ liệt kê bài học.
+**Nút chính:** CTA thay đổi theo loại khóa:
+
+- Free Workshop → `Đăng ký workshop miễn phí`
+- Starter → `Đăng ký mini course`
+- Core → `Đăng ký Bootcamp`
+- Advanced → `Nhận tư vấn khóa nâng cao`
+- Premium → `Đăng ký mentoring 1:1`
+- B2B → `Liên hệ đào tạo đội nhóm`
+
+**Quan trọng:** trang này phải bán được, không chỉ liệt kê bài học. CTA phải đúng với loại khóa.
 
 ---
 
@@ -60,15 +88,25 @@
 
 **Mục tiêu:** chứng minh học xong làm được sản phẩm thật.
 
-| Khu vực              | Nên làm như nào                                                         |
-| -------------------- | ----------------------------------------------------------------------- |
-| Project grid         | Hiển thị project dạng card.                                             |
-| Project card         | Có tên project, ảnh/demo, mô tả ngắn, kỹ năng dùng, tên khóa liên quan. |
-| Project detail/modal | Bấm vào xem mô tả chi tiết, link demo, link source nếu public.          |
-| Filter               | Lọc theo loại: Website, AI Agent, Automation, Chatbot, Portfolio.       |
+**Cấu trúc theo website/projects.md:**
+
+- Featured Projects: 3–4 project nổi bật.
+- Project Gallery: Grid hiển thị nhiều project.
+- Project Categories: 5 category cards (Vibe Coding Website, AI Assistant, Workflow Automation, Business AI Agent, Portfolio Project).
+- How students build projects: Timeline 6 bước.
+- Related Courses CTA: Dẫn sang khóa học liên quan.
+- Final CTA.
+
+| Khu vực              | Nên làm như nào                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| Project grid         | Hiển thị project dạng card, có ảnh, tên, mô tả, category, khóa liên quan.           |
+| Project card         | Có badge `Sample Project` (nếu là mẫu) hoặc `Student Project`.                      |
+| Project detail/modal | Bấm vào xem mô tả chi tiết, link demo, link source nếu public.                      |
+| Category             | Dùng category tabs đơn giản: Website, AI Assistant, Automation, Chatbot, Portfolio. |
+| Empty state          | Giai đoạn đầu dùng project mẫu của academy, không fake student project.             |
 
 **Nút chính:** `Xem demo`
-**Giai đoạn đầu:** nếu chưa có học viên, dùng **project mẫu của academy**, đừng fake project học viên.
+**Lưu ý:** Giai đoạn đầu chưa có học viên, hiển thị rõ "Sample Project by CORTEX".
 
 ---
 
@@ -104,18 +142,29 @@
 
 ---
 
-## `/blog` Blog / Resources
+## `/blog` Blog / Resources Hub
 
-**Mục tiêu:** kéo traffic và tạo niềm tin chuyên môn.
+**Mục tiêu:** kéo traffic và tạo niềm tin chuyên môn, đóng vai trò là kho tài liệu học AI.
 
-| Khu vực     | Nên làm như nào                                          |
-| ----------- | -------------------------------------------------------- |
-| Blog list   | Danh sách bài viết dạng card.                            |
-| Category    | AI Basics, Prompt, Vibe Coding, AI Agent, Career, Tools. |
-| Blog detail | Có tiêu đề, mục lục, nội dung, ảnh, CTA cuối bài.        |
-| Lead magnet | Một số tài liệu yêu cầu để lại email/Zalo để tải.        |
+**Cấu trúc theo website/blog.md:**
+
+- Page Header: Giới thiệu kho tài liệu (Resources Hub).
+- Featured Resources: 3–4 tài liệu quan trọng (Roadmap, Checklist, Prompt Pack).
+- Resource Categories: AI Basics, Prompting, Vibe Coding, AI Agent, Automation, Career & Portfolio, Tool Guides.
+- Resource Library: Danh sách toàn bộ tài liệu/bài viết dạng card.
+- Lead Magnet Section: Thu lead từ tài liệu miễn phí (Yêu cầu email/Zalo để tải).
+- Latest Articles: 3–6 bài mới nhất.
+- CTA sang khóa học.
+
+| Khu vực     | Nên làm như nào                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------ |
+| Blog list   | Danh sách tài liệu dạng card, có tag type (Article, Roadmap, Template, Guide) và category. |
+| Category    | Category chips cho phép lọc nhanh theo chủ đề.                                             |
+| Blog detail | Có tiêu đề, mục lục, nội dung, ảnh, CTA cuối bài, hỗ trợ SEO.                              |
+| Lead magnet | Form thu lead khi tải tài liệu giá trị cao.                                                |
 
 **Nút chính:** `Tải tài liệu miễn phí` hoặc `Đăng ký học thử`.
+**Tên hiển thị:** Resources Hub.
 
 ---
 
@@ -127,7 +176,7 @@
 | ------------- | -------------------------------------------------------- |
 | Contact form  | Họ tên, email, số điện thoại/Zalo, nhu cầu học, ghi chú. |
 | Contact info  | Email, fanpage, Zalo, địa chỉ nếu có.                    |
-| Success state | Sau khi gửi form, báo “May Academy đã nhận thông tin”.   |
+| Success state | Sau khi gửi form, báo “CORTEX đã nhận thông tin”.        |
 | Admin link    | Dữ liệu form phải vào admin leads.                       |
 
 **Nút chính:** `Gửi thông tin`.
@@ -286,12 +335,11 @@
 
 **Mục tiêu:** admin nhìn nhanh tình hình hệ thống.
 
-| Khu vực             | Nên làm như nào                                                       |
-| ------------------- | --------------------------------------------------------------------- |
-| KPI cards           | Tổng lead, học viên, khóa học, bài nộp chờ duyệt, certificate đã cấp. |
-| Recent leads        | Lead mới nhất.                                                        |
-| Pending submissions | Bài đang chờ duyệt.                                                   |
-| Quick actions       | Tạo khóa, thêm lesson, xem lead, cấp certificate.                     |
+| Khu vực             | Nên làm như nào                                                 |
+| ------------------- | --------------------------------------------------------------- |
+| KPI cards           | Tổng học viên, khóa học, bài nộp chờ duyệt, certificate đã cấp. |
+| Pending submissions | Bài đang chờ duyệt.                                             |
+| Quick actions       | Tạo khóa, thêm lesson, duyệt bài, cấp certificate.              |
 
 ---
 
@@ -326,38 +374,12 @@
 
 **Mục tiêu:** theo dõi học viên.
 
-| Khu vực        | Nên làm như nào                                     |
-| -------------- | --------------------------------------------------- |
-| Student table  | Tên, email, phone, số khóa học, trạng thái.         |
-| Search/filter  | Tìm theo tên/email, lọc theo khóa.                  |
-| Student detail | Xem khóa đã đăng ký, tiến độ, project, certificate. |
-| Actions        | Gán khóa, khóa tài khoản nếu cần.                   |
-
----
-
-## `/admin/enrollments` Quản lý đăng ký khóa
-
-**Mục tiêu:** gán khóa cho học viên.
-
-| Khu vực          | Nên làm như nào                               |
-| ---------------- | --------------------------------------------- |
-| Enrollment table | Học viên, khóa học, trạng thái, ngày đăng ký. |
-| Add enrollment   | Chọn học viên + chọn khóa để gán.             |
-| Status           | Active, completed, cancelled.                 |
-| Manual control   | Admin có thể đánh dấu hoàn thành nếu cần.     |
-
----
-
-## `/admin/leads` Quản lý lead
-
-**Mục tiêu:** xử lý người quan tâm.
-
-| Khu vực         | Nên làm như nào                                   |
-| --------------- | ------------------------------------------------- |
-| Lead table      | Tên, phone/Zalo, email, nhu cầu, ngày gửi.        |
-| Status pipeline | New, contacted, converted, lost.                  |
-| Notes           | Admin thêm ghi chú tư vấn.                        |
-| Actions         | Đổi trạng thái, tạo học viên từ lead nếu đã chốt. |
+| Khu vực        | Nên làm như nào                                                                   |
+| -------------- | --------------------------------------------------------------------------------- |
+| Student table  | Tên, email, phone, số khóa học, trạng thái.                                       |
+| Search/filter  | Tìm theo tên/email.                                                               |
+| Student detail | Xem profile, learning info, enrollments (có gán khóa), submissions, certificates. |
+| Actions        | Block/unblock, gán khóa trong detail drawer.                                      |
 
 ---
 

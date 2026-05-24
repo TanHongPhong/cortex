@@ -6,7 +6,7 @@
 | ---------------- | ------------------------------------------------------------ |
 | Lưu trữ tài liệu | Tập trung toàn bộ bài viết, roadmap, template, prompt, guide |
 | Kéo traffic      | Dùng SEO để thu hút người học mới                            |
-| Tạo niềm tin     | Cho thấy May Academy có kiến thức và hệ thống học rõ         |
+| Tạo niềm tin     | Cho thấy CORTEX có kiến thức và hệ thống học rõ              |
 | Thu lead         | Một số tài liệu miễn phí yêu cầu để lại email/Zalo để tải    |
 | Hỗ trợ học viên  | Học viên có nơi tra cứu thêm ngoài khóa học                  |
 
@@ -16,13 +16,13 @@
 
 Em có thể dùng một trong các tên này:
 
-| Tên                 | Nhận xét                      |
-| ------------------- | ----------------------------- |
-| Blog                | Đơn giản, phổ biến            |
-| Resources           | Hợp hơn nếu là kho tài liệu   |
-| Learning Hub        | Nghe giống trung tâm học tập  |
-| AI Resource Hub     | Rõ ràng, chuyên nghiệp        |
-| May Academy Library | Có cảm giác thư viện học liệu |
+| Tên             | Nhận xét                      |
+| --------------- | ----------------------------- |
+| Blog            | Đơn giản, phổ biến            |
+| Resources       | Hợp hơn nếu là kho tài liệu   |
+| Learning Hub    | Nghe giống trung tâm học tập  |
+| AI Resource Hub | Rõ ràng, chuyên nghiệp        |
+| CORTEX Library  | Có cảm giác thư viện học liệu |
 
 Anh đề xuất dùng:
 
@@ -57,7 +57,7 @@ Nếu vẫn giữ URL `/blog` thì title trên trang nên là **Resources Hub**.
 
 | Thành phần | Yêu cầu                                                            |
 | ---------- | ------------------------------------------------------------------ |
-| Title      | `Resources Hub` hoặc `Kho tài liệu AI của May Academy`             |
+| Title      | `Resources Hub` hoặc `Kho tài liệu AI của CORTEX`                  |
 | Subtitle   | Giải thích đây là nơi tổng hợp bài viết, roadmap, prompt, template |
 | CTA chính  | `Tải roadmap miễn phí`                                             |
 | CTA phụ    | `Xem khóa học`                                                     |
@@ -172,12 +172,12 @@ Ví dụ bài viết ban đầu:
 
 **Mục đích:** biến người đọc tài liệu thành người học.
 
-| Thành phần | Yêu cầu                                          |
-| ---------- | ------------------------------------------------ |
-| Headline   | “Muốn học có lộ trình thay vì tự mò?”            |
-| Subtext    | May Academy có workshop, mini course và bootcamp |
-| CTA chính  | `Xem khóa học`                                   |
-| CTA phụ    | `Đăng ký tư vấn`                                 |
+| Thành phần | Yêu cầu                                     |
+| ---------- | ------------------------------------------- |
+| Headline   | “Muốn học có lộ trình thay vì tự mò?”       |
+| Subtext    | CORTEX có workshop, mini course và bootcamp |
+| CTA chính  | `Xem khóa học`                              |
+| CTA phụ    | `Đăng ký tư vấn`                            |
 
 ---
 
@@ -185,17 +185,17 @@ Ví dụ bài viết ban đầu:
 
 Sau này mỗi bài/tài liệu nên có trang riêng.
 
-| Thành phần        | Yêu cầu                         |
-| ----------------- | ------------------------------- |
-| Title             | Tiêu đề bài viết                |
-| Category/type     | Article, Guide, Template...     |
-| Author            | May Academy hoặc tên người viết |
-| Published date    | Ngày đăng                       |
-| Reading time      | Thời gian đọc                   |
-| Content           | Nội dung bài                    |
-| Download block    | Nếu có file/template            |
-| Related resources | Tài liệu liên quan              |
-| CTA cuối bài      | Dẫn sang khóa học/contact       |
+| Thành phần        | Yêu cầu                     |
+| ----------------- | --------------------------- |
+| Title             | Tiêu đề bài viết            |
+| Category/type     | Article, Guide, Template... |
+| Author            | CORTEX hoặc tên người viết  |
+| Published date    | Ngày đăng                   |
+| Reading time      | Thời gian đọc               |
+| Content           | Nội dung bài                |
+| Download block    | Nếu có file/template        |
+| Related resources | Tài liệu liên quan          |
+| CTA cuối bài      | Dẫn sang khóa học/contact   |
 
 ---
 

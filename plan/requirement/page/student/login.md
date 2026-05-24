@@ -13,9 +13,9 @@
 ## 2. Bố cục trang
 
 ```text
-Logo May Academy
+Logo CORTEX
 
-Đăng nhập vào May Academy
+Đăng nhập vào CORTEX
 
 [Email]
 [Password]

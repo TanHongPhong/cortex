@@ -65,7 +65,7 @@ Ví dụ:
 ```text
 Khóa học của tôi
 
-Theo dõi tiến độ học tập và tiếp tục các khóa học của bạn tại May Academy.
+Theo dõi tiến độ học tập và tiếp tục các khóa học của bạn tại CORTEX.
 ```
 
 ---
@@ -188,7 +188,7 @@ Nếu học viên chưa đăng ký khóa nào:
 ```text
 Bạn chưa có khóa học nào.
 
-Khám phá các khóa học AI tại May Academy để bắt đầu lộ trình học của bạn.
+Khám phá các khóa học AI tại CORTEX để bắt đầu lộ trình học của bạn.
 [Xem khóa học]
 ```
 

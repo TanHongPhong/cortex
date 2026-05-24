@@ -2,12 +2,12 @@
 
 ## 1. Mục tiêu trang
 
-| Mục tiêu           | Mô tả                                                        |
-| ------------------ | ------------------------------------------------------------ |
-| Tăng độ tin cậy    | Cho người học thấy May Academy có hệ thống chứng chỉ rõ ràng |
-| Giải thích giá trị | Chứng chỉ dùng để xác nhận hoàn thành khóa học/project       |
-| Làm rõ điều kiện   | Học viên biết cần làm gì để được cấp chứng chỉ               |
-| Hỗ trợ xác thực    | Dẫn sang trang verify bằng Certificate ID/QR                 |
+| Mục tiêu           | Mô tả                                                   |
+| ------------------ | ------------------------------------------------------- |
+| Tăng độ tin cậy    | Cho người học thấy CORTEX có hệ thống chứng chỉ rõ ràng |
+| Giải thích giá trị | Chứng chỉ dùng để xác nhận hoàn thành khóa học/project  |
+| Làm rõ điều kiện   | Học viên biết cần làm gì để được cấp chứng chỉ          |
+| Hỗ trợ xác thực    | Dẫn sang trang verify bằng Certificate ID/QR            |
 
 ---
 
@@ -30,11 +30,11 @@
 
 # 3. Section 1 — Page Header
 
-**Mục đích:** giới thiệu nhanh chứng chỉ của May Academy.
+**Mục đích:** giới thiệu nhanh chứng chỉ của CORTEX.
 
 | Thành phần | Yêu cầu                                                       |
 | ---------- | ------------------------------------------------------------- |
-| Title      | “May Academy Certificate of Completion”                       |
+| Title      | “CORTEX Certificate of Completion”                            |
 | Subtitle   | Giải thích đây là chứng chỉ hoàn thành khóa học AI thực chiến |
 | CTA chính  | `Xác thực chứng chỉ`                                          |
 | CTA phụ    | `Xem khóa học có chứng chỉ`                                   |
@@ -43,7 +43,7 @@
 **Gợi ý nội dung:**
 
 ```text
-Nhận chứng chỉ hoàn thành sau khi học đủ nội dung, nộp project cuối khóa và được May Academy duyệt kết quả.
+Nhận chứng chỉ hoàn thành sau khi học đủ nội dung, nộp project cuối khóa và được CORTEX duyệt kết quả.
 ```
 
 ---
@@ -59,7 +59,7 @@ Nhận chứng chỉ hoàn thành sau khi học đủ nội dung, nộp project 
 | Ngày cấp                    | Ngày hoàn thành/cấp chứng chỉ          |
 | Certificate ID              | Mã chứng chỉ duy nhất                  |
 | QR Code                     | Dẫn tới trang `/verify-certificate`    |
-| Chữ ký/đơn vị cấp           | May Academy / Instructor / Founder     |
+| Chữ ký/đơn vị cấp           | CORTEX / Instructor / Founder          |
 
 **UI nên làm:**
 Một mockup certificate lớn ở giữa hoặc layout 2 cột: bên trái text, bên phải ảnh certificate.
@@ -73,7 +73,7 @@ Một mockup certificate lớn ở giữa hoặc layout 2 cột: bên trái text
 | Nội dung       | Mô tả                                          |
 | -------------- | ---------------------------------------------- |
 | Loại chứng chỉ | Certificate of Completion                      |
-| Cấp bởi        | May Academy                                    |
+| Cấp bởi        | CORTEX                                         |
 | Áp dụng cho    | Các khóa có certificate                        |
 | Xác nhận       | Học viên đã hoàn thành nội dung học và project |
 | Có thể verify  | Có Certificate ID và QR code                   |
@@ -81,7 +81,7 @@ Một mockup certificate lớn ở giữa hoặc layout 2 cột: bên trái text
 **Nên viết rõ:**
 
 ```text
-Chứng chỉ xác nhận học viên đã hoàn thành khóa học tại May Academy, bao gồm bài học, bài tập/project và các yêu cầu hoàn thành khóa.
+Chứng chỉ xác nhận học viên đã hoàn thành khóa học tại CORTEX, bao gồm bài học, bài tập/project và các yêu cầu hoàn thành khóa.
 ```
 
 ---
@@ -147,7 +147,7 @@ Chứng chỉ xác nhận học viên đã hoàn thành khóa học tại May Ac
 Nên có một đoạn ngắn:
 
 ```text
-May Academy Certificate of Completion là chứng chỉ xác nhận hoàn thành khóa học và project tại May Academy. Đây không phải văn bằng chính quy hoặc chứng chỉ nghề do cơ quan nhà nước cấp.
+CORTEX Certificate of Completion là chứng chỉ xác nhận hoàn thành khóa học và project tại CORTEX. Đây không phải văn bằng chính quy hoặc chứng chỉ nghề do cơ quan nhà nước cấp.
 ```
 
 Phần này nên đặt rõ nhưng không cần làm quá nặng.
@@ -171,7 +171,7 @@ Phần này nên đặt rõ nhưng không cần làm quá nặng.
 
 | Nhóm                | Yêu cầu                                                                      |
 | ------------------- | ---------------------------------------------------------------------------- |
-| Certificate preview | Hiển thị mẫu chứng chỉ đẹp, đúng brand May Academy                           |
+| Certificate preview | Hiển thị mẫu chứng chỉ đẹp, đúng brand CORTEX                                |
 | Verify CTA          | Nút xác thực dẫn đúng sang `/verify-certificate`                             |
 | Course CTA          | Nút xem khóa học dẫn sang `/courses`                                         |
 | Responsive          | Certificate preview phải hiển thị đẹp trên mobile                            |
@@ -213,15 +213,15 @@ Ban đầu trang này có thể dùng **nội dung tĩnh**. Sau này nếu mở 
 
 Trang `/certificate` đạt nếu:
 
-| Tiêu chí                                         | Đạt / Không |
-| ------------------------------------------------ | ----------- |
-| Người xem hiểu certificate của May Academy là gì |             |
-| Có ảnh/mẫu chứng chỉ rõ ràng                     |             |
-| Có điều kiện nhận certificate                    |             |
-| Có giải thích Certificate ID và QR verify        |             |
-| Có CTA sang `/verify-certificate`                |             |
-| Có CTA sang `/courses`                           |             |
-| Có policy note tránh hiểu sai giá trị chứng chỉ  |             |
-| Responsive tốt trên mobile                       |             |
+| Tiêu chí                                        | Đạt / Không |
+| ----------------------------------------------- | ----------- |
+| Người xem hiểu certificate của CORTEX là gì     |             |
+| Có ảnh/mẫu chứng chỉ rõ ràng                    |             |
+| Có điều kiện nhận certificate                   |             |
+| Có giải thích Certificate ID và QR verify       |             |
+| Có CTA sang `/verify-certificate`               |             |
+| Có CTA sang `/courses`                          |             |
+| Có policy note tránh hiểu sai giá trị chứng chỉ |             |
+| Responsive tốt trên mobile                      |             |
 
 ---

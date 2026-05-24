@@ -37,11 +37,11 @@ My Certificates
 
 ## A. Page Header
 
-| Thành phần | Yêu cầu                                                           |
-| ---------- | ----------------------------------------------------------------- |
-| Title      | `Chứng chỉ của tôi`                                               |
-| Subtitle   | “Xem, tải và xác thực các chứng chỉ bạn đã nhận tại May Academy.” |
-| CTA phụ    | `Xem khóa học của tôi` dẫn về `/my-courses`                       |
+| Thành phần | Yêu cầu                                                      |
+| ---------- | ------------------------------------------------------------ |
+| Title      | `Chứng chỉ của tôi`                                          |
+| Subtitle   | “Xem, tải và xác thực các chứng chỉ bạn đã nhận tại CORTEX.” |
+| CTA phụ    | `Xem khóa học của tôi` dẫn về `/my-courses`                  |
 
 ---
 
@@ -137,7 +137,7 @@ Nếu học viên đã hoàn thành nhưng đang chờ cấp:
 ```text
 Bạn đã đủ điều kiện nhận chứng chỉ.
 
-Certificate của bạn đang chờ May Academy xử lý.
+Certificate của bạn đang chờ CORTEX xử lý.
 [Xem trạng thái khóa học]
 ```
 
@@ -204,7 +204,27 @@ Certificate chỉ hiển thị khi đã được cấp trong bảng `certificate
 
 ---
 
-# 11. Logic chính
+# 11. Định dạng Certificate ID
+
+Để đảm bảo tính duy nhất, an toàn và chuyên nghiệp, mã chứng chỉ (`certificate_code`) tuân theo định dạng sau:
+
+**Format**: `CERT-{YYYY}{RRRR}-{NNNNNN}`
+
+- `{YYYY}`: Năm cấp chứng chỉ (ví dụ: 2026)
+- `{RRRR}`: 4 chữ số ngẫu nhiên (0001-9999) để tránh việc đoán ID dễ dàng
+- `{NNNNNN}`: Số thứ tự tăng dần (auto-increment sequence) từ 000001-999999
+- **Ví dụ**: `CERT-20260234-000123`
+
+**Thuật toán tạo**:
+
+1. Lấy năm hiện tại.
+2. Generate random 4 digits.
+3. Lấy giá trị tiếp theo từ sequence `certificate_seq` trong database.
+4. Format thành chuỗi trên và lưu vào `certificate_code`.
+
+---
+
+# 12. Logic chính
 
 ## Lấy danh sách certificate
 

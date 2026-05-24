@@ -88,15 +88,15 @@ Eligible
 
 ## Cột nên có
 
-| Cột            | Nội dung                          |
-| -------------- | --------------------------------- |
-| Student        | Tên học viên                      |
-| Course         | Khóa học                          |
-| Certificate ID | Mã chứng chỉ                      |
-| Status         | valid / revoked                   |
-| Issued at      | Ngày cấp                          |
-| PDF            | Có file PDF chưa                  |
-| Actions        | View / Download / Verify / Revoke |
+| Cột              | Nội dung                          |
+| ---------------- | --------------------------------- |
+| Student          | Tên học viên                      |
+| Course           | Khóa học                          |
+| Certificate Code | Mã chứng chỉ                      |
+| Status           | valid / revoked                   |
+| Issued at        | Ngày cấp                          |
+| PDF              | Có file PDF chưa                  |
+| Actions          | View / Download / Verify / Revoke |
 
 ---
 
@@ -124,11 +124,14 @@ Hiển thị học viên **đủ điều kiện nhận certificate nhưng chưa 
 Điều kiện đủ:
 
 ```text
-1. Học viên có enrollment active/completed
-2. Hoàn thành các lesson bắt buộc
-3. Assignment bắt buộc đã approved
-4. Final project đã approved
-5. Chưa có certificate cho khóa đó
+Học viên đủ điều kiện certificate khi:
+
+1. Có enrollment với status = active hoặc completed
+2. Hoàn thành TẤT CẢ lesson có is_required_for_completion = true:
+   - video/resource: lesson_progress.completed = true
+   - assignment/final_project: submissions.status = approved
+3. Final project (nếu khóa có lesson type = final_project) đã được approved
+4. Chưa có certificate valid cho course đó
 ```
 
 ## Cột nên có
@@ -183,15 +186,15 @@ Nên dùng format dễ kiểm tra và có tính nhận diện.
 ## Gợi ý format
 
 ```text
-MAY-[COURSE]-[YEAR]-[NUMBER]
+CERT-{YYYY}{RRRR}-{NNNNNN}
 ```
 
 Ví dụ:
 
 ```text
-MAY-AIAGENT-2026-0001
-MAY-VIBECODE-2026-0002
-MAY-STARTER-2026-0003
+CERT-20265432-000001
+CERT-20261234-000002
+CERT-20269876-000003
 ```
 
 ## Rule
@@ -199,7 +202,7 @@ MAY-STARTER-2026-0003
 | Rule       | Mô tả                             |
 | ---------- | --------------------------------- |
 | Unique     | Certificate ID không được trùng   |
-| Readable   | Nhìn vào biết thuộc May Academy   |
+| Readable   | Nhìn vào biết thuộc CORTEX        |
 | Verifyable | Dùng được ở `/verify-certificate` |
 | Stable     | Sau khi cấp không nên đổi ID      |
 
@@ -276,14 +279,15 @@ Khi admin bấm `View`, mở drawer/modal chi tiết.
 
 ## Nội dung cần có
 
-| Nhóm             | Field                               |
-| ---------------- | ----------------------------------- |
-| Student info     | Họ tên, email                       |
-| Course info      | Tên khóa, level                     |
-| Certificate info | Certificate ID, status, issued date |
-| Verify info      | Verify URL, QR code nếu có          |
-| File info        | Certificate PDF URL                 |
-| Admin actions    | Download, copy link, revoke         |
+| Nhóm             | Field                                        |
+| ---------------- | -------------------------------------------- |
+| Student info     | Họ tên, email                                |
+| Course info      | Tên khóa, level                              |
+| Certificate info | Certificate Code, status, issued date        |
+| Verify info      | Verify URL, QR code nếu có                   |
+| File info        | Certificate PDF URL                          |
+| Audit info       | Issued by (admin), revoked by (admin nếu có) |
+| Admin actions    | Download, copy link, revoke                  |
 
 ---
 
@@ -306,7 +310,7 @@ Certificate PDF nên có:
 | Ngày cấp       | Issued date               |
 | Certificate ID | Mã duy nhất               |
 | QR code        | Dẫn đến verify link       |
-| Tên đơn vị cấp | May Academy               |
+| Tên đơn vị cấp | CORTEX                    |
 | Chữ ký         | Founder/Instructor nếu có |
 
 ---

@@ -95,7 +95,7 @@ Avatar
 
 ## C. Learning Profile
 
-**Mục đích:** giúp May Academy hiểu nhu cầu học của học viên.
+**Mục đích:** giúp CORTEX hiểu nhu cầu học của học viên.
 
 | Field             | Loại input                 |
 | ----------------- | -------------------------- |

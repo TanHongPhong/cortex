@@ -2,12 +2,13 @@
 
 ## 1. Mục tiêu trang
 
-| Mục tiêu        | Mô tả                                                 |
-| --------------- | ----------------------------------------------------- |
-| Tăng độ tin cậy | Chứng minh học viên học xong có thể làm sản phẩm thật |
-| Showcase đầu ra | Cho người xem thấy kết quả sau khóa học               |
-| Hỗ trợ bán khóa | Dẫn người xem từ project → khóa học liên quan         |
-| Tạo cảm hứng    | Người mới nhìn vào thấy “mình cũng có thể làm được”   |
+| Mục tiêu          | Mô tả                                                       |
+| ----------------- | ----------------------------------------------------------- |
+| Tăng độ tin cậy   | Chứng minh học viên học xong có thể làm sản phẩm thật       |
+| Showcase đầu ra   | Cho người xem thấy kết quả sau khóa học                     |
+| Hỗ trợ bán khóa   | Dẫn người xem từ project → khóa học liên quan               |
+| Tạo cảm hứng      | Người mới nhìn vào thấy “mình cũng có thể làm được”         |
+| Tách biệt dữ liệu | Projects là bảng độc lập, không tự động nhận từ submissions |
 
 ---
 
@@ -33,7 +34,7 @@
 
 | Thành phần | Yêu cầu                                               |
 | ---------- | ----------------------------------------------------- |
-| Title      | “Dự án học viên tại May Academy”                      |
+| Title      | “Dự án học viên tại CORTEX”                           |
 | Subtitle   | Nói rõ học viên học qua project thực tế               |
 | CTA chính  | `Xem khóa học`                                        |
 | CTA phụ    | `Đăng ký học thử`                                     |
@@ -42,7 +43,7 @@
 **Gợi ý nội dung:**
 
 ```text
-Không chỉ học lý thuyết. Tại May Academy, mỗi khóa học đều hướng đến một sản phẩm hoặc project có thể đưa vào portfolio.
+Không chỉ học lý thuyết. Tại CORTEX, mỗi khóa học đều hướng đến một sản phẩm hoặc project có thể đưa vào portfolio.
 ```
 
 ---
@@ -85,7 +86,7 @@ Không chỉ học lý thuyết. Tại May Academy, mỗi khóa học đều hư
 | Empty state  | Nếu chưa có project học viên, hiển thị project mẫu của academy |
 
 **Lưu ý quan trọng:**
-Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project by May Academy**, không nên giả làm project học viên.
+Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project by CORTEX**, không nên giả làm project học viên.
 
 ---
 
@@ -107,7 +108,7 @@ Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project
 
 # 7. Section 5 — How students build projects
 
-**Mục đích:** giải thích quy trình làm project tại May Academy.
+**Mục đích:** giải thích quy trình làm project tại CORTEX.
 
 | Bước                   | Nội dung                                |
 | ---------------------- | --------------------------------------- |
@@ -157,17 +158,17 @@ Nút: `Xem khóa học phù hợp`
 
 # 10. Yêu cầu chức năng cụ thể
 
-| Nhóm             | Yêu cầu                                                 |
-| ---------------- | ------------------------------------------------------- |
-| Hiển thị project | Lấy project từ bảng `projects` hoặc data tĩnh ban đầu   |
-| Project card     | Có ảnh, tên, mô tả, category, khóa liên quan, link demo |
-| Project detail   | Có thể mở modal hoặc dẫn tới `/projects/[slug]` sau này |
-| Project status   | Chỉ hiển thị project `published`                        |
-| Badge            | Phân biệt `Sample Project` và `Student Project`         |
-| CTA khóa học     | Project có thể link đến khóa liên quan                  |
-| Empty state      | Nếu chưa có project học viên, hiển thị project mẫu      |
-| Responsive       | Grid project hiển thị tốt trên mobile                   |
-| Admin control    | Admin có thể thêm/ẩn/sửa project nếu làm dashboard      |
+| Nhóm             | Yêu cầu                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| Hiển thị project | Lấy project từ bảng `projects` (độc lập với `submissions`) |
+| Project card     | Có ảnh, tên, mô tả, category, khóa liên quan, link demo    |
+| Project detail   | Có thể mở modal hoặc dẫn tới `/projects/[slug]` sau này    |
+| Project status   | Chỉ hiển thị project `published`                           |
+| Badge            | Phân biệt `Sample Project` và `Student Project`            |
+| CTA khóa học     | Project có thể link đến khóa liên quan                     |
+| Empty state      | Nếu chưa có project học viên, hiển thị project mẫu         |
+| Responsive       | Grid project hiển thị tốt trên mobile                      |
+| Admin control    | Admin có thể thêm/ẩn/sửa project thủ công trong dashboard  |
 
 ---
 
@@ -212,7 +213,7 @@ Bảng nên thêm: `projects`
 
 | Trường hợp               | Cách xử lý                                  |
 | ------------------------ | ------------------------------------------- |
-| Chưa có project học viên | Hiển thị project mẫu của May Academy        |
+| Chưa có project học viên | Hiển thị project mẫu của CORTEX             |
 | Project chưa public      | Không hiển thị                              |
 | Không có demo link       | Hiển thị nút `Xem mô tả` thay vì `Xem demo` |
 | Có tên học viên          | Chỉ hiển thị khi học viên cho phép          |

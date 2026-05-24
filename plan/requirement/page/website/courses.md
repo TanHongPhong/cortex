@@ -4,12 +4,12 @@
 
 ## 1. Mục tiêu trang
 
-| Mục tiêu                    | Mô tả                                                     |
-| --------------------------- | --------------------------------------------------------- |
-| Hiển thị bộ sản phẩm học AI | Cho người xem biết May Academy đang có những lựa chọn nào |
-| Đẩy mạnh sản phẩm chính     | Làm nổi bật **AI Agent & Vibe Coding Bootcamp**           |
-| Không làm rối               | Không search/filter, không marketplace                    |
-| Dẫn người dùng đi tiếp      | Xem chi tiết khóa, đăng ký workshop, hoặc tư vấn          |
+| Mục tiêu                    | Mô tả                                                |
+| --------------------------- | ---------------------------------------------------- |
+| Hiển thị bộ sản phẩm học AI | Cho người xem biết CORTEX đang có những lựa chọn nào |
+| Đẩy mạnh sản phẩm chính     | Làm nổi bật **AI Agent & Vibe Coding Bootcamp**      |
+| Không làm rối               | Không search/filter, không marketplace               |
+| Dẫn người dùng đi tiếp      | Xem chi tiết khóa, đăng ký workshop, hoặc tư vấn     |
 
 ---
 
@@ -33,11 +33,11 @@
 
 # 3. Section 1 — Page Header
 
-**Mục đích:** giới thiệu nhanh toàn bộ sản phẩm học AI của May Academy.
+**Mục đích:** giới thiệu nhanh toàn bộ sản phẩm học AI của CORTEX.
 
 | Thành phần | Yêu cầu                                                                     |
 | ---------- | --------------------------------------------------------------------------- |
-| Title      | “Khóa học AI tại May Academy”                                               |
+| Title      | “Khóa học AI tại CORTEX”                                                    |
 | Subtitle   | Nói rõ có workshop miễn phí, khóa nhập môn, bootcamp chính và khóa nâng cao |
 | CTA chính  | `Tham gia workshop miễn phí`                                                |
 | CTA phụ    | `Nhận tư vấn khóa phù hợp`                                                  |
@@ -170,7 +170,7 @@ Phần này cũng **không gộp vào card khóa học**.
 **Mô tả ngắn:**
 
 ```text
-May Academy thiết kế chương trình đào tạo AI riêng cho câu lạc bộ, đội nhóm và doanh nghiệp nhỏ muốn ứng dụng AI vào học tập, vận hành hoặc tự động hóa công việc.
+CORTEX thiết kế chương trình đào tạo AI riêng cho câu lạc bộ, đội nhóm và doanh nghiệp nhỏ muốn ứng dụng AI vào học tập, vận hành hoặc tự động hóa công việc.
 ```
 
 **CTA dẫn tới:** `/contact?type=b2b` hoặc `/b2b`
@@ -208,12 +208,12 @@ Chỉ cần 4–5 câu hỏi.
 
 # 11. Section 9 — Final CTA
 
-| Thành phần | Yêu cầu                                             |
-| ---------- | --------------------------------------------------- |
-| Headline   | “Chưa biết nên chọn khóa nào?”                      |
-| Subtext    | May Academy có thể tư vấn theo mục tiêu học của bạn |
-| CTA chính  | `Nhận tư vấn khóa phù hợp`                          |
-| CTA phụ    | `Tham gia workshop miễn phí`                        |
+| Thành phần | Yêu cầu                                        |
+| ---------- | ---------------------------------------------- |
+| Headline   | “Chưa biết nên chọn khóa nào?”                 |
+| Subtext    | CORTEX có thể tư vấn theo mục tiêu học của bạn |
+| CTA chính  | `Nhận tư vấn khóa phù hợp`                     |
+| CTA phụ    | `Tham gia workshop miễn phí`                   |
 
 ---
 
@@ -239,7 +239,7 @@ Chỉ cần 4–5 câu hỏi.
 ```text
 [Header]
 
-Khóa học AI tại May Academy
+Khóa học AI tại CORTEX
 Subtitle + CTA workshop + CTA tư vấn
 
 [Free Workshop] [Starter Mini Course] [Core Bootcamp - nổi bật] [Advanced Automation]

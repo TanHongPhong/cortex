@@ -4,12 +4,12 @@
 
 Trang chủ phải làm được 4 việc:
 
-| Mục tiêu         | Mô tả                                                                  |
-| ---------------- | ---------------------------------------------------------------------- |
-| Giới thiệu nhanh | Người xem hiểu May Academy là nền tảng học AI / AI Agent / Vibe Coding |
-| Tạo ấn tượng     | Có visual 3D, mascot Rubik công nghệ, giao diện hiện đại               |
-| Dẫn người dùng   | Điều hướng sang khóa học, lộ trình, certificate, contact               |
-| Thu lead         | Có CTA và form/nút đăng ký học thử                                     |
+| Mục tiêu         | Mô tả                                                             |
+| ---------------- | ----------------------------------------------------------------- |
+| Giới thiệu nhanh | Người xem hiểu CORTEX là nền tảng học AI / AI Agent / Vibe Coding |
+| Tạo ấn tượng     | Có visual 3D, mascot Rubik công nghệ, giao diện hiện đại          |
+| Dẫn người dùng   | Điều hướng sang khóa học, lộ trình, certificate, contact          |
+| Thu lead         | Có CTA và form/nút đăng ký học thử                                |
 
 ---
 
@@ -21,7 +21,7 @@ Trang chủ phải làm được 4 việc:
 
 | Thành phần  | Yêu cầu                                             |
 | ----------- | --------------------------------------------------- |
-| Logo        | Hiển thị logo May Academy                           |
+| Logo        | Hiển thị logo CORTEX                                |
 | Menu        | Home, Courses, Projects, Certificate, Blog, Contact |
 | CTA phải có | Nút `Đăng ký học thử`                               |
 | Responsive  | Mobile chuyển thành hamburger menu                  |
@@ -36,7 +36,7 @@ Trang chủ phải làm được 4 việc:
 | Thành phần   | Yêu cầu                                                      |
 | ------------ | ------------------------------------------------------------ |
 | Headline     | Câu lớn, rõ lợi ích                                          |
-| Subheadline  | Giải thích ngắn May Academy giúp ai, học gì                  |
+| Subheadline  | Giải thích ngắn CORTEX giúp ai, học gì                       |
 | CTA chính    | `Đăng ký học thử`                                            |
 | CTA phụ      | `Xem lộ trình học` hoặc `Khám phá khóa học`                  |
 | Visual       | Mascot Rubik 3D / khối Rubik công nghệ xoay nhẹ              |
@@ -47,7 +47,7 @@ Trang chủ phải làm được 4 việc:
 ```text
 Học AI Agent & Vibe Coding từ con số 0
 
-May Academy giúp bạn học AI theo hướng thực chiến:
+CORTEX giúp bạn học AI theo hướng thực chiến:
 biết dùng AI, tạo sản phẩm, tự động hóa công việc và xây portfolio cá nhân.
 ```
 
@@ -70,11 +70,11 @@ biết dùng AI, tạo sản phẩm, tự động hóa công việc và xây por
 
 ## Section 4: Solution Section
 
-**Mục đích:** giới thiệu May Academy là giải pháp.
+**Mục đích:** giới thiệu CORTEX là giải pháp.
 
 | Thành phần      | Yêu cầu                                                   |
 | --------------- | --------------------------------------------------------- |
-| Tiêu đề         | “May Academy giúp bạn học AI theo cách thực chiến hơn”    |
+| Tiêu đề         | “CORTEX giúp bạn học AI theo cách thực chiến hơn”         |
 | 3 giá trị chính | Học có lộ trình, học qua project, có sản phẩm/certificate |
 | Visual phụ      | Có thể dùng diagram hoặc card flow                        |
 
@@ -125,12 +125,12 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 
 **Mục đích:** tăng niềm tin rằng học xong làm được sản phẩm.
 
-| Thành phần    | Yêu cầu                                       |
-| ------------- | --------------------------------------------- |
-| Project cards | 3–4 project mẫu                               |
-| Mỗi project   | Tên, mô tả ngắn, ảnh/demo, tool dùng          |
-| CTA           | `Xem thêm project`                            |
-| Giai đoạn đầu | Có thể ghi rõ là “Project mẫu từ May Academy” |
+| Thành phần    | Yêu cầu                                  |
+| ------------- | ---------------------------------------- |
+| Project cards | 3–4 project mẫu                          |
+| Mỗi project   | Tên, mô tả ngắn, ảnh/demo, tool dùng     |
+| CTA           | `Xem thêm project`                       |
+| Giai đoạn đầu | Có thể ghi rõ là “Project mẫu từ CORTEX” |
 
 **Project gợi ý:**
 
@@ -158,7 +158,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 
 ---
 
-## Section 9: Why May Academy
+## Section 9: Why CORTEX
 
 **Mục đích:** nêu lý do nên học ở đây.
 
@@ -188,7 +188,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | Học online hay offline?              |
 | Cần laptop cấu hình mạnh không?      |
 
-**CTA cuối FAQ:** `Cần tư vấn? Liên hệ May Academy`
+**CTA cuối FAQ:** `Cần tư vấn? Liên hệ CORTEX`
 
 ---
 
@@ -208,7 +208,7 @@ Ví dụ:
 ```text
 Sẵn sàng biến AI thành kỹ năng thật của bạn?
 
-Bắt đầu với lộ trình học AI thực chiến từ May Academy.
+Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
 ```
 
 ---
@@ -217,7 +217,7 @@ Bắt đầu với lộ trình học AI thực chiến từ May Academy.
 
 | Thành phần        | Yêu cầu                                       |
 | ----------------- | --------------------------------------------- |
-| Logo + mô tả ngắn | May Academy là gì                             |
+| Logo + mô tả ngắn | CORTEX là gì                                  |
 | Links             | Courses, Projects, Certificate, Blog, Contact |
 | Legal             | Terms, Privacy, Refund Policy                 |
 | Social            | Facebook, LinkedIn, YouTube, Zalo nếu có      |
@@ -270,16 +270,16 @@ Bắt đầu với lộ trình học AI thực chiến từ May Academy.
 
 Trang chủ được xem là đạt nếu:
 
-| Điều kiện                                           | Đạt / Không |
-| --------------------------------------------------- | ----------- |
-| Người dùng hiểu May Academy dạy gì trong 5 giây đầu |             |
-| Có CTA đăng ký học thử rõ ràng                      |             |
-| Có section lộ trình học                             |             |
-| Có section khóa học nổi bật                         |             |
-| Có project/certificate để tăng niềm tin             |             |
-| Form lead hoạt động và lưu vào database             |             |
-| Header/Footer đầy đủ link                           |             |
-| Responsive tốt trên mobile                          |             |
-| Không bị nặng vì hiệu ứng 3D                        |             |
+| Điều kiện                                      | Đạt / Không |
+| ---------------------------------------------- | ----------- |
+| Người dùng hiểu CORTEX dạy gì trong 5 giây đầu |             |
+| Có CTA đăng ký học thử rõ ràng                 |             |
+| Có section lộ trình học                        |             |
+| Có section khóa học nổi bật                    |             |
+| Có project/certificate để tăng niềm tin        |             |
+| Form lead hoạt động và lưu vào database        |             |
+| Header/Footer đầy đủ link                      |             |
+| Responsive tốt trên mobile                     |             |
+| Không bị nặng vì hiệu ứng 3D                   |             |
 
 ---

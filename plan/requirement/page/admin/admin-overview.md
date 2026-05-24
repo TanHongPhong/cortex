@@ -5,11 +5,10 @@
 Admin vào trang này để biết nhanh:
 
 ```text
-1. Hôm nay có bao nhiêu lead mới
-2. Có bao nhiêu học viên đang học
-3. Có bao nhiêu bài nộp đang chờ duyệt
-4. Có bao nhiêu certificate đã cấp
-5. Có việc gì cần xử lý ngay
+1. Có bao nhiêu học viên đang học
+2. Có bao nhiêu bài nộp đang chờ duyệt
+3. Có bao nhiêu certificate đã cấp
+4. Có việc gì cần xử lý ngay
 ```
 
 Trang này **không dùng để chỉnh sửa sâu**, mà dùng để **xem nhanh + điều hướng sang trang quản lý chi tiết**.
@@ -24,18 +23,18 @@ Admin Overview
 [Welcome / Summary Header]
 
 [KPI Cards]
-- Total Leads
-- New Leads
 - Active Students
+- Active Enrollments
+- Published Courses
 - Pending Submissions
 - Certificates Issued
-- Published Courses
+- New Leads
 
 [Quick Actions]
 
-[Recent Leads]          [Pending Submissions]
+[Pending Submissions]
 
-[Recent Enrollments]    [Certificate Activity]
+[Certificate Activity]
 ```
 
 ---
@@ -44,18 +43,17 @@ Admin Overview
 
 ## A. Welcome / Summary Header
 
-| Thành phần  | Yêu cầu                                         |
-| ----------- | ----------------------------------------------- |
-| Title       | `Admin Dashboard` hoặc `Overview`               |
-| Subtitle    | Tóm tắt tình hình hệ thống                      |
-| Date filter | Today / 7 days / 30 days nếu cần                |
-| CTA nhanh   | `Tạo khóa học`, `Xem lead mới`, `Duyệt bài nộp` |
+| Thành phần | Yêu cầu                                          |
+| ---------- | ------------------------------------------------ |
+| Title      | `Admin Dashboard` hoặc `Overview`                |
+| Subtitle   | Tóm tắt tình hình hệ thống                       |
+| CTA nhanh  | `Tạo khóa học`, `Duyệt bài nộp`, `Cấp chứng chỉ` |
 
 Ví dụ:
 
 ```text
 Welcome back, Admin 👋
-Here is what is happening in May Academy today.
+Here is what is happening in CORTEX today.
 ```
 
 ---
@@ -66,21 +64,20 @@ Here is what is happening in May Academy today.
 
 | KPI                 | Ý nghĩa                       | Click tới                           |
 | ------------------- | ----------------------------- | ----------------------------------- |
-| Total Leads         | Tổng số lead trong hệ thống   | `/admin/leads`                      |
-| New Leads           | Lead mới chưa xử lý           | `/admin/leads?status=new`           |
+| New Leads           | Lead mới chưa xử lý           | `/admin/leads?status=new` (nếu có)  |
 | Active Students     | Học viên đang hoạt động       | `/admin/students`                   |
-| Active Enrollments  | Lượt đăng ký khóa đang active | `/admin/enrollments`                |
+| Active Enrollments  | Lượt đăng ký khóa đang active | `/admin/students` (trong drawer)    |
 | Published Courses   | Khóa học đang public          | `/admin/courses`                    |
 | Pending Submissions | Bài nộp đang chờ duyệt        | `/admin/submissions?status=pending` |
 | Certificates Issued | Chứng chỉ đã cấp              | `/admin/certificates`               |
 
-## MVP nên hiển thị 6 KPI này trước
+## MVP nên hiển thị 5-6 KPI này
 
 ```text
-1. New Leads
+1. New Leads (nếu có leads page)
 2. Active Students
-3. Published Courses
-4. Active Enrollments
+3. Active Enrollments
+4. Published Courses
 5. Pending Submissions
 6. Certificates Issued
 ```
@@ -95,7 +92,6 @@ Here is what is happening in May Academy today.
 | ----------------- | ----------------------------------- |
 | `Tạo khóa học`    | `/admin/courses?action=create`      |
 | `Thêm lesson`     | `/admin/lessons`                    |
-| `Xem lead mới`    | `/admin/leads?status=new`           |
 | `Duyệt bài nộp`   | `/admin/submissions?status=pending` |
 | `Cấp certificate` | `/admin/certificates`               |
 
@@ -103,36 +99,7 @@ UI nên là các button/card nhỏ, không cần quá màu mè.
 
 ---
 
-## D. Recent Leads
-
-**Mục tiêu:** admin thấy ngay ai vừa để lại thông tin.
-
-| Cột      | Nội dung                           |
-| -------- | ---------------------------------- |
-| Name     | Tên lead                           |
-| Contact  | Email hoặc phone/Zalo              |
-| Interest | Nhu cầu quan tâm                   |
-| Source   | contact page / workshop / resource |
-| Status   | new / contacted / converted / lost |
-| Action   | `View` hoặc `Update status`        |
-
-Chỉ hiển thị **5 lead mới nhất**.
-
-CTA cuối block:
-
-```text
-View all leads
-```
-
-Dẫn tới:
-
-```text
-/admin/leads
-```
-
----
-
-## E. Pending Submissions
+## D. Pending Submissions
 
 **Mục tiêu:** admin biết bài nào đang chờ duyệt.
 
@@ -161,33 +128,7 @@ Dẫn tới:
 
 ---
 
-## F. Recent Enrollments
-
-**Mục tiêu:** theo dõi học viên mới được gán/mua khóa.
-
-| Cột         | Nội dung                       |
-| ----------- | ------------------------------ |
-| Student     | Tên học viên                   |
-| Course      | Khóa được đăng ký              |
-| Status      | active / completed / cancelled |
-| Enrolled at | Ngày đăng ký                   |
-| Action      | `View`                         |
-
-CTA:
-
-```text
-View enrollments
-```
-
-Dẫn tới:
-
-```text
-/admin/enrollments
-```
-
----
-
-## G. Certificate Activity
+## E. Certificate Activity
 
 **Mục tiêu:** theo dõi chứng chỉ mới cấp hoặc cần xử lý.
 
@@ -234,11 +175,8 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 | -------------------- | -------------------------------------------------- |
 | Auth                 | Chỉ admin mới vào được `/admin`                    |
 | KPI data             | Tính số liệu từ database                           |
-| Date range           | MVP có thể chưa cần, sau thêm filter 7/30 ngày     |
 | Quick action         | Các nút dẫn đúng trang quản lý                     |
-| Recent leads         | Hiển thị lead mới nhất                             |
 | Pending submissions  | Hiển thị bài nộp đang chờ duyệt                    |
-| Recent enrollments   | Hiển thị đăng ký khóa gần nhất                     |
 | Certificate activity | Hiển thị certificate mới cấp hoặc pending          |
 | Responsive           | Desktop ưu tiên, mobile vẫn xem được               |
 | Empty state          | Nếu chưa có dữ liệu, hiển thị trạng thái trống gọn |
@@ -247,15 +185,14 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 
 # 6. Data cần dùng
 
-| Bảng           | Dùng để lấy gì                                               |
-| -------------- | ------------------------------------------------------------ |
-| `leads`        | Total leads, new leads, recent leads                         |
-| `users`        | Total students, student info                                 |
-| `courses`      | Published courses, draft courses                             |
-| `enrollments`  | Active enrollments, recent enrollments                       |
-| `lessons`      | Không bắt buộc cho overview, chỉ cần nếu tính content status |
-| `submissions`  | Pending submissions                                          |
-| `certificates` | Certificates issued, certificate activity                    |
+| Bảng           | Dùng để lấy gì                   |
+| -------------- | -------------------------------- |
+| `users`        | Total students                   |
+| `courses`      | Published courses                |
+| `enrollments`  | Active enrollments               |
+| `submissions`  | Pending submissions              |
+| `certificates` | Certificates issued              |
+| `leads`        | New leads (nếu cần hiển thị KPI) |
 
 ---
 
@@ -304,12 +241,10 @@ count certificates where status = valid
 | Component                  | Mục đích                       |
 | -------------------------- | ------------------------------ |
 | `AdminLayout`              | Sidebar + topbar admin         |
-| `AdminOverviewHeader`      | Title + subtitle + date filter |
+| `AdminOverviewHeader`      | Title + subtitle               |
 | `KpiCard`                  | Hiển thị số liệu               |
 | `QuickActionCard`          | Nút thao tác nhanh             |
-| `RecentLeadsTable`         | Lead mới                       |
 | `PendingSubmissionsTable`  | Bài nộp chờ duyệt              |
-| `RecentEnrollmentsTable`   | Enrollment mới                 |
 | `CertificateActivityTable` | Hoạt động certificate          |
 | `StatusBadge`              | new / pending / active / valid |
 | `EmptyState`               | Khi chưa có dữ liệu            |
@@ -319,23 +254,10 @@ count certificates where status = valid
 
 # 9. Empty State
 
-## Khi chưa có lead
-
-```text
-Chưa có lead mới.
-Lead từ contact form, workshop hoặc resource download sẽ xuất hiện tại đây.
-```
-
 ## Khi chưa có submission pending
 
 ```text
 Không có bài nộp nào đang chờ duyệt.
-```
-
-## Khi chưa có enrollment
-
-```text
-Chưa có học viên nào được gán khóa học.
 ```
 
 ## Khi chưa có certificate
@@ -370,9 +292,7 @@ Trang `/admin` đạt nếu:
 | Admin xem được KPI tổng quan          |             |
 | KPI tính đúng theo database           |             |
 | Có quick actions dẫn đúng trang       |             |
-| Có recent leads                       |             |
 | Có pending submissions                |             |
-| Có recent enrollments                 |             |
 | Có certificate activity               |             |
 | Có empty state khi chưa có dữ liệu    |             |
 | Responsive dùng ổn trên mobile/tablet |             |
@@ -386,13 +306,11 @@ Trang `/admin` đạt nếu:
 
 1. Admin layout chung
 2. Welcome / summary header
-3. KPI cards
+3. KPI cards (6 cards)
 4. Quick actions
-5. Recent leads
-6. Pending submissions
-7. Recent enrollments
-8. Certificate activity
-9. Empty/loading state
+5. Pending submissions
+6. Certificate activity
+7. Empty/loading state
 ```
 
 Nói ngắn gọn: **`/admin` là trang tổng quan vận hành. Admin không chỉnh sửa sâu ở đây, mà dùng nó để nhìn nhanh tình hình và đi đến đúng trang cần xử lý.**

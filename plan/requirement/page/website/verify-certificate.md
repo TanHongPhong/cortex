@@ -17,7 +17,7 @@
 
 Verify Certificate
 
-Nhập Certificate ID để kiểm tra chứng chỉ được cấp bởi May Academy.
+Nhập Certificate ID để kiểm tra chứng chỉ được cấp bởi CORTEX.
 
 [Input Certificate ID]
 [Button: Verify]
@@ -29,7 +29,28 @@ Nhập Certificate ID để kiểm tra chứng chỉ được cấp bởi May Ac
 
 ---
 
-# 3. Thành phần chính
+# 3. Định dạng Certificate ID
+
+Certificate ID tuân theo định dạng:
+
+**Format**: `CERT-{YYYY}{RRRR}-{NNNNNN}`
+
+- `{YYYY}`: Năm cấp (ví dụ: 2026)
+- `{RRRR}`: 4 chữ số ngẫu nhiên (0001-9999)
+- `{NNNNNN}`: 6 chữ số tự động tăng (000001-999999)
+- **Ví dụ hợp lệ**: `CERT-20260234-000123`
+
+**Xác thực input**:
+
+- Sử dụng regex: `^CERT-\d{8}-\d{6}$`
+- Phải bắt đầu bằng `CERT-`
+- Theo sau bởi 8 chữ số (YYYY + RRRR)
+- Theo sau bởi dấy `-` và 6 chữ số (NNNNNN)
+- Không chấp nhận chữ cái, ký tự đặc biệt, hoặc khoảng trắng.
+
+---
+
+# 4. Thành phần chính
 
 | Thành phần | Yêu cầu                                        |
 | ---------- | ---------------------------------------------- |
@@ -77,7 +98,7 @@ Please check the Certificate ID and try again.
 Certificate revoked
 
 This certificate was issued before but is no longer valid.
-Please contact May Academy for more information.
+Please contact CORTEX for more information.
 ```
 
 ---

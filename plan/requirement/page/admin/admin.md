@@ -2,17 +2,15 @@
 
 ## 1. Mục tiêu tổng
 
-Admin Dashboard dùng để May Academy quản lý toàn bộ hệ thống học:
+Admin Dashboard dùng để CORTEX quản lý toàn bộ hệ thống học:
 
 ```text
 1. Quản lý khóa học
 2. Quản lý module/lesson
 3. Quản lý học viên
-4. Quản lý đăng ký khóa
-5. Quản lý lead
-6. Duyệt bài nộp assignment/final project
-7. Cấp và kiểm soát certificate
-8. Xem tổng quan vận hành
+4. Duyệt bài nộp assignment/final project
+5. Cấp và kiểm soát certificate
+6. Xem tổng quan vận hành
 ```
 
 ---
@@ -23,12 +21,12 @@ Admin Dashboard dùng để May Academy quản lý toàn bộ hệ thống học
 | --------------------- | -------------------------------------- |
 | `/admin`              | Tổng quan hệ thống                     |
 | `/admin/courses`      | Quản lý khóa học                       |
+| `/admin/orders`       | Quản lý đơn hàng và thanh toán         |
 | `/admin/lessons`      | Quản lý module và lesson               |
 | `/admin/students`     | Quản lý học viên                       |
-| `/admin/enrollments`  | Gán khóa cho học viên                  |
-| `/admin/leads`        | Quản lý người quan tâm                 |
 | `/admin/submissions`  | Duyệt bài nộp assignment/final project |
 | `/admin/certificates` | Cấp và quản lý chứng chỉ               |
+| `/admin/leads`        | Quản lý lead tiềm năng (Type B)        |
 
 ---
 
@@ -45,8 +43,6 @@ Admin Dashboard dùng để May Academy quản lý toàn bộ hệ thống học
 │ - Courses     │                              │
 │ - Lessons     │                              │
 │ - Students    │                              │
-│ - Enrollments │                              │
-│ - Leads       │                              │
 │ - Submissions │                              │
 │ - Certificates│                              │
 └───────────────┴──────────────────────────────┘
@@ -60,10 +56,9 @@ Admin Dashboard dùng để May Academy quản lý toàn bộ hệ thống học
 | Courses      | `/admin/courses`      |
 | Lessons      | `/admin/lessons`      |
 | Students     | `/admin/students`     |
-| Enrollments  | `/admin/enrollments`  |
-| Leads        | `/admin/leads`        |
 | Submissions  | `/admin/submissions`  |
 | Certificates | `/admin/certificates` |
+| Leads        | `/admin/leads`        |
 | Logout       | Đăng xuất             |
 
 ---
@@ -76,24 +71,22 @@ Admin nhìn nhanh tình hình hệ thống.
 
 ## Các khu vực cần có
 
-| Khu vực             | Nội dung                                                                       |
-| ------------------- | ------------------------------------------------------------------------------ |
-| KPI cards           | Tổng lead, tổng học viên, tổng khóa học, bài nộp chờ duyệt, certificate đã cấp |
-| Recent leads        | Lead mới nhất                                                                  |
-| Pending submissions | Assignment/final project đang chờ duyệt                                        |
-| Quick actions       | Tạo khóa, thêm lesson, xem lead, cấp certificate                               |
+| Khu vực             | Nội dung                                                                                |
+| ------------------- | --------------------------------------------------------------------------------------- |
+| KPI cards           | Tổng học viên, tổng khóa học, bài nộp chờ duyệt, certificate đã cấp, active enrollments |
+| Pending submissions | Assignment/final project đang chờ duyệt                                                 |
+| Quick actions       | Tạo khóa, thêm lesson, duyệt bài, cấp certificate                                       |
 
 ## KPI nên hiển thị
 
-| KPI                 | Ý nghĩa                     |
-| ------------------- | --------------------------- |
-| Total leads         | Tổng người để lại thông tin |
-| New leads           | Lead mới chưa xử lý         |
-| Total students      | Tổng học viên               |
-| Active enrollments  | Số đăng ký khóa đang active |
-| Published courses   | Số khóa đang mở             |
-| Pending submissions | Bài nộp đang chờ duyệt      |
-| Certificates issued | Số chứng chỉ đã cấp         |
+| KPI                 | Ý nghĩa                           |
+| ------------------- | --------------------------------- |
+| Total students      | Tổng học viên                     |
+| Active enrollments  | Số đăng ký khóa đang active       |
+| Published courses   | Số khóa đang mở                   |
+| Pending submissions | Bài nộp đang chờ duyệt            |
+| Certificates issued | Số chứng chỉ đã cấp               |
+| New leads           | Số lead Type B mới (contact page) |
 
 ---
 
@@ -201,67 +194,7 @@ Theo dõi học viên, tiến độ học, khóa đã đăng ký, bài nộp và
 
 ---
 
-# 8. `/admin/enrollments` — Quản lý đăng ký khóa
-
-## Mục tiêu
-
-Gán khóa cho học viên và quản lý trạng thái học.
-
-## Các khu vực cần có
-
-| Khu vực          | Nội dung                                     |
-| ---------------- | -------------------------------------------- |
-| Enrollment table | Học viên, khóa học, trạng thái, ngày đăng ký |
-| Add enrollment   | Chọn học viên + chọn khóa để gán             |
-| Status           | Active, completed, cancelled                 |
-| Manual control   | Admin có thể đánh dấu hoàn thành nếu cần     |
-
-## Enrollment status
-
-| Status    | Ý nghĩa                     |
-| --------- | --------------------------- |
-| active    | Học viên đang học           |
-| completed | Học viên đã hoàn thành khóa |
-| cancelled | Đã hủy quyền học            |
-| expired   | Hết hạn truy cập nếu có     |
-
----
-
-# 9. `/admin/leads` — Quản lý lead
-
-## Mục tiêu
-
-Xử lý người quan tâm từ form contact, workshop, resource download hoặc CTA khóa học.
-
-## Các khu vực cần có
-
-| Khu vực         | Nội dung                                         |
-| --------------- | ------------------------------------------------ |
-| Lead table      | Tên, phone/Zalo, email, nhu cầu, ngày gửi        |
-| Status pipeline | New, contacted, converted, lost                  |
-| Notes           | Admin thêm ghi chú tư vấn                        |
-| Actions         | Đổi trạng thái, tạo học viên từ lead nếu đã chốt |
-
-## Lead status
-
-| Status    | Ý nghĩa                  |
-| --------- | ------------------------ |
-| new       | Lead mới                 |
-| contacted | Đã liên hệ               |
-| converted | Đã chuyển thành học viên |
-| lost      | Không chuyển đổi         |
-
-## Action quan trọng
-
-```text
-Lead converted
-→ tạo user/student nếu chưa có
-→ tạo enrollment nếu đã chốt khóa
-```
-
----
-
-# 10. `/admin/submissions` — Duyệt bài nộp
+# 7. `/admin/students` — Quản lý học viên
 
 ## Mục tiêu
 
@@ -335,22 +268,9 @@ Chỉ cấp certificate khi học viên đủ điều kiện.
 
 # 12. Flow vận hành chính của Admin Dashboard
 
-## Flow 1 — Từ lead thành học viên
-
-```text
-/admin/leads
-→ xem lead mới
-→ liên hệ tư vấn
-→ đổi status thành contacted
-→ nếu chốt học
-→ tạo student
-→ tạo enrollment
-→ lead status = converted
-```
-
 ---
 
-## Flow 2 — Tạo khóa học
+## Flow 1 — Tạo khóa học
 
 ```text
 /admin/courses
@@ -361,7 +281,7 @@ Chỉ cấp certificate khi học viên đủ điều kiện.
 
 ---
 
-## Flow 3 — Xây nội dung khóa học
+## Flow 2 — Xây nội dung khóa học
 
 ```text
 /admin/lessons
@@ -379,7 +299,7 @@ Chỉ cấp certificate khi học viên đủ điều kiện.
 
 ---
 
-## Flow 4 — Học viên học và nộp bài
+## Flow 3 — Học viên học và nộp bài
 
 ```text
 Student học tại /learn/[course]/[lesson]
@@ -390,7 +310,7 @@ Student học tại /learn/[course]/[lesson]
 
 ---
 
-## Flow 5 — Duyệt bài nộp
+## Flow 4 — Duyệt bài nộp
 
 ```text
 /admin/submissions
@@ -408,7 +328,7 @@ Nếu rejected:
 
 ---
 
-## Flow 6 — Cấp certificate
+## Flow 5 — Cấp certificate
 
 ```text
 /admin/certificates
@@ -424,21 +344,21 @@ Nếu rejected:
 
 # 13. Component dùng chung
 
-| Component            | Dùng ở đâu                                                       |
-| -------------------- | ---------------------------------------------------------------- |
-| `AdminLayout`        | Tất cả trang admin                                               |
-| `AdminSidebar`       | Menu admin                                                       |
-| `AdminTopbar`        | Search, notification, avatar                                     |
-| `KpiCard`            | Overview                                                         |
-| `DataTable`          | Courses, Students, Leads, Enrollments, Submissions, Certificates |
-| `StatusBadge`        | Trạng thái khóa, lead, enrollment, submission, certificate       |
-| `SearchFilterBar`    | Tìm kiếm/lọc                                                     |
-| `CreateEditModal`    | Tạo/sửa dữ liệu                                                  |
-| `ConfirmDialog`      | Xóa, revoke, block                                               |
-| `FeedbackBox`        | Duyệt submissions                                                |
-| `CertificatePreview` | Quản lý certificate                                              |
-| `EmptyState`         | Khi chưa có dữ liệu                                              |
-| `LoadingState`       | Khi đang tải                                                     |
+| Component            | Dùng ở đâu                                   |
+| -------------------- | -------------------------------------------- |
+| `AdminLayout`        | Tất cả trang admin                           |
+| `AdminSidebar`       | Menu admin                                   |
+| `AdminTopbar`        | Search, notification, avatar                 |
+| `KpiCard`            | Overview                                     |
+| `DataTable`          | Courses, Students, Submissions, Certificates |
+| `StatusBadge`        | Trạng thái khóa, submission, certificate     |
+| `SearchFilterBar`    | Tìm kiếm/lọc                                 |
+| `CreateEditModal`    | Tạo/sửa dữ liệu                              |
+| `ConfirmDialog`      | Xóa, revoke, block                           |
+| `FeedbackBox`        | Duyệt submissions                            |
+| `CertificatePreview` | Quản lý certificate                          |
+| `EmptyState`         | Khi chưa có dữ liệu                          |
+| `LoadingState`       | Khi đang tải                                 |
 
 ---
 
@@ -455,7 +375,6 @@ Nếu rejected:
 | `lesson_progress`  | Tiến độ học video/resource                 |
 | `submissions`      | Bài nộp assignment/final project           |
 | `certificates`     | Chứng chỉ                                  |
-| `leads`            | Người quan tâm                             |
 | `audit_logs`       | Lịch sử thao tác admin, nên có sau         |
 
 ---
@@ -503,18 +422,16 @@ Admin mới được cấp/revoke certificate.
 
 ## Phase 2 — Quản lý học viên
 
-| Thứ tự | Trang                |
-| ------ | -------------------- |
-| 5      | `/admin/students`    |
-| 6      | `/admin/enrollments` |
-| 7      | `/admin/leads`       |
+| Thứ tự | Trang             |
+| ------ | ----------------- |
+| 5      | `/admin/students` |
 
 ## Phase 3 — Duyệt bài và certificate
 
 | Thứ tự | Trang                 |
 | ------ | --------------------- |
-| 8      | `/admin/submissions`  |
-| 9      | `/admin/certificates` |
+| 6      | `/admin/submissions`  |
+| 7      | `/admin/certificates` |
 
 ---
 
@@ -524,8 +441,7 @@ Admin mới được cấp/revoke certificate.
 Admin Dashboard cần có:
 
 1. /admin
-   - KPI
-   - Recent leads
+   - KPI (6 cards: students, enrollments, courses, submissions, certificates, new students)
    - Pending submissions
    - Quick actions
 
@@ -533,6 +449,7 @@ Admin Dashboard cần có:
    - Course table
    - Create/edit course
    - Course status
+   - Manage lessons button
 
 3. /admin/lessons
    - Select course
@@ -542,28 +459,22 @@ Admin Dashboard cần có:
 
 4. /admin/students
    - Student table
-   - Student detail
-   - Search/filter
-   - Block/gán khóa
+   - Student detail drawer (5 tabs: Profile, Learning, Enrollments, Submissions, Certificates)
+   - Search
+   - Block/unblock
+   - Gán khóa trong Enrollments tab
 
-5. /admin/enrollments
-   - Gán khóa cho học viên
-   - Quản lý trạng thái học
-
-6. /admin/leads
-   - Lead pipeline
-   - Notes
-   - Convert lead thành student
-
-7. /admin/submissions
+5. /admin/submissions
    - Duyệt assignment/final project
    - Approve/reject/feedback
+   - Filter status/type/course
 
-8. /admin/certificates
+6. /admin/certificates
    - Cấp certificate
    - Generate PDF
    - Revoke
    - Copy verify link
+   - Eligible students section
 ```
 
-Nói ngắn gọn: **Admin Dashboard là trung tâm vận hành của May Academy: tạo khóa → tạo lesson → gán học viên → theo dõi học → duyệt bài → cấp chứng chỉ.**
+Nói ngắn gọn: **Admin Dashboard là trung tâm vận hành của CORTEX: tạo khóa → tạo lesson → gán học viên → theo dõi học → duyệt bài → cấp chứng chỉ.**

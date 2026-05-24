@@ -52,11 +52,11 @@ Không cần Search/Filter Bar ở MVP vì số lượng khóa ít.
 
 ## A. Page Header
 
-| Thành phần | Yêu cầu                                        |
-| ---------- | ---------------------------------------------- |
-| Title      | `Quản lý khóa học`                             |
-| Subtitle   | “Tạo và quản lý các khóa học của May Academy.” |
-| CTA chính  | `Tạo khóa học`                                 |
+| Thành phần | Yêu cầu                                   |
+| ---------- | ----------------------------------------- |
+| Title      | `Quản lý khóa học`                        |
+| Subtitle   | “Tạo và quản lý các khóa học của CORTEX.” |
+| CTA chính  | `Tạo khóa học`                            |
 
 CTA `Tạo khóa học` mở modal hoặc trang tạo khóa mới.
 
@@ -199,30 +199,32 @@ archived → không hiển thị public, admin vẫn xem được
 
 # 8. Actions trên từng khóa
 
-| Action           | Chức năng                           |
-| ---------------- | ----------------------------------- |
-| `Edit`           | Sửa thông tin khóa                  |
-| `Manage Lessons` | Sang `/admin/lessons?course_id=...` |
-| `Preview`        | Mở `/courses/[slug]`                |
-| `Publish`        | Chuyển draft thành published        |
-| `Unpublish`      | Chuyển published về draft           |
-| `Archive`        | Lưu trữ/ẩn khóa                     |
-| `Delete`         | Chỉ cho xóa nếu chưa có enrollment  |
+| Action           | Chức năng                                                                  |
+| ---------------- | -------------------------------------------------------------------------- |
+| `Edit`           | Sửa thông tin khóa (Lưu `updated_by`)                                      |
+| `Manage Lessons` | Sang `/admin/lessons?course_id=...`                                        |
+| `Preview`        | Mở `/courses/[slug]`                                                       |
+| `Publish`        | Chuyển draft thành published                                               |
+| `Unpublish`      | Chuyển published về draft                                                  |
+| `Archive`        | Lưu trữ/ẩn khóa (set `status = archived`)                                  |
+| `Delete`         | Xóa mềm (set `deleted_at = now()`) nếu chưa có enrollment hoặc theo policy |
 
 ---
 
 # 9. Rule quan trọng
 
-| Trường hợp                   | Cách xử lý                                            |
-| ---------------------------- | ----------------------------------------------------- |
-| Course đã có học viên        | Không nên xóa, chỉ archive                            |
-| Slug bị trùng                | Báo lỗi, không cho lưu                                |
-| Thiếu title/slug/status      | Không cho submit                                      |
-| Status = published           | Phải có title, slug, mô tả ngắn, thumbnail cơ bản     |
-| Certificate available = true | Khóa có thể cấp certificate khi học viên đủ điều kiện |
-| Lock mode = sequential       | Lesson phải học theo thứ tự                           |
-| Lock mode = free             | Học viên có thể học tự do                             |
-| Course ordering              | Hiển thị khóa theo thứ tự sản phẩm đã định            |
+| Trường hợp                   | Cách xử lý                                             |
+| ---------------------------- | ------------------------------------------------------ |
+| Course đã có học viên        | Không xóa vĩnh viễn, chỉ dùng archive hoặc soft delete |
+| Slug bị trùng                | Báo lỗi, không cho lưu                                 |
+| Thiếu title/slug/status      | Không cho submit                                       |
+| Status = published           | Phải có title, slug, mô tả ngắn, thumbnail cơ bản      |
+| Certificate available = true | Khóa có thể cấp certificate khi học viên đủ điều kiện  |
+| Lock mode = sequential       | Lesson phải học theo thứ tự                            |
+| Lock mode = free             | Học viên có thể học tự do                              |
+| Course ordering              | Hiển thị khóa theo thứ tự sản phẩm đã định             |
+| Total students cache         | Tự động cập nhật khi có enrollment mới/cancelled       |
+| Audit trail                  | Mọi thao tác tạo/sửa lưu `created_by` / `updated_by`   |
 
 ---
 
@@ -353,7 +355,7 @@ Nếu chưa có khóa học nào:
 ```text
 Chưa có khóa học nào.
 
-Hãy tạo khóa học đầu tiên cho May Academy.
+Hãy tạo khóa học đầu tiên cho CORTEX.
 [Tạo khóa học]
 ```
 

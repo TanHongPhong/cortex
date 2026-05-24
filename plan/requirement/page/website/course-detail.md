@@ -116,13 +116,12 @@ Khóa này phù hợp nếu bạn:
 
 **Mục đích:** cho người xem biết khóa học gồm những phần nào.
 
-| Thành phần     | Yêu cầu                                       |
-| -------------- | --------------------------------------------- |
-| Module list    | Hiển thị module dạng accordion                |
-| Lesson preview | Mỗi module có vài lesson bên trong            |
-| Duration       | Có thời lượng ước tính                        |
-| Free preview   | Một số bài có badge `Preview` nếu cho xem thử |
-| Locked content | Nội dung chi tiết chỉ mở khi đăng ký          |
+| Thành phần     | Yêu cầu                              |
+| -------------- | ------------------------------------ |
+| Module list    | Hiển thị module dạng accordion       |
+| Lesson preview | Mỗi module có vài lesson bên trong   |
+| Duration       | Có thời lượng ước tính               |
+| Locked content | Nội dung chi tiết chỉ mở khi đăng ký |
 
 **Ví dụ module cho Core Bootcamp:**
 
@@ -259,7 +258,6 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 | Curriculum      | Lấy module/lesson từ `modules`, `lessons`                                                    |
 | CTA             | CTA thay đổi theo loại khóa: Free, Starter, Core, Advanced, Premium, B2B                     |
 | Enrollment      | Nếu user đăng nhập, cho đăng ký/mua khóa; nếu chưa đăng nhập, dẫn tới login/register/contact |
-| Preview lesson  | Nếu có bài preview, cho xem thử                                                              |
 | Coming soon     | Nếu khóa chưa mở, hiển thị `Coming soon` và form nhận thông báo                              |
 | Certificate     | Nếu khóa có certificate, hiển thị certificate section                                        |
 | Related courses | Gợi ý khóa liên quan                                                                         |

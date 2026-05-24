@@ -6,7 +6,7 @@
 | ------------------- | --------------------------------------------------------- |
 | Thu lead            | Lấy thông tin người quan tâm khóa học                     |
 | Tư vấn khóa phù hợp | Biết người dùng cần workshop, bootcamp, mentoring hay B2B |
-| Tạo kênh liên hệ    | Cho người dùng biết cách liên hệ May Academy              |
+| Tạo kênh liên hệ    | Cho người dùng biết cách liên hệ CORTEX                   |
 
 ---
 
@@ -25,10 +25,10 @@
 
 # 3. Section 1 — Header
 
-| Thành phần | Yêu cầu                                                                          |
-| ---------- | -------------------------------------------------------------------------------- |
-| Title      | `Liên hệ May Academy`                                                            |
-| Subtitle   | “Để lại thông tin, May Academy sẽ tư vấn khóa học phù hợp với mục tiêu của bạn.” |
+| Thành phần | Yêu cầu                                                                     |
+| ---------- | --------------------------------------------------------------------------- |
+| Title      | `Liên hệ CORTEX`                                                            |
+| Subtitle   | “Để lại thông tin, CORTEX sẽ tư vấn khóa học phù hợp với mục tiêu của bạn.” |
 
 ---
 
@@ -70,7 +70,7 @@ Hiển thị gọn bên cạnh hoặc dưới form:
 
 | Thông tin          | Nội dung                             |
 | ------------------ | ------------------------------------ |
-| Email              | Email chính thức của May Academy     |
+| Email              | Email chính thức của CORTEX          |
 | Zalo/Phone         | Số liên hệ tư vấn                    |
 | Social             | Facebook / LinkedIn / YouTube nếu có |
 | Thời gian phản hồi | Ví dụ: “Phản hồi trong 24–48 giờ”    |
@@ -82,7 +82,7 @@ Hiển thị gọn bên cạnh hoặc dưới form:
 Khi gửi thành công, hiển thị:
 
 ```text
-Cảm ơn bạn! May Academy đã nhận thông tin và sẽ liên hệ tư vấn sớm.
+Cảm ơn bạn! CORTEX đã nhận thông tin và sẽ liên hệ tư vấn sớm.
 ```
 
 Dữ liệu lưu vào bảng `leads`.
