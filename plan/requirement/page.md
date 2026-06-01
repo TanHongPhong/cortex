@@ -74,8 +74,8 @@
 **Nút chính:** CTA thay đổi theo loại khóa:
 
 - Free Workshop → `Đăng ký workshop miễn phí`
-- Starter → `Đăng ký mini course`
-- Core → `Đăng ký Bootcamp`
+- Starter → `Đăng ký mini course` hoặc dẫn `/checkout/:courseSlug`
+- Core → `Đăng ký Bootcamp` hoặc dẫn `/checkout/:courseSlug`
 - Advanced → `Nhận tư vấn khóa nâng cao`
 - Premium → `Đăng ký mentoring 1:1`
 - B2B → `Liên hệ đào tạo đội nhóm`
@@ -183,6 +183,88 @@
 
 ---
 
+## `/privacy` Chính sách dữ liệu
+
+**Mục tiêu:** giải thích cách CORTEX thu thập, dùng và bảo vệ dữ liệu user/lead.
+
+| Khu vực | Requirement |
+| ------- | ----------- |
+| Data collected | Email, họ tên, phone/Zalo, nhu cầu học, order, learning progress. |
+| Consent | Form lead phải yêu cầu đồng ý chính sách dữ liệu qua `leads.consent_privacy_policy`. |
+| Data use | Tư vấn học tập, vận hành khóa học, order/payment, certificate verification. |
+| Sensitive data | Không public email/phone/payment payload. |
+
+---
+
+## `/terms` Điều khoản sử dụng
+
+**Mục tiêu:** đặt rule về tài khoản, quyền học, nội dung khóa và certificate.
+
+| Khu vực | Requirement |
+| ------- | ----------- |
+| Account | Login chỉ bằng email/password; user chịu trách nhiệm bảo mật tài khoản. |
+| Course access | Paid course yêu cầu enrollment active; refund/cancel có thể khóa quyền học. |
+| Certificate | Certificate là Certificate of Completion, không phải văn bằng chính quy. |
+| Content | Không chia sẻ trái phép video/resource paid course. |
+
+---
+
+## `/refund-policy` Chính sách refund
+
+**Mục tiêu:** giải thích refund trong MVP/P1 là credit nội bộ vào số dư tài khoản.
+
+| Khu vực | Requirement |
+| ------- | ----------- |
+| Refund result | Admin mark refunded sẽ cộng tiền vào `users.account_balance`. |
+| Withdrawal | User muốn rút tiền liên hệ `/contact?type=support`; không có self-service withdrawal. |
+| Admin reset | Sau khi xử lý rút tiền offline, admin tạo ledger reset balance về `0`. |
+| Learning access | Refund mặc định chuyển enrollment liên quan sang `cancelled`. |
+
+---
+
+## `/checkout/:courseSlug` Thanh toán khóa học
+
+**Mục tiêu:** cho user đã đăng nhập mua một khóa đơn, tạo order pending và xử lý thanh toán/coupon/referral.
+
+| Khu vực              | Nên làm như nào                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| Course summary       | Hiển thị `course_title_snapshot`, giá, thời lượng, certificate.                       |
+| Coupon/referral      | Cho nhập mã, validate backend, hiển thị số tiền giảm.                                 |
+| Billing form         | Họ tên, email, phone, địa chỉ, công ty, mã số thuế, yêu cầu hóa đơn.                  |
+| Payment method       | Chuyển khoản/manual trước; Momo/VNPay có thể thêm sau qua `payment_transactions`.      |
+| Payment proof        | Upload hoặc nhập link chứng từ nếu manual/bank transfer.                              |
+| Order summary        | Giá gốc, discount, final amount, currency.                                            |
+| Success/error states | Sau submit chuyển `/checkout/success` hoặc `/checkout/failed` tùy kết quả thanh toán. |
+
+**Rule dữ liệu:** tạo `orders` với snapshot khóa học ngay khi checkout bắt đầu. Không sửa snapshot sau khi order đã paid.
+
+---
+
+## `/checkout/success` Thanh toán thành công
+
+**Mục tiêu:** xác nhận đơn đã thanh toán hoặc đang chờ admin kiểm tra nếu là chuyển khoản thủ công.
+
+| Khu vực      | Nên làm như nào                                                |
+| ------------ | -------------------------------------------------------------- |
+| Result       | Hiển thị trạng thái order: paid hoặc pending manual review.    |
+| Order info   | Mã đơn, khóa học, số tiền, phương thức thanh toán.             |
+| Next action  | Nếu paid: `Vào học`; nếu pending: `Xem đơn hàng`.              |
+| Data privacy | Không hiển thị payload thanh toán nhạy cảm.                    |
+
+---
+
+## `/checkout/failed` Thanh toán lỗi/hủy
+
+**Mục tiêu:** cho user biết thanh toán chưa thành công và cách thử lại.
+
+| Khu vực     | Nên làm như nào                                      |
+| ----------- | ---------------------------------------------------- |
+| Error state | Báo thanh toán thất bại/hủy.                         |
+| Retry CTA   | `Thử thanh toán lại` dẫn về checkout hoặc order.     |
+| Support CTA | `Liên hệ hỗ trợ` dẫn `/contact?type=support` nếu user đã chuyển khoản thủ công. |
+
+---
+
 # 2. Student Portal — phần học viên đăng nhập
 
 ## `/login` Đăng nhập
@@ -192,11 +274,11 @@
 | Khu vực         | Nên làm như nào                               |
 | --------------- | --------------------------------------------- |
 | Login form      | Email + password.                             |
-| Google login    | Có thể thêm để tiện.                          |
 | Forgot password | Link đặt lại mật khẩu.                        |
-| Role redirect   | Student vào `/dashboard`, admin vào `/admin`. |
+| Role redirect   | Student vào `/dashboard`, instructor vào `/instructor`, admin vào `/admin`. |
 
 **Cần có:** validate lỗi sai mật khẩu/email không tồn tại.
+**Không build:** Google OAuth và email verification trong MVP/P1.
 
 ---
 
@@ -227,8 +309,25 @@
 | Next lesson        | Bài học tiếp theo.                    |
 | Project status     | Chưa nộp / Đang chờ duyệt / Đã duyệt. |
 | Certificate status | Chưa đủ điều kiện / Có thể tải.       |
+| Notification preview | Thông báo mới: bài được duyệt, certificate, announcement, Q&A. |
 
 **Nút chính:** `Tiếp tục học`.
+
+---
+
+## `/notifications` Thông báo của tôi
+
+**Mục tiêu:** học viên xem in-app notification và đi thẳng tới việc cần xử lý.
+
+| Khu vực        | Nên làm như nào                                             |
+| -------------- | ----------------------------------------------------------- |
+| Notification list | Hiển thị title, body, type, thời gian, trạng thái read/unread. |
+| Filters        | All, unread, course, payment, submission, certificate.      |
+| Actions        | Mark as read, mark all read, mở `target_url`.              |
+| Empty state    | Nếu chưa có thông báo, hiển thị hướng dẫn học tiếp.        |
+| Permission     | Chỉ xem notification có `user_id = current_user.id`.        |
+
+**Rule:** notification là delivery cá nhân. Announcement vẫn là nguồn nội dung riêng.
 
 ---
 
@@ -247,6 +346,33 @@
 
 ---
 
+## `/my-orders` Lịch sử đơn hàng
+
+**Mục tiêu:** học viên xem các đơn đã tạo, trạng thái thanh toán, biên nhận/hóa đơn.
+
+| Khu vực      | Nên làm như nào                                                 |
+| ------------ | --------------------------------------------------------------- |
+| Order list   | Mã đơn, khóa học snapshot, final amount, status, created_at.    |
+| Status       | pending, paid, failed, refunded, cancelled.                     |
+| Actions      | Xem chi tiết, tải biên nhận nếu có, thanh toán lại nếu pending. |
+| Privacy rule | Chỉ xem được order có `user_id = current_user.id`.              |
+
+---
+
+## `/my-orders/:id` Chi tiết đơn hàng
+
+**Mục tiêu:** hiển thị chi tiết một order, payment history và invoice/receipt.
+
+| Khu vực              | Nên làm như nào                                           |
+| -------------------- | --------------------------------------------------------- |
+| Order information    | Order code, status, payment_status, created/paid/refund.  |
+| Course snapshot      | Tên khóa và giá tại thời điểm mua.                        |
+| Billing information  | Thông tin billing user đã nhập.                           |
+| Payment transactions | Danh sách giao dịch, provider, amount, status.            |
+| Invoice/receipt      | Link tải nếu đã tạo.                                      |
+
+---
+
 ## `/learn/[course]` Trang học của một khóa
 
 **Mục tiêu:** xem toàn bộ nội dung khóa.
@@ -257,6 +383,8 @@
 | Module list   | Các module dạng accordion.                      |
 | Lesson status | Bài đã học có dấu check, bài chưa học để trống. |
 | Locked lesson | Nếu cần học theo thứ tự, khóa bài chưa mở.      |
+| Announcements | Thông báo mới của khóa học nếu có.              |
+| Review prompt | Nếu học viên đã học đủ điều kiện, mời review khóa học. |
 
 **Nút chính:** `Học tiếp bài gần nhất`.
 
@@ -270,17 +398,21 @@
 | --------------- | ------------------------------------------- |
 | Lesson content  | Video hoặc text bài học.                    |
 | Resource        | Link tải tài liệu, prompt, file mẫu nếu có. |
+| Quiz area       | Nếu `lesson_type = quiz`, hiển thị câu hỏi và kết quả. |
+| Q&A             | Thread hỏi đáp theo lesson.                 |
 | Sidebar         | Danh sách lesson cùng khóa.                 |
 | Complete button | Nút “Đánh dấu hoàn thành”.                  |
 | Navigation      | Bài trước / Bài tiếp theo.                  |
 
-**Rule:** khi bấm hoàn thành, lưu vào `lesson_progress`.
+**Rule:** khi bấm hoàn thành, lưu vào `lesson_progress`. Quiz required chỉ hoàn thành khi có `quiz_attempts.passed = true`. Q&A chỉ cho enrolled student xem/tạo.
 
 ---
 
-## `/assignments` Bài tập / Project
+## `/assignments` Bài tập / Project (legacy / không ưu tiên)
 
-**Mục tiêu:** học viên xem và nộp bài.
+**Mục tiêu cũ:** học viên xem và nộp bài.
+
+**Quyết định mới:** không build route này trong MVP nếu đã triển khai lesson type `assignment` và `final_project`.
 
 | Khu vực         | Nên làm như nào                             |
 | --------------- | ------------------------------------------- |
@@ -289,11 +421,15 @@
 | Feedback        | Hiển thị nhận xét admin nếu có.             |
 | CTA             | Nộp bài hoặc chỉnh sửa nếu chưa được duyệt. |
 
+**Rule hiện tại:** tất cả bài tập/project mở trực tiếp tại `/learn/[course]/[lesson]`.
+
 ---
 
-## `/submit-project` Nộp project
+## `/submit-project` Nộp project (legacy / không ưu tiên)
 
-**Mục tiêu:** học viên gửi project cuối khóa.
+**Mục tiêu cũ:** học viên gửi project cuối khóa.
+
+**Quyết định mới:** không build route này trong MVP. Final project là một `lesson` có `lesson_type = final_project`.
 
 | Khu vực      | Nên làm như nào                                      |
 | ------------ | ---------------------------------------------------- |
@@ -301,6 +437,8 @@
 | File upload  | Có thể để sau, trước mắt dùng link là đủ.            |
 | Submit state | Sau khi gửi, status là `pending`.                    |
 | Edit rule    | Cho sửa nếu bài chưa được approved.                  |
+
+**Rule hiện tại:** form nộp project nằm tại `/learn/[course]/[lesson]`.
 
 ---
 
@@ -329,6 +467,20 @@
 
 ---
 
+## `/referral` Mã giới thiệu
+
+**Mục tiêu:** học viên xem mã giới thiệu, invite link, conversion và reward.
+
+| Khu vực                | Nên làm như nào                                             |
+| ---------------------- | ----------------------------------------------------------- |
+| My referral code       | Hiển thị mã và nút copy invite link.                        |
+| Reward rule            | Giải thích người được giới thiệu giảm gì, người giới thiệu nhận gì. |
+| Successful referrals   | Danh sách conversion đã paid/approved.                      |
+| Pending rewards        | Reward pending/approved/issued/cancelled.                   |
+| Abuse prevention       | Không cho user tự dùng mã của chính mình.                   |
+
+---
+
 # 3. Admin Dashboard — phần quản trị
 
 ## `/admin` Admin Overview
@@ -337,9 +489,140 @@
 
 | Khu vực             | Nên làm như nào                                                 |
 | ------------------- | --------------------------------------------------------------- |
-| KPI cards           | Tổng học viên, khóa học, bài nộp chờ duyệt, certificate đã cấp. |
+| KPI cards           | Học viên, khóa học, doanh thu, paid/pending orders, bài chờ duyệt, certificate. |
+| Commerce alerts     | Pending orders, failed payments, invoice requested.             |
 | Pending submissions | Bài đang chờ duyệt.                                             |
 | Quick actions       | Tạo khóa, thêm lesson, duyệt bài, cấp certificate.              |
+
+---
+
+## `/admin/orders` Quản lý đơn hàng
+
+**Mục tiêu:** quản lý tiền, trạng thái thanh toán, export báo cáo và tạo enrollment sau khi paid.
+
+| Khu vực             | Nên làm như nào                                                        |
+| ------------------- | ---------------------------------------------------------------------- |
+| KPI cards           | Revenue, paid orders, pending orders, refunded amount, coupon discount. |
+| Filters             | Date range, status, course, payment method.                            |
+| Order table         | Order code, customer, course snapshot, amount, discount, status.        |
+| Order detail drawer | Billing, coupon/referral, transactions, invoice, enrollment status.     |
+| Actions             | Mark as paid, cancel, refund, create invoice, verify payment proof.     |
+
+**Rule:** order paid tạo enrollment idempotent, không tạo trùng.
+
+---
+
+## `/admin/coupons` Quản lý mã giảm giá
+
+**Mục tiêu:** tạo, sửa, tạm dừng, theo dõi hiệu quả coupon.
+
+| Khu vực      | Nên làm như nào                                             |
+| ------------ | ----------------------------------------------------------- |
+| KPI cards    | Active coupons, redemptions, revenue, discount given.       |
+| Coupon table | Code, type, value, scope, usage, dates, status.             |
+| Form         | Basic info, discount rule, usage rule, applicability, stack. |
+| Safety       | Không hard delete coupon đã có redemption; dùng archived.   |
+
+---
+
+## `/admin/payments` Theo dõi giao dịch
+
+**Mục tiêu:** xem từng `payment_transactions` và debug thanh toán.
+
+| Khu vực      | Nên làm như nào                                                |
+| ------------ | -------------------------------------------------------------- |
+| Table        | Order code, provider, provider_transaction_id, amount, status. |
+| Filters      | Provider, status, date range.                                  |
+| Detail       | Raw payload, order link, webhook logs nếu có.                  |
+| Safety       | Không sửa raw payload; chỉ tạo transaction điều chỉnh nếu cần. |
+
+---
+
+## `/admin/invoices` Quản lý biên nhận/hóa đơn
+
+**Mục tiêu:** tạo và tải receipt/invoice từ order paid.
+
+| Khu vực | Nên làm như nào                                        |
+| ------- | ------------------------------------------------------ |
+| Table   | Invoice code, order code, buyer, amount, status.       |
+| Actions | Create, issue, cancel, download PDF.                   |
+| Rule    | Dữ liệu lấy từ billing snapshot trên order.            |
+
+---
+
+## `/admin/referrals` Theo dõi referral
+
+**Mục tiêu:** quản lý mã giới thiệu, conversion và reward.
+
+| Khu vực     | Nên làm như nào                                          |
+| ----------- | -------------------------------------------------------- |
+| Code table  | User, code, usage, reward rule, status.                  |
+| Conversions | Referrer, referred user, order, reward status.           |
+| Actions     | Pause code, approve/issue/cancel reward.                 |
+
+---
+
+## `/admin/revenue` Dashboard doanh thu
+
+**Mục tiêu:** báo cáo doanh thu sau khi dữ liệu order/payment ổn định.
+
+| Khu vực | Nên làm như nào                                            |
+| ------- | ---------------------------------------------------------- |
+| KPI     | Revenue by month, by course, by payment method, coupon use. |
+| Charts  | Ưu tiên sau MVP, không block checkout/admin orders.         |
+| Export  | Dùng cùng filter với `/admin/orders`.                       |
+
+---
+
+## `/admin/announcements` Quản lý thông báo
+
+**Mục tiêu:** admin tạo thông báo global hoặc theo khóa học.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Table | Title, scope, course, priority, status, published_at. |
+| Form | Scope global/course, title, content, priority, publish time. |
+| Actions | Save draft, publish, archive. |
+| Rule | Publish announcement tạo `notifications` cho đúng người nhận. |
+
+---
+
+## `/admin/reviews` Kiểm duyệt đánh giá khóa học
+
+**Mục tiêu:** kiểm soát review/rating trước khi public.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Table | Course, student, rating, title, status, created_at. |
+| Filters | Course, rating, status. |
+| Actions | Publish, hide, reject. |
+| Rule | Chỉ review từ enrolled student mới hợp lệ. |
+
+---
+
+## `/admin/certificate-templates` Quản lý template chứng chỉ
+
+**Mục tiêu:** tạo và kích hoạt template dùng để cấp certificate.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Template list | Name, course scope, version, status, preview. |
+| Editor | Layout JSON hoặc form cấu hình placeholder. |
+| Actions | Preview, activate, archive. |
+| Rule | Certificate đã cấp giữ snapshot template, không render lại theo template mới. |
+
+---
+
+## `/admin/audit-logs` Lịch sử thao tác
+
+**Mục tiêu:** xem log thao tác nhạy cảm để giảm rủi ro dữ liệu.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Table | Actor, role, action, entity, created_at. |
+| Filters | Actor, action, entity_type, date range. |
+| Detail | Metadata JSON, IP nếu có. |
+| Rule | Read-only, không sửa/xóa audit log qua UI thường. |
 
 ---
 
@@ -365,7 +648,7 @@
 | Select course  | Chọn khóa cần chỉnh.                                 |
 | Module manager | Tạo/sửa/xóa module.                                  |
 | Lesson manager | Tạo lesson trong module.                             |
-| Lesson form    | Title, video URL, content, resource URL, thứ tự bài. |
+| Lesson form    | Title, video source, content, resource URL/file, quiz, thứ tự bài. |
 | Drag/drop      | Nếu làm được thì cho kéo thả thứ tự lesson.          |
 
 ---
@@ -392,7 +675,7 @@
 | Submission table  | Học viên, khóa, project, trạng thái, ngày nộp. |
 | Submission detail | Xem mô tả, link demo, link source.             |
 | Feedback box      | Admin viết nhận xét.                           |
-| Actions           | Approve, reject, request revision.             |
+| Actions           | Approve, reject, mark `revision_requested`.    |
 
 **Rule:** project approved mới đủ điều kiện nhận certificate.
 
@@ -413,12 +696,79 @@
 
 ---
 
-# 4. Cách làm UI tổng thể cho toàn hệ thống
+# 4. Instructor Workspace — phần giảng viên (Chuyên trách chấm bài & hỗ trợ học viên)
+
+**Nguyên tắc phân quyền:**
+- **Admin** là người duy nhất upload video, quản lý khóa học, quản lý học viên, gán khóa, quản lý announcement.
+- **Instructor** chỉ chấm bài (duyệt submissions) và hỗ trợ học viên (trả lời Q&A) trong khóa được phân công.
+- Instructor KHÔNG được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement.
+
+## `/instructor` Instructor Overview
+
+**Mục tiêu:** instructor xem nhanh các việc cần xử lý trong khóa được phân công.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| KPI cards | Assigned courses, pending submissions, open questions, unread notifications. |
+| Queues | Bài chờ duyệt, câu hỏi chưa trả lời. |
+| Permission | Chỉ thấy dữ liệu khóa được phân công. |
+| Flags | Dựa trên `course_instructors`: `can_view_course`, `can_answer_questions`, `can_review_submissions`, `can_view_student_progress`. |
+
+---
+
+## `/instructor/courses` Khóa được phân công
+
+**Mục tiêu:** instructor xem nội dung khóa và trạng thái học viên ở mức vận hành (read-only).
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Course list | Các khóa instructor được phân công. |
+| Curriculum | Module/lesson **read-only**; instructor KHÔNG được sửa lesson content, upload video, hay quản lý khóa. |
+| Student progress | Xem tiến độ học viên nếu `can_view_student_progress = true`. |
+| Permission | Không xem commerce/revenue của khóa. Không tạo/sửa announcement. |
+
+---
+
+## `/instructor/submissions` Duyệt bài
+
+**Mục tiêu:** instructor duyệt assignment/final project của khóa được phân công.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Queue | Submission pending theo khóa/lesson. |
+| Detail | Nội dung bài, link demo/source, lịch sử feedback. |
+| Actions | Approve, reject, mark `revision_requested`. |
+| Side effect | Tạo notification `submission_reviewed` cho học viên. |
+| Permission | Chỉ xử lý nếu `can_review_submissions = true`; không cấp certificate. |
+
+---
+
+## `/instructor/questions` Trả lời Q&A
+
+**Mục tiêu:** instructor xử lý câu hỏi lesson.
+
+| Khu vực | Nên làm như nào |
+| ------- | --------------- |
+| Question queue | Open/answered/resolved theo khóa và lesson. |
+| Thread | Xem câu hỏi và các reply. |
+| Actions | Reply, mark resolved, hide nếu vi phạm. |
+| Side effect | Tạo notification `question_answered` cho người hỏi. |
+| Permission | Chỉ xử lý nếu `can_answer_questions = true`. |
+
+**Rule tổng thể:**
+- Instructor chỉ chấm bài và trả lời Q&A — không quản lý khóa học, video, học viên hay announcement.
+- Instructor không có quyền vào order/payment/coupon/invoice/referral/revenue.
+- Tất cả quản lý nội dung khóa (video, lesson, module) và quản lý học viên là quyền của admin.
+
+---
+
+# 5. Cách làm UI tổng thể cho toàn hệ thống
 
 | Phần                | Nên làm                                                                             |
 | ------------------- | ----------------------------------------------------------------------------------- |
 | Public website      | Đẹp, nhiều visual, mascot, 3D, CTA rõ.                                              |
 | Student portal      | Gọn, sạch, dễ học, ít hiệu ứng, tập trung nội dung.                                 |
+| Instructor workspace | Gọn, chỉ tập trung chấm bài và trả lời câu hỏi. Không có quyền quản lý khóa/học viên/video.                    |
 | Admin dashboard     | Thực dụng, bảng dữ liệu rõ, filter/search mạnh.                                     |
 | Mobile              | Public website phải đẹp trên mobile; student portal dùng ổn; admin ưu tiên desktop. |
 | CTA                 | Mỗi trang chỉ nên có 1 hành động chính rõ ràng.                                     |

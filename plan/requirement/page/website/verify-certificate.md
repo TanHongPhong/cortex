@@ -1,5 +1,10 @@
 # `/verify-certificate` — Trang xác thực chứng chỉ
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 | Mục tiêu       | Mô tả                                       |
@@ -132,9 +137,9 @@ Please contact CORTEX for more information.
 
 ---
 
-# 7. URL nên hỗ trợ
+# 7. URL hỗ trợ
 
-Nên hỗ trợ 2 cách:
+Cần hỗ trợ 2 cách:
 
 ```text
 /verify-certificate
@@ -149,3 +154,12 @@ Người dùng tự nhập ID.
 Quét QR tự động mở và kiểm tra ID.
 
 ---
+
+# 8. Acceptance Criteria
+
+| Tiêu chí | Đạt / Không |
+| -------- | ----------- |
+| Verify certificate valid hiển thị đúng thông tin public | |
+| Certificate revoked hiển thị trạng thái revoked | |
+| Certificate không tồn tại hiển thị not found | |
+| Không hiển thị email/phone học viên | |

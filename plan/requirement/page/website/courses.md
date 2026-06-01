@@ -1,6 +1,11 @@
-Đúng hướng hơn đó em. Với bộ sản phẩm này, trang `/courses` nên là **Product Catalog Page gọn**, không phải learning path. Trọng tâm là **4 thẻ khóa học chính**, còn **Premium** và **B2B** tách thành 2 section riêng phía dưới. Dựa trên plan trang `/courses` ban đầu của em là nơi hiển thị khóa học và dẫn sang chi tiết khóa.
+# `/courses` — Product Catalog Page
 
-# Trang `/courses` — Bản chỉnh theo bộ khóa học mới
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
+Trang `/courses` là product catalog gọn cho bộ khóa học CORTEX. Trọng tâm là 4 thẻ khóa học chính; Premium và B2B tách thành section riêng để tránh làm rối lựa chọn.
 
 ## 1. Mục tiêu trang
 
@@ -95,7 +100,7 @@ Chỉ hiển thị **4 thẻ chính** ở khu vực đầu.
 | Phù hợp với ai  | Beginner / creator / founder / người đi làm |
 | Output          | Học xong có gì                              |
 | Price direction | Free / Low / Main product / Higher          |
-| CTA             | `Xem chi tiết` hoặc `Đăng ký ngay`          |
+| CTA             | `Xem chi tiết`, `Đăng ký ngay`, hoặc `/checkout/:courseSlug` với khóa paid self-serve |
 
 ---
 
@@ -151,7 +156,7 @@ Phần này **không để chung trong course card grid**.
 Dành cho học viên muốn được mentor sát hơn để hoàn thiện project, xây portfolio cá nhân hoặc định hướng ứng dụng AI vào mục tiêu riêng.
 ```
 
-**CTA dẫn tới:** `/contact` hoặc `/mentoring`
+**CTA dẫn tới:** `/contact?type=mentoring`
 
 ---
 
@@ -173,7 +178,7 @@ Phần này cũng **không gộp vào card khóa học**.
 CORTEX thiết kế chương trình đào tạo AI riêng cho câu lạc bộ, đội nhóm và doanh nghiệp nhỏ muốn ứng dụng AI vào học tập, vận hành hoặc tự động hóa công việc.
 ```
 
-**CTA dẫn tới:** `/contact?type=b2b` hoặc `/b2b`
+**CTA dẫn tới:** `/contact?type=b2b`
 
 ---
 
@@ -227,6 +232,7 @@ Chỉ cần 4–5 câu hỏi.
 | Premium tách riêng  | Không nằm trong 4 card chính, hiển thị bằng section riêng  |
 | B2B tách riêng      | Không nằm trong 4 card chính, hiển thị bằng section riêng  |
 | CTA card            | Mỗi card có nút xem chi tiết hoặc đăng ký                  |
+| Checkout            | Starter/Core nếu mở bán self-serve thì CTA dẫn `/checkout/:courseSlug` |
 | CTA Premium/B2B     | Dẫn về contact form riêng theo nhu cầu                     |
 | Responsive          | Desktop: 4 card hoặc 2x2; mobile: 1 cột                    |
 | Coming soon         | Nếu khóa chưa mở, hiển thị badge `Coming soon`             |
@@ -234,7 +240,17 @@ Chỉ cần 4–5 câu hỏi.
 
 ---
 
-# 13. Layout đề xuất
+# 13. Data cần dùng
+
+| Bảng | Dữ liệu |
+| ---- | ------ |
+| `courses` | 4 khóa chính, Premium, B2B, status, price, CTA |
+| `course_reviews` | Rating/review published nếu hiển thị social proof |
+| `leads` | Lead source từ CTA tư vấn/workshop |
+
+---
+
+# 14. Layout đề xuất
 
 ```text
 [Header]
@@ -265,3 +281,13 @@ Final CTA
 ```
 
 ---
+
+# 15. Acceptance Criteria
+
+| Tiêu chí | Đạt / Không |
+| -------- | ----------- |
+| Hiển thị đúng 4 khóa chính | |
+| Starter/Core CTA dẫn checkout khi self-serve | |
+| Advanced/Premium/B2B CTA dẫn contact | |
+| Premium và B2B không nằm trong grid 4 khóa chính | |
+| Mobile hiển thị 1 cột rõ ràng | |

@@ -1,5 +1,10 @@
 # `/profile` — Hồ sơ cá nhân
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu
 
 Học viên vào trang này để:
@@ -81,7 +86,7 @@ Student
 | Avatar     | Có                      | Upload hoặc nhập link ảnh     |
 | Email      | Không nên cho sửa ở MVP | Chỉ hiển thị                  |
 
-**Form nên có:**
+**Form cần có:**
 
 ```text
 Họ và tên
@@ -203,9 +208,10 @@ Rule:
 | ---------------- | --------------------------------------------- |
 | Auth             | Chỉ user đã đăng nhập mới vào được            |
 | Data access      | User chỉ xem/sửa hồ sơ của chính mình         |
-| Update profile   | Lưu thay đổi vào `users` hoặc `profiles`      |
+| Update profile   | Lưu thay đổi vào `users`                      |
 | Avatar           | Cho upload hoặc nhập avatar URL               |
 | Learning profile | Lưu nhu cầu học, level, mục tiêu học          |
+| Account balance  | Hiển thị số dư nội bộ chỉ đọc và CTA liên hệ admin để rút tiền |
 | Password         | Cho đổi mật khẩu                              |
 | Validation       | Kiểm tra field trống, số điện thoại, password |
 | Success state    | Hiển thị thông báo lưu thành công             |
@@ -218,9 +224,9 @@ Rule:
 
 | Bảng                      | Dữ liệu                                         |
 | ------------------------- | ----------------------------------------------- |
-| `users`                   | Họ tên, email, phone, role, avatar              |
-| `profiles` nếu tách riêng | Learning interest, current level, learning goal |
-| `auth`                    | Email, password, account status                 |
+| `users`                   | Họ tên, email, phone, role, avatar, learning_interest, current_level, learning_goal, account_balance |
+| `account_balance_transactions` | Ledger refund/reset số dư nội bộ gần nhất |
+| `password_reset_tokens`   | Forgot/change password flow nếu cần token xác thực |
 
 ---
 
@@ -235,21 +241,15 @@ Nếu dùng một bảng `users`:
 | `email`             | Email              |
 | `phone`             | Số điện thoại/Zalo |
 | `avatar_url`        | Ảnh đại diện       |
-| `role`              | student/admin      |
+| `role`              | student/instructor/admin |
 | `learning_interest` | Nhu cầu học        |
 | `current_level`     | Mức độ hiện tại    |
 | `learning_goal`     | Mục tiêu học       |
+| `account_balance`   | Số dư nội bộ từ refund, chỉ đọc |
 | `status`            | active/blocked     |
 | `created_at`        | Ngày tạo           |
 
-Nếu muốn sạch hơn, có thể tách:
-
-```text
-users
-profiles
-```
-
-Nhưng MVP dùng một bảng `users` là đủ.
+Rule: MVP/P1 dùng một bảng `users` cho profile và learning profile; không tạo bảng hồ sơ riêng.
 
 ---
 
@@ -262,6 +262,7 @@ Nhưng MVP dùng một bảng `users` là đủ.
 | `PersonalInfoForm`    | Form thông tin cá nhân      |
 | `LearningProfileForm` | Form nhu cầu học            |
 | `AccountInfoCard`     | Thông tin tài khoản         |
+| `BalanceCard`         | Số dư nội bộ, lịch sử gần nhất, CTA `/contact?type=support` |
 | `ChangePasswordForm`  | Đổi mật khẩu                |
 | `SuccessMessage`      | Báo lưu thành công          |
 | `ErrorMessage`        | Báo lỗi                     |
@@ -280,6 +281,7 @@ Trang `/profile` đạt nếu:
 | Học viên sửa được learning interest/current level/learning goal |             |
 | Email chỉ hiển thị, không cho sửa ở MVP                         |             |
 | Role không cho sửa                                              |             |
+| Số dư nội bộ chỉ đọc, không cho tự rút/self-service withdrawal  |             |
 | Đổi mật khẩu hoạt động đúng                                     |             |
 | Có success/error state                                          |             |
 | Responsive tốt trên mobile                                      |             |

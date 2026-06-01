@@ -1,5 +1,10 @@
 # Trang chủ `/` — Home Page
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu của trang
 
 Trang chủ phải làm được 4 việc:
@@ -248,7 +253,7 @@ Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
 | Project showcase       | `projects` hoặc data tĩnh |
 | Lead form              | Lưu vào `leads`           |
 | Certificate preview    | Template tĩnh             |
-| Blog/resource mới nhất | `blog_posts`, nếu có      |
+| Blog/resource mới nhất | `resources`               |
 
 ---
 

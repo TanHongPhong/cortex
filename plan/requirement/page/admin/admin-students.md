@@ -1,5 +1,12 @@
 # `/admin/students` — Quản lý học viên
 
+**Status:** MVP
+**Owner area:** Admin
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
+**Lưu ý:** Chỉ admin mới có quyền quản lý học viên (gán khóa, block/unblock, xem chi tiết). Instructor không có quyền truy cập.
+
 ## 1. Mục tiêu trang
 
 Admin dùng trang này để:
@@ -82,13 +89,13 @@ Blocked students
 
 # 4. Student Search
 
-Với học viên, nên có search nhẹ vì sau này số lượng học viên sẽ tăng.
+Student list cần có search nhẹ để hỗ trợ khi số lượng học viên tăng ở Future.
 
 | Chức năng     | Mục đích                              |
 | ------------- | ------------------------------------- |
 | Search        | Tìm theo tên, email, phone/Zalo       |
-| Status filter | active / blocked, có thể để sau       |
-| Course filter | Lọc học viên theo khóa, có thể để sau |
+| Status filter | Future: active / blocked              |
+| Course filter | Future: lọc học viên theo khóa        |
 
 MVP chỉ cần:
 
@@ -100,7 +107,7 @@ Search theo tên / email / phone
 
 # 5. Student Table
 
-## Cột nên có
+## Table columns
 
 | Cột               | Nội dung               |
 | ----------------- | ---------------------- |
@@ -144,7 +151,7 @@ Khi admin bấm `View`, mở drawer hoặc trang chi tiết.
 | Detail drawer                      | MVP, thao tác nhanh, không rời trang |
 | Trang riêng `/admin/students/[id]` | Khi dữ liệu học viên nhiều hơn       |
 
-Anh khuyên MVP dùng **drawer** trước.
+**Build decision:** MVP dùng **drawer** để thao tác nhanh mà không rời trang.
 
 ---
 
@@ -276,7 +283,7 @@ Hiển thị bài nộp assignment/final project của học viên.
 | Lesson       | Tên assignment/final project  |
 | Course       | Khóa liên quan                |
 | Type         | assignment / final_project    |
-| Status       | pending / approved / rejected |
+| Status       | pending / approved / revision_requested / rejected |
 | Submitted at | Ngày nộp                      |
 | Action       | Review                        |
 
@@ -328,11 +335,26 @@ Dẫn đến:
 | Created at   | Ngày tạo                                  |
 | Type         | consulting / support / learning / payment |
 
-MVP có thể để sau, nhưng nếu làm được thì rất hữu ích.
+**Future:** Admin notes có thể triển khai sau MVP; nếu build sớm thì hỗ trợ tốt cho chăm sóc học viên.
 
 ---
 
-# 14. Actions trên học viên
+# 14. Account Balance
+
+Hiển thị số dư nội bộ của học viên từ refund và lịch sử ledger.
+
+| Nội dung | Mô tả |
+| -------- | ----- |
+| Current balance | `users.account_balance`, currency VND |
+| Ledger | `account_balance_transactions` gần nhất |
+| Refund credit | Tiền được cộng từ refunded order |
+| Admin reset | Sau khi admin xử lý rút tiền offline, tạo `admin_withdrawal_reset` hoặc `admin_adjustment_reset` để balance về `0` |
+
+Rule: Không sửa trực tiếp `users.account_balance`; mọi thay đổi phải tạo ledger và `audit_logs`.
+
+---
+
+# 15. Actions trên học viên
 
 | Action              | Chức năng             |
 | ------------------- | --------------------- |
@@ -343,24 +365,26 @@ MVP có thể để sau, nhưng nếu làm được thì rất hữu ích.
 | `View progress`     | Xem tiến độ học       |
 | `View submissions`  | Xem bài nộp           |
 | `View certificates` | Xem certificate       |
+| `Reset balance after withdrawal` | Reset số dư về 0 sau khi xử lý rút tiền offline |
 
 ---
 
-# 15. Rule quan trọng
+# 16. Rule quan trọng
 
 | Trường hợp               | Cách xử lý                                        |
 | ------------------------ | ------------------------------------------------- |
-| Student bị blocked       | Không cho đăng nhập/học tiếp tùy policy           |
+| Student bị blocked       | Không cho đăng nhập; nếu đang học thì chặn truy cập lesson |
 | Student đã có enrollment | Không tạo enrollment trùng cùng khóa              |
 | Student có certificate   | Không xóa user                                    |
 | Student có submission    | Không xóa user                                    |
 | Email user               | Không nên sửa trực tiếp ở MVP                     |
 | Role                     | Admin không đổi student thành admin tại trang này |
 | Xóa học viên             | Không nên làm ở MVP, chỉ block/unblock            |
+| Balance reset            | Chỉ admin xử lý sau withdrawal offline, bắt buộc ledger + audit |
 
 ---
 
-# 16. Yêu cầu chức năng cụ thể
+# 17. Yêu cầu chức năng cụ thể
 
 | Nhóm              | Yêu cầu                                              |
 | ----------------- | ---------------------------------------------------- |
@@ -373,12 +397,13 @@ MVP có thể để sau, nhưng nếu làm được thì rất hữu ích.
 | Submissions view  | Xem bài nộp assignment/final project                 |
 | Certificates view | Xem chứng chỉ học viên                               |
 | Block/unblock     | Khóa hoặc mở tài khoản                               |
+| Balance view/reset | Xem số dư nội bộ và reset sau rút tiền offline      |
 | Safety            | Không xóa học viên có dữ liệu học tập                |
 | Responsive        | Ưu tiên desktop, mobile xem được                     |
 
 ---
 
-# 17. Data cần dùng
+# 18. Data cần dùng
 
 | Bảng              | Dữ liệu                          |
 | ----------------- | -------------------------------- |
@@ -391,10 +416,12 @@ MVP có thể để sau, nhưng nếu làm được thì rất hữu ích.
 | `submissions`     | Assignment/final project đã nộp  |
 | `certificates`    | Chứng chỉ của học viên           |
 | `admin_notes`     | Ghi chú admin, nếu có            |
+| `account_balance_transactions` | Ledger số dư/refund/reset |
+| `audit_logs`      | Log reset balance/block/enrollment override |
 
 ---
 
-# 18. Cấu trúc dữ liệu liên quan
+# 19. Cấu trúc dữ liệu liên quan
 
 ## Bảng `users`
 
@@ -404,14 +431,16 @@ MVP có thể để sau, nhưng nếu làm được thì rất hữu ích.
 | `full_name`         | Họ tên             |
 | `email`             | Email              |
 | `phone`             | Số điện thoại/Zalo |
-| `role`              | student/admin      |
+| `role`              | student/instructor/admin |
 | `learning_interest` | Nhu cầu học        |
 | `current_level`     | Mức độ hiện tại    |
 | `learning_goal`     | Mục tiêu học       |
+| `avatar_url`        | Ảnh đại diện nếu có |
+| `account_balance`   | Số dư nội bộ, chỉ đổi qua ledger |
 | `status`            | active / blocked   |
 | `created_at`        | Ngày tạo           |
 
-Không cần field `avatar_url`.
+Admin chỉ hiển thị avatar nếu có; không bắt buộc upload avatar trong MVP.
 
 ---
 
@@ -539,6 +568,8 @@ Trang `/admin/students` đạt nếu:
 | Hiển thị đúng tiến độ học               |             |
 | Hiển thị đúng submissions của học viên  |             |
 | Hiển thị đúng certificates của học viên |             |
+| Hiển thị đúng account_balance và ledger gần nhất |             |
+| Reset balance sau withdrawal tạo ledger + audit |             |
 | Admin gán khóa cho học viên được        |             |
 | Không tạo enrollment trùng              |             |
 | Admin block/unblock học viên được       |             |

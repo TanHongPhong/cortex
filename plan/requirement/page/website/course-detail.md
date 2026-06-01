@@ -1,5 +1,10 @@
 # `/courses/[slug]` — Trang chi tiết khóa học
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 | Mục tiêu            | Mô tả                                                                |
@@ -24,9 +29,10 @@
 6. Project Output
 7. Certificate Preview
 8. Pricing / Enrollment
-9. FAQ
-10. Related Courses
-11. Final CTA
+9. Student Reviews
+10. FAQ
+11. Related Courses
+12. Final CTA
 ```
 
 ---
@@ -189,19 +195,32 @@ Xây một AI-powered mini product, ví dụ landing page có AI workflow, chatb
 | Loại khóa     | CTA chính                   |
 | ------------- | --------------------------- |
 | Free Workshop | `Đăng ký workshop miễn phí` |
-| Starter       | `Đăng ký mini course`       |
-| Core          | `Đăng ký Bootcamp`          |
+| Starter       | `Đăng ký mini course` → `/checkout/:courseSlug` |
+| Core          | `Đăng ký Bootcamp` → `/checkout/:courseSlug` |
 | Advanced      | `Nhận tư vấn khóa nâng cao` |
 | Premium       | `Đăng ký mentoring 1:1`     |
 | B2B           | `Liên hệ đào tạo đội nhóm`  |
 
 ---
 
-# 11. Section 9 — FAQ
+# 11. Section 9 — Student Reviews
+
+**Mục đích:** tăng niềm tin bằng review thật từ học viên đã enrolled.
+
+| Thành phần | Yêu cầu |
+| ---------- | ------- |
+| Rating summary | Điểm trung bình và số review published. |
+| Review cards | Tên học viên, rating, title, nội dung ngắn. |
+| Empty state | Nếu chưa có review thật, ẩn section hoặc ghi “Review sẽ được cập nhật sau”. |
+| Trust rule | Không fake review. Chỉ dùng `course_reviews.status = published`. |
+
+---
+
+# 12. Section 10 — FAQ
 
 **Mục đích:** xử lý phản đối.
 
-| Câu hỏi nên có                                       |
+| Câu hỏi cần có                                       |
 | ---------------------------------------------------- |
 | Khóa này dành cho ai?                                |
 | Em chưa biết code có học được không?                 |
@@ -213,7 +232,7 @@ Xây một AI-powered mini product, ví dụ landing page có AI workflow, chatb
 
 ---
 
-# 12. Section 10 — Related Courses
+# 13. Section 11 — Related Courses
 
 **Mục đích:** nếu người xem chưa phù hợp khóa này, gợi ý khóa khác.
 
@@ -257,7 +276,7 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 | Course data     | Lấy từ bảng `courses`                                                                        |
 | Curriculum      | Lấy module/lesson từ `modules`, `lessons`                                                    |
 | CTA             | CTA thay đổi theo loại khóa: Free, Starter, Core, Advanced, Premium, B2B                     |
-| Enrollment      | Nếu user đăng nhập, cho đăng ký/mua khóa; nếu chưa đăng nhập, dẫn tới login/register/contact |
+| Enrollment      | Starter/Core dẫn checkout; Advanced/Premium/B2B dẫn contact; nếu chưa login thì login/register |
 | Coming soon     | Nếu khóa chưa mở, hiển thị `Coming soon` và form nhận thông báo                              |
 | Certificate     | Nếu khóa có certificate, hiển thị certificate section                                        |
 | Related courses | Gợi ý khóa liên quan                                                                         |
@@ -276,7 +295,8 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 | `enrollments`  | kiểm tra user đã đăng ký chưa                            |
 | `certificates` | kiểm tra khóa có certificate không                       |
 | `leads`        | lưu người đăng ký tư vấn                                 |
-| `course_faqs`  | FAQ riêng của từng khóa, nếu có                          |
+| `course_reviews` | review/rating đã publish                              |
+| `course_faqs`  | FAQ riêng của từng khóa, chỉ hiển thị `status = published` |
 
 ---
 
@@ -288,8 +308,8 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 | Core Bootcamp | Nên nổi bật hơn các khóa khác                          |
 | Curriculum    | Dùng accordion cho gọn                                 |
 | Pricing       | Nên đặt gần giữa/cuối trang và có CTA rõ               |
-| Sticky CTA    | Desktop nên có box giá/CTA sticky bên phải             |
-| Mobile        | CTA nên hiện rõ sau hero và cuối trang                 |
+| Sticky CTA    | Desktop dùng box giá/CTA sticky bên phải               |
+| Mobile        | CTA hiện rõ sau hero và cuối trang                     |
 | Trust         | Dùng certificate, project output, FAQ để tăng niềm tin |
 
 ---

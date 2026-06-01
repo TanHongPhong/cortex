@@ -1,5 +1,10 @@
 # `/my-certificates` — Chứng chỉ của tôi
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu
 
 Học viên vào trang này để:
@@ -22,7 +27,7 @@ My Certificates
 [Summary Cards]
 - Total certificates
 - Valid certificates
-- Pending certificates nếu có
+- Eligible/pending issue count nếu cần hiển thị computed state
 
 [Certificate List]
 [Certificate Card]
@@ -52,7 +57,7 @@ My Certificates
 | Total certificates   | Tổng số chứng chỉ đã được cấp      |
 | Valid certificates   | Số chứng chỉ còn hiệu lực          |
 | Revoked certificates | Số chứng chỉ đã bị thu hồi, nếu có |
-| Pending certificate  | Chứng chỉ đang chờ cấp, nếu có     |
+| Eligible/pending issue | Số khóa đủ điều kiện nhưng chưa được cấp, computed từ learning progress nếu cần |
 
 **MVP có thể chỉ cần:**
 
@@ -117,7 +122,7 @@ This certificate is no longer valid.
 | `Download PDF`    | Tải file chứng chỉ                           |
 | `Verify`          | Mở `/verify-certificate?id=certificate_id`   |
 | `Copy ID`         | Copy mã chứng chỉ                            |
-| `Contact Support` | Dẫn đến `/support` nếu certificate có vấn đề |
+| `Contact Support` | Dẫn đến `/contact?type=support` nếu certificate có vấn đề |
 
 ---
 
@@ -166,7 +171,7 @@ Certificate chỉ hiển thị khi đã được cấp trong bảng `certificate
 | Auth             | Chỉ user đăng nhập mới xem được              |
 | Data access      | Chỉ xem certificate của chính user đó        |
 | Certificate list | Lấy danh sách từ bảng `certificates`         |
-| Status           | Hiển thị Valid / Revoked / Pending nếu có    |
+| Status           | Hiển thị Valid / Revoked; pending issue là computed state, không phải `certificates.status` |
 | Download         | Cho tải PDF nếu có `certificate_url`         |
 | Verify           | Dẫn sang `/verify-certificate?id=...`        |
 | Copy ID          | Copy Certificate ID vào clipboard            |

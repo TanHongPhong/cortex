@@ -1,15 +1,21 @@
 # `/learn/[course]/[lesson]` — Trang bài học
 
+**Status:** MVP + P1
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Vai trò của trang
 
 Trang này là nơi học viên trực tiếp **học bài, xem tài liệu, làm bài tập, nộp project và lưu tiến độ**.
 
-Trang này xử lý 3 loại chính:
+Trang này xử lý 4 loại chính:
 
 ```text
 1. Video lesson
-2. Assignment lesson
-3. Final project lesson
+2. Quiz lesson
+3. Assignment lesson
+4. Final project lesson
 ```
 
 Trong đó:
@@ -17,6 +23,7 @@ Trong đó:
 | Lesson type     | Mục đích                                             |
 | --------------- | ---------------------------------------------------- |
 | `video`         | Học bài qua video, xem tài liệu, đánh dấu hoàn thành |
+| `quiz`          | Làm quiz kiểm tra nhanh trong lesson                  |
 | `assignment`    | Làm bài tập thực hành trong module                   |
 | `final_project` | Nộp project cuối khóa để xét hoàn thành/certificate  |
 
@@ -86,7 +93,7 @@ Sidebar bên phải dùng để chuyển bài nhanh.
 | Module list       | Danh sách module                                         |
 | Lesson list       | Các lesson trong module                                  |
 | Lesson type badge | Video / Assignment / Final Project                       |
-| Status icon       | Check / current / locked / pending / approved / rejected |
+| Status icon       | Check / current / locked / pending / approved / revision_requested / rejected |
 | Current lesson    | Highlight bài đang xem                                   |
 | Progress nhỏ      | Ví dụ: 8/20 completed                                    |
 
@@ -120,10 +127,10 @@ Học viên xem video bài học, tải tài liệu kèm theo và đánh dấu h
 
 | Thành phần    | Yêu cầu                                          |
 | ------------- | ------------------------------------------------ |
-| Video chính   | Nhúng từ YouTube unlisted / Vimeo / Google Drive |
+| Video chính   | Nhúng từ `video_assets.embed_url` hoặc provider playback token |
 | Aspect ratio  | 16:9                                             |
 | Loading state | Có skeleton khi video đang tải                   |
-| Error state   | Báo nếu video không load được                    |
+| Error state   | Báo nếu video chưa ready/processing/failed hoặc không load được |
 | Responsive    | Mobile full width                                |
 | Autoplay      | Không autoplay                                   |
 
@@ -161,7 +168,7 @@ Sau bài này, bạn sẽ biết:
 | Source/demo link | Link demo, GitHub, Figma, Notion |
 | Exercise file    | File bài tập nếu có              |
 
-Mỗi resource card nên có:
+Mỗi resource card cần có:
 
 | Field         | Yêu cầu                        |
 | ------------- | ------------------------------ |
@@ -189,6 +196,7 @@ Khi bấm “Đánh dấu hoàn thành”:
 - Lưu lesson_id
 - is_completed = true
 - completed_at = thời gian hiện tại
+- recompute required lessons; nếu khóa đủ hoàn thành thì set enrollment completed
 ```
 
 ---
@@ -273,7 +281,7 @@ Nên có tiêu chí rõ để học viên biết làm thế nào là đạt.
 
 ## D. Submit Form
 
-Form nộp bài tập nên có:
+Form nộp bài tập cần có:
 
 | Field             | Bắt buộc       | Ghi chú                           |
 | ----------------- | -------------- | --------------------------------- |
@@ -535,6 +543,7 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | Pending review | Bài nộp đang chờ duyệt                       |
 | Approved       | Bài nộp đã được duyệt                        |
 | Rejected       | Bài nộp cần chỉnh sửa                        |
+| Video processing | Hiện “Video đang được xử lý, vui lòng quay lại sau” |
 | Video error    | Hiện thông báo lỗi video                     |
 | No resources   | Hiện “Bài học này chưa có tài liệu kèm theo” |
 
@@ -547,17 +556,19 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | Auth               | Chỉ user đăng nhập mới xem được                         |
 | Enrollment         | Chỉ học viên đã đăng ký khóa mới vào được               |
 | Lesson type        | Trang phải render đúng theo `lesson_type`               |
-| Video              | Nếu là video lesson, hiển thị video từ `video_url`      |
+| Video              | Nếu là video lesson, hiển thị video từ `video_assets.embed_url` hoặc playback token |
 | Resources          | Hiển thị tài liệu từ `lesson_resources`                 |
 | Assignment form    | Nếu là assignment, hiển thị form nộp bài tập            |
 | Final project form | Nếu là final project, hiển thị form nộp project         |
-| Progress           | Video/resource lưu vào `lesson_progress` khi hoàn thành |
+| Progress           | Video/resource lưu vào `lesson_progress` khi hoàn thành; video chưa ready/failed không được complete |
 | Submission         | Assignment/final project lưu vào `submissions`          |
 | Sidebar            | Hiển thị danh sách module/lesson cùng khóa              |
 | Navigation         | Có bài trước/bài tiếp theo                              |
 | Lock rule          | Nếu bài bị khóa thì không cho xem                       |
 | Responsive         | Mobile video/form full width, sidebar thu gọn           |
 | Error state        | Có thông báo nếu video/tài liệu/form lỗi                |
+| Quiz               | Nếu là quiz lesson, hiển thị câu hỏi, submit attempt, pass/fail |
+| Q&A                | Hiển thị thread hỏi đáp theo lesson cho enrolled student |
 
 ---
 
@@ -567,11 +578,17 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | ------------------ | ----------------------------------------------------------- |
 | `courses`          | Tên khóa, slug                                              |
 | `modules`          | Module của khóa                                             |
-| `lessons`          | Tên bài, lesson type, video URL, duration, order            |
+| `lessons`          | Tên bài, lesson type, video_asset_id, fallback video_url, duration, order |
+| `video_assets`     | Provider, embed_url/playback_url, thumbnail, duration, processing_status |
 | `lesson_resources` | Tài liệu dưới video hoặc tài liệu hỗ trợ assignment/project |
+| `files`            | File nội bộ cho tài liệu/attachment nếu resource dùng upload |
 | `lesson_progress`  | Trạng thái hoàn thành video/resource                        |
 | `submissions`      | Bài nộp assignment/final project                            |
 | `enrollments`      | Kiểm tra quyền học                                          |
+| `quizzes`          | Quiz gắn với lesson                                         |
+| `quiz_questions`   | Câu hỏi quiz, không trả correct_answer trước submit         |
+| `quiz_attempts`    | Lịch sử làm quiz, điểm, pass/fail                           |
+| `lesson_questions` | Q&A/comment theo lesson                                     |
 
 ---
 
@@ -583,9 +600,10 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | `course_id`                  | Thuộc khóa nào                                |
 | `module_id`                  | Thuộc module nào                              |
 | `title`                      | Tên lesson                                    |
-| `lesson_type`                | video / resource / assignment / final_project |
+| `lesson_type`                | video / resource / quiz / assignment / final_project |
 | `content`                    | Nội dung mô tả bài học/bài tập/project        |
-| `video_url`                  | Link video nếu là video                       |
+| `video_asset_id`             | FK tới `video_assets.id` nếu là video lesson   |
+| `video_url`                  | Legacy/fallback external URL, không phải source chính |
 | `duration`                   | Thời lượng nếu có                             |
 | `order_index`                | Thứ tự lesson                                 |
 | `requires_submission`        | true/false                                    |
@@ -600,10 +618,11 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | ------------- | ------------------------------------- |
 | `id`          | ID tài liệu                           |
 | `lesson_id`   | Thuộc bài nào                         |
+| `file_id`     | File nội bộ nếu resource là file upload |
 | `title`       | Tên tài liệu                          |
 | `type`        | pdf / prompt / link / template / file |
 | `description` | Mô tả ngắn                            |
-| `url`         | Link tải hoặc mở                      |
+| `url`         | External link fallback nếu không dùng `file_id` |
 | `order_index` | Thứ tự hiển thị                       |
 
 ---
@@ -623,7 +642,8 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | `source_url`      | Link source/file                 |
 | `tools_used`      | Công cụ đã dùng                  |
 | `reflection`      | Học viên tự đánh giá/học được gì |
-| `status`          | pending / approved / rejected    |
+| `attempt_no`      | Lần nộp thứ mấy cho lesson này   |
+| `status`          | pending / approved / revision_requested / rejected |
 | `feedback`        | Nhận xét admin                   |
 | `submitted_at`    | Ngày nộp                         |
 | `reviewed_at`     | Ngày duyệt                       |
@@ -631,16 +651,58 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 
 ---
 
-# 14. Component cần có
+# 14. P1 — Quiz trong lesson
+
+## Mục tiêu
+
+Quiz giúp kiểm tra nhanh kiến thức ngay trong flow học, không tạo route quiz rời.
+
+| Thành phần | Yêu cầu |
+| ---------- | ------- |
+| Quiz intro | Tên quiz, mô tả, passing score, số lần làm còn lại. |
+| Question list | Hiển thị `single_choice`, `multiple_choice`, `short_text`. |
+| Submit | Lưu `quiz_attempts` với score, passed, attempt_no. |
+| Result | Hiển thị passed/failed, điểm, explanation sau khi submit. |
+| Progress rule | Nếu lesson required, chỉ tính hoàn thành khi `passed = true`. |
+| Error state | Hết lượt làm, quiz chưa publish, submit lỗi. |
+
+**Security:** không trả `quiz_questions.correct_answer` cho student trước khi submit.
+**Short text rule:** MVP/P1 chỉ auto-grade bằng trim/lowercase exact match với accepted answers; không có manual grading.
+
+---
+
+# 15. P1 — Q&A trong lesson
+
+## Mục tiêu
+
+Học viên hỏi câu hỏi ngay trong lesson, instructor/admin trả lời theo thread.
+
+| Thành phần | Yêu cầu |
+| ---------- | ------- |
+| Question composer | Student nhập câu hỏi nếu đã enrolled. |
+| Thread list | Hiển thị câu hỏi, reply, trạng thái open/answered/resolved. |
+| Instructor answer | Reply từ instructor/admin có badge riêng. |
+| Resolve state | Instructor/admin mark resolved; student thấy trạng thái. |
+| Empty state | “Chưa có câu hỏi nào cho bài học này.” |
+| Notification | Khi có câu trả lời, tạo `notifications.type = question_answered`. |
+
+**Scope:** đây là Q&A theo lesson, không phải forum/community lớn.
+
+---
+
+# 16. Component cần có
 
 | Component                   | Dùng để làm gì              |
 | --------------------------- | --------------------------- |
 | `StudentLayout`             | Sidebar + topbar            |
 | `LessonHeader`              | Header chung cho mọi lesson |
 | `VideoLessonContent`        | Render video lesson         |
+| `QuizLessonContent`         | Render quiz lesson          |
 | `AssignmentLessonContent`   | Render assignment lesson    |
 | `FinalProjectLessonContent` | Render final project lesson |
 | `ResourceBox`               | Hiển thị tài liệu           |
+| `QuizAttemptResult`         | Hiển thị điểm/pass/fail     |
+| `LessonQuestionThread`      | Q&A theo lesson             |
 | `SubmissionForm`            | Form nộp assignment/project |
 | `SubmissionStatusBox`       | Hiển thị trạng thái bài nộp |
 | `FeedbackBox`               | Hiển thị feedback từ admin  |
@@ -651,7 +713,7 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 
 ---
 
-# 15. Acceptance Criteria
+# 17. Acceptance Criteria
 
 Trang `/learn/[course]/[lesson]` đạt nếu:
 
@@ -661,12 +723,15 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 | User chưa enrolled không xem được lesson                                                               |             |
 | Trang render đúng theo `lesson_type`                                                                   |             |
 | Video lesson hiển thị video, resources, complete button                                                |             |
+| Quiz lesson hiển thị câu hỏi, submit attempt, pass/fail và không lộ đáp án trước submit                 |             |
 | Assignment lesson hiển thị yêu cầu, form nộp bài, status, feedback                                     |             |
 | Final project lesson hiển thị project brief, form nộp project, status, feedback, certificate condition |             |
 | Bấm hoàn thành video thì lưu `lesson_progress`                                                         |             |
 | Nộp assignment/final project thì lưu `submissions`                                                     |             |
 | Rejected submission cho phép chỉnh sửa/nộp lại                                                         |             |
 | Approved submission được tính là hoàn thành lesson                                                     |             |
+| Required quiz chỉ tính hoàn thành khi có `quiz_attempts.passed = true`                                  |             |
+| Enrolled student xem/tạo Q&A; instructor/admin trả lời và mark resolved được                            |             |
 | Sidebar highlight đúng lesson hiện tại                                                                 |             |
 | Previous/Next lesson hoạt động đúng                                                                    |             |
 | Locked lesson không truy cập được                                                                      |             |
@@ -674,7 +739,7 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 
 ---
 
-# 16. Chốt scope trang lesson
+# 18. Chốt scope trang lesson
 
 ```text
 /learn/[course]/[lesson] cần có:
@@ -682,6 +747,7 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 1. Lesson header
 2. Render theo lesson_type:
    - video
+   - quiz
    - assignment
    - final_project
 3. Video player cho video lesson
@@ -689,12 +755,14 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 5. Assignment form cho bài tập
 6. Final project form cho project cuối khóa
 7. Submission status + feedback
-8. Complete button cho video/resource
-9. Previous / Next lesson
-10. Lesson sidebar
-11. Progress saving
-12. Submission saving
-13. Locked/error/loading state
+8. Quiz attempt/result cho quiz lesson
+9. Lesson Q&A thread
+10. Complete button cho video/resource
+11. Previous / Next lesson
+12. Lesson sidebar
+13. Progress saving
+14. Submission saving
+15. Locked/error/loading state
 ```
 
 Nói ngắn gọn: **trang lesson là nơi học viên học video, làm assignment và nộp final project trong cùng một flow học. Video giữ layout cũ; assignment và final project có layout riêng, form riêng, trạng thái duyệt riêng.**

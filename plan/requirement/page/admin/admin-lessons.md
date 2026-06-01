@@ -1,5 +1,12 @@
 # `/admin/lessons` — Quản lý module/bài học
 
+**Status:** MVP + P1
+**Owner area:** Admin
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
+**Lưu ý:** Chỉ admin mới có quyền upload video và quản lý nội dung khóa học tại trang này. Instructor không có quyền truy cập.
+
 ## 1. Mục tiêu trang
 
 Admin dùng trang này để:
@@ -8,7 +15,7 @@ Admin dùng trang này để:
 1. Chọn khóa học cần chỉnh nội dung
 2. Tạo/sửa/xóa module trong khóa
 3. Tạo/sửa/xóa lesson trong module
-4. Chọn loại lesson: video / resource / assignment / final_project
+4. Chọn loại lesson: video / resource / quiz / assignment / final_project
 5. Sắp xếp thứ tự module và lesson
 6. Gắn tài liệu kèm theo cho từng lesson
 7. Cấu hình bài nào bắt buộc để hoàn thành khóa
@@ -138,7 +145,7 @@ Tạo và quản lý từng lesson trong module.
 | Thành phần   | Yêu cầu                                       |
 | ------------ | --------------------------------------------- |
 | Lesson title | Tên lesson                                    |
-| Lesson type  | video / resource / assignment / final_project |
+| Lesson type  | video / resource / quiz / assignment / final_project |
 | Required     | Có bắt buộc hoàn thành không                  |
 | Status       | draft / published / hidden                    |
 | Order        | Thứ tự bài                                    |
@@ -151,7 +158,8 @@ Ví dụ:
 ✓ 2.2 Tạo landing page đầu tiên           [Video]
 ○ 2.3 Bài tập: Viết prompt tạo layout     [Assignment]
 ○ 2.4 Template & resources                [Resource]
-○ 2.5 Final Project: AI Landing Page      [Final Project]
+○ 2.5 Quiz: Kiểm tra prompt basics        [Quiz]
+○ 2.6 Final Project: AI Landing Page      [Final Project]
 ```
 
 ---
@@ -160,8 +168,9 @@ Ví dụ:
 
 | Lesson type     | Mục đích           | Admin cần nhập gì                        |
 | --------------- | ------------------ | ---------------------------------------- |
-| `video`         | Bài giảng video    | Video URL, summary, resources            |
+| `video`         | Bài giảng video    | Video source từ streaming provider, summary, resources |
 | `resource`      | Tài liệu/tham khảo | Nội dung, file/link tài liệu             |
+| `quiz`          | Quiz kiểm tra nhanh | Câu hỏi, đáp án, passing score, attempts |
 | `assignment`    | Bài tập thực hành  | Yêu cầu, tiêu chí, form nộp              |
 | `final_project` | Project cuối khóa  | Project brief, yêu cầu, rubric, form nộp |
 
@@ -174,7 +183,7 @@ Các field dùng chung cho mọi lesson:
 | Field                   | Bắt buộc | Ghi chú                                       |
 | ----------------------- | -------- | --------------------------------------------- |
 | Lesson title            | Có       | Tên bài                                       |
-| Lesson type             | Có       | video / resource / assignment / final_project |
+| Lesson type             | Có       | video / resource / quiz / assignment / final_project |
 | Module                  | Có       | Thuộc module nào                              |
 | Content / description   | Có       | Nội dung mô tả                                |
 | Order index             | Có       | Thứ tự bài trong module                       |
@@ -190,11 +199,18 @@ Các field dùng chung cho mọi lesson:
 
 | Field          | Bắt buộc | Ghi chú                          |
 | -------------- | -------- | -------------------------------- |
-| Video URL      | Có       | YouTube unlisted / Vimeo / Drive |
-| Duration       | Nên có   | Ví dụ: 18 phút                   |
+| Video source   | Có       | Chọn/upload `video_assets` từ streaming provider |
+| Provider status | Có      | pending / processing / ready / failed / archived |
+| Duration       | Tự động nếu có | Lấy từ `video_assets.duration_seconds` |
 | Lesson summary | Có       | Mục tiêu bài học                 |
 | Key points     | Không    | 3–5 ý chính                      |
-| Resources      | Không    | Prompt, PDF, template            |
+| Resources      | Không    | Prompt, PDF, template qua `lesson_resources` |
+
+Video source rule:
+
+- Admin upload video mới lên streaming provider hoặc chọn asset đã có trong `video_assets`.
+- Provider trả `provider_asset_id`; hệ thống lưu `playback_url`, `embed_url`, `thumbnail_url`, `duration_seconds` khi asset ready.
+- Không dùng YouTube/Drive public link làm chuẩn cho paid course. `lessons.video_url` chỉ là legacy/fallback/demo.
 
 CTA admin:
 
@@ -221,7 +237,30 @@ Save Resource Lesson
 
 ---
 
-## C. Nếu `lesson_type = assignment`
+## C. Nếu `lesson_type = quiz`
+
+| Field                   | Bắt buộc | Ghi chú                                  |
+| ----------------------- | -------- | ---------------------------------------- |
+| Quiz title              | Có       | Tên quiz                                 |
+| Description             | Không    | Mô tả ngắn                               |
+| Passing score           | Có       | Mặc định 70                              |
+| Max attempts            | Không    | NULL là không giới hạn                   |
+| Questions               | Có       | single_choice / multiple_choice / short_text |
+| Correct answers         | Có       | Chỉ admin/instructor xem; `short_text` lưu accepted answers để auto-grade exact/normalized match |
+| Explanation             | Không    | Hiển thị sau submit                      |
+| Required for completion | Có       | Nếu true thì cần `quiz_attempts.passed`  |
+
+Rule: `short_text` trong MVP/P1 không chấm tay. Hệ thống trim/lowercase câu trả lời và so với danh sách accepted answers trong `quiz_questions.correct_answer`.
+
+CTA admin:
+
+```text
+Save Quiz Lesson
+```
+
+---
+
+## D. Nếu `lesson_type = assignment`
 
 | Field                   | Bắt buộc | Ghi chú                      |
 | ----------------------- | -------- | ---------------------------- |
@@ -242,7 +281,7 @@ Save Assignment
 
 ---
 
-## D. Nếu `lesson_type = final_project`
+## E. Nếu `lesson_type = final_project`
 
 | Field                      | Bắt buộc | Ghi chú                           |
 | -------------------------- | -------- | --------------------------------- |
@@ -300,7 +339,7 @@ Vì khóa học cần flow rõ, admin nên chỉnh được thứ tự.
 | Order index     | Lưu thứ tự vào database                               |
 | Sequential mode | Nếu khóa học theo thứ tự, lesson order rất quan trọng |
 
-MVP nếu chưa làm drag/drop:
+MVP fallback nếu chưa làm drag/drop:
 
 ```text
 Dùng nút Move Up / Move Down là đủ.
@@ -314,7 +353,8 @@ Dùng nút Move Up / Move Down là đủ.
 | ---------------------------------------- | ------------------------------------------------------ |
 | Lesson chưa published                    | Không hiển thị với học viên                            |
 | Module chưa published                    | Lesson trong module cũng không hiển thị                |
-| Video lesson thiếu video URL             | Không cho publish                                      |
+| Video lesson thiếu `video_asset_id` ready | Không cho publish                                      |
+| Video provider đang processing/failed    | Không cho publish, hiển thị trạng thái để retry/re-upload |
 | Assignment thiếu requirement/rubric      | Không cho publish                                      |
 | Final project thiếu project requirements | Không cho publish                                      |
 | Xóa lesson đã có progress/submission     | Không nên xóa, chỉ hidden/archive                      |
@@ -331,7 +371,7 @@ Dùng nút Move Up / Move Down là đủ.
 | Course select   | Chọn khóa cần chỉnh lesson                      |
 | Module CRUD     | Tạo/sửa/xóa/ẩn module                           |
 | Lesson CRUD     | Tạo/sửa/xóa/ẩn lesson                           |
-| Lesson type     | Hỗ trợ video/resource/assignment/final_project  |
+| Lesson type     | Hỗ trợ video/resource/quiz/assignment/final_project |
 | Resources       | Gắn tài liệu vào lesson                         |
 | Order           | Sắp xếp module/lesson                           |
 | Validation      | Kiểm tra field bắt buộc theo lesson type        |
@@ -348,7 +388,9 @@ Dùng nút Move Up / Move Down là đủ.
 | `courses`          | Chọn khóa                                            |
 | `modules`          | Module trong khóa                                    |
 | `lessons`          | Bài học trong module                                 |
+| `video_assets`     | Video streaming asset cho video lesson               |
 | `lesson_resources` | Tài liệu kèm lesson                                  |
+| `files`            | File nội bộ gắn với tài liệu/attachment              |
 | `lesson_progress`  | Kiểm tra lesson đã có người học chưa                 |
 | `submissions`      | Kiểm tra assignment/final project đã có bài nộp chưa |
 
@@ -379,9 +421,10 @@ Dùng nút Move Up / Move Down là đủ.
 | `course_id`                  | Thuộc khóa nào                                |
 | `module_id`                  | Thuộc module nào                              |
 | `title`                      | Tên lesson                                    |
-| `lesson_type`                | video / resource / assignment / final_project |
+| `lesson_type`                | video / resource / quiz / assignment / final_project |
 | `content`                    | Nội dung mô tả bài học/bài tập/project        |
-| `video_url`                  | Link video nếu là video                       |
+| `video_asset_id`             | FK tới `video_assets.id` nếu là video lesson   |
+| `video_url`                  | Legacy/fallback external URL, không phải source chính |
 | `duration`                   | Thời lượng nếu có                             |
 | `order_index`                | Thứ tự lesson                                 |
 | `requires_submission`        | true/false                                    |
@@ -398,10 +441,11 @@ Dùng nút Move Up / Move Down là đủ.
 | ------------- | ------------------------------------- |
 | `id`          | ID resource                           |
 | `lesson_id`   | Thuộc lesson nào                      |
+| `file_id`     | File nội bộ nếu resource là file upload |
 | `title`       | Tên tài liệu                          |
 | `type`        | pdf / prompt / link / template / file |
 | `description` | Mô tả ngắn                            |
-| `url`         | Link/file                             |
+| `url`         | External link fallback nếu không dùng `file_id` |
 | `order_index` | Thứ tự hiển thị                       |
 
 ---
@@ -434,10 +478,17 @@ Admin chọn module
 
 ```text
 Nếu lesson_type = video:
-→ phải có video_url
+→ phải có video_asset_id
+→ video_assets.processing_status phải là ready
+→ nếu processing/failed thì giữ draft/hidden và hiển thị trạng thái upload
 
 Nếu lesson_type = assignment:
 → phải có requirement + criteria
+
+Nếu lesson_type = quiz:
+→ phải có ít nhất 1 question
+→ phải có passing_score
+→ không publish nếu thiếu correct_answer cho choice question
 
 Nếu lesson_type = final_project:
 → phải có project brief + requirements + criteria
@@ -470,7 +521,8 @@ Nếu lesson đã có progress/submission:
 | `ModuleFormModal`    | Tạo/sửa module                               |
 | `LessonList`         | Danh sách lesson trong module                |
 | `LessonFormDrawer`   | Tạo/sửa lesson                               |
-| `LessonTypeSelector` | Chọn video/resource/assignment/final_project |
+| `LessonTypeSelector` | Chọn video/resource/quiz/assignment/final_project |
+| `QuizQuestionBuilder` | Tạo câu hỏi, đáp án, điểm và explanation |
 | `ResourceManager`    | Gắn tài liệu vào lesson                      |
 | `StatusBadge`        | draft/published/hidden                       |
 | `ReorderControls`    | Đổi thứ tự                                   |
@@ -502,7 +554,7 @@ Hãy tạo module đầu tiên.
 ```text
 Module này chưa có bài học nào.
 
-Hãy thêm video, resource, assignment hoặc final project.
+Hãy thêm video, resource, quiz, assignment hoặc final project.
 [Thêm lesson]
 ```
 
@@ -532,9 +584,10 @@ Trang `/admin/lessons` đạt nếu:
 | Admin chọn được course cần chỉnh                                 |             |
 | Admin tạo/sửa/ẩn module được                                     |             |
 | Admin tạo/sửa/ẩn lesson được                                     |             |
-| Lesson hỗ trợ đủ 4 type: video/resource/assignment/final_project |             |
+| Lesson hỗ trợ đủ 5 type: video/resource/quiz/assignment/final_project |             |
 | Field form thay đổi theo lesson type                             |             |
-| Video lesson bắt buộc có video URL khi publish                   |             |
+| Video lesson bắt buộc có `video_asset_id` ready khi publish      |             |
+| Admin thấy được trạng thái video processing/ready/failed         |             |
 | Assignment bắt buộc có requirement/rubric khi publish            |             |
 | Final project bắt buộc có project brief/criteria khi publish     |             |
 | Admin gắn được tài liệu vào lesson                               |             |
@@ -558,6 +611,7 @@ Trang `/admin/lessons` đạt nếu:
 6. Lesson type selector:
    - video
    - resource
+   - quiz
    - assignment
    - final_project
 7. Form riêng theo lesson type
@@ -568,4 +622,4 @@ Trang `/admin/lessons` đạt nếu:
 12. Empty/loading/error state
 ```
 
-Nói ngắn gọn: **`/admin/lessons` là nơi admin xây toàn bộ nội dung học của khóa: module, video bài giảng, tài liệu, bài tập và final project. Đây là trang quan trọng nhất để tạo trải nghiệm học trong Student Portal.**
+Nói ngắn gọn: **`/admin/lessons` là nơi admin xây toàn bộ nội dung học của khóa: module, video bài giảng, tài liệu, quiz, bài tập và final project. Đây là trang quan trọng nhất để tạo trải nghiệm học trong Student Portal.**

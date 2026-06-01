@@ -1,11 +1,16 @@
 # `/login` — Đăng nhập
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu
 
 | Mục tiêu             | Mô tả                                  |
 | -------------------- | -------------------------------------- |
-| Đăng nhập tài khoản  | Cho student/admin vào hệ thống         |
-| Điều hướng đúng role | Student vào dashboard, admin vào admin |
+| Đăng nhập tài khoản  | Cho student/instructor/admin vào hệ thống |
+| Điều hướng đúng role | Student vào dashboard, instructor vào instructor workspace, admin vào admin |
 | Ít phân tâm          | Không cần nhiều nội dung marketing     |
 
 ---
@@ -21,8 +26,6 @@ Logo CORTEX
 [Password]
 
 [Đăng nhập]
-
-Hoặc đăng nhập với Google
 
 [Quên mật khẩu?]
 [Chưa có tài khoản? Đăng ký]
@@ -45,10 +48,9 @@ Hoặc đăng nhập với Google
 | Chức năng            | Yêu cầu                                  |
 | -------------------- | ---------------------------------------- |
 | Login email/password | Xác thực tài khoản                       |
-| Google login         | Nên có để đăng nhập nhanh                |
-| Forgot password      | Dẫn tới `/forgot-password`               |
+| Forgot password      | Dùng `password_reset_tokens`, dẫn tới `/forgot-password` |
 | Register link        | Dẫn tới `/register`                      |
-| Role redirect        | Student → `/dashboard`, admin → `/admin` |
+| Role redirect        | Student → `/dashboard`, instructor → `/instructor`, admin → `/admin` |
 | Error message        | Báo sai email/mật khẩu                   |
 | Loading state        | Hiển thị đang đăng nhập                  |
 
@@ -59,8 +61,27 @@ Hoặc đăng nhập với Google
 | Trường hợp           | Xử lý                  |
 | -------------------- | ---------------------- |
 | Sai email/password   | Báo lỗi ngắn           |
-| Chưa xác thực email  | Nhắc xác thực email    |
 | Tài khoản bị khóa    | Báo liên hệ hỗ trợ     |
-| Đăng nhập thành công | Chuyển trang theo role |
+| Đăng nhập thành công | Cập nhật `users.last_login_at`, chuyển trang theo role |
+
+MVP/P1 không build Google OAuth và không build email verification. Email là username duy nhất.
 
 ---
+
+## 6. Data cần dùng
+
+| Bảng/API | Dữ liệu |
+| -------- | ------- |
+| `users`/auth | email, password_hash, role, status, last_login_at |
+| `password_reset_tokens` | Forgot password token hash, expiry, used_at |
+
+---
+
+## 7. Acceptance Criteria
+
+| Tiêu chí | Đạt / Không |
+| -------- | ----------- |
+| Student đăng nhập chuyển `/dashboard` | |
+| Instructor đăng nhập chuyển `/instructor` | |
+| Admin đăng nhập chuyển `/admin` | |
+| User bị khóa không đăng nhập được | |

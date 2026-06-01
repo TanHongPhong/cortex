@@ -1,4 +1,9 @@
-# Quản lý Lead — Trang `/admin/leads` riêng cho Type B
+# `/admin/leads` — Quản lý Type B Leads
+
+**Status:** MVP
+**Owner area:** Admin
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
 
 > **Trạng thái:** Trang `/admin/leads` tồn tại như là trang riêng để quản lý Type B leads (khách hàng tiềm năng từ contact page, workshop, B2B).
 > **Ngày cập nhật:** 2026-05-23
@@ -103,6 +108,14 @@ new → contacted → lost
 | `interest`   | String    | -              | Nhu cầu quan tâm                    |
 | `message`    | Text      | -              | Nội dung yêu cầu                    |
 | `source`     | String    | -              | contact_page, workshop_signup, etc. |
+| `source_entity_type` | String | -          | Entity nguồn: resource, course, page |
+| `source_entity_id` | UUID | -              | ID entity nguồn nếu có               |
+| `consent_marketing` | Boolean | Default: false | Đồng ý nhận tư vấn/marketing        |
+| `consent_privacy_policy` | Boolean | Default: false | Đồng ý chính sách dữ liệu          |
+| `utm_source` | String    | -              | UTM source                          |
+| `utm_medium` | String    | -              | UTM medium                          |
+| `utm_campaign` | String  | -              | UTM campaign                        |
+| `landing_page_url` | String | -            | URL landing page nguồn              |
 | `status`     | Enum      | Not Null       | `new`, `contacted`, `lost`          |
 | `created_at` | Timestamp | Default: now() | Ngày tạo                            |
 

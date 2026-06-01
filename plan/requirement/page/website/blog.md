@@ -1,5 +1,10 @@
 # `/blog` — Blog / Resources Hub
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 | Mục tiêu         | Mô tả                                                        |
@@ -14,7 +19,7 @@
 
 # 2. Tên trang nên dùng
 
-Em có thể dùng một trong các tên này:
+Route chính thức là `/blog`; title hiển thị là **Resources Hub**.
 
 | Tên             | Nhận xét                      |
 | --------------- | ----------------------------- |
@@ -24,14 +29,7 @@ Em có thể dùng một trong các tên này:
 | AI Resource Hub | Rõ ràng, chuyên nghiệp        |
 | CORTEX Library  | Có cảm giác thư viện học liệu |
 
-Anh đề xuất dùng:
-
-```text
-/resources hoặc /blog
-Tên hiển thị: Resources Hub
-```
-
-Nếu vẫn giữ URL `/blog` thì title trên trang nên là **Resources Hub**.
+Future: có thể thêm alias `/resources` redirect về `/blog` nếu muốn SEO/resource naming rõ hơn.
 
 ---
 
@@ -108,7 +106,7 @@ Tổng hợp tài liệu học AI, prompt template, hướng dẫn Vibe Coding, 
 
 **Mục đích:** danh sách toàn bộ tài liệu/bài viết.
 
-Mỗi resource card nên có:
+Mỗi resource card cần có:
 
 | Thành phần        | Yêu cầu                                            |
 | ----------------- | -------------------------------------------------- |
@@ -139,6 +137,7 @@ All | Articles | Templates | Roadmaps | Prompt Packs | Tool Guides
 | CTA              | `Nhận tài liệu miễn phí`                  |
 | Lưu dữ liệu      | Lưu vào bảng `leads`                      |
 | Lead source      | Ghi nguồn là `resource_download`          |
+| Source entity    | Ghi `source_entity_type = resource`, `source_entity_id = resources.id` |
 
 **Không nên bắt form cho tất cả tài liệu.**
 Chỉ nên khóa một số tài liệu giá trị cao.
@@ -183,7 +182,7 @@ Ví dụ bài viết ban đầu:
 
 # 11. Trang chi tiết resource `/blog/[slug]`
 
-Sau này mỗi bài/tài liệu nên có trang riêng.
+**Future:** mỗi bài/tài liệu có thể có trang detail riêng.
 
 | Thành phần        | Yêu cầu                     |
 | ----------------- | --------------------------- |
@@ -203,37 +202,41 @@ Sau này mỗi bài/tài liệu nên có trang riêng.
 
 | Nhóm               | Yêu cầu                                                  |
 | ------------------ | -------------------------------------------------------- |
-| Hiển thị tài liệu  | Lấy từ bảng `resources` hoặc `blog_posts`                |
+| Hiển thị tài liệu  | Lấy từ bảng `resources`                                  |
 | Phân loại          | Có category và type                                      |
 | Tài liệu tải xuống | Một số tài liệu có file/link tải                         |
-| Lead capture       | Tài liệu có `email_required` thì hiện form trước khi tải |
+| Lead capture       | Tài liệu có `access_type = email_required` thì hiện form trước khi tải |
 | SEO                | Mỗi bài/tài liệu có title, description, slug, og image   |
 | Access control     | Có thể chia Free / Email required / Student only         |
 | Search/filter      | Chưa cần mạnh, chỉ cần category tabs là đủ               |
-| Admin control      | Admin có thể tạo/sửa/ẩn tài liệu sau này                 |
+| Admin control      | Future: admin tạo/sửa/ẩn tài liệu qua dashboard          |
 
 ---
 
 # 13. Data cần có
 
-Nên dùng bảng `resources` thay vì chỉ `blog_posts`, vì em muốn làm kho tài liệu chung.
+Rule: dùng bảng `resources` làm source duy nhất cho blog/resource hub trong MVP/P1.
 
 | Field               | Mục đích                                           |
 | ------------------- | -------------------------------------------------- |
 | `id`                | ID tài liệu                                        |
 | `title`             | Tên bài/tài liệu                                   |
 | `slug`              | URL chi tiết                                       |
-| `type`              | article / roadmap / template / prompt_pack / guide |
+| `course_id`         | Khóa liên quan nếu resource gắn với course         |
+| `resource_type`     | article / guide / template / download / case_study |
 | `category`          | AI Basics / Prompting / Vibe Coding...             |
-| `short_description` | Mô tả ngắn                                         |
+| `excerpt`           | Mô tả ngắn                                         |
 | `content`           | Nội dung bài                                       |
-| `cover_image_url`   | Ảnh cover                                          |
-| `download_url`      | Link tải nếu có                                    |
+| `thumbnail_url`     | Ảnh cover                                          |
+| `file_id`           | File nội bộ nếu là downloadable resource           |
+| `external_url`      | Link tải ngoài nếu không dùng file nội bộ          |
 | `access_type`       | free / email_required / student_only               |
 | `reading_time`      | Thời gian đọc                                      |
-| `status`            | draft / published / hidden                         |
+| `status`            | draft / published / archived                       |
 | `created_at`        | Ngày tạo                                           |
 | `updated_at`        | Ngày cập nhật                                      |
+
+Lead magnet tạo `leads.source = resource_download`, `leads.source_entity_type = resource`, `leads.source_entity_id = resources.id`. Không tạo bảng `resource_downloads` trong MVP/P1.
 
 ---
 

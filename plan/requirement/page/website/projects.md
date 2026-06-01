@@ -1,5 +1,10 @@
 # `/projects` — Trang dự án học viên
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 | Mục tiêu          | Mô tả                                                       |
@@ -162,7 +167,7 @@ Nút: `Xem khóa học phù hợp`
 | ---------------- | ---------------------------------------------------------- |
 | Hiển thị project | Lấy project từ bảng `projects` (độc lập với `submissions`) |
 | Project card     | Có ảnh, tên, mô tả, category, khóa liên quan, link demo    |
-| Project detail   | Có thể mở modal hoặc dẫn tới `/projects/[slug]` sau này    |
+| Project detail   | MVP dùng modal; Future có thể tách `/projects/[slug]`       |
 | Project status   | Chỉ hiển thị project `published`                           |
 | Badge            | Phân biệt `Sample Project` và `Student Project`            |
 | CTA khóa học     | Project có thể link đến khóa liên quan                     |
@@ -188,7 +193,9 @@ Bảng nên thêm: `projects`
 | `category`          | Website / Agent / Automation / Chatbot |
 | `type`              | sample_project / student_project       |
 | `course_id`         | Khóa liên quan                         |
-| `student_name`      | Tên học viên, nếu được phép hiển thị   |
+| `display_order`     | Thứ tự hiển thị public                 |
+| `published_at`      | Thời điểm public                       |
+| `student_name`      | Tên học viên, chỉ hiển thị khi có consent public |
 | `tools_used`        | Công cụ sử dụng                        |
 | `status`            | draft / published / hidden             |
 | `created_at`        | Ngày tạo                               |

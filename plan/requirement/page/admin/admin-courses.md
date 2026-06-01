@@ -1,5 +1,12 @@
 # `/admin/courses` — Quản lý khóa học
 
+**Status:** MVP
+**Owner area:** Admin
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
+**Lưu ý:** Chỉ admin mới có quyền tạo/sửa/xóa khóa học. Instructor không có quyền truy cập.
+
 ## 1. Mục tiêu trang
 
 Admin dùng trang này để:
@@ -98,13 +105,13 @@ Admin chỉ cần xem toàn bộ khóa học trong một bảng hoặc card list
 6. B2B Training
 ```
 
-Nếu sau này số lượng khóa tăng nhiều hơn, có thể bổ sung search/filter sau.
+**Future:** Nếu số lượng khóa tăng nhiều hơn, bổ sung search/filter.
 
 ---
 
 # 4. Course Table
 
-## Cột nên có
+## Table columns
 
 | Cột         | Nội dung                                         |
 | ----------- | ------------------------------------------------ |
@@ -117,7 +124,7 @@ Nếu sau này số lượng khóa tăng nhiều hơn, có thể bổ sung searc
 | Students    | Số học viên enrolled                             |
 | Certificate | Có / Không                                       |
 | Updated at  | Lần cập nhật gần nhất                            |
-| Actions     | Edit / Manage Lessons / Preview / Archive        |
+| Actions     | Edit / Manage Lessons / Assign Instructor / Preview / Archive |
 
 ---
 
@@ -133,7 +140,7 @@ Lessons: 24
 Students: 38
 Certificate: Yes
 
-[Edit] [Manage Lessons] [Preview] [Archive]
+[Edit] [Manage Lessons] [Assign Instructor] [Preview] [Archive]
 ```
 
 ---
@@ -203,11 +210,13 @@ archived → không hiển thị public, admin vẫn xem được
 | ---------------- | -------------------------------------------------------------------------- |
 | `Edit`           | Sửa thông tin khóa (Lưu `updated_by`)                                      |
 | `Manage Lessons` | Sang `/admin/lessons?course_id=...`                                        |
+| `Assign Instructor` | Gán instructor vào `course_instructors`                                 |
+| `Manage FAQ`      | Quản lý FAQ public của khóa qua `course_faqs`                              |
 | `Preview`        | Mở `/courses/[slug]`                                                       |
 | `Publish`        | Chuyển draft thành published                                               |
 | `Unpublish`      | Chuyển published về draft                                                  |
 | `Archive`        | Lưu trữ/ẩn khóa (set `status = archived`)                                  |
-| `Delete`         | Xóa mềm (set `deleted_at = now()`) nếu chưa có enrollment hoặc theo policy |
+| `Delete`         | Xóa mềm (set `deleted_at = now()`) chỉ khi chưa có enrollment; nếu đã có học viên thì dùng archive |
 
 ---
 
@@ -225,6 +234,7 @@ archived → không hiển thị public, admin vẫn xem được
 | Course ordering              | Hiển thị khóa theo thứ tự sản phẩm đã định             |
 | Total students cache         | Tự động cập nhật khi có enrollment mới/cancelled       |
 | Audit trail                  | Mọi thao tác tạo/sửa lưu `created_by` / `updated_by`   |
+| Instructor permissions       | Khi assign instructor phải set flags: `can_view_course`, `can_answer_questions`, `can_review_submissions`, `can_view_student_progress`. Instructor chỉ chấm bài & hỗ trợ học viên, không quản lý khóa/video/học viên/announcement. |
 
 ---
 
@@ -241,6 +251,7 @@ archived → không hiển thị public, admin vẫn xem được
 | Slug validation | Không cho slug trùng                       |
 | Delete rule     | Chỉ xóa khóa chưa có học viên              |
 | Manage lessons  | Có nút dẫn sang `/admin/lessons`           |
+| Assign instructor | Gán instructor và permission flags rõ ràng |
 | Public preview  | Có nút xem trang public                    |
 | Responsive      | Ưu tiên desktop, mobile xem được           |
 
@@ -253,6 +264,8 @@ archived → không hiển thị public, admin vẫn xem được
 | `courses`      | Thông tin khóa học                     |
 | `modules`      | Đếm số module nếu cần                  |
 | `lessons`      | Đếm số lesson                          |
+| `course_instructors` | Instructor được phân công theo khóa và permission flags |
+| `course_faqs`  | FAQ public theo khóa, status/order_index |
 | `enrollments`  | Đếm số học viên enrolled               |
 | `certificates` | Kiểm tra certificate liên quan nếu cần |
 
@@ -313,7 +326,7 @@ Nếu thiếu thông tin:
 Nếu không muốn mở bán nữa:
 → status = archived
 → không hiển thị ngoài public
-→ học viên đã enrolled vẫn có thể học nếu policy cho phép
+→ học viên đã enrolled active vẫn có thể học, trừ khi enrollment bị cancelled/expired/refunded
 ```
 
 ## Delete khóa học
@@ -406,7 +419,7 @@ Trang `/admin/courses` đạt nếu:
 4. Course table/list hiển thị toàn bộ 4–6 khóa
 5. Create/edit course form
 6. Status control: draft/published/archived
-7. Actions: edit, manage lessons, preview, archive
+7. Actions: edit, manage lessons, assign instructor, preview, archive
 8. Delete protection nếu course đã có enrollment
 9. Empty/loading/error state
 ```

@@ -1,5 +1,10 @@
 # `/certificate` — Trang chứng chỉ
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 | Mục tiêu           | Mô tả                                                   |
@@ -176,23 +181,23 @@ Phần này nên đặt rõ nhưng không cần làm quá nặng.
 | Course CTA          | Nút xem khóa học dẫn sang `/courses`                                         |
 | Responsive          | Certificate preview phải hiển thị đẹp trên mobile                            |
 | Policy note         | Có ghi rõ certificate là chứng chỉ hoàn thành, không phải văn bằng chính quy |
-| Dynamic data        | Nếu sau này có nhiều loại certificate, lấy dữ liệu từ database               |
+| Dynamic data        | Lấy preview từ `certificate_templates` nếu có template active                |
 | SEO                 | Có title/description riêng cho trang certificate                             |
 
 ---
 
 # 12. Data cần dùng
 
-Ban đầu trang này có thể dùng **nội dung tĩnh**. Sau này nếu mở rộng thì có thể dùng bảng `certificate_templates`.
+Trang này ưu tiên lấy dữ liệu từ `certificate_templates`. Nếu chưa có template active, có thể fallback sang nội dung tĩnh.
 
-| Field               | Mục đích               |
-| ------------------- | ---------------------- |
-| `template_name`     | Tên mẫu chứng chỉ      |
-| `course_type`       | Áp dụng cho khóa nào   |
-| `preview_image_url` | Ảnh mẫu certificate    |
-| `description`       | Mô tả loại certificate |
-| `requirements`      | Điều kiện nhận         |
-| `status`            | active/inactive        |
+| Field               | Mục đích                         |
+| ------------------- | -------------------------------- |
+| `name`              | Tên mẫu chứng chỉ                |
+| `course_id`         | Template riêng cho khóa nếu có   |
+| `preview_image_url` | Ảnh mẫu certificate              |
+| `layout_json`       | Nội dung/layout/placeholder      |
+| `version`           | Version template                 |
+| `status`            | draft / active / archived        |
 
 ---
 

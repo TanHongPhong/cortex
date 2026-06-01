@@ -1,5 +1,10 @@
 # `/register` — Đăng ký tài khoản
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu
 
 | Mục tiêu               | Mô tả                                       |
@@ -25,8 +30,6 @@ Tạo tài khoản học viên
 
 [Đăng ký tài khoản]
 
-Hoặc đăng ký với Google
-
 [Đã có tài khoản? Đăng nhập]
 ```
 
@@ -49,7 +52,6 @@ Hoặc đăng ký với Google
 | Chức năng               | Yêu cầu                                              |
 | ----------------------- | ---------------------------------------------------- |
 | Register email/password | Tạo tài khoản mới                                    |
-| Google register         | Nên có để đăng ký nhanh                              |
 | Validate form           | Kiểm tra thiếu field, email sai, mật khẩu không khớp |
 | Check duplicate email   | Không cho đăng ký email đã tồn tại                   |
 | Default role            | Gán role `student`                                   |
@@ -65,8 +67,9 @@ Hoặc đăng ký với Google
 | Email đã tồn tại      | Báo “Email này đã được sử dụng”      |
 | Mật khẩu không khớp   | Báo lỗi ngay dưới field              |
 | Đăng ký thành công    | Tạo user + profile student           |
-| Có email verification | Yêu cầu xác thực email trước khi học |
 | User mới              | Không được tự chọn role admin        |
+
+MVP/P1 không build Google OAuth và không build email verification.
 
 ---
 
@@ -77,3 +80,12 @@ Hoặc đăng ký với Google
 | `users` | `id`, `full_name`, `email`, `phone`, `role = student`, `created_at` |
 
 ---
+
+## 7. Acceptance Criteria
+
+| Tiêu chí | Đạt / Không |
+| -------- | ----------- |
+| Tạo user mới với `role = student` | |
+| Không cho user tự chọn role | |
+| Email trùng bị chặn | |
+| Referral param được giữ nếu có | |

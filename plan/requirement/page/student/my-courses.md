@@ -1,5 +1,10 @@
 # `/my-courses` — Khóa học của tôi
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Vai trò của trang
 
 Trang này là nơi học viên quản lý toàn bộ khóa học mình đang có quyền truy cập.
@@ -150,7 +155,7 @@ Advanced AI Agent Automation
 Advanced · Expired
 
 Access expired
-[Liên hệ hỗ trợ]
+[Liên hệ hỗ trợ: /contact?type=support]
 ```
 
 ---
@@ -161,7 +166,7 @@ Access expired
 | --------- | ---------------------------------- | ------------------ |
 | Active    | Đang học                           | `Tiếp tục học`     |
 | Completed | Đã hoàn thành                      | `Xem lại khóa học` |
-| Expired   | Hết quyền truy cập nếu có giới hạn | `Liên hệ hỗ trợ`   |
+| Expired   | Hết quyền truy cập nếu có giới hạn | `/contact?type=support` |
 | Pending   | Đang chờ kích hoạt/thanh toán      | `Xem trạng thái`   |
 
 **MVP có thể chỉ cần:** `Active` và `Completed`.
@@ -177,7 +182,7 @@ Access expired
 | Khóa completed         | Đưa sau khóa active                             |
 | Khóa expired           | Đưa cuối danh sách                              |
 | Khóa chưa enrolled     | Không được hiển thị                             |
-| Khóa bị admin hủy      | Không hiển thị hoặc hiện `cancelled` tùy policy |
+| Khóa bị admin hủy/refund | Hiển thị `cancelled` nếu cần lịch sử học; không cho vào lesson |
 
 ---
 
@@ -251,7 +256,7 @@ Nếu status = completed:
 → CTA = Xem lại khóa học hoặc Xem chứng chỉ
 
 Nếu status = expired:
-→ CTA = Liên hệ hỗ trợ
+→ CTA = /contact?type=support
 ```
 
 ## Sắp xếp khóa

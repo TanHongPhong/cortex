@@ -1,14 +1,22 @@
 # `/admin` — Admin Overview
 
+**Status:** MVP + P1
+**Owner area:** Admin
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 Admin vào trang này để biết nhanh:
 
 ```text
 1. Có bao nhiêu học viên đang học
-2. Có bao nhiêu bài nộp đang chờ duyệt
-3. Có bao nhiêu certificate đã cấp
-4. Có việc gì cần xử lý ngay
+2. Có bao nhiêu order paid/pending
+3. Doanh thu paid hiện tại là bao nhiêu
+4. Có bao nhiêu bài nộp đang chờ duyệt
+5. Có bao nhiêu certificate đã cấp
+6. Có câu hỏi/review/notification lỗi nào cần xử lý
+7. Có việc gì cần xử lý ngay
 ```
 
 Trang này **không dùng để chỉnh sửa sâu**, mà dùng để **xem nhanh + điều hướng sang trang quản lý chi tiết**.
@@ -26,11 +34,18 @@ Admin Overview
 - Active Students
 - Active Enrollments
 - Published Courses
+- Total Revenue
+- Paid Orders
+- Pending Orders
 - Pending Submissions
 - Certificates Issued
 - New Leads
 
 [Quick Actions]
+
+[Commerce Alerts]
+
+[P1 Learning Ops Alerts]
 
 [Pending Submissions]
 
@@ -47,7 +62,7 @@ Admin Overview
 | ---------- | ------------------------------------------------ |
 | Title      | `Admin Dashboard` hoặc `Overview`                |
 | Subtitle   | Tóm tắt tình hình hệ thống                       |
-| CTA nhanh  | `Tạo khóa học`, `Duyệt bài nộp`, `Cấp chứng chỉ` |
+| CTA nhanh  | `Tạo khóa học`, `Xem đơn hàng`, `Duyệt bài nộp`, `Cấp chứng chỉ` |
 
 Ví dụ:
 
@@ -68,18 +83,30 @@ Here is what is happening in CORTEX today.
 | Active Students     | Học viên đang hoạt động       | `/admin/students`                   |
 | Active Enrollments  | Lượt đăng ký khóa đang active | `/admin/students` (trong drawer)    |
 | Published Courses   | Khóa học đang public          | `/admin/courses`                    |
+| Total Revenue        | Tổng doanh thu order paid     | `/admin/orders?status=paid`         |
+| Paid Orders          | Số đơn đã thanh toán          | `/admin/orders?status=paid`         |
+| Pending Orders       | Đơn đang chờ thanh toán       | `/admin/orders?status=pending`      |
 | Pending Submissions | Bài nộp đang chờ duyệt        | `/admin/submissions?status=pending` |
 | Certificates Issued | Chứng chỉ đã cấp              | `/admin/certificates`               |
+| Open Questions      | Câu hỏi lesson chưa xử lý     | `/instructor/questions` |
+| Pending Reviews     | Review chờ duyệt              | `/admin/reviews?status=pending`     |
+| Failed Notifications | Notification gửi lỗi         | `/admin/announcements`              |
 
-## MVP nên hiển thị 5-6 KPI này
+## MVP nên hiển thị KPI này
 
 ```text
-1. New Leads (nếu có leads page)
+1. New Leads
 2. Active Students
 3. Active Enrollments
 4. Published Courses
-5. Pending Submissions
-6. Certificates Issued
+5. Total Revenue
+6. Paid Orders
+7. Pending Orders
+8. Pending Submissions
+9. Certificates Issued
+10. Open Questions
+11. Pending Reviews
+12. Failed Notifications
 ```
 
 ---
@@ -92,6 +119,8 @@ Here is what is happening in CORTEX today.
 | ----------------- | ----------------------------------- |
 | `Tạo khóa học`    | `/admin/courses?action=create`      |
 | `Thêm lesson`     | `/admin/lessons`                    |
+| `Xem đơn hàng`    | `/admin/orders`                     |
+| `Tạo coupon`      | `/admin/coupons?action=create`      |
 | `Duyệt bài nộp`   | `/admin/submissions?status=pending` |
 | `Cấp certificate` | `/admin/certificates`               |
 
@@ -128,7 +157,22 @@ Dẫn tới:
 
 ---
 
-## E. Certificate Activity
+## E. Commerce Alerts
+
+**Mục tiêu:** admin biết việc tài chính cần xử lý.
+
+| Alert              | Dẫn tới                         |
+| ------------------ | ------------------------------- |
+| Pending orders > 0 | `/admin/orders?status=pending`  |
+| Manual proof mới   | `/admin/orders?payment=manual`  |
+| Failed payments    | `/admin/payments?status=failed` |
+| Invoice requested  | `/admin/invoices?status=draft`  |
+
+Chỉ hiển thị các alert có count > 0.
+
+---
+
+## F. Certificate Activity
 
 **Mục tiêu:** theo dõi chứng chỉ mới cấp hoặc cần xử lý.
 
@@ -164,6 +208,9 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 | New leads > 0           | Highlight nhẹ                 |
 | Pending submissions > 0 | Highlight rõ hơn              |
 | Certificate pending > 0 | Hiện reminder                 |
+| Pending orders > 0      | Highlight để admin kiểm tra   |
+| Failed payments > 0     | Highlight nhẹ để debug        |
+| Invoice requested > 0   | Reminder tạo biên nhận/hóa đơn |
 | Course draft            | Nhắc nếu có khóa chưa publish |
 | Student blocked/issue   | Hiện trong alert nếu có       |
 
@@ -176,6 +223,8 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 | Auth                 | Chỉ admin mới vào được `/admin`                    |
 | KPI data             | Tính số liệu từ database                           |
 | Quick action         | Các nút dẫn đúng trang quản lý                     |
+| Commerce alerts      | Hiển thị pending orders, failed payments, invoices |
+| P1 learning alerts   | Hiển thị open questions, pending reviews, failed notifications |
 | Pending submissions  | Hiển thị bài nộp đang chờ duyệt                    |
 | Certificate activity | Hiển thị certificate mới cấp hoặc pending          |
 | Responsive           | Desktop ưu tiên, mobile vẫn xem được               |
@@ -190,9 +239,16 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 | `users`        | Total students                   |
 | `courses`      | Published courses                |
 | `enrollments`  | Active enrollments               |
+| `orders`       | Total revenue, paid orders, pending orders |
+| `payment_transactions` | Failed payments, payment debug |
+| `invoices`     | Invoice requested/draft/issued    |
 | `submissions`  | Pending submissions              |
 | `certificates` | Certificates issued              |
 | `leads`        | New leads (nếu cần hiển thị KPI) |
+| `lesson_questions` | Open questions               |
+| `course_reviews` | Pending/low reviews            |
+| `notifications` | Failed delivery/unread count    |
+| `announcements` | Published/draft announcements   |
 
 ---
 
@@ -214,6 +270,24 @@ count users where role = student and status = active
 
 ```text
 count courses where status = published
+```
+
+## Total Revenue
+
+```text
+sum orders.final_amount where status = paid
+```
+
+## Paid Orders
+
+```text
+count orders where status = paid
+```
+
+## Pending Orders
+
+```text
+count orders where status = pending
 ```
 
 ## Active Enrollments
@@ -244,6 +318,7 @@ count certificates where status = valid
 | `AdminOverviewHeader`      | Title + subtitle               |
 | `KpiCard`                  | Hiển thị số liệu               |
 | `QuickActionCard`          | Nút thao tác nhanh             |
+| `CommerceAlertList`        | Việc tài chính cần xử lý       |
 | `PendingSubmissionsTable`  | Bài nộp chờ duyệt              |
 | `CertificateActivityTable` | Hoạt động certificate          |
 | `StatusBadge`              | new / pending / active / valid |
@@ -292,6 +367,7 @@ Trang `/admin` đạt nếu:
 | Admin xem được KPI tổng quan          |             |
 | KPI tính đúng theo database           |             |
 | Có quick actions dẫn đúng trang       |             |
+| Có commerce alerts nếu có order/payment/invoice cần xử lý |             |
 | Có pending submissions                |             |
 | Có certificate activity               |             |
 | Có empty state khi chưa có dữ liệu    |             |
@@ -306,11 +382,12 @@ Trang `/admin` đạt nếu:
 
 1. Admin layout chung
 2. Welcome / summary header
-3. KPI cards (6 cards)
+3. KPI cards (students, enrollments, courses, revenue, orders, submissions, certificates, leads)
 4. Quick actions
-5. Pending submissions
-6. Certificate activity
-7. Empty/loading state
+5. Commerce alerts
+6. Pending submissions
+7. Certificate activity
+8. Empty/loading state
 ```
 
 Nói ngắn gọn: **`/admin` là trang tổng quan vận hành. Admin không chỉnh sửa sâu ở đây, mà dùng nó để nhìn nhanh tình hình và đi đến đúng trang cần xử lý.**

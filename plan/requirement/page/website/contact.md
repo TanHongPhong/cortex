@@ -1,5 +1,10 @@
 # `/contact` — Trang liên hệ
 
+**Status:** MVP
+**Owner area:** Public
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 | Mục tiêu            | Mô tả                                                     |
@@ -34,7 +39,7 @@
 
 # 4. Section 2 — Contact Form
 
-Form nên có các field sau:
+Form cần có các field sau:
 
 | Field              | Bắt buộc | Ghi chú              |
 | ------------------ | -------- | -------------------- |
@@ -113,9 +118,28 @@ Dữ liệu lưu vào bảng `leads`.
 | `interest`   | Nhu cầu quan tâm   |
 | `message`    | Ghi chú            |
 | `source`     | contact_page       |
+| `source_entity_type` | `page` hoặc entity nguồn nếu form đặt trong resource/course |
+| `source_entity_id` | ID entity nguồn nếu có |
+| `consent_marketing` | Đồng ý nhận tư vấn/marketing |
+| `consent_privacy_policy` | Đồng ý chính sách dữ liệu |
+| `utm_source` | UTM source nếu có |
+| `utm_medium` | UTM medium nếu có |
+| `utm_campaign` | UTM campaign nếu có |
+| `landing_page_url` | URL trang gửi form |
 | `status`     | new                |
 | `created_at` | Thời gian gửi      |
 
 ---
 
-Trang này nên **cực kỳ rõ và ít phân tâm**: người dùng vào là biết cần điền form để được tư vấn.
+Trang này phải **rõ và ít phân tâm**: người dùng vào là biết cần điền form để được tư vấn.
+
+---
+
+# 9. Acceptance Criteria
+
+| Tiêu chí | Đạt / Không |
+| -------- | ----------- |
+| Submit tạo `leads.status = new` | |
+| Thiếu field bắt buộc thì không gửi được | |
+| Success/error state rõ ràng | |
+| Lead source lưu `contact_page` hoặc source tương ứng | |

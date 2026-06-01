@@ -1,5 +1,10 @@
 # `/dashboard` — Trang tổng quan học viên
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Vai trò của trang
 
 Dashboard là **màn hình trung tâm** sau khi học viên đăng nhập.
@@ -13,6 +18,7 @@ Học viên vào dashboard là biết ngay:
 3. Bài tiếp theo là gì
 4. Assignment/final project đang ở trạng thái nào
 5. Certificate đã đủ điều kiện chưa
+6. Có notification/announcement mới nào cần xem
 ```
 
 ---
@@ -31,7 +37,7 @@ Học viên vào dashboard là biết ngay:
 │ My Courses   │                             │
 │ Certificates │ [Current Course] [Progress] │
 │ Profile      │ [Next Lesson]    [Assignment/Project] │
-│              │ [Certificate]    [My Courses]│
+│              │ [Certificate]    [Notifications]│
 └──────────────┴─────────────────────────────┘
 ```
 
@@ -46,6 +52,7 @@ Next lesson
 Assignment / Final project status
 Certificate status
 My courses preview
+Notifications preview
 Bottom navigation / hamburger menu
 ```
 
@@ -82,8 +89,21 @@ Nút `Tiếp tục học` dẫn đến lesson chưa hoàn thành gần nhất:
 Lesson này có thể là:
 
 ```text
-video / resource / assignment / final_project
+video / resource / quiz / assignment / final_project
 ```
+
+---
+
+## A2. Notifications Preview
+
+| Thành phần | Yêu cầu |
+| ---------- | ------- |
+| Unread count | Số notification chưa đọc. |
+| Latest items | 3-5 thông báo mới nhất: order paid, submission reviewed, certificate issued, announcement, question answered. |
+| CTA | `Xem tất cả thông báo` dẫn `/notifications`. |
+| Empty state | “Chưa có thông báo mới.” |
+
+**Rule:** chỉ lấy `notifications.user_id = current_user.id`.
 
 ---
 
@@ -241,7 +261,7 @@ Feedback: Demo link chưa hoạt động, vui lòng cập nhật lại.
 | Not eligible | Chưa đủ điều kiện nhận certificate | `Xem điều kiện`   |
 | Eligible     | Đủ điều kiện, chờ cấp certificate  | `Xem trạng thái`  |
 | Issued       | Certificate đã được cấp            | `Tải certificate` |
-| Revoked      | Certificate không còn hiệu lực     | `Liên hệ hỗ trợ`  |
+| Revoked      | Certificate không còn hiệu lực     | `/contact?type=support` |
 
 Nếu đã cấp:
 

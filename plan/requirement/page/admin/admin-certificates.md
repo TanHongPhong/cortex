@@ -1,5 +1,10 @@
 # `/admin/certificates` — Quản lý chứng chỉ
 
+**Status:** MVP + P1
+**Owner area:** Admin
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Mục tiêu trang
 
 Admin dùng trang này để:
@@ -9,7 +14,7 @@ Admin dùng trang này để:
 2. Kiểm tra học viên đủ điều kiện nhận certificate
 3. Cấp certificate cho học viên
 4. Tạo Certificate ID duy nhất
-5. Tạo/tải file PDF chứng chỉ
+5. Chọn certificate template và tạo/tải file PDF chứng chỉ
 6. Revoke chứng chỉ nếu cần
 7. Copy link verify certificate
 ```
@@ -46,6 +51,7 @@ Học viên học lesson → nộp final project → admin duyệt → cấp cer
 [Issue Certificate Modal]
 - Chọn học viên
 - Chọn khóa
+- Chọn active certificate template
 - Tạo Certificate ID
 - Generate PDF
 ```
@@ -73,7 +79,7 @@ Học viên học lesson → nộp final project → admin duyệt → cấp cer
 | Revoked certificates | Chứng chỉ đã thu hồi                 |
 | Eligible students    | Học viên đủ điều kiện nhưng chưa cấp |
 
-MVP nên có:
+MVP scope:
 
 ```text
 Total certificates
@@ -86,7 +92,7 @@ Eligible
 
 # 4. Certificate Table
 
-## Cột nên có
+## Table columns
 
 | Cột              | Nội dung                          |
 | ---------------- | --------------------------------- |
@@ -96,6 +102,7 @@ Eligible
 | Status           | valid / revoked                   |
 | Issued at        | Ngày cấp                          |
 | PDF              | Có file PDF chưa                  |
+| Template         | Template/version dùng khi cấp     |
 | Actions          | View / Download / Verify / Revoke |
 
 ---
@@ -134,7 +141,7 @@ Học viên đủ điều kiện certificate khi:
 4. Chưa có certificate valid cho course đó
 ```
 
-## Cột nên có
+## Eligible students columns
 
 | Cột           | Nội dung               |
 | ------------- | ---------------------- |
@@ -217,7 +224,7 @@ CERT-20269876-000003
 
 MVP chỉ cần 2 trạng thái này.
 
-Sau này có thể thêm:
+Future statuses:
 
 ```text
 expired
@@ -301,7 +308,7 @@ Khi admin bấm `View`, mở drawer/modal chi tiết.
 Dùng HTML template → generate PDF
 ```
 
-Certificate PDF nên có:
+Certificate PDF fields:
 
 | Thành phần     | Yêu cầu                   |
 | -------------- | ------------------------- |
@@ -442,6 +449,21 @@ Admin bấm Revoke
 
 ---
 
+## Certificate template rule
+
+```text
+Khi cấp certificate:
+1. Chọn `certificate_templates.status = active`
+2. Lưu `certificates.template_id`
+3. Lưu `template_name_snapshot`
+4. Lưu `template_version_snapshot`
+5. Generate PDF và lưu `certificate_url`
+```
+
+Certificate đã cấp không render lại theo template mới nếu template bị sửa ở Future.
+
+---
+
 ## Verify certificate
 
 ```text
@@ -471,7 +493,8 @@ Nếu không tìm thấy:
 | `EligibleStudentsTable`   | Danh sách đủ điều kiện cấp        |
 | `IssueCertificateModal`   | Cấp certificate                   |
 | `CertificateDetailDrawer` | Xem chi tiết                      |
-| `CertificatePreview`      | Preview certificate               |
+| `CertificateTemplateSelect` | Chọn template active khi cấp     |
+| `CertificatePreview`      | Preview certificate từ template   |
 | `RevokeCertificateModal`  | Thu hồi certificate               |
 | `StatusBadge`             | valid / revoked                   |
 | `CopyButton`              | Copy Certificate ID / verify link |

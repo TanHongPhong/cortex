@@ -1,5 +1,10 @@
 # `/learn/[course]` — Trang học của một khóa
 
+**Status:** MVP
+**Owner area:** Student
+**Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
+**Build decision:** Build
+
 ## 1. Vai trò của trang
 
 Trang này là **trang tổng quan bên trong một khóa học**.
@@ -106,7 +111,7 @@ Module 1: AI Workflow Foundation
 
 **Mục đích:** cho học viên thấy từng bài trong module, bao gồm bài giảng, tài liệu, bài tập và final project.
 
-Mỗi lesson row nên có:
+Mỗi lesson row cần có:
 
 | Thành phần    | Yêu cầu                                                        |
 | ------------- | -------------------------------------------------------------- |
@@ -138,6 +143,7 @@ Mỗi item trong module có thể là một loại lesson khác nhau:
 | `video`         | Bài giảng video    | Icon play     |
 | `resource`      | Tài liệu/tham khảo | Icon tài liệu |
 | `assignment`    | Bài tập thực hành  | Icon bài tập  |
+| `quiz`          | Quiz kiểm tra nhanh | Icon quiz    |
 | `final_project` | Project cuối khóa  | Icon project  |
 
 **Lưu ý quan trọng:**
@@ -145,6 +151,7 @@ Mỗi item trong module có thể là một loại lesson khác nhau:
 - Một khóa học có thể có nhiều bài `final_project` (ví dụ: chia theo module), nhưng chỉ có **duy nhất một bài** được đánh dấu `is_course_final_project = true`.
 - Bài được đánh dấu `is_course_final_project` là điều kiện bắt buộc để xét cấp chứng chỉ cho toàn khóa.
 - Assignment và final project nằm trực tiếp trong module accordion, **không tách thành trang riêng**.
+- Quiz cũng nằm trực tiếp trong module accordion và mở tại `/learn/[course]/[lesson]`, **không tạo route quiz riêng**.
 
 ---
 
@@ -157,6 +164,8 @@ Mỗi item trong module có thể là một loại lesson khác nhau:
 | Current        | Highlight nhẹ, ghi “Current lesson”                |
 | Locked         | Icon khóa, không bấm được hoặc hiện tooltip        |
 | Pending review | Assignment/final project đã nộp, đang chờ duyệt    |
+| Quiz passed    | Quiz đã đạt điểm pass                              |
+| Quiz failed    | Quiz chưa đạt, cần làm lại nếu còn lượt            |
 | Rejected       | Assignment/final project bị trả lại, cần chỉnh sửa |
 | Approved       | Assignment/final project đã được duyệt             |
 
@@ -169,10 +178,12 @@ Mỗi item trong module có thể là một loại lesson khác nhau:
 | Card                              | Nội dung                                 |
 | --------------------------------- | ---------------------------------------- |
 | Progress summary                  | % hoàn thành, số bài đã học              |
-| Assignment / Final Project status | Chưa nộp / pending / approved / rejected |
+| Assignment / Final Project status | Chưa nộp / pending / approved / revision_requested / rejected |
 | Certificate status                | Chưa đủ điều kiện / có thể tải           |
+| Course announcements              | Thông báo mới của khóa                   |
+| Review prompt                     | Mời đánh giá khóa nếu đã enrolled/completed |
 | Course resources                  | Link tài liệu chung của khóa             |
-| Support CTA                       | Nút liên hệ hỗ trợ nếu cần               |
+| Support CTA                       | Nút `/contact?type=support` nếu cần      |
 
 Ví dụ:
 
@@ -252,7 +263,7 @@ Phù hợp với:
 Bạn chưa có quyền truy cập khóa học này.
 
 Vui lòng đăng ký khóa học hoặc liên hệ CORTEX để được hỗ trợ.
-[Xem khóa học] [Liên hệ hỗ trợ]
+[Xem khóa học] [Liên hệ hỗ trợ: /contact?type=support]
 ```
 
 ## Nếu khóa chưa có lesson
@@ -301,6 +312,7 @@ Vui lòng liên hệ CORTEX để được hỗ trợ gia hạn.
 | `courses`         | Tên khóa, mô tả, level, thumbnail               |
 | `modules`         | Danh sách module                                |
 | `lessons`         | Danh sách bài học, `lesson_type`, thứ tự bài    |
+| `resources`       | Tài liệu chung của khóa qua `resources.course_id` |
 | `lesson_progress` | Bài video/resource nào đã hoàn thành            |
 | `submissions`     | Trạng thái bài nộp của assignment/final project |
 | `certificates`    | Trạng thái chứng chỉ                            |
@@ -331,12 +343,14 @@ total_required_lessons = tổng lesson bắt buộc của khóa
 
 completed_lessons =
 - video/resource lesson đã completed trong lesson_progress
+- quiz lesson có ít nhất một quiz_attempts.passed = true
 - assignment/final_project đã approved trong submissions
 
 progress = completed_lessons / total_required_lessons * 100
 ```
 
 Với `assignment` và `final_project`, chỉ tính hoàn thành khi submission được `approved`.
+Sau mỗi lesson completion/quiz pass/submission approved, hệ thống recompute progress; nếu đủ 100% required lessons thì set `enrollments.status = completed` và `completed_at = now()` idempotently.
 
 ---
 
@@ -382,7 +396,7 @@ Nếu course.lock_mode = free:
 | Course header | Card lớn, rõ progress và CTA                                      |
 | Module list   | Accordion gọn, dễ scan                                            |
 | Lesson row    | Đơn giản, có icon trạng thái                                      |
-| Lesson type   | Có badge nhỏ để phân biệt video/resource/assignment/final project |
+| Lesson type   | Có badge nhỏ để phân biệt video/resource/quiz/assignment/final project |
 | Right panel   | Sticky nhẹ trên desktop                                           |
 | Progress bar  | Rõ, dễ thấy                                                       |
 | Badge         | Level, status, certificate                                        |
@@ -419,7 +433,7 @@ Trang `/learn/[course]` đạt nếu:
 | User chưa enrolled không xem được khóa                             |             |
 | Hiển thị đúng tên khóa và mô tả                                    |             |
 | Hiển thị đúng module và lesson                                     |             |
-| Lesson hiển thị đúng type: video/resource/assignment/final_project |             |
+| Lesson hiển thị đúng type: video/resource/quiz/assignment/final_project |             |
 | Lesson completed có dấu check                                      |             |
 | Lesson locked có icon khóa                                         |             |
 | Assignment/final project pending/rejected/approved hiển thị đúng   |             |
@@ -442,7 +456,7 @@ Trang `/learn/[course]` đạt nếu:
 4. CTA học tiếp bài gần nhất
 5. Module accordion
 6. Lesson list có status
-7. Lesson type: video/resource/assignment/final_project
+7. Lesson type: video/resource/quiz/assignment/final_project
 8. Locked lesson nếu học theo thứ tự
 9. Course info panel
 10. Assignment/final project status
