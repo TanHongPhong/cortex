@@ -220,6 +220,55 @@ archived → không hiển thị public, admin vẫn xem được
 
 ---
 
+# 8.1. Quản lý FAQ khóa học
+
+FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tách trang riêng).
+
+## FAQ Table
+
+| Cột | Nội dung |
+|-----|---------|
+| Question | Câu hỏi |
+| Answer | Câu trả lời |
+| Order | Thứ tự hiển thị |
+| Status | draft / published / hidden |
+| Actions | Edit / Delete |
+
+## FAQ Fields
+
+| Field | Bắt buộc | Ghi chú |
+|-------|----------|---------|
+| Question | Có | Câu hỏi FAQ |
+| Answer | Có | Câu trả lời |
+| Order Index | Có | Thứ tự hiển thị |
+| Status | Có | draft / published / hidden |
+
+## FAQ Status Rules
+
+| Status | Ý nghĩa |
+|--------|---------|
+| draft | Chưa hiển thị public |
+| published | Hiển thị trên `/courses/[slug]` |
+| hidden | Ẩn nhưng không xóa |
+
+## FAQ Management Actions
+
+| Action | Chức năng |
+|--------|----------|
+| Add FAQ | Tạo FAQ mới cho khóa |
+| Edit | Sửa câu hỏi/trả lời |
+| Delete | Xóa FAQ (chỉ khi chưa có nhiều interaction) |
+| Reorder | Đổi thứ tự hiển thị |
+| Publish/Unpublish | Đổi trạng thái |
+
+## Public Display Rule
+
+- Chỉ FAQ có `status = published` mới hiển thị trên `/courses/[slug]`.
+- FAQ hiển thị dạng accordion ở cuối trang chi tiết khóa học.
+- Admin có thể tạo FAQ ngay khi tạo khóa học hoặc thêm sau.
+
+---
+
 # 9. Rule quan trọng
 
 | Trường hợp                   | Cách xử lý                                             |

@@ -328,7 +328,84 @@ Mỗi lesson có thể gắn tài liệu kèm theo.
 
 ---
 
-# 10. Thứ tự module/lesson
+# 10. Quản lý Video Assets
+
+Video assets quản lý tại trang `/admin/lessons` (không tách trang riêng).
+
+## Video Asset Table trong Lesson Editor
+
+Khi admin chọn lesson type = video, hiển thị bảng quản lý video assets:
+
+| Cột | Nội dung |
+|-----|---------|
+| Title | Tên video nội bộ |
+| Provider | Cloudflare Stream / Bunny Stream / Vimeo / External URL |
+| Provider Asset ID | ID từ provider |
+| Processing Status | pending / processing / ready / failed / archived |
+| Duration | Thời lượng video |
+| Thumbnail | Ảnh preview |
+| Actions | View / Retry / Archive |
+
+## Upload Video Flow
+
+```text
+1. Admin bấm "Upload Video" trong lesson editor
+2. Chọn file video hoặc nhập external URL
+3. Nếu dùng streaming provider:
+   - Upload lên provider
+   - Hệ thống tạo video_assets record với status = pending
+   - Provider xử lý encode → status = processing
+   - Khi encode xong → status = ready, lưu embed_url, thumbnail, duration
+4. Nếu dùng external URL:
+   - Nhập URL (YouTube, Vimeo embed, etc.)
+   - status = ready ngay
+   - Chỉ dùng cho free course / demo, không dùng cho paid course production
+```
+
+## Video Asset Fields
+
+| Field | Bắt buộc | Ghi chú |
+|-------|----------|---------|
+| Title | Có | Tên video nội bộ |
+| Provider | Có | cloudflare_stream / bunny_stream / vimeo / external_url |
+| Provider Asset ID | Có (nếu dùng provider) | ID từ streaming provider |
+| Playback URL | Tự động | URL phát video/tokenized playback |
+| Embed URL | Tự động | URL embed player |
+| Thumbnail URL | Tự động | Thumbnail từ provider |
+| Duration (seconds) | Tự động | Thời lượng video |
+| Processing Status | Tự động | pending / processing / ready / failed / archived |
+| Visibility | Có | private / unlisted |
+
+## Processing Status Rules
+
+| Status | Ý nghĩa | Lesson publish? | Student access? |
+|--------|---------|----------------|-----------------|
+| pending | Đang chờ xử lý | ❌ Không | ❌ Không |
+| processing | Đang encode | ❌ Không | ❌ Không |
+| ready | Sẵn sàng | ✅ Có | ✅ Có |
+| failed | Lỗi | ❌ Không | ❌ Không |
+| archived | Đã lưu trữ | ❌ Không | ❌ Không |
+
+## Actions trên Video Asset
+
+| Action | Chức năng |
+|--------|----------|
+| View | Xem preview video |
+| Retry | Thử lại nếu status = failed |
+| Archive | Lưu trữ video (ẩn nhưng không xóa) |
+| Replace | Thay thế video bằng file mới |
+
+## Rule quan trọng
+
+- **Paid course**: Chỉ dùng streaming provider (Cloudflare Stream, Bunny Stream, Vimeo). Không dùng YouTube/Drive public link.
+- **Free course**: Có thể dùng external URL (YouTube embed) làm fallback.
+- **Lesson publish**: Chỉ publish khi `video_assets.processing_status = ready`.
+- **Student playback**: Backend kiểm tra login + enrollment active + course/lesson published trước khi trả embed_url.
+- **Security**: Không expose raw private video file. Nếu provider cần signed token, backend phát token sau khi kiểm tra quyền.
+
+---
+
+# 11. Thứ tự module/lesson
 
 Vì khóa học cần flow rõ, admin nên chỉnh được thứ tự.
 
