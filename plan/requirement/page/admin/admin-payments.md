@@ -75,3 +75,19 @@ Action
 | Xem được raw payload/webhook logs | |
 | Webhook trùng provider_event_id hiển thị ignored và không tạo duplicate transaction | |
 | Không sửa trực tiếp raw payload | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** *None*
+- **Incoming Links (Backlinks):** *None*

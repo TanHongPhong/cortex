@@ -31,7 +31,7 @@
 
 ### Cái đáng học từ khóa này
 
-Hugging Face có roadmap rất chuẩn cho người mới: **Fundamentals → Tools → Frameworks → Use cases → Final challenge**. Điểm hay là certificate gắn với việc hoàn thành unit và bài nộp, không chỉ học lý thuyết.
+Hugging Face có roadmap rất chuẩn cho người mới: **Fundamentals → Tools → Frameworks → Use cases → Final challenge**. Điểm hay là [[requirement/page/website/certificate|certificate]] gắn với việc hoàn thành unit và bài nộp, không chỉ học lý thuyết.
 
 ---
 
@@ -134,7 +134,7 @@ Role → Goal → Backstory → Task → Tool → Process → Output
 ## 5. DeepLearning.AI / Coursera — Design, Develop, and Deploy Multi-Agent Systems with CrewAI
 
 **Level:** Beginner nhưng dài hơn, thiên về deploy và production
-**Thời lượng:** Khoảng 12h58, 38 videos, 6 code examples, 7 graded assignments. Khóa có 4 module lớn: foundations, tools/memory/guardrails/hooks, orchestration với Crews & Flows, và business adoption. Projects công khai gồm automated code reviewer, meeting co-pilot, deep researcher. ([DeepLearning.ai][5])
+**Thời lượng:** Khoảng 12h58, 38 videos, 6 code examples, 7 graded [[requirement/page/student/assignments|assignments]]. Khóa có 4 module lớn: foundations, tools/memory/guardrails/hooks, orchestration với Crews & Flows, và business adoption. Projects công khai gồm automated code reviewer, meeting co-pilot, deep researcher. ([DeepLearning.ai][5])
 
 ### Roadmap chi tiết
 
@@ -166,7 +166,7 @@ Prototype → Tools/Memory/Guardrails → Orchestration → Evaluation → Busin
 ## 6. Coursera / Vanderbilt — AI Agent Developer Specialization
 
 **Level:** Beginner → Intermediate
-**Định vị:** 6-course specialization, dạy từ Python agent framework, architecture, custom GPTs, prompt engineering, advanced data analysis đến trustworthy generative AI. Mục tiêu là build/deploy agents dùng Python, tools, memory, reasoning, custom GPTs và responsible AI. ([Coursera][6])
+**Định vị:** 6-course specialization, dạy từ Python agent framework, [[requirement/architecture|architecture]], custom GPTs, prompt engineering, advanced data analysis đến trustworthy generative AI. Mục tiêu là build/deploy agents dùng Python, tools, memory, reasoning, custom GPTs và responsible AI. ([Coursera][6])
 
 ### Roadmap chi tiết
 
@@ -175,9 +175,9 @@ Prototype → Tools/Memory/Guardrails → Orchestration → Evaluation → Busin
 | 1      | **AI Agents and Agentic AI with Python & Generative AI** | Build complete AI agent framework bằng Python                                       | Có agent framework cơ bản   |
 |        |                                                          | Tool discovery, function calling                                                    | Agent biết gọi tool         |
 |        |                                                          | File explorer, documentation generation, coding agents                              | Agent xử lý task thực tế    |
-| 2      | **AI Agents and Agentic AI Architecture in Python**      | Personas, unstructured data transformation                                          | Thiết kế agent architecture |
+| 2      | **AI Agents and Agentic AI Architecture in Python**      | Personas, unstructured data transformation                                          | Thiết kế agent [[requirement/architecture|architecture]] |
 |        |                                                          | Multi-agent collaboration, shared memory, coordination                              | Hệ nhiều agent              |
-|        |                                                          | Trustworthy/safe architecture, staged execution, reversible actions                 | Agent an toàn hơn           |
+|        |                                                          | Trustworthy/safe [[requirement/architecture|architecture]], staged execution, reversible actions                 | Agent an toàn hơn           |
 | 3      | **OpenAI GPTs: Creating Your Own Custom AI Assistants**  | Custom GPTs cho nhiều ngành                                                         | Tạo assistant riêng         |
 |        |                                                          | Human-centered design, personalization, testing                                     | Assistant dùng được hơn     |
 |        |                                                          | RAG, tool calling, responsible AI                                                   | Assistant có dữ liệu/tool   |
@@ -198,7 +198,7 @@ Prompt → Python Agent → Architecture → Custom Assistant → Data/Document 
 ## 7. Microsoft / Coursera — AI Agents: From Foundations to Applications Professional Certificate
 
 **Level:** Developer
-**Định vị:** 4-course professional certificate, dành cho người có nền lập trình/cloud. Dạy Azure AI Foundry, AutoGen, Bot Framework, Semantic Kernel, Microsoft Graph API, security, deployment, responsible AI. Projects gồm hotel information agent, medical information agent và multi-agent business system. ([Coursera][7])
+**Định vị:** 4-course professional [[requirement/page/website/certificate|certificate]], dành cho người có nền lập trình/cloud. Dạy Azure AI Foundry, AutoGen, Bot Framework, Semantic Kernel, Microsoft Graph API, [[requirement/security|security]], deployment, responsible AI. Projects gồm hotel information agent, medical information agent và multi-agent business system. ([Coursera][7])
 
 ### Roadmap chi tiết
 
@@ -216,9 +216,9 @@ Prompt → Python Agent → Architecture → Custom Assistant → Data/Document 
 |                                                            | Python Bot Framework                             | Build bot/agent bằng code |
 |                                                            | Semantic Kernel plugins, memory                  | Plugin + memory           |
 |                                                            | Microsoft Graph API                              | Tích hợp enterprise tools |
-|                                                            | Error handling, security, cost                   | Tư duy production         |
+|                                                            | Error handling, [[requirement/security|security]], cost                   | Tư duy production         |
 | **Course 4 — Building Multi-Agent Systems**                | AutoGen, collaborative AI systems                | Multi-agent system        |
-|                                                            | Responsible AI, enterprise security              | Agent an toàn             |
+|                                                            | Responsible AI, enterprise [[requirement/security|security]]              | Agent an toàn             |
 |                                                            | Azure Entra, SharePoint, Docker, Kubernetes      | Enterprise deployment     |
 |                                                            | Monitoring                                       | Theo dõi vận hành         |
 
@@ -295,7 +295,7 @@ Single Agent → Crew → Memory → Routing → Multi-Crew → Content Studio P
 ## 10. Udacity — AI Agents with LangChain and LangGraph
 
 **Level:** Intermediate
-**Thời lượng:** 15 giờ, 40 lessons, 1 project. Khóa yêu cầu REST APIs, OpenAI API, Python nâng cao và hiểu LLMs. Nội dung đi từ OpenAI API, custom agent, design patterns, LangChain, RAG, LangGraph, database agents, memory, Agentic RAG, evaluation, HITL, observability và security. ([Udacity][10])
+**Thời lượng:** 15 giờ, 40 lessons, 1 project. Khóa yêu cầu REST APIs, OpenAI API, Python nâng cao và hiểu LLMs. Nội dung đi từ OpenAI API, custom agent, design patterns, LangChain, RAG, LangGraph, database agents, memory, Agentic RAG, evaluation, HITL, observability và [[requirement/security|security]]. ([Udacity][10])
 
 ### Roadmap chi tiết
 
@@ -341,7 +341,7 @@ Single Agent → Crew → Memory → Routing → Multi-Crew → Content Studio P
 ## 11. Udacity — Agentic AI Engineer with LangChain and LangGraph
 
 **Level:** Intermediate Nanodegree
-**Định vị:** 3 courses, 40 lessons, 3 projects. Dạy LangChain fundamentals, LangGraph agent systems, external APIs/MCP, database agents, Agentic RAG, HITL, observability, evaluation, long-term memory, LangMem và multi-agent architecture. ([Udacity][11])
+**Định vị:** 3 courses, 40 lessons, 3 [[requirement/page/website/projects|projects]]. Dạy LangChain fundamentals, LangGraph agent systems, external APIs/MCP, database agents, Agentic RAG, HITL, observability, evaluation, long-term memory, LangMem và multi-agent [[requirement/architecture|architecture]]. ([Udacity][11])
 
 ### Roadmap chi tiết
 
@@ -356,7 +356,7 @@ Single Agent → Crew → Memory → Routing → Multi-Crew → Content Studio P
 |                                                  | Evaluation, RAGAS                                        |                            |
 | **Course 3 — Advanced Agentic AI Techniques**    | Long-term memory: semantic, episodic, procedural         | Autonomous Knowledge Agent |
 |                                                  | LangGraph + LangMem                                      |                            |
-|                                                  | Multi-agent architecture                                 |                            |
+|                                                  | Multi-agent [[requirement/architecture|architecture]]                                 |                            |
 |                                                  | State management                                         |                            |
 |                                                  | Multi-agent workflows, content pipelines                 |                            |
 
@@ -397,7 +397,7 @@ Report Agent → Energy Advisor Agent → Autonomous Knowledge Agent
 |                                         | Subgraphs                          | Chia workflow              |
 |                                         | Map-reduce                         | Xử lý nhiều tài liệu       |
 |                                         | Research assistant                 | Build assistant nghiên cứu |
-| **Module 5 — Long-term Memory**         | Short-term vs long-term memory     | Hiểu memory architecture   |
+| **Module 5 — Long-term Memory**         | Short-term vs long-term memory     | Hiểu memory [[requirement/architecture|architecture]]   |
 |                                         | LangGraph Store                    | Lưu memory                 |
 |                                         | Memory schema/profile/collection   | Thiết kế memory            |
 | **Module 6 — Deployment**               | Create/connect deployment          | Đưa lên môi trường chạy    |
@@ -412,7 +412,7 @@ LangChain Academy rất mạnh ở **state, memory, HITL và deployment**, nhữ
 ## 13. Google / Kaggle — 5-Day AI Agents Intensive
 
 **Level:** Intermediate
-**Định vị:** 5 ngày intensive, do Google và Kaggle tổ chức. Nội dung public mô tả bao gồm agent architectures, tools, memory, evaluation, từ prototype đến production, có codelabs/live và capstone project. ([blog.google][13])
+**Định vị:** 5 ngày intensive, do Google và Kaggle tổ chức. Nội dung public mô tả bao gồm agent architectures, tools, memory, evaluation, từ prototype đến production, có codelabs/live và capstone project. ([[[requirement/page/website/blog|blog]].google][13])
 
 ### Roadmap có thể rút ra từ thông tin công khai
 
@@ -534,7 +534,7 @@ ADK Basics → Tools → Multi-Agent → Deploy → Protocols → Evaluation
 |            | Observability, retries                           | Agent ổn định hơn               |
 | Throughout | Live code review clinics                         | Feedback trực tiếp              |
 | Throughout | Weekly milestones                                | Tiến độ rõ                      |
-| Final      | Enterprise-ready agent design                    | Có architecture/deploy thinking |
+| Final      | Enterprise-ready agent design                    | Có [[requirement/architecture|architecture]]/deploy thinking |
 
 ### Cái đáng học từ khóa này
 
@@ -581,7 +581,7 @@ Khóa này là “đỉnh kỹ thuật”. Không phù hợp làm beginner, như
 ## 19. Udemy — Production AI Agents with LangChain + LangGraph
 
 **Level:** Python developer
-**Định vị:** Production-first, build deployable code; có security, testing, error handling, fallbacks, cost optimization, monitoring, final API project. Syllabus công khai qua trang khóa và Class Central cho thấy có LCEL, structured output, streaming, production RAG, vector stores, multi-query, contextual compression, hybrid search, LangGraph state machines, conditional routing, self-correcting loops, HITL. ([Udemy][19])
+**Định vị:** Production-first, build deployable code; có [[requirement/security|security]], testing, error handling, fallbacks, cost optimization, monitoring, final API project. Syllabus công khai qua trang khóa và Class Central cho thấy có LCEL, structured output, streaming, production RAG, vector stores, multi-query, contextual compression, hybrid search, LangGraph state machines, conditional routing, self-correcting loops, HITL. ([Udemy][19])
 
 ### Roadmap rút ra từ thông tin công khai
 
@@ -598,7 +598,7 @@ Khóa này là “đỉnh kỹ thuật”. Không phù hợp làm beginner, như
 | 9         | Conditional routing                            | Điều hướng luồng       |
 | 10        | Self-correcting loops                          | Agent tự sửa           |
 | 11        | HITL                                           | Người kiểm duyệt       |
-| 12        | Testing, security, monitoring                  | Production readiness   |
+| 12        | Testing, [[requirement/security|security]], monitoring                  | Production readiness   |
 | 13        | Final API project                              | Deployable agent API   |
 
 ### Cái đáng học từ khóa này
@@ -614,7 +614,7 @@ RAG Production → LangGraph Workflow → Self-correction → HITL → Monitorin
 ## 20. Nhóm Udemy Agentic AI Bootcamps — LangGraph, CrewAI, MCP, OpenAI Agents SDK, AutoGen
 
 **Level:** Beginner → Intermediate/Developer
-**Định vị chung:** Marketplace courses trên Udemy thường đóng gói theo hướng “build nhiều project”. Một số khóa công khai mô tả dùng LangGraph, CrewAI, MCP, OpenAI Agents SDK, AutoGen, n8n, Python, RAG, Flowise, Cursor; có khóa hứa 8 real-world projects, agents/handoffs/guardrails, runner.run, tracing, collaborative systems. ([Udemy][20])
+**Định vị chung:** Marketplace courses trên Udemy thường đóng gói theo hướng “build nhiều project”. Một số khóa công khai mô tả dùng LangGraph, CrewAI, MCP, OpenAI Agents SDK, AutoGen, n8n, Python, RAG, Flowise, Cursor; có khóa hứa 8 real-world [[requirement/page/website/projects|projects]], agents/handoffs/guardrails, runner.run, tracing, collaborative systems. ([Udemy][20])
 
 ### Roadmap phổ biến rút ra
 
@@ -632,7 +632,7 @@ RAG Production → LangGraph Workflow → Self-correction → HITL → Monitorin
 | 10        | MCP                      | Agent dùng protocol/tool ecosystem |
 | 11        | RAG                      | Agent dùng dữ liệu                 |
 | 12        | n8n / Flowise / low-code | Automation không code nhiều        |
-| 13        | Real-world projects      | Portfolio apps                     |
+| 13        | Real-world [[requirement/page/website/projects|projects]]      | Portfolio apps                     |
 
 ### Cái đáng học từ nhóm Udemy
 
@@ -688,7 +688,7 @@ Sau khi gom các khóa trên, anh thấy gần như mọi roadmap mạnh đều 
 20. Evaluation and testing
 21. Observability and tracing
 22. Deployment
-23. Monitoring, cost, security
+23. Monitoring, cost, [[requirement/security|security]]
 24. Final project / capstone
 ```
 
@@ -724,3 +724,18 @@ Chốt lại: các khóa tốt nhất trên thế giới không dạy AI Agent k
 [18]: https://maven.com/boring-bot/advanced-llm "Agent Engineering Bootcamp: Developers Edition by Hamza Farooq and Zain Hasan on Maven"
 [19]: https://www.udemy.com/course/production-ai-agents/?srsltid=AfmBOoo2yVwoMazqoQ6hQ0h3aQGcvgZlp05oksQU4qb9srqGEF7Uty73&utm_source=chatgpt.com "Production AI Agents with LangChain + LangGraph [2026]"
 [20]: https://www.udemy.com/course/agentic-ai-bootcamp-build-ai-agents/?srsltid=AfmBOorwZryibn6pPnD28NLJomGgOUH0lCTooDZAA6jDEpvcsruIBHIM&utm_source=chatgpt.com "Agentic AI: Build AI Agents with LangGraph, CrewAI & MCP"
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/course
+- #cortex/plan
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]]
+
+### Relations
+- **Outgoing Links:** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page/student/assignments|/assignments — Legacy / Không ưu tiên MVP]], [[requirement/page/website/blog|/blog — Blog / Resources Hub]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/projects|/projects — Trang dự án học viên]], [[requirement/security|Security — Bảo mật hệ thống CORTEX]]
+- **Incoming Links (Backlinks):** *None*

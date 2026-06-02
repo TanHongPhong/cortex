@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu
 
-Hiển thị kết quả sau checkout và hướng user đến bước tiếp theo dựa trên trạng thái `orders.status` và `orders.payment_status`.
+Hiển thị kết quả sau [[requirement/page/student/checkout|checkout]] và hướng user đến bước tiếp theo dựa trên trạng thái `orders.status` và `orders.payment_status`.
 
 ---
 
@@ -40,7 +40,7 @@ Không hiển thị raw payment payload hoặc thông tin nhạy cảm.
 | Trường hợp | Hiển thị | CTA chính |
 | ---------- | -------- | --------- |
 | Payment failed | Thanh toán chưa thành công | `Thử lại` |
-| User cancelled | Bạn đã hủy thanh toán | `Quay lại checkout` |
+| User cancelled | Bạn đã hủy thanh toán | `Quay lại [[requirement/page/student/checkout|checkout]]` |
 | Gateway timeout | Chưa xác nhận được thanh toán | `Xem đơn hàng` |
 
 Nếu user đã chuyển khoản thủ công nhưng hệ thống chưa nhận, CTA phụ là:
@@ -70,5 +70,21 @@ Liên hệ hỗ trợ (`/contact?type=support`)
 | Success paid dẫn được vào khóa học | |
 | Manual pending không báo nhầm là paid | |
 | Failed state cho thử lại hoặc xem đơn hàng | |
-| Refunded state nói rõ refund vào số dư nội bộ, rút tiền qua admin support | |
+| Refunded state nói rõ refund vào số dư nội bộ, rút tiền qua [[requirement/page/admin/admin|admin]] support | |
 | Không hiển thị dữ liệu thanh toán nhạy cảm | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]

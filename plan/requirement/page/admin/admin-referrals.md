@@ -1,4 +1,4 @@
-# `/admin/referrals` — Quản lý referral
+# `/admin/referrals` — Quản lý [[requirement/page/student/referral|referral]]
 
 **Status:** P2
 **Owner area:** Admin
@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu
 
-Admin theo dõi referral codes, conversions và reward.
+Admin theo dõi [[requirement/page/student/referral|referral]] codes, conversions và reward.
 
 ---
 
@@ -55,7 +55,7 @@ Admin theo dõi referral codes, conversions và reward.
 | `referral_codes` | owner, code, reward config, status |
 | `referral_conversions` | referrer, referred, order, reward status |
 | `orders` | order paid/refunded |
-| `users` | referrer/referred profile |
+| `users` | referrer/referred [[requirement/page/student/profile|profile]] |
 
 ---
 
@@ -63,8 +63,24 @@ Admin theo dõi referral codes, conversions và reward.
 
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
-| Admin xem referral codes được | |
+| Admin xem [[requirement/page/student/referral|referral]] codes được | |
 | Admin xem conversions được | |
 | Reward status đúng theo order | |
 | Pause/archive code được | |
 | Không tính self-referral | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/profile|/profile — Hồ sơ cá nhân]], [[requirement/page/student/referral|/referral — Mã giới thiệu]]
+- **Incoming Links (Backlinks):** *None*

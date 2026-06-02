@@ -239,3 +239,19 @@ CORTEX
 | Reset thành công chuyển về `/login` | |
 | Rate limit: tối đa 5 lần / 15 phút / IP | |
 | Email gửi đúng template | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** *None*
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

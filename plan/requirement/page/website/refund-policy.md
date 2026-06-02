@@ -3,7 +3,7 @@
 **Status:** MVP
 **Owner area:** Public
 **Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
-**Build decision:** Build static page
+**Build decision:** Build static [[requirement/page|page]]
 
 ## 1. Mục tiêu
 
@@ -29,7 +29,7 @@ Giải thích rõ refund trong MVP/P1 là credit nội bộ vào số dư tài k
 
 ## 4. Permission / Rule
 
-- Public route, không yêu cầu login.
+- Public route, không yêu cầu [[requirement/page/student/login|login]].
 - Không nói refund là gateway refund tự động.
 - Rút tiền không có self-service trong MVP/P1.
 - Admin reset balance sau rút tiền bắt buộc có ledger và audit log.
@@ -46,5 +46,21 @@ Giải thích rõ refund trong MVP/P1 là credit nội bộ vào số dư tài k
 | -------- | ----------- |
 | Public truy cập `/refund-policy` được | |
 | Nói rõ refund credit vào số dư nội bộ | |
-| Nói rõ rút tiền thủ công qua admin | |
+| Nói rõ rút tiền thủ công qua [[requirement/page/admin/admin|admin]] | |
 | Nói rõ refund có thể khóa quyền học qua enrollment cancelled | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/login|/login — Đăng nhập]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

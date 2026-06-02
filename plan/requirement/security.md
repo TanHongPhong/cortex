@@ -34,7 +34,7 @@
 
 | Endpoint | Rate Limit | Window | Action |
 |----------|-----------|--------|--------|
-| POST /api/auth/login | 5 attempts | 15 phút | Lock account + notify admin |
+| POST /api/auth/login | 5 attempts | 15 phút | Lock account + notify [[requirement/page/admin/admin|admin]] |
 | POST /api/auth/register | 3 attempts | 15 phút | Block IP temporarily |
 | POST /api/auth/forgot-password | 5 attempts | 15 phút | Block IP temporarily |
 | POST /api/auth/reset-password | 5 attempts | 15 phút | Block IP temporarily |
@@ -60,13 +60,13 @@
 
 ### 2.1. Role-based Access Control (RBAC)
 
-| Route Pattern | student | instructor | admin |
+| Route Pattern | student | instructor | [[requirement/page/admin/admin|admin]] |
 |---------------|:-------:|:----------:|:-----:|
 | `/(public)/*` | ✅ | ✅ | ✅ |
 | `/(auth)/*` | ✅ | ✅ | ✅ |
 | `/(student)/*` | ✅ | ❌ | ✅ |
 | `/(instructor)/*` | ❌ | ✅ | ✅ |
-| `/(admin)/*` | ❌ | ❌ | ✅ |
+| `/([[requirement/page/admin/admin|admin]])/*` | ❌ | ❌ | ✅ |
 | `/api/admin/*` | ❌ | ❌ | ✅ |
 
 ### 2.2. Resource-level Authorization
@@ -80,7 +80,7 @@ async function authorize(request, requiredRole) {
     return 401 // Unauthorized
   }
 
-  if (user.role !== requiredRole && user.role !== 'admin') {
+  if (user.role !== requiredRole && user.role !== '[[requirement/page/admin/admin|admin]]') {
     return 403 // Forbidden
   }
 
@@ -95,11 +95,11 @@ async function authorize(request, requiredRole) {
 
 | Entity | Student | Instructor | Admin |
 |--------|---------|-----------|-------|
-| Own profile | Read/Write | Read/Write | Read/Write |
+| Own [[requirement/page/student/profile|profile]] | Read/Write | Read/Write | Read/Write |
 | Other users | ❌ | ❌ | Read/Write |
 | Own enrollments | Read | ❌ | Read/Write |
 | Course curriculum | Read (enrolled) | Read (assigned) | Read/Write |
-| Own submissions | Read/Write | Read/Write (assigned) | Read/Write |
+| Own [[requirement/page/instructor/submissions|submissions]] | Read/Write | Read/Write (assigned) | Read/Write |
 | Own certificates | Read | ❌ | Read/Write |
 | Own orders | Read | ❌ | Read/Write |
 | All orders | ❌ | ❌ | Read/Write |
@@ -249,7 +249,7 @@ const ALLOWED_TYPES = {
 const MAX_SIZES = {
   avatar: 2 * 1024 * 1024,      // 2MB
   document: 10 * 1024 * 1024,    // 10MB
-  video: 500 * 1024 * 1024       // 500MB
+  video: [[requirement/page/website/500|500]] * 1024 * 1024       // 500MB
 }
 
 export function validateFile(file: File, type: keyof typeof ALLOWED_TYPES) {
@@ -332,7 +332,7 @@ export async function checkRateLimit(identifier: string) {
 | Register | 3 | 15 min |
 | Forgot password | 5 | 15 min |
 | Contact form | 5 | 15 min |
-| Verify certificate | 20 | 1 min |
+| Verify [[requirement/page/website/certificate|certificate]] | 20 | 1 min |
 | API general | 100 | 1 min |
 | File upload | 10 | 1 hour |
 
@@ -345,8 +345,8 @@ export async function checkRateLimit(identifier: string) {
 | Data | Storage | Display | Export |
 |------|---------|---------|--------|
 | Password | bcrypt hash | ❌ Never | ❌ Never |
-| Email | Encrypted at rest | Masked (u***@email.com) | Full (admin only) |
-| Phone | Encrypted at rest | Masked (09***xxx) | Full (admin only) |
+| Email | Encrypted at rest | Masked (u***@email.com) | Full ([[requirement/page/admin/admin|admin]] only) |
+| Phone | Encrypted at rest | Masked (09***xxx) | Full ([[requirement/page/admin/admin|admin]] only) |
 | Payment payload | Encrypted at rest | ❌ Never | ❌ Never |
 | JWT secret | Environment variable | ❌ Never | ❌ Never |
 
@@ -404,6 +404,21 @@ const securityHeaders = {
 - [ ] Regular dependency updates
 - [ ] Security patches applied promptly
 - [ ] Access logs monitored
-- [ ] Failed login attempts tracked
+- [ ] Failed [[requirement/page/student/login|login]] attempts tracked
 - [ ] Backup verification
 - [ ] Incident response plan
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/student/profile|/profile — Hồ sơ cá nhân]], [[requirement/page/website/500|/500 — Trang lỗi server]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[course/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[requirement/hard_notes|Hard Notes]], [[requirement/page/student/profile|/profile — Hồ sơ cá nhân]]

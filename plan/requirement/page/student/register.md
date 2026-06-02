@@ -39,7 +39,7 @@ Tạo tài khoản học viên
 
 | Field              | Bắt buộc | Ghi chú                      |
 | ------------------ | -------- | ---------------------------- |
-| Họ và tên          | Có       | Dùng cho profile/certificate |
+| Họ và tên          | Có       | Dùng cho [[requirement/page/student/profile|profile]]/certificate |
 | Email              | Có       | Không được trùng             |
 | Số điện thoại/Zalo | Có       | Dùng để tư vấn/hỗ trợ        |
 | Mật khẩu           | Có       | Tối thiểu 6–8 ký tự          |
@@ -66,8 +66,8 @@ Tạo tài khoản học viên
 | --------------------- | ------------------------------------ |
 | Email đã tồn tại      | Báo “Email này đã được sử dụng”      |
 | Mật khẩu không khớp   | Báo lỗi ngay dưới field              |
-| Đăng ký thành công    | Tạo user + profile student           |
-| User mới              | Không được tự chọn role admin        |
+| Đăng ký thành công    | Tạo user + [[requirement/page/student/profile|profile]] student           |
+| User mới              | Không được tự chọn role [[requirement/page/admin/admin|admin]]        |
 
 MVP/P1 không build Google OAuth và không build email verification.
 
@@ -89,3 +89,19 @@ MVP/P1 không build Google OAuth và không build email verification.
 | Không cho user tự chọn role | |
 | Email trùng bị chặn | |
 | Referral param được giữ nếu có | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/profile|/profile — Hồ sơ cá nhân]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page/admin/admin-students|/admin/students — Quản lý học viên]]

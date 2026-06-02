@@ -115,7 +115,7 @@ Chứng chỉ xác nhận học viên đã hoàn thành khóa học tại CORTEX
 | -------------- | -------------------------------------- |
 | Certificate ID | Mỗi chứng chỉ có mã riêng, không trùng |
 | QR Code        | Quét QR để mở trang verify             |
-| Verify page    | Dẫn tới `/verify-certificate`          |
+| Verify [[requirement/page|page]]    | Dẫn tới `/verify-certificate`          |
 | Kết quả verify | Hiển thị valid/invalid/revoked         |
 
 **Thông tin hiển thị khi verify:**
@@ -230,3 +230,19 @@ Trang `/certificate` đạt nếu:
 | Responsive tốt trên mobile                      |             |
 
 ---
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[course/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/hard_notes|Hard Notes]], [[requirement/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-audit-logs|/admin/audit-logs — Lịch sử thao tác]], [[requirement/page/admin/admin-certificate-templates|/admin/certificate-templates — Quản lý template chứng chỉ]], [[requirement/page/admin/admin-certificates|/admin/certificates — Quản lý chứng chỉ]], [[requirement/page/admin/admin-courses|/admin/courses — Quản lý khóa học]], [[requirement/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[requirement/page/admin/admin-overview|/admin — Admin Overview]], [[requirement/page/admin/admin-students|/admin/students — Quản lý học viên]], [[requirement/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/student/learn-course|/learn/course — Trang học của một khóa]], [[requirement/page/student/learn-lesson|/learn/course/lesson — Trang bài học]], [[requirement/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[requirement/page/student/my-courses|/my-courses — Khóa học của tôi]], [[requirement/page/student/notifications|/notifications — Thông báo của tôi]], [[requirement/page/student/profile|/profile — Hồ sơ cá nhân]], [[requirement/page/student/submit-project|/submit-project — Legacy / Không ưu tiên MVP]], [[requirement/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[requirement/page/website/courses|/courses — Product Catalog Page]], [[requirement/page/website/home|Trang chủ / — Home Page]], [[requirement/page/website/privacy|/privacy — Chính sách dữ liệu]], [[requirement/page/website/projects|/projects — Trang dự án học viên]], [[requirement/page/website/terms|/terms — Điều khoản sử dụng]], [[requirement/page/website/verify-certificate|/verify-certificate — Trang xác thực chứng chỉ]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/security|Security — Bảo mật hệ thống CORTEX]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

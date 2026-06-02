@@ -99,11 +99,11 @@ video / resource / quiz / assignment / final_project
 | Thành phần | Yêu cầu |
 | ---------- | ------- |
 | Unread count | Số notification chưa đọc. |
-| Latest items | 3-5 thông báo mới nhất: order paid, submission reviewed, certificate issued, announcement, question answered. |
+| Latest items | 3-5 thông báo mới nhất: order paid, submission reviewed, [[requirement/page/website/certificate|certificate]] issued, announcement, question answered. |
 | CTA | `Xem tất cả thông báo` dẫn `/notifications`. |
 | Empty state | “Chưa có thông báo mới.” |
 
-**Rule:** chỉ lấy `notifications.user_id = current_user.id`.
+**Rule:** chỉ lấy `[[requirement/page/student/notifications|notifications]].user_id = current_user.id`.
 
 ---
 
@@ -176,7 +176,7 @@ Ví dụ với video lesson:
 
 ```text
 Bài học tiếp theo
-Build your first AI landing page
+Build your first AI landing [[requirement/page|page]]
 Module 2 — Vibe Coding Basics
 [Học bài tiếp theo]
 ```
@@ -185,7 +185,7 @@ Ví dụ với assignment lesson:
 
 ```text
 Bài tiếp theo
-Bài tập: Viết prompt tạo landing page
+Bài tập: Viết prompt tạo landing [[requirement/page|page]]
 Module 2 — Vibe Coding Basics
 [Xem bài tập]
 ```
@@ -231,7 +231,7 @@ Không dẫn sang:
 | ------------- | ---------------------------- | ------------------------------------- |
 | Not submitted | Bạn chưa nộp bài tập/project | `Nộp bài`                             |
 | Pending       | Bài nộp đang chờ duyệt       | `Xem bài đã nộp`                      |
-| Approved      | Bài nộp đã được duyệt        | `Tiếp tục học` hoặc `Xem certificate` |
+| Approved      | Bài nộp đã được duyệt        | `Tiếp tục học` hoặc `Xem [[requirement/page/website/certificate|certificate]]` |
 | Rejected      | Bài nộp cần chỉnh sửa        | `Chỉnh sửa bài nộp`                   |
 
 CTA sẽ dẫn trực tiếp đến lesson dạng `assignment` hoặc `final_project`:
@@ -240,7 +240,7 @@ CTA sẽ dẫn trực tiếp đến lesson dạng `assignment` hoặc `final_pro
 /learn/[course]/[lesson]
 ```
 
-**Nếu rejected:** hiển thị feedback ngắn từ admin.
+**Nếu rejected:** hiển thị feedback ngắn từ [[requirement/page/admin/admin|admin]].
 
 Ví dụ:
 
@@ -258,9 +258,9 @@ Feedback: Demo link chưa hoạt động, vui lòng cập nhật lại.
 
 | Status       | Hiển thị                           | CTA               |
 | ------------ | ---------------------------------- | ----------------- |
-| Not eligible | Chưa đủ điều kiện nhận certificate | `Xem điều kiện`   |
-| Eligible     | Đủ điều kiện, chờ cấp certificate  | `Xem trạng thái`  |
-| Issued       | Certificate đã được cấp            | `Tải certificate` |
+| Not eligible | Chưa đủ điều kiện nhận [[requirement/page/website/certificate|certificate]] | `Xem điều kiện`   |
+| Eligible     | Đủ điều kiện, chờ cấp [[requirement/page/website/certificate|certificate]]  | `Xem trạng thái`  |
+| Issued       | Certificate đã được cấp            | `Tải [[requirement/page/website/certificate|certificate]]` |
 | Revoked      | Certificate không còn hiệu lực     | `/contact?type=support` |
 
 Nếu đã cấp:
@@ -271,7 +271,7 @@ ID: MAY-AI-2026-0001
 [Download PDF] [Verify]
 ```
 
-**Điều kiện certificate:**
+**Điều kiện [[requirement/page/website/certificate|certificate]]:**
 Học viên phải hoàn thành các lesson bắt buộc và final project phải được `approved`.
 
 ---
@@ -313,7 +313,7 @@ Hãy tiếp tục học các bài tiếp theo trong khóa.
 [Tiếp tục học]
 ```
 
-## Khi chưa có certificate
+## Khi chưa có [[requirement/page/website/certificate|certificate]]
 
 ```text
 Bạn chưa có chứng chỉ nào.
@@ -350,7 +350,7 @@ Hoàn thành bài học và final project để nhận Certificate of Completion
 | `modules`         | Module hiện tại                                 |
 | `lessons`         | Tổng lesson, bài tiếp theo, lesson type         |
 | `lesson_progress` | Lesson đã hoàn thành                            |
-| `submissions`     | Trạng thái bài nộp của assignment/final project |
+| [[requirement/page/instructor/submissions|`submissions`]]     | Trạng thái bài nộp của assignment/final project |
 | `certificates`    | Certificate ID, trạng thái, link PDF            |
 
 ---
@@ -384,7 +384,7 @@ Nếu lesson_type = assignment/final_project:
 → CTA dẫn đến bài tập/project đó.
 
 Nếu tất cả lesson đã completed:
-→ chuyển CTA sang /my-certificates hoặc trạng thái certificate.
+→ chuyển CTA sang /my-certificates hoặc trạng thái [[requirement/page/website/certificate|certificate]].
 ```
 
 ---
@@ -407,7 +407,7 @@ Nếu đã duyệt:
 
 ---
 
-## Logic certificate
+## Logic [[requirement/page/website/certificate|certificate]]
 
 ```text
 Nếu chưa hoàn thành các lesson bắt buộc:
@@ -422,10 +422,10 @@ Nếu final_project chưa nộp:
 Nếu final_project pending:
 → Waiting for approval
 
-Nếu final_project approved nhưng chưa cấp certificate:
+Nếu final_project approved nhưng chưa cấp [[requirement/page/website/certificate|certificate]]:
 → Eligible
 
-Nếu certificate đã cấp:
+Nếu [[requirement/page/website/certificate|certificate]] đã cấp:
 → Issued
 ```
 
@@ -459,7 +459,7 @@ Trong đó:
 | CTA chính     | Gradient xanh/cyan/tím theo brand                    |
 | Status badge  | Màu nhẹ, dễ phân biệt                                |
 | Progress bar  | Rõ, không quá nhỏ                                    |
-| Icon          | Dùng icon đơn giản: book, check, certificate, rocket |
+| Icon          | Dùng icon đơn giản: book, check, [[requirement/page/website/certificate|certificate]], rocket |
 | Mascot        | Chỉ dùng nhẹ ở welcome/empty state, không làm rối    |
 
 ---
@@ -475,7 +475,7 @@ Trên màn hình đầu tiên, học viên phải thấy ngay:
 4. Next lesson
 ```
 
-Các phần assignment/final project, certificate, my courses có thể nằm bên dưới nhưng vẫn trong dashboard, không cần cuộn quá dài.
+Các phần assignment/final project, [[requirement/page/website/certificate|certificate]], my courses có thể nằm bên dưới nhưng vẫn trong dashboard, không cần cuộn quá dài.
 
 ---
 
@@ -492,7 +492,7 @@ Trang `/dashboard` đạt nếu:
 | Tính đúng % tiến độ học                                          |             |
 | Nút `Tiếp tục học` dẫn đúng bài tiếp theo                        |             |
 | Hiển thị đúng trạng thái assignment/final project                |             |
-| Hiển thị đúng trạng thái certificate                             |             |
+| Hiển thị đúng trạng thái [[requirement/page/website/certificate|certificate]]                             |             |
 | CTA bài tập/project dẫn đến `/learn/[course]/[lesson]` tương ứng |             |
 | Có empty state nếu chưa có khóa                                  |             |
 | Responsive tốt trên mobile                                       |             |
@@ -516,3 +516,19 @@ Trang `/dashboard` đạt nếu:
 ```
 
 Nói ngắn gọn: **dashboard là trang “hôm nay tôi cần học gì tiếp?”. Vì vậy thiết kế phải ưu tiên current course, progress và next lesson. Assignment/final project chỉ là trạng thái theo dõi và sẽ dẫn thẳng vào lesson tương ứng trong khóa học.**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/notifications|/notifications — Thông báo của tôi]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[course/AI_AGENT_ROADMAP|🤖 AI Agent Mastery Roadmap: From No-Code to Engineer]], [[course/course_vn|1. MindX — AI Agent Engineer]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/hard_notes|Hard Notes]], [[requirement/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-system-users-new|/admin/system/users/new — Hidden Staff Account Creation]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/blog|/blog — Blog / Resources Hub]], [[requirement/page/website/projects|/projects — Trang dự án học viên]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

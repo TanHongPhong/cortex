@@ -257,7 +257,7 @@ Sentry.init({
 |-------|-------|
 | ERROR | System errors, unhandled exceptions, payment failures |
 | WARN | Rate limit hits, failed auth attempts, deprecated API usage |
-| INFO | User actions, order creation, enrollment, certificate issued |
+| INFO | User actions, order creation, enrollment, [[requirement/page/website/certificate|certificate]] issued |
 | DEBUG | Development only, detailed request/response |
 
 ### 7.2. Structured Logging
@@ -309,7 +309,7 @@ logger.info({
 ```text
 Database Recovery:
 1. Identify point in time to restore
-2. Use Supabase dashboard or pg_restore
+2. Use Supabase [[requirement/page/student/dashboard|dashboard]] or pg_restore
 3. Verify data integrity
 4. Update application if needed
 
@@ -395,7 +395,7 @@ Scale (10000+ users):
 | Vercel Pro | $20 |
 | Supabase Pro | $25 |
 | Cloudflare R2 (100GB) | $1.50 |
-| Cloudflare Stream (500h) | $500 |
+| Cloudflare Stream (500h) | $[[requirement/page/website/500|500]] |
 | Resend Pro | $20 |
 | Upstash Redis | $10 |
 | Sentry Team | $26 |
@@ -425,7 +425,7 @@ Code Rollback:
 3. Investigate issue
 
 Database Rollback:
-1. Stop application (maintenance mode)
+1. Stop application ([[requirement/page/website/maintenance|maintenance]] mode)
 2. Restore database from backup
 3. Run any needed data fixes
 4. Restart application
@@ -441,8 +441,8 @@ Database Rollback:
 | Access | Who | Method |
 |--------|-----|--------|
 | GitHub repo | Core team | GitHub teams |
-| Vercel dashboard | DevOps lead | Vercel teams |
-| Supabase dashboard | DevOps lead | Supabase teams |
+| Vercel [[requirement/page/student/dashboard|dashboard]] | DevOps lead | Vercel teams |
+| Supabase [[requirement/page/student/dashboard|dashboard]] | DevOps lead | Supabase teams |
 | Cloudflare | DevOps lead | Cloudflare teams |
 | Production env vars | DevOps lead | Vercel encrypted |
 
@@ -497,3 +497,18 @@ hotfix/*      → Hotfix branches (PR to main)
 - [ ] Lint passing
 - [ ] No TypeScript errors
 - [ ] Migration tested (if applicable)
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/website/500|/500 — Trang lỗi server]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/maintenance|/maintenance — Trang bảo trì hệ thống]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]

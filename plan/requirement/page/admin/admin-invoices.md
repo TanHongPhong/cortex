@@ -57,3 +57,19 @@ Admin tạo, phát hành, hủy và tải biên nhận/hóa đơn dựa trên or
 | Invoice issued nếu sửa billing thì tạo version mới | |
 | Issue/cancel invoice được | |
 | Download invoice_url hoạt động nếu có | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** *None*
+- **Incoming Links (Backlinks):** *None*

@@ -3,7 +3,7 @@
 **Status:** MVP
 **Owner area:** Public
 **Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
-**Build decision:** Build static page
+**Build decision:** Build static [[requirement/page|page]]
 
 ## 1. Mục tiêu
 
@@ -15,7 +15,7 @@ Giải thích dữ liệu CORTEX thu thập, mục đích sử dụng và quyề
 | ------- | ------- |
 | Header | Tiêu đề rõ: `Chính sách dữ liệu` |
 | Data collected | Họ tên, email, phone/Zalo, nhu cầu học, order, learning progress |
-| Usage | Tư vấn học tập, vận hành khóa học, thanh toán, certificate verification |
+| Usage | Tư vấn học tập, vận hành khóa học, thanh toán, [[requirement/page/website/certificate|certificate]] verification |
 | Consent | Giải thích `leads.consent_privacy_policy` |
 | Contact | CTA `/contact?type=support` nếu cần yêu cầu hỗ trợ dữ liệu |
 
@@ -25,7 +25,7 @@ Static content. Không cần bảng CMS trong MVP/P1.
 
 ## 4. Permission / Rule
 
-- Public route, không yêu cầu login.
+- Public route, không yêu cầu [[requirement/page/student/login|login]].
 - Không hiển thị dữ liệu cá nhân thật trên trang.
 - Form lead/contact phải link về trang này khi yêu cầu consent privacy policy.
 
@@ -42,3 +42,19 @@ Static content. Không cần bảng CMS trong MVP/P1.
 | Public truy cập `/privacy` được | |
 | Nội dung giải thích rõ consent dữ liệu | |
 | Contact/lead form có thể link tới trang này | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]]

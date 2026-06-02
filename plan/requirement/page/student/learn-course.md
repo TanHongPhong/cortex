@@ -126,7 +126,7 @@ Ví dụ lesson row:
 
 ```text
 ✓ 2.1 Tư duy Vibe Coding                    [Video]
-✓ 2.2 Tạo landing page đầu tiên             [Video]
+✓ 2.2 Tạo landing [[requirement/page|page]] đầu tiên             [Video]
 ○ 2.3 Bài tập: Viết prompt tạo layout       [Assignment]
 🔒 2.4 Chỉnh sửa UI bằng AI                  [Video]
 ○ 2.5 Final project: AI Landing Page         [Final Project]
@@ -250,7 +250,7 @@ Phù hợp với:
 | Bài tiếp theo là final project    | `Nộp final project`     |
 | Assignment/final project pending  | `Xem bài đã nộp`        |
 | Assignment/final project rejected | `Chỉnh sửa bài nộp`     |
-| Final project đã duyệt            | `Xem certificate`       |
+| Final project đã duyệt            | `Xem [[requirement/page/website/certificate|certificate]]`       |
 | Khóa completed                    | `Xem lại khóa học`      |
 
 ---
@@ -293,11 +293,11 @@ Vui lòng liên hệ CORTEX để được hỗ trợ gia hạn.
 | Course data                       | Lấy thông tin khóa từ `courses`                            |
 | Module data                       | Lấy module từ `modules` theo course                        |
 | Lesson data                       | Lấy lesson từ `lessons` theo module, bao gồm `lesson_type` |
-| Progress                          | Tính progress từ `lesson_progress` và `submissions`        |
+| Progress                          | Tính progress từ `lesson_progress` và [[requirement/page/instructor/submissions|`submissions`]]        |
 | Lesson click                      | Bấm lesson dẫn tới `/learn/[course]/[lesson]`              |
 | Locked rule                       | Nếu bài bị khóa thì không cho truy cập                     |
 | Continue button                   | Dẫn tới lesson chưa hoàn thành gần nhất                    |
-| Assignment / Final Project status | Lấy từ `submissions`                                       |
+| Assignment / Final Project status | Lấy từ [[requirement/page/instructor/submissions|`submissions`]]                                       |
 | Certificate status                | Lấy từ `certificates`                                      |
 | Responsive                        | Desktop 2 cột, mobile 1 cột                                |
 
@@ -314,7 +314,7 @@ Vui lòng liên hệ CORTEX để được hỗ trợ gia hạn.
 | `lessons`         | Danh sách bài học, `lesson_type`, thứ tự bài    |
 | `resources`       | Tài liệu chung của khóa qua `resources.course_id` |
 | `lesson_progress` | Bài video/resource nào đã hoàn thành            |
-| `submissions`     | Trạng thái bài nộp của assignment/final project |
+| [[requirement/page/instructor/submissions|`submissions`]]     | Trạng thái bài nộp của assignment/final project |
 | `certificates`    | Trạng thái chứng chỉ                            |
 
 ---
@@ -324,7 +324,7 @@ Vui lòng liên hệ CORTEX để được hỗ trợ gia hạn.
 ## Kiểm tra quyền truy cập
 
 ```text
-Nếu user chưa login:
+Nếu user chưa [[requirement/page/student/login|login]]:
 → redirect /login
 
 Nếu user chưa enrolled khóa này:
@@ -344,7 +344,7 @@ total_required_lessons = tổng lesson bắt buộc của khóa
 completed_lessons =
 - video/resource lesson đã completed trong lesson_progress
 - quiz lesson có ít nhất một quiz_attempts.passed = true
-- assignment/final_project đã approved trong submissions
+- assignment/final_project đã approved trong [[requirement/page/instructor/submissions|submissions]]
 
 progress = completed_lessons / total_required_lessons * 100
 ```
@@ -369,7 +369,7 @@ Nếu lesson_type = final_project:
 → CTA là Nộp final project
 
 Nếu không còn lesson chưa completed:
-→ CTA chuyển sang Xem certificate hoặc Xem lại khóa học
+→ CTA chuyển sang Xem [[requirement/page/website/certificate|certificate]] hoặc Xem lại khóa học
 ```
 
 ---
@@ -399,7 +399,7 @@ Nếu course.lock_mode = free:
 | Lesson type   | Có badge nhỏ để phân biệt video/resource/quiz/assignment/final project |
 | Right panel   | Sticky nhẹ trên desktop                                           |
 | Progress bar  | Rõ, dễ thấy                                                       |
-| Badge         | Level, status, certificate                                        |
+| Badge         | Level, status, [[requirement/page/website/certificate|certificate]]                                        |
 | Mobile        | Module list ưu tiên lên trước, info panel xuống dưới              |
 | Animation     | Chỉ dùng accordion/hover nhẹ                                      |
 
@@ -415,7 +415,7 @@ Nếu course.lock_mode = free:
 | `LessonRow`            | Từng bài học                                                   |
 | `LessonTypeBadge`      | Video / Resource / Assignment / Final Project                  |
 | `LessonStatusIcon`     | Completed / available / locked / pending / rejected / approved |
-| `CourseInfoPanel`      | Progress, assignment/final project, certificate                |
+| `CourseInfoPanel`      | Progress, assignment/final project, [[requirement/page/website/certificate|certificate]]                |
 | `ProgressBar`          | Tiến độ                                                        |
 | `StatusBadge`          | Badge trạng thái                                               |
 | `AccessDeniedState`    | Khi chưa enrolled                                              |
@@ -429,7 +429,7 @@ Trang `/learn/[course]` đạt nếu:
 
 | Tiêu chí                                                           | Đạt / Không |
 | ------------------------------------------------------------------ | ----------- |
-| User chưa login bị chuyển về login                                 |             |
+| User chưa [[requirement/page/student/login|login]] bị chuyển về [[requirement/page/student/login|login]]                                 |             |
 | User chưa enrolled không xem được khóa                             |             |
 | Hiển thị đúng tên khóa và mô tả                                    |             |
 | Hiển thị đúng module và lesson                                     |             |
@@ -465,3 +465,19 @@ Trang `/learn/[course]` đạt nếu:
 ```
 
 Nói ngắn gọn: **`/learn/[course]` là bản đồ của một khóa học. Học viên phải nhìn được toàn bộ module, biết bài nào là video, bài nào là assignment/final project, biết mình đang ở đâu và học tiếp bài nào.**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** *None*

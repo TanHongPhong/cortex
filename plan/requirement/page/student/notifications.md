@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu trang
 
-Học viên xem tất cả in-app notification và mở đúng việc cần xử lý: học tiếp, xem order, xem feedback, tải certificate hoặc đọc announcement.
+Học viên xem tất cả in-app notification và mở đúng việc cần xử lý: học tiếp, xem order, xem feedback, tải [[requirement/page/website/certificate|certificate]] hoặc đọc announcement.
 
 ---
 
@@ -16,7 +16,7 @@ Học viên xem tất cả in-app notification và mở đúng việc cần xử
 | Khu vực | Yêu cầu |
 | ------- | ------- |
 | Header | Tiêu đề, unread count, nút `Mark all as read`. |
-| Filters | All, unread, course, payment, submission, certificate, Q&A. |
+| Filters | All, unread, course, payment, submission, [[requirement/page/website/certificate|certificate]], Q&A. |
 | Notification list | Title, body, type, created_at, read/unread state. |
 | Action | Click item mở `target_url` và set `read_at`. |
 | Empty state | “Bạn chưa có thông báo nào.” |
@@ -38,7 +38,7 @@ Học viên xem tất cả in-app notification và mở đúng việc cần xử
 - Chỉ hiển thị notification có `user_id = current_user.id`.
 - Notification là delivery cá nhân; announcement vẫn là nội dung nguồn.
 - MVP chỉ hỗ trợ in-app notification, chưa cần email/push.
-- Các event tạo notification: order paid, submission reviewed, certificate issued, announcement published, question answered.
+- Các event tạo notification: order paid, submission reviewed, [[requirement/page/website/certificate|certificate]] issued, announcement published, question answered.
 
 ---
 
@@ -46,8 +46,24 @@ Học viên xem tất cả in-app notification và mở đúng việc cần xử
 
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
-| User chưa login bị chuyển về login | |
+| User chưa [[requirement/page/student/login|login]] bị chuyển về [[requirement/page/student/login|login]] | |
 | Chỉ thấy notification của chính mình | |
 | Click notification mở đúng `target_url` | |
 | Mark read/mark all read cập nhật `read_at` | |
 | Empty/error state rõ ràng | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/hard_notes|Hard Notes]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-announcements|/admin/announcements — Quản lý thông báo]], [[requirement/page/admin/admin-overview|/admin — Admin Overview]], [[requirement/page/instructor/overview|/instructor — Instructor Overview]], [[requirement/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/student/learn-lesson|/learn/course/lesson — Trang bài học]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

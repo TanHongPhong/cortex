@@ -13,7 +13,7 @@
 | Showcase đầu ra   | Cho người xem thấy kết quả sau khóa học                     |
 | Hỗ trợ bán khóa   | Dẫn người xem từ project → khóa học liên quan               |
 | Tạo cảm hứng      | Người mới nhìn vào thấy “mình cũng có thể làm được”         |
-| Tách biệt dữ liệu | Projects là bảng độc lập, không tự động nhận từ submissions |
+| Tách biệt dữ liệu | Projects là bảng độc lập, không tự động nhận từ [[requirement/page/instructor/submissions|submissions]] |
 
 ---
 
@@ -72,7 +72,7 @@ Không chỉ học lý thuyết. Tại CORTEX, mỗi khóa học đều hướng
 | Project                  | Mô tả                                     |
 | ------------------------ | ----------------------------------------- |
 | AI Study Assistant       | Trợ lý học tập cá nhân dùng AI            |
-| AI Landing Page Builder  | Landing page được tạo bằng Vibe Coding    |
+| AI Landing Page Builder  | Landing [[requirement/page|page]] được tạo bằng Vibe Coding    |
 | Customer Support Bot     | Chatbot hỗ trợ khách hàng cơ bản          |
 | Form-to-Email Automation | Workflow tự động từ form sang email/sheet |
 
@@ -101,7 +101,7 @@ Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project
 
 | Category            | Mô tả                                     |
 | ------------------- | ----------------------------------------- |
-| Vibe Coding Website | Website, landing page, portfolio          |
+| Vibe Coding Website | Website, landing [[requirement/page|page]], portfolio          |
 | AI Assistant        | Trợ lý học tập, trợ lý cá nhân, chatbot   |
 | Workflow Automation | Tự động hóa form, email, sheet, báo cáo   |
 | Business AI Agent   | Agent hỗ trợ bán hàng, CSKH, vận hành     |
@@ -155,7 +155,7 @@ Nút: `Xem khóa học phù hợp`
 | Thành phần | Yêu cầu                                                |
 | ---------- | ------------------------------------------------------ |
 | Headline   | “Sẵn sàng xây project AI đầu tiên của bạn?”            |
-| Subtext    | Nhấn mạnh học qua project, có feedback, có certificate |
+| Subtext    | Nhấn mạnh học qua project, có feedback, có [[requirement/page/website/certificate|certificate]] |
 | CTA chính  | `Đăng ký học thử`                                      |
 | CTA phụ    | `Xem khóa học`                                         |
 
@@ -165,7 +165,7 @@ Nút: `Xem khóa học phù hợp`
 
 | Nhóm             | Yêu cầu                                                    |
 | ---------------- | ---------------------------------------------------------- |
-| Hiển thị project | Lấy project từ bảng `projects` (độc lập với `submissions`) |
+| Hiển thị project | Lấy project từ bảng `projects` (độc lập với [[requirement/page/instructor/submissions|`submissions`]]) |
 | Project card     | Có ảnh, tên, mô tả, category, khóa liên quan, link demo    |
 | Project detail   | MVP dùng modal; Future có thể tách `/projects/[slug]`       |
 | Project status   | Chỉ hiển thị project `published`                           |
@@ -173,7 +173,7 @@ Nút: `Xem khóa học phù hợp`
 | CTA khóa học     | Project có thể link đến khóa liên quan                     |
 | Empty state      | Nếu chưa có project học viên, hiển thị project mẫu         |
 | Responsive       | Grid project hiển thị tốt trên mobile                      |
-| Admin control    | Admin có thể thêm/ẩn/sửa project thủ công trong dashboard  |
+| Admin control    | Admin có thể thêm/ẩn/sửa project thủ công trong [[requirement/page/student/dashboard|dashboard]]  |
 
 ---
 
@@ -245,3 +245,19 @@ Trang `/projects` đạt nếu:
 | Không fake project học viên khi chưa có dữ liệu thật     |             |
 
 ---
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[course/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[requirement/page/website/home|Trang chủ / — Home Page]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

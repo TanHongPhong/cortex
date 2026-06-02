@@ -5,7 +5,7 @@
 **Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
 **Build decision:** Build
 
-**Lưu ý:** Chỉ admin mới có quyền tạo/sửa/xóa announcement. Instructor không có quyền truy cập.
+**Lưu ý:** Chỉ [[requirement/page/admin/admin|admin]] mới có quyền tạo/sửa/xóa announcement. Instructor không có quyền truy cập.
 
 ## 1. Mục tiêu trang
 
@@ -31,7 +31,7 @@ Admin tạo thông báo global hoặc theo khóa học. Khi publish, hệ thốn
 | Bảng | Dữ liệu |
 | ---- | ------ |
 | `announcements` | Nội dung nguồn của thông báo |
-| `notifications` | Delivery cá nhân sau khi publish |
+| [[requirement/page/student/notifications|`notifications`]] | Delivery cá nhân sau khi publish |
 | `courses` | Course scope |
 | `users`, `enrollments` | Xác định người nhận |
 
@@ -52,6 +52,22 @@ Admin tạo thông báo global hoặc theo khóa học. Khi publish, hệ thốn
 | -------- | ----------- |
 | Admin tạo draft/publish/archive được | |
 | Course announcement chỉ tới đúng người có quyền học/course assignment | |
-| Publish tạo `notifications.type = announcement` | |
+| Publish tạo `[[requirement/page/student/notifications|notifications]].type = announcement` | |
 | Có empty/error state | |
 | Không hard delete announcement đã publish | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/notifications|/notifications — Thông báo của tôi]]
+- **Incoming Links (Backlinks):** *None*

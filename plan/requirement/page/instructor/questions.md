@@ -31,7 +31,7 @@ Instructor xử lý câu hỏi học viên trong từng lesson, trả lời và 
 | `course_instructors` | Xác định khóa instructor được trả lời |
 | `users` | Người hỏi/trả lời |
 | `courses`, `lessons` | Ngữ cảnh |
-| `notifications` | Báo cho người hỏi khi có câu trả lời |
+| [[requirement/page/student/notifications|`notifications`]] | Báo cho người hỏi khi có câu trả lời |
 
 ---
 
@@ -41,7 +41,7 @@ Instructor xử lý câu hỏi học viên trong từng lesson, trả lời và 
 - Instructor chỉ trả lời/mark resolved/hide nếu `course_instructors.can_answer_questions = true`.
 - Reply từ instructor/admin có `is_instructor_answer = true`.
 - Mark resolved cập nhật `resolved_at`, `resolved_by`.
-- Khi có instructor answer, tạo `notifications.type = question_answered` cho người hỏi.
+- Khi có instructor answer, tạo `[[requirement/page/student/notifications|notifications]].type = question_answered` cho người hỏi.
 
 ---
 
@@ -54,3 +54,19 @@ Instructor xử lý câu hỏi học viên trong từng lesson, trả lời và 
 | Reply tạo đúng thread theo `parent_id` | |
 | Student nhận notification khi được trả lời | |
 | Hide không hard delete câu hỏi | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/instructor
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/instructor/overview|Instructor Workspace]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/notifications|/notifications — Thông báo của tôi]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-overview|/admin — Admin Overview]], [[requirement/page/instructor/courses|/instructor/courses — Khóa được phân công]], [[requirement/page/instructor/overview|/instructor — Instructor Overview]]

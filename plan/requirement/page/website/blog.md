@@ -209,7 +209,7 @@ Ví dụ bài viết ban đầu:
 | SEO                | Mỗi bài/tài liệu có title, description, slug, og image   |
 | Access control     | Có thể chia Free / Email required / Student only         |
 | Search/filter      | Chưa cần mạnh, chỉ cần category tabs là đủ               |
-| Admin control      | Future: admin tạo/sửa/ẩn tài liệu qua dashboard          |
+| Admin control      | Future: [[requirement/page/admin/admin|admin]] tạo/sửa/ẩn tài liệu qua [[requirement/page/student/dashboard|dashboard]]          |
 
 ---
 
@@ -270,3 +270,19 @@ Trang `/blog` đạt nếu:
 | Responsive tốt trên mobile                      |             |
 
 ---
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[course/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

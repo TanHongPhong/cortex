@@ -204,7 +204,7 @@ cancelled
 
 # 8. Order Detail Drawer
 
-Khi admin bấm `View`, mở drawer chi tiết.
+Khi [[requirement/page/admin/admin|admin]] bấm `View`, mở drawer chi tiết.
 
 ## Các phần trong detail
 
@@ -269,7 +269,7 @@ Order Detail
 
 | Field                | Nội dung                         |
 | -------------------- | -------------------------------- |
-| Coupon code snapshot | Mã coupon tại thời điểm mua      |
+| Coupon code snapshot | Mã [[requirement/page/student/coupon|coupon]] tại thời điểm mua      |
 | Coupon ID            | Coupon hiện tại nếu còn tồn tại  |
 | Referral code ID     | Referral nếu có                  |
 | Discount amount      | Tổng tiền giảm                   |
@@ -350,13 +350,13 @@ Note
 ```text
 Lead hoặc student đăng ký khóa
 → tạo order status = pending
-→ admin/online payment xác nhận thanh toán
+→ [[requirement/page/admin/admin|admin]]/online payment xác nhận thanh toán
 → order status = paid
 → tạo enrollment status = active
 → học viên được vào học
 ```
 
-## Flow admin xác nhận chuyển khoản
+## Flow [[requirement/page/admin/admin|admin]] xác nhận chuyển khoản
 
 ```text
 Admin mở /admin/orders
@@ -403,7 +403,7 @@ Admin mở order
 
 | Nhóm              | Yêu cầu                                          |
 | ----------------- | ------------------------------------------------ |
-| Auth              | Chỉ admin mới vào được                           |
+| Auth              | Chỉ [[requirement/page/admin/admin|admin]] mới vào được                           |
 | KPI cards         | Hiển thị doanh thu, paid, pending, refunded, AOV |
 | Order list        | Hiển thị danh sách đơn hàng                      |
 | Date filter       | Lọc theo khoảng ngày                             |
@@ -431,7 +431,7 @@ Admin mở order
 | `enrollments` | Quyền học sau khi thanh toán        |
 | `leads`       | Nếu order tạo từ lead               |
 | `coupons`     | Mã giảm giá                         |
-| `coupon_redemptions` | Lịch sử dùng coupon, reserved_expires_at |
+| `coupon_redemptions` | Lịch sử dùng [[requirement/page/student/coupon|coupon]], reserved_expires_at |
 | `referral_codes` | Mã giới thiệu                    |
 | `invoices` | Biên nhận/hóa đơn, invoice_version/replaced_invoice_id |
 | `account_balance_transactions` | Ledger refund_credit/reset số dư |
@@ -467,7 +467,7 @@ Admin mở order
 | `course_title_snapshot` | Tên khóa lúc mua                               |
 | `course_price_snapshot` | Giá khóa lúc mua                               |
 | `coupon_id`             | Coupon nếu có                                  |
-| `coupon_code_snapshot`  | Mã coupon lúc mua                              |
+| `coupon_code_snapshot`  | Mã [[requirement/page/student/coupon|coupon]] lúc mua                              |
 | `referral_code_id`      | Referral nếu có                                |
 | `paid_at`               | Ngày thanh toán                                |
 | `refunded_at`           | Ngày hoàn tiền                                 |
@@ -579,7 +579,7 @@ Admin chọn date range/status/course
 ```text
 Chưa có đơn hàng nào.
 
-Đơn hàng sẽ xuất hiện khi học viên đăng ký/mua khóa hoặc admin tạo đơn thủ công.
+Đơn hàng sẽ xuất hiện khi học viên đăng ký/mua khóa hoặc [[requirement/page/admin/admin|admin]] tạo đơn thủ công.
 ```
 
 ## Không tìm thấy đơn theo bộ lọc
@@ -657,3 +657,19 @@ Trang `/admin/orders` đạt nếu:
 ```
 
 Nói ngắn gọn: **`/admin/orders` là trang quản lý tiền và xuất dữ liệu kế toán. Nó nên tách khỏi Student Detail Drawer, vì orders là giao dịch tài chính, còn enrollments là quyền học.**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]]
+- **Incoming Links (Backlinks):** *None*

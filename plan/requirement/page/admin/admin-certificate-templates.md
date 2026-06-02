@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu trang
 
-Admin tạo, preview và kích hoạt template dùng khi cấp certificate.
+Admin tạo, preview và kích hoạt template dùng khi cấp [[requirement/page/website/certificate|certificate]].
 
 ---
 
@@ -35,10 +35,10 @@ Admin tạo, preview và kích hoạt template dùng khi cấp certificate.
 
 ## 4. Rule chức năng
 
-- Chỉ template `active` được dùng để issue certificate.
+- Chỉ template `active` được dùng để issue [[requirement/page/website/certificate|certificate]].
 - Có thể có template global hoặc template riêng cho course.
 - Certificate đã cấp lưu snapshot template, không render lại bằng template mới.
-- Không archive template nếu policy yêu cầu giữ để audit, hoặc archive nhưng vẫn cho certificate cũ trỏ tới.
+- Không archive template nếu policy yêu cầu giữ để audit, hoặc archive nhưng vẫn cho [[requirement/page/website/certificate|certificate]] cũ trỏ tới.
 
 ---
 
@@ -47,6 +47,22 @@ Admin tạo, preview và kích hoạt template dùng khi cấp certificate.
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
 | Admin tạo/sửa/preview template được | |
-| Chỉ active template dùng để cấp certificate | |
+| Chỉ active template dùng để cấp [[requirement/page/website/certificate|certificate]] | |
 | Certificate cũ giữ snapshot khi template đổi | |
 | Empty/error state rõ ràng | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** *None*

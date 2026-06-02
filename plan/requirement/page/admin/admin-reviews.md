@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu trang
 
-Admin kiểm duyệt review/rating của học viên trước khi hiển thị trên public course/home page.
+Admin kiểm duyệt review/rating của học viên trước khi hiển thị trên public course/home [[requirement/page|page]].
 
 ---
 
@@ -49,6 +49,22 @@ Admin kiểm duyệt review/rating của học viên trước khi hiển thị t
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
 | Lọc được pending/published/hidden/rejected | |
-| Publish review làm public page có thể dùng | |
+| Publish review làm public [[requirement/page|page]] có thể dùng | |
 | Reject/hide không hard delete | |
 | Không cho review từ user chưa enrolled | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]]
+- **Incoming Links (Backlinks):** *None*

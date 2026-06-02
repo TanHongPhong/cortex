@@ -33,9 +33,9 @@ Checkout
 | `users` | current user, name, email, phone |
 | `courses` | title, slug, price_amount, duration, certificate_available |
 | `orders` | order pending và snapshot |
-| `coupons` | validate coupon |
-| `coupon_redemptions` | reserved/applied coupon, reserved_expires_at |
-| `referral_codes` | validate referral |
+| `coupons` | validate [[requirement/page/student/coupon|coupon]] |
+| `coupon_redemptions` | reserved/applied [[requirement/page/student/coupon|coupon]], reserved_expires_at |
+| `referral_codes` | validate [[requirement/page/student/referral|referral]] |
 | `payment_transactions` | từng lần thanh toán, idempotency_key |
 
 ---
@@ -47,7 +47,7 @@ Checkout
 2. Backend lấy course published
 3. Tạo hoặc cập nhật order pending của user cho course
 4. Snapshot course title + price vào order
-5. User nhập coupon/referral nếu có
+5. User nhập [[requirement/page/student/coupon|coupon]]/referral nếu có
 6. Backend validate và tính discount
 7. User nhập billing info và chọn payment method
 8. Tạo payment_transaction
@@ -57,7 +57,7 @@ Checkout
    - tạo enrollment active
 10. Nếu manual transfer:
    - order giữ pending
-   - admin xác nhận trong /admin/orders
+   - [[requirement/page/admin/admin|admin]] xác nhận trong /admin/orders
 ```
 
 ---
@@ -66,7 +66,7 @@ Checkout
 
 | Trường hợp | Rule |
 | ---------- | ---- |
-| User chưa login | Redirect `/login?next=/checkout/:courseSlug` |
+| User chưa [[requirement/page/student/login|login]] | Redirect `/login?next=/checkout/:courseSlug` |
 | Course không published | Không cho checkout |
 | Course free | Có thể tạo enrollment trực tiếp, không cần order paid |
 | Coupon hết hạn | Báo invalid, không ghi discount |
@@ -81,7 +81,7 @@ Checkout
 
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
-| User chưa login bị redirect | |
+| User chưa [[requirement/page/student/login|login]] bị redirect | |
 | Course summary hiển thị đúng | |
 | Order tạo snapshot course | |
 | Coupon/referral validate backend | |
@@ -90,3 +90,19 @@ Checkout
 | Paid order tạo enrollment | |
 | Không tạo enrollment trùng | |
 | Có success/error state | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/student/referral|/referral — Mã giới thiệu]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-revenue|/admin/revenue — Dashboard doanh thu]], [[requirement/page/student/checkout-result|/checkout/success và /checkout/failed — Kết quả thanh toán]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[requirement/page/website/courses|/courses — Product Catalog Page]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

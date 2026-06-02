@@ -91,7 +91,7 @@ Status: Valid
 ```text
 Certificate not found
 
-We could not find a certificate with this ID.
+We could not find a [[requirement/page/website/certificate|certificate]] with this ID.
 Please check the Certificate ID and try again.
 ```
 
@@ -102,8 +102,8 @@ Please check the Certificate ID and try again.
 ```text
 Certificate revoked
 
-This certificate was issued before but is no longer valid.
-Please contact CORTEX for more information.
+This [[requirement/page/website/certificate|certificate]] was issued before but is no longer valid.
+Please [[requirement/page/website/contact|contact]] CORTEX for more information.
 ```
 
 ---
@@ -119,7 +119,7 @@ Please contact CORTEX for more information.
 | Invalid result | Báo không tìm thấy nếu sai ID                               |
 | Revoked result | Báo đã thu hồi nếu status là revoked                        |
 | Privacy        | Không hiển thị email, số điện thoại học viên                |
-| QR support     | Link QR trên certificate dẫn trực tiếp tới trang này kèm ID |
+| QR support     | Link QR trên [[requirement/page/website/certificate|certificate]] dẫn trực tiếp tới trang này kèm ID |
 
 ---
 
@@ -159,7 +159,23 @@ Quét QR tự động mở và kiểm tra ID.
 
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
-| Verify certificate valid hiển thị đúng thông tin public | |
+| Verify [[requirement/page/website/certificate|certificate]] valid hiển thị đúng thông tin public | |
 | Certificate revoked hiển thị trạng thái revoked | |
 | Certificate không tồn tại hiển thị not found | |
 | Không hiển thị email/phone học viên | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/contact|/contact — Trang liên hệ]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

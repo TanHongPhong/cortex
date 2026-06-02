@@ -14,7 +14,7 @@ Học viên vào trang này để:
 2. Cập nhật nhu cầu học tập
 3. Quản lý thông tin tài khoản
 4. Đổi mật khẩu
-5. Đảm bảo thông tin dùng cho certificate là chính xác
+5. Đảm bảo thông tin dùng cho [[requirement/page/website/certificate|certificate]] là chính xác
 ```
 
 ---
@@ -81,7 +81,7 @@ Student
 
 | Field      | Cho sửa không           | Ghi chú                       |
 | ---------- | ----------------------- | ----------------------------- |
-| Họ và tên  | Có                      | Dùng cho hồ sơ và certificate |
+| Họ và tên  | Có                      | Dùng cho hồ sơ và [[requirement/page/website/certificate|certificate]] |
 | Phone/Zalo | Có                      | Dùng để tư vấn/hỗ trợ         |
 | Avatar     | Có                      | Upload hoặc nhập link ảnh     |
 | Email      | Không nên cho sửa ở MVP | Chỉ hiển thị                  |
@@ -198,7 +198,7 @@ Rule:
 | Learning goal     | Cho sửa             |
 | Email             | Không cho sửa ở MVP |
 | Role              | Không cho sửa       |
-| Account status    | Chỉ admin quản lý   |
+| Account status    | Chỉ [[requirement/page/admin/admin|admin]] quản lý   |
 
 ---
 
@@ -211,7 +211,7 @@ Rule:
 | Update profile   | Lưu thay đổi vào `users`                      |
 | Avatar           | Cho upload hoặc nhập avatar URL               |
 | Learning profile | Lưu nhu cầu học, level, mục tiêu học          |
-| Account balance  | Hiển thị số dư nội bộ chỉ đọc và CTA liên hệ admin để rút tiền |
+| Account balance  | Hiển thị số dư nội bộ chỉ đọc và CTA liên hệ [[requirement/page/admin/admin|admin]] để rút tiền |
 | Password         | Cho đổi mật khẩu                              |
 | Validation       | Kiểm tra field trống, số điện thoại, password |
 | Success state    | Hiển thị thông báo lưu thành công             |
@@ -275,7 +275,7 @@ Trang `/profile` đạt nếu:
 
 | Tiêu chí                                                        | Đạt / Không |
 | --------------------------------------------------------------- | ----------- |
-| User chưa login bị chuyển về login                              |             |
+| User chưa [[requirement/page/student/login|login]] bị chuyển về [[requirement/page/student/login|login]]                              |             |
 | Hiển thị đúng thông tin học viên                                |             |
 | Học viên sửa được họ tên, phone/Zalo, avatar                    |             |
 | Học viên sửa được learning interest/current level/learning goal |             |
@@ -298,8 +298,24 @@ Trang `/profile` đạt nếu:
 3. Personal information form
 4. Learning profile form
 5. Account information
-6. Account security / đổi mật khẩu
+6. Account [[requirement/security|security]] / đổi mật khẩu
 7. Success/error state
 ```
 
-Nói ngắn gọn: **`/profile` là nơi học viên quản lý thông tin cá nhân và nhu cầu học. Không cần làm phức tạp, chỉ cần đủ thông tin cho tài khoản, tư vấn, hỗ trợ và certificate.**
+Nói ngắn gọn: **`/profile` là nơi học viên quản lý thông tin cá nhân và nhu cầu học. Không cần làm phức tạp, chỉ cần đủ thông tin cho tài khoản, tư vấn, hỗ trợ và [[requirement/page/website/certificate|certificate]].**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/security|Security — Bảo mật hệ thống CORTEX]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin-referrals|/admin/referrals — Quản lý referral]], [[requirement/page/admin/admin-students|/admin/students — Quản lý học viên]], [[requirement/page/instructor/overview|/instructor — Instructor Overview]], [[requirement/page/student/register|/register — Đăng ký tài khoản]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/security|Security — Bảo mật hệ thống CORTEX]]

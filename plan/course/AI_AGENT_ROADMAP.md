@@ -161,7 +161,21 @@ Create a team of 3 agents using CrewAI/LangGraph:
 Build and deploy a production-ready Agent API that:
 
 1. Handles multiple concurrent users with isolated memory.
-2. Includes a monitoring dashboard for latency and token cost.
+2. Includes a monitoring [[requirement/page/student/dashboard|dashboard]] for latency and token cost.
 3. Has a "Safety Layer" that blocks prompt injections.
 4. Is deployed via a CI/CD pipeline.
-  
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/course
+- #cortex/plan
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]]
+- **Incoming Links (Backlinks):** *None*

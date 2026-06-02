@@ -12,11 +12,11 @@
 | Learning path       | Hiển thị 3–4 bước: AI Foundation → Vibe Coding → AI Agent → Portfolio Project.                                  |
 | Featured courses    | Hiển thị 3 khóa nổi bật bằng card.                                                                              |
 | Project showcase    | Show vài project mẫu/học viên để tăng niềm tin.                                                                 |
-| Certificate preview | Có ảnh mẫu chứng chỉ, giải thích học xong nhận certificate.                                                     |
+| Certificate preview | Có ảnh mẫu chứng chỉ, giải thích học xong nhận [[requirement/page/website/certificate|certificate]].                                                     |
 | Final CTA           | Lặp lại nút đăng ký học thử/cuộc tư vấn.                                                                        |
 
 **Nút chính:** `Đăng ký học thử`
-**Dữ liệu cần lấy:** courses, projects, certificate preview, leads.
+**Dữ liệu cần lấy:** courses, [[requirement/page/website/projects|projects]], [[requirement/page/website/certificate|certificate]] preview, leads.
 
 ---
 
@@ -24,7 +24,7 @@
 
 **Mục tiêu:** hiển thị bộ sản phẩm học AI của CORTEX, giúp người học chọn khóa phù hợp.
 
-**Cấu trúc theo website/courses.md:**
+**Cấu trúc theo [[requirement/page/website/courses|website/courses.md]]:**
 
 - Hiển thị **4 khóa chính** (Free Workshop, Starter Mini Course, Core Bootcamp, Advanced Automation) dưới dạng card grid.
 - Phần **Premium Mentoring** và **B2B Training** tách riêng (không trong grid).
@@ -47,21 +47,21 @@
 
 **Mục tiêu:** thuyết phục người xem đăng ký khóa đó.
 
-**Cấu trúc theo website/course-detail.md:**
+**Cấu trúc theo [[requirement/page/website/course-detail|website/course-detail.md]]:**
 
-- Course Hero: Level badge, tên khóa, mô tả ngắn, thông tin nhanh (duration, format, certificate), CTA chính, CTA phụ, visual.
+- Course Hero: Level badge, tên khóa, mô tả ngắn, thông tin nhanh (duration, format, [[requirement/page/website/certificate|certificate]]), CTA chính, CTA phụ, visual.
 - Course Overview: Khóa này là gì, vấn đề giải quyết, cách giúp, kết quả chính.
 - Who is this for?: Đối tượng phù hợp.
 - What you will learn: 6–7 điểm chính dạng icon grid.
 - Curriculum / Modules: Accordion hiển thị module và lesson preview.
 - Project Output: Nhấn mạnh project cuối khóa.
-- Certificate Preview: Nếu khóa có certificate.
+- Certificate Preview: Nếu khóa có [[requirement/page/website/certificate|certificate]].
 - Pricing / Enrollment: Giá, bao gồm gì, CTA theo loại khóa.
 - FAQ, Related Courses, Final CTA.
 
 | Khu vực           | Nên làm như nào                                                         |
 | ----------------- | ----------------------------------------------------------------------- |
-| Course hero       | Level badge, tên khóa, mô tả ngắn, thời lượng, hình thức, certificate.  |
+| Course hero       | Level badge, tên khóa, mô tả ngắn, thời lượng, hình thức, [[requirement/page/website/certificate|certificate]].  |
 | Who is this for   | Khóa này dành cho ai: sinh viên, người mới, người muốn làm project AI.  |
 | Learning outcomes | Học xong làm được gì, ví dụ: tạo landing page, chatbot, AI workflow.    |
 | Curriculum        | Danh sách module và lesson dạng accordion, có preview lesson.           |
@@ -88,12 +88,12 @@
 
 **Mục tiêu:** chứng minh học xong làm được sản phẩm thật.
 
-**Cấu trúc theo website/projects.md:**
+**Cấu trúc theo [[requirement/page/website/projects|website/projects.md]]:**
 
 - Featured Projects: 3–4 project nổi bật.
 - Project Gallery: Grid hiển thị nhiều project.
 - Project Categories: 5 category cards (Vibe Coding Website, AI Assistant, Workflow Automation, Business AI Agent, Portfolio Project).
-- How students build projects: Timeline 6 bước.
+- How students build [[requirement/page/website/projects|projects]]: Timeline 6 bước.
 - Related Courses CTA: Dẫn sang khóa học liên quan.
 - Final CTA.
 
@@ -112,17 +112,17 @@
 
 ## `/certificate` Trang chứng chỉ
 
-**Mục tiêu:** giải thích certificate có ý nghĩa gì và điều kiện nhận.
+**Mục tiêu:** giải thích [[requirement/page/website/certificate|certificate]] có ý nghĩa gì và điều kiện nhận.
 
 | Khu vực             | Nên làm như nào                                                                        |
 | ------------------- | -------------------------------------------------------------------------------------- |
-| Certificate preview | Hiển thị mẫu certificate đẹp, có tên học viên, khóa học, ngày cấp, Certificate ID, QR. |
+| Certificate preview | Hiển thị mẫu [[requirement/page/website/certificate|certificate]] đẹp, có tên học viên, khóa học, ngày cấp, Certificate ID, QR. |
 | Điều kiện nhận      | Hoàn thành bài học + nộp project + được duyệt.                                         |
 | Giá trị sử dụng     | Có thể đưa vào CV, portfolio, LinkedIn, nhưng không phải văn bằng chính quy.           |
 | Verify explanation  | Giải thích người khác có thể kiểm tra chứng chỉ bằng ID/QR.                            |
 
 **Nút chính:** `Xác thực chứng chỉ`
-**Cần rõ:** certificate là **Certificate of Completion**, không nên gọi quá đà như bằng cấp chính thức.
+**Cần rõ:** [[requirement/page/website/certificate|certificate]] là **Certificate of Completion**, không nên gọi quá đà như bằng cấp chính thức.
 
 ---
 
@@ -146,7 +146,7 @@
 
 **Mục tiêu:** kéo traffic và tạo niềm tin chuyên môn, đóng vai trò là kho tài liệu học AI.
 
-**Cấu trúc theo website/blog.md:**
+**Cấu trúc theo [[requirement/page/website/blog|website/blog.md]]:**
 
 - Page Header: Giới thiệu kho tài liệu (Resources Hub).
 - Featured Resources: 3–4 tài liệu quan trọng (Roadmap, Checklist, Prompt Pack).
@@ -177,7 +177,7 @@
 | Contact form  | Họ tên, email, số điện thoại/Zalo, nhu cầu học, ghi chú. |
 | Contact info  | Email, fanpage, Zalo, địa chỉ nếu có.                    |
 | Success state | Sau khi gửi form, báo “CORTEX đã nhận thông tin”.        |
-| Admin link    | Dữ liệu form phải vào admin leads.                       |
+| Admin link    | Dữ liệu form phải vào [[requirement/page/admin/admin|admin]] leads.                       |
 
 **Nút chính:** `Gửi thông tin`.
 
@@ -191,14 +191,14 @@
 | ------- | ----------- |
 | Data collected | Email, họ tên, phone/Zalo, nhu cầu học, order, learning progress. |
 | Consent | Form lead phải yêu cầu đồng ý chính sách dữ liệu qua `leads.consent_privacy_policy`. |
-| Data use | Tư vấn học tập, vận hành khóa học, order/payment, certificate verification. |
+| Data use | Tư vấn học tập, vận hành khóa học, order/payment, [[requirement/page/website/certificate|certificate]] verification. |
 | Sensitive data | Không public email/phone/payment payload. |
 
 ---
 
 ## `/terms` Điều khoản sử dụng
 
-**Mục tiêu:** đặt rule về tài khoản, quyền học, nội dung khóa và certificate.
+**Mục tiêu:** đặt rule về tài khoản, quyền học, nội dung khóa và [[requirement/page/website/certificate|certificate]].
 
 | Khu vực | Requirement |
 | ------- | ----------- |
@@ -217,7 +217,7 @@
 | ------- | ----------- |
 | Refund result | Admin mark refunded sẽ cộng tiền vào `users.account_balance`. |
 | Withdrawal | User muốn rút tiền liên hệ `/contact?type=support`; không có self-service withdrawal. |
-| Admin reset | Sau khi xử lý rút tiền offline, admin tạo ledger reset balance về `0`. |
+| Admin reset | Sau khi xử lý rút tiền offline, [[requirement/page/admin/admin|admin]] tạo ledger reset balance về `0`. |
 | Learning access | Refund mặc định chuyển enrollment liên quan sang `cancelled`. |
 
 ---
@@ -228,7 +228,7 @@
 
 | Khu vực              | Nên làm như nào                                                                       |
 | -------------------- | ------------------------------------------------------------------------------------- |
-| Course summary       | Hiển thị `course_title_snapshot`, giá, thời lượng, certificate.                       |
+| Course summary       | Hiển thị `course_title_snapshot`, giá, thời lượng, [[requirement/page/website/certificate|certificate]].                       |
 | Coupon/referral      | Cho nhập mã, validate backend, hiển thị số tiền giảm.                                 |
 | Billing form         | Họ tên, email, phone, địa chỉ, công ty, mã số thuế, yêu cầu hóa đơn.                  |
 | Payment method       | Chuyển khoản/manual trước; Momo/VNPay có thể thêm sau qua `payment_transactions`.      |
@@ -236,20 +236,20 @@
 | Order summary        | Giá gốc, discount, final amount, currency.                                            |
 | Success/error states | Sau submit chuyển `/checkout/success` hoặc `/checkout/failed` tùy kết quả thanh toán. |
 
-**Rule dữ liệu:** tạo `orders` với snapshot khóa học ngay khi checkout bắt đầu. Không sửa snapshot sau khi order đã paid.
+**Rule dữ liệu:** tạo `orders` với snapshot khóa học ngay khi [[requirement/page/student/checkout|checkout]] bắt đầu. Không sửa snapshot sau khi order đã paid.
 
 ---
 
 ## `/checkout/success` Thanh toán thành công
 
-**Mục tiêu:** xác nhận đơn đã thanh toán hoặc đang chờ admin kiểm tra nếu là chuyển khoản thủ công.
+**Mục tiêu:** xác nhận đơn đã thanh toán hoặc đang chờ [[requirement/page/admin/admin|admin]] kiểm tra nếu là chuyển khoản thủ công.
 
 | Khu vực      | Nên làm như nào                                                |
 | ------------ | -------------------------------------------------------------- |
 | Result       | Hiển thị trạng thái order: paid hoặc pending manual review.    |
 | Order info   | Mã đơn, khóa học, số tiền, phương thức thanh toán.             |
 | Next action  | Nếu paid: `Vào học`; nếu pending: `Xem đơn hàng`.              |
-| Data privacy | Không hiển thị payload thanh toán nhạy cảm.                    |
+| Data [[requirement/page/website/privacy|privacy]] | Không hiển thị payload thanh toán nhạy cảm.                    |
 
 ---
 
@@ -260,7 +260,7 @@
 | Khu vực     | Nên làm như nào                                      |
 | ----------- | ---------------------------------------------------- |
 | Error state | Báo thanh toán thất bại/hủy.                         |
-| Retry CTA   | `Thử thanh toán lại` dẫn về checkout hoặc order.     |
+| Retry CTA   | `Thử thanh toán lại` dẫn về [[requirement/page/student/checkout|checkout]] hoặc order.     |
 | Support CTA | `Liên hệ hỗ trợ` dẫn `/contact?type=support` nếu user đã chuyển khoản thủ công. |
 
 ---
@@ -275,7 +275,7 @@
 | --------------- | --------------------------------------------- |
 | Login form      | Email + password.                             |
 | Forgot password | Link đặt lại mật khẩu.                        |
-| Role redirect   | Student vào `/dashboard`, instructor vào `/instructor`, admin vào `/admin`. |
+| Role redirect   | Student vào `/dashboard`, instructor vào `/instructor`, [[requirement/page/admin/admin|admin]] vào `/admin`. |
 
 **Cần có:** validate lỗi sai mật khẩu/email không tồn tại.
 **Không build:** Google OAuth và email verification trong MVP/P1.
@@ -291,7 +291,7 @@
 | Register form | Họ tên, email, password, số điện thoại.            |
 | Validation    | Kiểm tra email trùng, password đủ mạnh.            |
 | Default role  | Tài khoản mới mặc định là `student`.               |
-| Success       | Tạo xong chuyển về dashboard hoặc trang đăng nhập. |
+| Success       | Tạo xong chuyển về [[requirement/page/student/dashboard|dashboard]] hoặc trang đăng nhập. |
 
 **Không cho user tự chọn role.**
 
@@ -309,7 +309,7 @@
 | Next lesson        | Bài học tiếp theo.                    |
 | Project status     | Chưa nộp / Đang chờ duyệt / Đã duyệt. |
 | Certificate status | Chưa đủ điều kiện / Có thể tải.       |
-| Notification preview | Thông báo mới: bài được duyệt, certificate, announcement, Q&A. |
+| Notification preview | Thông báo mới: bài được duyệt, [[requirement/page/website/certificate|certificate]], announcement, Q&A. |
 
 **Nút chính:** `Tiếp tục học`.
 
@@ -322,7 +322,7 @@
 | Khu vực        | Nên làm như nào                                             |
 | -------------- | ----------------------------------------------------------- |
 | Notification list | Hiển thị title, body, type, thời gian, trạng thái read/unread. |
-| Filters        | All, unread, course, payment, submission, certificate.      |
+| Filters        | All, unread, course, payment, submission, [[requirement/page/website/certificate|certificate]].      |
 | Actions        | Mark as read, mark all read, mở `target_url`.              |
 | Empty state    | Nếu chưa có thông báo, hiển thị hướng dẫn học tiếp.        |
 | Permission     | Chỉ xem notification có `user_id = current_user.id`.        |
@@ -418,7 +418,7 @@
 | --------------- | ------------------------------------------- |
 | Assignment list | Danh sách bài tập/project theo khóa.        |
 | Status          | Not submitted, pending, approved, rejected. |
-| Feedback        | Hiển thị nhận xét admin nếu có.             |
+| Feedback        | Hiển thị nhận xét [[requirement/page/admin/admin|admin]] nếu có.             |
 | CTA             | Nộp bài hoặc chỉnh sửa nếu chưa được duyệt. |
 
 **Rule hiện tại:** tất cả bài tập/project mở trực tiếp tại `/learn/[course]/[lesson]`.
@@ -473,7 +473,7 @@
 
 | Khu vực                | Nên làm như nào                                             |
 | ---------------------- | ----------------------------------------------------------- |
-| My referral code       | Hiển thị mã và nút copy invite link.                        |
+| My [[requirement/page/student/referral|referral]] code       | Hiển thị mã và nút copy invite link.                        |
 | Reward rule            | Giải thích người được giới thiệu giảm gì, người giới thiệu nhận gì. |
 | Successful referrals   | Danh sách conversion đã paid/approved.                      |
 | Pending rewards        | Reward pending/approved/issued/cancelled.                   |
@@ -485,14 +485,14 @@
 
 ## `/admin` Admin Overview
 
-**Mục tiêu:** admin nhìn nhanh tình hình hệ thống.
+**Mục tiêu:** [[requirement/page/admin/admin|admin]] nhìn nhanh tình hình hệ thống.
 
 | Khu vực             | Nên làm như nào                                                 |
 | ------------------- | --------------------------------------------------------------- |
-| KPI cards           | Học viên, khóa học, doanh thu, paid/pending orders, bài chờ duyệt, certificate. |
+| KPI cards           | Học viên, khóa học, doanh thu, paid/pending orders, bài chờ duyệt, [[requirement/page/website/certificate|certificate]]. |
 | Commerce alerts     | Pending orders, failed payments, invoice requested.             |
-| Pending submissions | Bài đang chờ duyệt.                                             |
-| Quick actions       | Tạo khóa, thêm lesson, duyệt bài, cấp certificate.              |
+| Pending [[requirement/page/instructor/submissions|submissions]] | Bài đang chờ duyệt.                                             |
+| Quick actions       | Tạo khóa, thêm lesson, duyệt bài, cấp [[requirement/page/website/certificate|certificate]].              |
 
 ---
 
@@ -502,10 +502,10 @@
 
 | Khu vực             | Nên làm như nào                                                        |
 | ------------------- | ---------------------------------------------------------------------- |
-| KPI cards           | Revenue, paid orders, pending orders, refunded amount, coupon discount. |
+| KPI cards           | Revenue, paid orders, pending orders, refunded amount, [[requirement/page/student/coupon|coupon]] discount. |
 | Filters             | Date range, status, course, payment method.                            |
 | Order table         | Order code, customer, course snapshot, amount, discount, status.        |
-| Order detail drawer | Billing, coupon/referral, transactions, invoice, enrollment status.     |
+| Order detail drawer | Billing, [[requirement/page/student/coupon|coupon]]/referral, transactions, invoice, enrollment status.     |
 | Actions             | Mark as paid, cancel, refund, create invoice, verify payment proof.     |
 
 **Rule:** order paid tạo enrollment idempotent, không tạo trùng.
@@ -514,14 +514,14 @@
 
 ## `/admin/coupons` Quản lý mã giảm giá
 
-**Mục tiêu:** tạo, sửa, tạm dừng, theo dõi hiệu quả coupon.
+**Mục tiêu:** tạo, sửa, tạm dừng, theo dõi hiệu quả [[requirement/page/student/coupon|coupon]].
 
 | Khu vực      | Nên làm như nào                                             |
 | ------------ | ----------------------------------------------------------- |
 | KPI cards    | Active coupons, redemptions, revenue, discount given.       |
 | Coupon table | Code, type, value, scope, usage, dates, status.             |
 | Form         | Basic info, discount rule, usage rule, applicability, stack. |
-| Safety       | Không hard delete coupon đã có redemption; dùng archived.   |
+| Safety       | Không hard delete [[requirement/page/student/coupon|coupon]] đã có redemption; dùng archived.   |
 
 ---
 
@@ -550,7 +550,7 @@
 
 ---
 
-## `/admin/referrals` Theo dõi referral
+## `/admin/referrals` Theo dõi [[requirement/page/student/referral|referral]]
 
 **Mục tiêu:** quản lý mã giới thiệu, conversion và reward.
 
@@ -568,22 +568,22 @@
 
 | Khu vực | Nên làm như nào                                            |
 | ------- | ---------------------------------------------------------- |
-| KPI     | Revenue by month, by course, by payment method, coupon use. |
-| Charts  | Ưu tiên sau MVP, không block checkout/admin orders.         |
+| KPI     | Revenue by month, by course, by payment method, [[requirement/page/student/coupon|coupon]] use. |
+| Charts  | Ưu tiên sau MVP, không block [[requirement/page/student/checkout|checkout]]/admin orders.         |
 | Export  | Dùng cùng filter với `/admin/orders`.                       |
 
 ---
 
 ## `/admin/announcements` Quản lý thông báo
 
-**Mục tiêu:** admin tạo thông báo global hoặc theo khóa học.
+**Mục tiêu:** [[requirement/page/admin/admin|admin]] tạo thông báo global hoặc theo khóa học.
 
 | Khu vực | Nên làm như nào |
 | ------- | --------------- |
 | Table | Title, scope, course, priority, status, published_at. |
 | Form | Scope global/course, title, content, priority, publish time. |
 | Actions | Save draft, publish, archive. |
-| Rule | Publish announcement tạo `notifications` cho đúng người nhận. |
+| Rule | Publish announcement tạo [[requirement/page/student/notifications|`notifications`]] cho đúng người nhận. |
 
 ---
 
@@ -602,7 +602,7 @@
 
 ## `/admin/certificate-templates` Quản lý template chứng chỉ
 
-**Mục tiêu:** tạo và kích hoạt template dùng để cấp certificate.
+**Mục tiêu:** tạo và kích hoạt template dùng để cấp [[requirement/page/website/certificate|certificate]].
 
 | Khu vực | Nên làm như nào |
 | ------- | --------------- |
@@ -661,7 +661,7 @@
 | -------------- | --------------------------------------------------------------------------------- |
 | Student table  | Tên, email, phone, số khóa học, trạng thái.                                       |
 | Search/filter  | Tìm theo tên/email.                                                               |
-| Student detail | Xem profile, learning info, enrollments (có gán khóa), submissions, certificates. |
+| Student detail | Xem [[requirement/page/student/profile|profile]], learning info, enrollments (có gán khóa), [[requirement/page/instructor/submissions|submissions]], certificates. |
 | Actions        | Block/unblock, gán khóa trong detail drawer.                                      |
 
 ---
@@ -677,19 +677,19 @@
 | Feedback box      | Admin viết nhận xét.                           |
 | Actions           | Approve, reject, mark `revision_requested`.    |
 
-**Rule:** project approved mới đủ điều kiện nhận certificate.
+**Rule:** project approved mới đủ điều kiện nhận [[requirement/page/website/certificate|certificate]].
 
 ---
 
 ## `/admin/certificates` Quản lý chứng chỉ
 
-**Mục tiêu:** cấp và kiểm soát certificate.
+**Mục tiêu:** cấp và kiểm soát [[requirement/page/website/certificate|certificate]].
 
 | Khu vực           | Nên làm như nào                                       |
 | ----------------- | ----------------------------------------------------- |
 | Certificate table | Certificate ID, học viên, khóa, ngày cấp, trạng thái. |
-| Issue certificate | Chọn học viên + khóa đủ điều kiện để cấp.             |
-| PDF generation    | Tạo file certificate từ template.                     |
+| Issue [[requirement/page/website/certificate|certificate]] | Chọn học viên + khóa đủ điều kiện để cấp.             |
+| PDF generation    | Tạo file [[requirement/page/website/certificate|certificate]] từ template.                     |
 | Actions           | View, download, revoke, copy verify link.             |
 
 **Rule:** Certificate ID phải unique, không trùng.
@@ -700,7 +700,7 @@
 
 **Nguyên tắc phân quyền:**
 - **Admin** là người duy nhất upload video, quản lý khóa học, quản lý học viên, gán khóa, quản lý announcement.
-- **Instructor** chỉ chấm bài (duyệt submissions) và hỗ trợ học viên (trả lời Q&A) trong khóa được phân công.
+- **Instructor** chỉ chấm bài (duyệt [[requirement/page/instructor/submissions|submissions]]) và hỗ trợ học viên (trả lời Q&A) trong khóa được phân công.
 - Instructor KHÔNG được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement.
 
 ## `/instructor` Instructor Overview
@@ -709,7 +709,7 @@
 
 | Khu vực | Nên làm như nào |
 | ------- | --------------- |
-| KPI cards | Assigned courses, pending submissions, open questions, unread notifications. |
+| KPI cards | Assigned courses, pending [[requirement/page/instructor/submissions|submissions]], open [[requirement/page/instructor/questions|questions]], unread [[requirement/page/student/notifications|notifications]]. |
 | Queues | Bài chờ duyệt, câu hỏi chưa trả lời. |
 | Permission | Chỉ thấy dữ liệu khóa được phân công. |
 | Flags | Dựa trên `course_instructors`: `can_view_course`, `can_answer_questions`, `can_review_submissions`, `can_view_student_progress`. |
@@ -739,7 +739,7 @@
 | Detail | Nội dung bài, link demo/source, lịch sử feedback. |
 | Actions | Approve, reject, mark `revision_requested`. |
 | Side effect | Tạo notification `submission_reviewed` cho học viên. |
-| Permission | Chỉ xử lý nếu `can_review_submissions = true`; không cấp certificate. |
+| Permission | Chỉ xử lý nếu `can_review_submissions = true`; không cấp [[requirement/page/website/certificate|certificate]]. |
 
 ---
 
@@ -758,7 +758,7 @@
 **Rule tổng thể:**
 - Instructor chỉ chấm bài và trả lời Q&A — không quản lý khóa học, video, học viên hay announcement.
 - Instructor không có quyền vào order/payment/coupon/invoice/referral/revenue.
-- Tất cả quản lý nội dung khóa (video, lesson, module) và quản lý học viên là quyền của admin.
+- Tất cả quản lý nội dung khóa (video, lesson, module) và quản lý học viên là quyền của [[requirement/page/admin/admin|admin]].
 
 ---
 
@@ -769,8 +769,23 @@
 | Public website      | Đẹp, nhiều visual, mascot, 3D, CTA rõ.                                              |
 | Student portal      | Gọn, sạch, dễ học, ít hiệu ứng, tập trung nội dung.                                 |
 | Instructor workspace | Gọn, chỉ tập trung chấm bài và trả lời câu hỏi. Không có quyền quản lý khóa/học viên/video.                    |
-| Admin dashboard     | Thực dụng, bảng dữ liệu rõ, filter/search mạnh.                                     |
-| Mobile              | Public website phải đẹp trên mobile; student portal dùng ổn; admin ưu tiên desktop. |
+| Admin [[requirement/page/student/dashboard|dashboard]]     | Thực dụng, bảng dữ liệu rõ, filter/search mạnh.                                     |
+| Mobile              | Public website phải đẹp trên mobile; student portal dùng ổn; [[requirement/page/admin/admin|admin]] ưu tiên desktop. |
 | CTA                 | Mỗi trang chỉ nên có 1 hành động chính rõ ràng.                                     |
 | Empty state         | Nếu chưa có khóa/project/certificate thì hiển thị hướng dẫn, không để trang trống.  |
 | Loading/error state | Có trạng thái loading, lỗi, gửi thành công, không tìm thấy dữ liệu.                 |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/student/notifications|/notifications — Thông báo của tôi]], [[requirement/page/student/profile|/profile — Hồ sơ cá nhân]], [[requirement/page/student/referral|/referral — Mã giới thiệu]], [[requirement/page/website/blog|/blog — Blog / Resources Hub]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[requirement/page/website/courses|/courses — Product Catalog Page]], [[requirement/page/website/privacy|/privacy — Chính sách dữ liệu]], [[requirement/page/website/projects|/projects — Trang dự án học viên]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[course/course_vn|1. MindX — AI Agent Engineer]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/hard_notes|Hard Notes]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-certificates|/admin/certificates — Quản lý chứng chỉ]], [[requirement/page/admin/admin-courses|/admin/courses — Quản lý khóa học]], [[requirement/page/admin/admin-leads|/admin/leads — Quản lý Type B Leads]], [[requirement/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[requirement/page/admin/admin-resources|/admin/resources — Quản lý Resources Hub]], [[requirement/page/admin/admin-reviews|/admin/reviews — Kiểm duyệt đánh giá khóa học]], [[requirement/page/admin/admin-system-users-new|/admin/system/users/new — Hidden Staff Account Creation]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/student/learn-course|/learn/course — Trang học của một khóa]], [[requirement/page/student/learn-lesson|/learn/course/lesson — Trang bài học]], [[requirement/page/student/my-courses|/my-courses — Khóa học của tôi]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/contact|/contact — Trang liên hệ]], [[requirement/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[requirement/page/website/courses|/courses — Product Catalog Page]], [[requirement/page/website/home|Trang chủ / — Home Page]], [[requirement/page/website/maintenance|/maintenance — Trang bảo trì hệ thống]], [[requirement/page/website/privacy|/privacy — Chính sách dữ liệu]], [[requirement/page/website/projects|/projects — Trang dự án học viên]], [[requirement/page/website/refund-policy|/refund-policy — Chính sách refund]], [[requirement/page/website/terms|/terms — Điều khoản sử dụng]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

@@ -7,13 +7,13 @@
 
 ## 1. Mục tiêu
 
-Báo cáo doanh thu theo thời gian, khóa học, payment method, coupon và referral sau khi `orders`/`payment_transactions` đã ổn định.
+Báo cáo doanh thu theo thời gian, khóa học, payment method, [[requirement/page/student/coupon|coupon]] và [[requirement/page/student/referral|referral]] sau khi `orders`/`payment_transactions` đã ổn định.
 
 ---
 
 ## 2. Scope
 
-Trang này là P2, không block MVP checkout.
+Trang này là P2, không block MVP [[requirement/page/student/checkout|checkout]].
 
 MVP báo cáo doanh thu trước mắt nằm trong `/admin/orders`.
 
@@ -52,8 +52,8 @@ MVP báo cáo doanh thu trước mắt nằm trong `/admin/orders`.
 | `account_balance_transactions` | refund_credit ledger đối soát số dư |
 | `payment_transactions` | đối soát theo giao dịch |
 | `courses` | course metadata hiện tại |
-| `coupons` | coupon metadata hiện tại |
-| `referral_codes` | referral metadata hiện tại |
+| `coupons` | [[requirement/page/student/coupon|coupon]] metadata hiện tại |
+| `referral_codes` | [[requirement/page/student/referral|referral]] metadata hiện tại |
 
 ---
 
@@ -66,3 +66,19 @@ MVP báo cáo doanh thu trước mắt nằm trong `/admin/orders`.
 | Refund hiển thị riêng | |
 | Report không sai khi course/coupon đổi tên | |
 | Export được dữ liệu theo filter | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/student/referral|/referral — Mã giới thiệu]]
+- **Incoming Links (Backlinks):** *None*

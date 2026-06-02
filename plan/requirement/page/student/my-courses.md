@@ -131,7 +131,7 @@ Progress: 45%
 9/20 lessons completed
 
 Next lesson:
-Build your first AI landing page
+Build your first AI landing [[requirement/page|page]]
 
 [Tiếp tục học]
 ```
@@ -182,7 +182,7 @@ Access expired
 | Khóa completed         | Đưa sau khóa active                             |
 | Khóa expired           | Đưa cuối danh sách                              |
 | Khóa chưa enrolled     | Không được hiển thị                             |
-| Khóa bị admin hủy/refund | Hiển thị `cancelled` nếu cần lịch sử học; không cho vào lesson |
+| Khóa bị [[requirement/page/admin/admin|admin]] hủy/refund | Hiển thị `cancelled` nếu cần lịch sử học; không cho vào lesson |
 
 ---
 
@@ -226,7 +226,7 @@ Có thể thêm mascot nhỏ để trang không bị trống.
 | `courses`         | Tên khóa, thumbnail, level, slug     |
 | `lessons`         | Tổng số bài trong khóa               |
 | `lesson_progress` | Số bài đã hoàn thành                 |
-| `certificates`    | Kiểm tra khóa đã có certificate chưa |
+| `certificates`    | Kiểm tra khóa đã có [[requirement/page/website/certificate|certificate]] chưa |
 
 ---
 
@@ -315,3 +315,19 @@ Trang `/my-courses` đạt nếu:
 | Responsive tốt trên mobile                |             |
 
 ---
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

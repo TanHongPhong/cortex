@@ -7,7 +7,7 @@
 
 ## 1. Mục tiêu
 
-Admin tạo, sửa, tạm dừng và theo dõi coupon mà không làm sai lịch sử đơn hàng.
+Admin tạo, sửa, tạm dừng và theo dõi [[requirement/page/student/coupon|coupon]] mà không làm sai lịch sử đơn hàng.
 
 ---
 
@@ -30,15 +30,15 @@ Admin tạo, sửa, tạm dừng và theo dõi coupon mà không làm sai lịch
 
 | KPI | Ý nghĩa |
 | --- | ------- |
-| Active Coupons | Số coupon đang active |
+| Active Coupons | Số [[requirement/page/student/coupon|coupon]] đang active |
 | Total Redemptions | Số lượt applied |
-| Revenue from Coupons | Doanh thu từ đơn paid có coupon |
-| Discount Given | Tổng discount_amount từ coupon |
+| Revenue from Coupons | Doanh thu từ đơn paid có [[requirement/page/student/coupon|coupon]] |
+| Discount Given | Tổng discount_amount từ [[requirement/page/student/coupon|coupon]] |
 | Expiring Soon | Coupon sắp hết hạn |
 
 ---
 
-## 4. Form tạo/sửa coupon
+## 4. Form tạo/sửa [[requirement/page/student/coupon|coupon]]
 
 | Nhóm | Field |
 | ---- | ----- |
@@ -67,10 +67,10 @@ Admin tạo, sửa, tạm dừng và theo dõi coupon mà không làm sai lịch
 
 | Bảng | Dữ liệu |
 | ---- | ------ |
-| `coupons` | coupon configuration |
+| `coupons` | [[requirement/page/student/coupon|coupon]] configuration |
 | `coupon_redemptions` | usage history, reserved_expires_at cleanup |
 | `orders` | revenue/discount/order status |
-| `audit_logs` | Log coupon create/update/archive |
+| `audit_logs` | Log [[requirement/page/student/coupon|coupon]] create/update/archive |
 | `courses` | scope theo course/level |
 | `users` | created_by, updated_by, user sử dụng |
 
@@ -81,9 +81,25 @@ Admin tạo, sửa, tạm dừng và theo dõi coupon mà không làm sai lịch
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
 | Student không truy cập được | |
-| Admin tạo/sửa coupon được | |
+| Admin tạo/sửa [[requirement/page/student/coupon|coupon]] được | |
 | Không tạo code trùng | |
 | Validate discount rule đúng | |
 | Hiển thị usage/redemption đúng | |
-| Không hard delete coupon đã dùng | |
+| Không hard delete [[requirement/page/student/coupon|coupon]] đã dùng | |
 | Coupon archived không apply được | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]]
+- **Incoming Links (Backlinks):** *None*

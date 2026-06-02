@@ -11,9 +11,9 @@ Học viên vào trang này để:
 
 ```text
 1. Xem các chứng chỉ đã được cấp
-2. Tải file PDF certificate
+2. Tải file PDF [[requirement/page/website/certificate|certificate]]
 3. Copy Certificate ID
-4. Mở trang verify certificate
+4. Mở trang verify [[requirement/page/website/certificate|certificate]]
 5. Biết mình chưa có chứng chỉ vì lý do gì
 ```
 
@@ -108,21 +108,21 @@ Certificate ID: MAY-AI-2026-0001
 Issued date: 21/05/2026
 Status: Revoked
 
-This certificate is no longer valid.
+This [[requirement/page/website/certificate|certificate]] is no longer valid.
 
 [Verify] [Contact Support]
 ```
 
 ---
 
-# 5. Actions trên certificate card
+# 5. Actions trên [[requirement/page/website/certificate|certificate]] card
 
 | Action            | Chức năng                                    |
 | ----------------- | -------------------------------------------- |
 | `Download PDF`    | Tải file chứng chỉ                           |
 | `Verify`          | Mở `/verify-certificate?id=certificate_id`   |
 | `Copy ID`         | Copy mã chứng chỉ                            |
-| `Contact Support` | Dẫn đến `/contact?type=support` nếu certificate có vấn đề |
+| `Contact Support` | Dẫn đến `/contact?type=support` nếu [[requirement/page/website/certificate|certificate]] có vấn đề |
 
 ---
 
@@ -152,14 +152,14 @@ Certificate của bạn đang chờ CORTEX xử lý.
 
 Certificate chỉ hiển thị khi đã được cấp trong bảng `certificates`.
 
-Điều kiện để đủ điều kiện nhận certificate:
+Điều kiện để đủ điều kiện nhận [[requirement/page/website/certificate|certificate]]:
 
 ```text
 1. Học viên đã enrolled khóa học
 2. Hoàn thành các lesson bắt buộc
 3. Assignment bắt buộc, nếu có, đã approved
 4. Final project đã approved
-5. Admin hoặc hệ thống cấp certificate
+5. Admin hoặc hệ thống cấp [[requirement/page/website/certificate|certificate]]
 ```
 
 ---
@@ -169,13 +169,13 @@ Certificate chỉ hiển thị khi đã được cấp trong bảng `certificate
 | Nhóm             | Yêu cầu                                      |
 | ---------------- | -------------------------------------------- |
 | Auth             | Chỉ user đăng nhập mới xem được              |
-| Data access      | Chỉ xem certificate của chính user đó        |
+| Data access      | Chỉ xem [[requirement/page/website/certificate|certificate]] của chính user đó        |
 | Certificate list | Lấy danh sách từ bảng `certificates`         |
 | Status           | Hiển thị Valid / Revoked; pending issue là computed state, không phải `certificates.status` |
 | Download         | Cho tải PDF nếu có `certificate_url`         |
 | Verify           | Dẫn sang `/verify-certificate?id=...`        |
 | Copy ID          | Copy Certificate ID vào clipboard            |
-| Empty state      | Hiển thị khi chưa có certificate             |
+| Empty state      | Hiển thị khi chưa có [[requirement/page/website/certificate|certificate]]             |
 | Privacy          | Không hiển thị email/số điện thoại trên card |
 | Responsive       | Mobile card xếp 1 cột                        |
 
@@ -189,7 +189,7 @@ Certificate chỉ hiển thị khi đã được cấp trong bảng `certificate
 | `certificates` | Certificate ID, status, issued date, PDF URL           |
 | `courses`      | Tên khóa liên quan                                     |
 | `enrollments`  | Kiểm tra khóa học của học viên                         |
-| `submissions`  | Kiểm tra final project nếu cần hiển thị pending reason |
+| [[requirement/page/instructor/submissions|`submissions`]]  | Kiểm tra final project nếu cần hiển thị pending reason |
 
 ---
 
@@ -197,7 +197,7 @@ Certificate chỉ hiển thị khi đã được cấp trong bảng `certificate
 
 | Field              | Mục đích                |
 | ------------------ | ----------------------- |
-| `id`               | ID certificate          |
+| `id`               | ID [[requirement/page/website/certificate|certificate]]          |
 | `certificate_code` | Mã chứng chỉ duy nhất   |
 | `user_id`          | Học viên nhận chứng chỉ |
 | `course_id`        | Khóa học liên quan      |
@@ -231,7 +231,7 @@ Certificate chỉ hiển thị khi đã được cấp trong bảng `certificate
 
 # 12. Logic chính
 
-## Lấy danh sách certificate
+## Lấy danh sách [[requirement/page/website/certificate|certificate]]
 
 ```text
 Lấy tất cả certificates có user_id = current_user.id
@@ -262,8 +262,8 @@ Nếu chưa có certificate_url:
 | Component                 | Mục đích                  |
 | ------------------------- | ------------------------- |
 | `StudentLayout`           | Sidebar + topbar          |
-| `CertificateSummaryCards` | Tổng số certificate       |
-| `CertificateCard`         | Hiển thị từng certificate |
+| `CertificateSummaryCards` | Tổng số [[requirement/page/website/certificate|certificate]]       |
+| `CertificateCard`         | Hiển thị từng [[requirement/page/website/certificate|certificate]] |
 | `StatusBadge`             | Valid / Revoked / Pending |
 | `CopyButton`              | Copy Certificate ID       |
 | `EmptyState`              | Khi chưa có chứng chỉ     |
@@ -277,13 +277,13 @@ Trang `/my-certificates` đạt nếu:
 
 | Tiêu chí                                           | Đạt / Không |
 | -------------------------------------------------- | ----------- |
-| User chưa login bị chuyển về login                 |             |
-| Chỉ hiển thị certificate của user hiện tại         |             |
+| User chưa [[requirement/page/student/login|login]] bị chuyển về [[requirement/page/student/login|login]]                 |             |
+| Chỉ hiển thị [[requirement/page/website/certificate|certificate]] của user hiện tại         |             |
 | Certificate card có tên khóa, ID, ngày cấp, status |             |
 | Nút Download PDF hoạt động nếu có file             |             |
 | Nút Verify mở đúng trang xác thực                  |             |
 | Nút Copy ID copy đúng mã chứng chỉ                 |             |
-| Revoked certificate hiển thị rõ trạng thái         |             |
+| Revoked [[requirement/page/website/certificate|certificate]] hiển thị rõ trạng thái         |             |
 | Có empty state nếu chưa có chứng chỉ               |             |
 | Responsive tốt trên mobile                         |             |
 
@@ -306,4 +306,20 @@ Trang `/my-certificates` đạt nếu:
 10. Loading/error state
 ```
 
-Nói ngắn gọn: **trang này chỉ để quản lý chứng chỉ đã được cấp. Việc xét đủ điều kiện nằm ở course/lesson/final project, còn `/my-certificates` chỉ hiển thị, tải và xác thực certificate.**
+Nói ngắn gọn: **trang này chỉ để quản lý chứng chỉ đã được cấp. Việc xét đủ điều kiện nằm ở course/lesson/final project, còn `/my-certificates` chỉ hiển thị, tải và xác thực [[requirement/page/website/certificate|certificate]].**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

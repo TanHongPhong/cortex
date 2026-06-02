@@ -35,8 +35,8 @@ Option 2: Feature flag
 → Set flag trong database
 → Middleware check flag trước khi render
 
-Option 3: Static page
-→ Deploy static maintenance page
+Option 3: Static [[requirement/page|page]]
+→ Deploy static maintenance [[requirement/page|page]]
 → Redirect tất cả traffic về trang này
 ```
 
@@ -48,7 +48,7 @@ export function middleware(request: NextRequest) {
   const isMaintenance = process.env.MAINTENANCE_MODE === 'true'
 
   if (isMaintenance) {
-    // Cho phép truy cập admin để quản lý
+    // Cho phép truy cập [[requirement/page/admin/admin|admin]] để quản lý
     if (request.nextUrl.pathname.startsWith('/admin')) {
       return NextResponse.next()
     }
@@ -58,7 +58,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.next()
     }
 
-    // Redirect tất cả về maintenance page
+    // Redirect tất cả về maintenance [[requirement/page|page]]
     return NextResponse.redirect(new URL('/maintenance', request.url))
   }
 }
@@ -245,3 +245,19 @@ Sau khi bảo trì:
 | Responsive trên mobile | |
 | Không index trang maintenance (noindex) | |
 | Retry-After header được set | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]]
+- **Incoming Links (Backlinks):** [[requirement/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]]

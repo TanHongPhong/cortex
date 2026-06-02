@@ -13,7 +13,7 @@
 | --------------- | ------------------------------------------- |
 | Assignment list | Danh sách bài tập/project theo khóa.        |
 | Status          | Not submitted, pending, approved, rejected. |
-| Feedback        | Hiển thị nhận xét admin nếu có.             |
+| Feedback        | Hiển thị nhận xét [[requirement/page/admin/admin|admin]] nếu có.             |
 | CTA             | Nộp bài hoặc chỉnh sửa nếu chưa được duyệt. |
 
 ---
@@ -41,7 +41,7 @@ Lý do:
 
 | Bảng | Dữ liệu |
 | ---- | ------ |
-| `submissions` | Chỉ dùng nếu Future cần trang tổng hợp bài nộp |
+| [[requirement/page/instructor/submissions|`submissions`]] | Chỉ dùng nếu Future cần trang tổng hợp bài nộp |
 
 ---
 
@@ -51,3 +51,19 @@ Lý do:
 | -------- | ----------- |
 | Route này không được build trong MVP/P1 | |
 | Tất cả assignment mở tại `/learn/[course]/[lesson]` | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/student
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/student/dashboard|Student Portal]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]]
+- **Incoming Links (Backlinks):** [[course/course_eng|A. Roadmap từng khóa AI Agent quốc tế]]

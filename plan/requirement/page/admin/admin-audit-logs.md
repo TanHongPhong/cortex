@@ -36,7 +36,7 @@ Admin xem lịch sử thao tác nhạy cảm để truy vết lỗi dữ liệu,
 
 - Trang này read-only.
 - Không sửa/xóa audit log qua UI thường.
-- Bắt buộc log: confirm paid, refund to balance, balance reset, issue/revoke certificate, publish/archive course, change role, instructor assignment/permission change, review moderation, announcement publish/archive, coupon create/update/archive, webhook manual match, resource publish/archive, video asset retry/fail, enrollment cancel/override, delete/restore content.
+- Bắt buộc log: confirm paid, refund to balance, balance reset, issue/revoke [[requirement/page/website/certificate|certificate]], publish/archive course, change role, instructor assignment/permission change, review moderation, announcement publish/archive, [[requirement/page/student/coupon|coupon]] create/update/archive, webhook manual match, resource publish/archive, video asset retry/fail, enrollment cancel/override, delete/restore content.
 - Instructor không được xem audit log toàn hệ thống.
 
 ---
@@ -49,3 +49,19 @@ Admin xem lịch sử thao tác nhạy cảm để truy vết lỗi dữ liệu,
 | Không có action sửa/xóa log | |
 | Metadata đủ để truy vết entity bị thay đổi | |
 | Instructor/student không truy cập được | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]

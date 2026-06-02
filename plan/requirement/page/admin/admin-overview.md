@@ -14,7 +14,7 @@ Admin vào trang này để biết nhanh:
 2. Có bao nhiêu order paid/pending
 3. Doanh thu paid hiện tại là bao nhiêu
 4. Có bao nhiêu bài nộp đang chờ duyệt
-5. Có bao nhiêu certificate đã cấp
+5. Có bao nhiêu [[requirement/page/website/certificate|certificate]] đã cấp
 6. Có câu hỏi/review/notification lỗi nào cần xử lý
 7. Có việc gì cần xử lý ngay
 ```
@@ -75,7 +75,7 @@ Here is what is happening in CORTEX today.
 
 ## B. KPI Cards
 
-Đây là phần quan trọng nhất của overview.
+Đây là phần quan trọng nhất của [[requirement/page/instructor/overview|overview]].
 
 | KPI                 | Ý nghĩa                       | Click tới                           |
 | ------------------- | ----------------------------- | ----------------------------------- |
@@ -113,16 +113,16 @@ Here is what is happening in CORTEX today.
 
 ## C. Quick Actions
 
-**Mục tiêu:** admin bấm nhanh để làm việc thường gặp.
+**Mục tiêu:** [[requirement/page/admin/admin|admin]] bấm nhanh để làm việc thường gặp.
 
 | Action            | Dẫn tới                             |
 | ----------------- | ----------------------------------- |
 | `Tạo khóa học`    | `/admin/courses?action=create`      |
 | `Thêm lesson`     | `/admin/lessons`                    |
 | `Xem đơn hàng`    | `/admin/orders`                     |
-| `Tạo coupon`      | `/admin/coupons?action=create`      |
+| `Tạo [[requirement/page/student/coupon|coupon]]`      | `/admin/coupons?action=create`      |
 | `Duyệt bài nộp`   | `/admin/submissions?status=pending` |
-| `Cấp certificate` | `/admin/certificates`               |
+| `Cấp [[requirement/page/website/certificate|certificate]]` | `/admin/certificates`               |
 
 UI nên là các button/card nhỏ, không cần quá màu mè.
 
@@ -130,7 +130,7 @@ UI nên là các button/card nhỏ, không cần quá màu mè.
 
 ## D. Pending Submissions
 
-**Mục tiêu:** admin biết bài nào đang chờ duyệt.
+**Mục tiêu:** [[requirement/page/admin/admin|admin]] biết bài nào đang chờ duyệt.
 
 | Cột          | Nội dung                   |
 | ------------ | -------------------------- |
@@ -146,7 +146,7 @@ Chỉ hiển thị **5 bài nộp pending mới nhất**.
 CTA:
 
 ```text
-Review all submissions
+Review all [[requirement/page/instructor/submissions|submissions]]
 ```
 
 Dẫn tới:
@@ -159,7 +159,7 @@ Dẫn tới:
 
 ## E. Commerce Alerts
 
-**Mục tiêu:** admin biết việc tài chính cần xử lý.
+**Mục tiêu:** [[requirement/page/admin/admin|admin]] biết việc tài chính cần xử lý.
 
 | Alert              | Dẫn tới                         |
 | ------------------ | ------------------------------- |
@@ -185,10 +185,10 @@ Chỉ hiển thị các alert có count > 0.
 | Issued at      | Ngày cấp        |
 | Action         | `View`          |
 
-Nếu có học viên đủ điều kiện nhưng chưa cấp certificate, có thể hiện thêm:
+Nếu có học viên đủ điều kiện nhưng chưa cấp [[requirement/page/website/certificate|certificate]], có thể hiện thêm:
 
 ```text
-Students eligible for certificate: 3
+Students eligible for [[requirement/page/website/certificate|certificate]]: 3
 ```
 
 CTA:
@@ -201,14 +201,14 @@ Manage certificates
 
 # 4. Trạng thái nên highlight
 
-Trang overview nên ưu tiên hiển thị các việc cần xử lý:
+Trang [[requirement/page/instructor/overview|overview]] nên ưu tiên hiển thị các việc cần xử lý:
 
 | Trạng thái              | Cách hiển thị                 |
 | ----------------------- | ----------------------------- |
 | New leads > 0           | Highlight nhẹ                 |
-| Pending submissions > 0 | Highlight rõ hơn              |
+| Pending [[requirement/page/instructor/submissions|submissions]] > 0 | Highlight rõ hơn              |
 | Certificate pending > 0 | Hiện reminder                 |
-| Pending orders > 0      | Highlight để admin kiểm tra   |
+| Pending orders > 0      | Highlight để [[requirement/page/admin/admin|admin]] kiểm tra   |
 | Failed payments > 0     | Highlight nhẹ để debug        |
 | Invoice requested > 0   | Reminder tạo biên nhận/hóa đơn |
 | Course draft            | Nhắc nếu có khóa chưa publish |
@@ -220,13 +220,13 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 
 | Nhóm                 | Yêu cầu                                            |
 | -------------------- | -------------------------------------------------- |
-| Auth                 | Chỉ admin mới vào được `/admin`                    |
+| Auth                 | Chỉ [[requirement/page/admin/admin|admin]] mới vào được `/admin`                    |
 | KPI data             | Tính số liệu từ database                           |
 | Quick action         | Các nút dẫn đúng trang quản lý                     |
 | Commerce alerts      | Hiển thị pending orders, failed payments, invoices |
-| P1 learning alerts   | Hiển thị open questions, pending reviews, failed notifications |
-| Pending submissions  | Hiển thị bài nộp đang chờ duyệt                    |
-| Certificate activity | Hiển thị certificate mới cấp hoặc pending          |
+| P1 learning alerts   | Hiển thị open [[requirement/page/instructor/questions|questions]], pending reviews, failed [[requirement/page/student/notifications|notifications]] |
+| Pending [[requirement/page/instructor/submissions|submissions]]  | Hiển thị bài nộp đang chờ duyệt                    |
+| Certificate activity | Hiển thị [[requirement/page/website/certificate|certificate]] mới cấp hoặc pending          |
 | Responsive           | Desktop ưu tiên, mobile vẫn xem được               |
 | Empty state          | Nếu chưa có dữ liệu, hiển thị trạng thái trống gọn |
 
@@ -242,12 +242,12 @@ Trang overview nên ưu tiên hiển thị các việc cần xử lý:
 | `orders`       | Total revenue, paid orders, pending orders |
 | `payment_transactions` | Failed payments, payment debug |
 | `invoices`     | Invoice requested/draft/issued    |
-| `submissions`  | Pending submissions              |
+| [[requirement/page/instructor/submissions|`submissions`]]  | Pending [[requirement/page/instructor/submissions|submissions]]              |
 | `certificates` | Certificates issued              |
 | `leads`        | New leads (nếu cần hiển thị KPI) |
-| `lesson_questions` | Open questions               |
+| `lesson_questions` | Open [[requirement/page/instructor/questions|questions]]               |
 | `course_reviews` | Pending/low reviews            |
-| `notifications` | Failed delivery/unread count    |
+| [[requirement/page/student/notifications|`notifications`]] | Failed delivery/unread count    |
 | `announcements` | Published/draft announcements   |
 
 ---
@@ -299,7 +299,7 @@ count enrollments where status = active
 ## Pending Submissions
 
 ```text
-count submissions where status = pending
+count [[requirement/page/instructor/submissions|submissions]] where status = pending
 ```
 
 ## Certificates Issued
@@ -314,13 +314,13 @@ count certificates where status = valid
 
 | Component                  | Mục đích                       |
 | -------------------------- | ------------------------------ |
-| `AdminLayout`              | Sidebar + topbar admin         |
+| `AdminLayout`              | Sidebar + topbar [[requirement/page/admin/admin|admin]]         |
 | `AdminOverviewHeader`      | Title + subtitle               |
 | `KpiCard`                  | Hiển thị số liệu               |
 | `QuickActionCard`          | Nút thao tác nhanh             |
 | `CommerceAlertList`        | Việc tài chính cần xử lý       |
 | `PendingSubmissionsTable`  | Bài nộp chờ duyệt              |
-| `CertificateActivityTable` | Hoạt động certificate          |
+| `CertificateActivityTable` | Hoạt động [[requirement/page/website/certificate|certificate]]          |
 | `StatusBadge`              | new / pending / active / valid |
 | `EmptyState`               | Khi chưa có dữ liệu            |
 | `LoadingState`             | Khi đang tải dữ liệu           |
@@ -335,7 +335,7 @@ count certificates where status = valid
 Không có bài nộp nào đang chờ duyệt.
 ```
 
-## Khi chưa có certificate
+## Khi chưa có [[requirement/page/website/certificate|certificate]]
 
 ```text
 Chưa có chứng chỉ nào được cấp.
@@ -368,8 +368,8 @@ Trang `/admin` đạt nếu:
 | KPI tính đúng theo database           |             |
 | Có quick actions dẫn đúng trang       |             |
 | Có commerce alerts nếu có order/payment/invoice cần xử lý |             |
-| Có pending submissions                |             |
-| Có certificate activity               |             |
+| Có pending [[requirement/page/instructor/submissions|submissions]]                |             |
+| Có [[requirement/page/website/certificate|certificate]] activity               |             |
 | Có empty state khi chưa có dữ liệu    |             |
 | Responsive dùng ổn trên mobile/tablet |             |
 
@@ -382,12 +382,28 @@ Trang `/admin` đạt nếu:
 
 1. Admin layout chung
 2. Welcome / summary header
-3. KPI cards (students, enrollments, courses, revenue, orders, submissions, certificates, leads)
+3. KPI cards (students, enrollments, courses, revenue, orders, [[requirement/page/instructor/submissions|submissions]], certificates, leads)
 4. Quick actions
 5. Commerce alerts
-6. Pending submissions
+6. Pending [[requirement/page/instructor/submissions|submissions]]
 7. Certificate activity
 8. Empty/loading state
 ```
 
 Nói ngắn gọn: **`/admin` là trang tổng quan vận hành. Admin không chỉnh sửa sâu ở đây, mà dùng nó để nhìn nhanh tình hình và đi đến đúng trang cần xử lý.**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/overview|/instructor — Instructor Overview]], [[requirement/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/student/notifications|/notifications — Thông báo của tôi]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** *None*

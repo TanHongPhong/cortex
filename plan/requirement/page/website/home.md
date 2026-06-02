@@ -13,7 +13,7 @@ Trang chủ phải làm được 4 việc:
 | ---------------- | ----------------------------------------------------------------- |
 | Giới thiệu nhanh | Người xem hiểu CORTEX là nền tảng học AI / AI Agent / Vibe Coding |
 | Tạo ấn tượng     | Có visual 3D, mascot Rubik công nghệ, giao diện hiện đại          |
-| Dẫn người dùng   | Điều hướng sang khóa học, lộ trình, certificate, contact          |
+| Dẫn người dùng   | Điều hướng sang khóa học, lộ trình, [[requirement/page/website/certificate|certificate]], [[requirement/page/website/contact|contact]]          |
 | Thu lead         | Có CTA và form/nút đăng ký học thử                                |
 
 ---
@@ -99,7 +99,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | Bước                 | Nội dung                                            |
 | -------------------- | --------------------------------------------------- |
 | 1. AI Foundation     | Hiểu AI, prompt, cách dùng AI cho học tập/công việc |
-| 2. Vibe Coding       | Tạo website, landing page, prototype bằng AI        |
+| 2. Vibe Coding       | Tạo website, landing [[requirement/page|page]], prototype bằng AI        |
 | 3. AI Agent          | Xây chatbot, workflow, assistant tự động            |
 | 4. Portfolio Project | Làm project cuối khóa để đưa vào CV/portfolio       |
 
@@ -142,7 +142,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | Project              | Mô tả                            |
 | -------------------- | -------------------------------- |
 | AI Study Assistant   | Trợ lý học tập cá nhân           |
-| Landing Page Builder | Web landing page tạo bằng AI     |
+| Landing Page Builder | Web landing [[requirement/page|page]] tạo bằng AI     |
 | Customer Support Bot | Chatbot hỗ trợ khách hàng        |
 | Automation Workflow  | Tự động hóa form → sheet → email |
 
@@ -154,7 +154,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 
 | Thành phần          | Yêu cầu                                                 |
 | ------------------- | ------------------------------------------------------- |
-| Ảnh mẫu certificate | Có tên học viên, khóa học, ngày cấp, Certificate ID, QR |
+| Ảnh mẫu [[requirement/page/website/certificate|certificate]] | Có tên học viên, khóa học, ngày cấp, Certificate ID, QR |
 | Điều kiện nhận      | Hoàn thành bài học + nộp project + được duyệt           |
 | CTA                 | `Tìm hiểu chứng chỉ` hoặc `Xác thực chứng chỉ`          |
 | Lưu ý               | Ghi rõ là Certificate of Completion                     |
@@ -237,8 +237,8 @@ Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
 | CTA              | Các nút CTA phải dẫn đúng đến `/contact`, `/courses`, hoặc form đăng ký |
 | Lead form        | Nếu có form ngay trên home, phải lưu dữ liệu vào bảng `leads`           |
 | Course display   | Featured courses lấy dữ liệu từ bảng `courses`                          |
-| Project display  | Project showcase lấy dữ liệu từ bảng `projects` hoặc data tĩnh ban đầu  |
-| Certificate link | Nút certificate dẫn đến `/certificate` hoặc `/verify-certificate`       |
+| Project display  | Project showcase lấy dữ liệu từ bảng [[requirement/page/website/projects|`projects`]] hoặc data tĩnh ban đầu  |
+| Certificate link | Nút [[requirement/page/website/certificate|certificate]] dẫn đến `/certificate` hoặc `/verify-certificate`       |
 | Responsive       | Hiển thị tốt trên desktop, tablet, mobile                               |
 | Loading state    | Nếu course/project chưa load, hiển thị skeleton/loading                 |
 | Empty state      | Nếu chưa có khóa/project, hiển thị nội dung mẫu hoặc thông báo phù hợp  |
@@ -250,7 +250,7 @@ Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
 | Dữ liệu                | Nguồn                     |
 | ---------------------- | ------------------------- |
 | Featured courses       | `courses`                 |
-| Project showcase       | `projects` hoặc data tĩnh |
+| Project showcase       | [[requirement/page/website/projects|`projects`]] hoặc data tĩnh |
 | Lead form              | Lưu vào `leads`           |
 | Certificate preview    | Template tĩnh             |
 | Blog/resource mới nhất | `resources`               |
@@ -288,3 +288,19 @@ Trang chủ được xem là đạt nếu:
 | Không bị nặng vì hiệu ứng 3D                   |             |
 
 ---
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/contact|/contact — Trang liên hệ]], [[requirement/page/website/projects|/projects — Trang dự án học viên]]
+- **Incoming Links (Backlinks):** *None*

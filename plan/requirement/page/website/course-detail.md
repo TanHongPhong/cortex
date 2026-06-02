@@ -10,7 +10,7 @@
 | Mục tiêu            | Mô tả                                                                |
 | ------------------- | -------------------------------------------------------------------- |
 | Giải thích khóa học | Người xem hiểu khóa này dạy gì                                       |
-| Thuyết phục đăng ký | Nêu rõ lợi ích, đầu ra, project, certificate                         |
+| Thuyết phục đăng ký | Nêu rõ lợi ích, đầu ra, project, [[requirement/page/website/certificate|certificate]]                         |
 | Giảm phân vân       | Trả lời: có phù hợp không, cần biết code không, học xong làm được gì |
 | Chuyển đổi          | Dẫn tới đăng ký học thử, mua khóa, hoặc tư vấn                       |
 
@@ -46,7 +46,7 @@
 | Level badge     | Free / Starter / Core / Advanced                     |
 | Tên khóa        | Ví dụ: AI Agent & Vibe Coding Bootcamp               |
 | Mô tả ngắn      | 2–3 dòng, nói rõ lợi ích chính                       |
-| Thông tin nhanh | Thời lượng, hình thức học, level, certificate        |
+| Thông tin nhanh | Thời lượng, hình thức học, level, [[requirement/page/website/certificate|certificate]]        |
 | CTA chính       | `Đăng ký ngay` / `Tham gia workshop` / `Nhận tư vấn` |
 | CTA phụ         | `Xem curriculum`                                     |
 | Visual          | Ảnh khóa học, mascot, UI 3D hoặc preview project     |
@@ -135,7 +135,7 @@ Khóa này phù hợp nếu bạn:
 | -------- | ----------------------------------- |
 | Module 1 | AI workflow & prompting foundation  |
 | Module 2 | Vibe Coding với AI tools            |
-| Module 3 | Build landing page/prototype        |
+| Module 3 | Build landing [[requirement/page|page]]/prototype        |
 | Module 4 | Build AI assistant/chatbot          |
 | Module 5 | Automation workflow                 |
 | Module 6 | Final project & portfolio packaging |
@@ -157,7 +157,7 @@ Khóa này phù hợp nếu bạn:
 
 ```text
 Project cuối khóa:
-Xây một AI-powered mini product, ví dụ landing page có AI workflow, chatbot hỗ trợ học tập, hoặc automation xử lý form → sheet → email.
+Xây một AI-powered mini product, ví dụ landing [[requirement/page|page]] có AI workflow, chatbot hỗ trợ học tập, hoặc automation xử lý form → sheet → email.
 ```
 
 ---
@@ -185,7 +185,7 @@ Xây một AI-powered mini product, ví dụ landing page có AI workflow, chatb
 | Thành phần    | Yêu cầu                                         |
 | ------------- | ----------------------------------------------- |
 | Giá           | Free / Low / Main product / Higher / Custom     |
-| Bao gồm gì    | Bài học, project, tài liệu, hỗ trợ, certificate |
+| Bao gồm gì    | Bài học, project, tài liệu, hỗ trợ, [[requirement/page/website/certificate|certificate]] |
 | Hình thức học | Online / live / self-paced / hybrid             |
 | CTA           | Đăng ký, mua khóa, hoặc nhận tư vấn             |
 | Trạng thái    | Open / Coming soon / Closed                     |
@@ -272,13 +272,13 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 
 | Nhóm            | Yêu cầu                                                                                      |
 | --------------- | -------------------------------------------------------------------------------------------- |
-| Dynamic page    | Trang dùng `slug` để lấy dữ liệu từng khóa                                                   |
+| Dynamic [[requirement/page|page]]    | Trang dùng `slug` để lấy dữ liệu từng khóa                                                   |
 | Course data     | Lấy từ bảng `courses`                                                                        |
 | Curriculum      | Lấy module/lesson từ `modules`, `lessons`                                                    |
 | CTA             | CTA thay đổi theo loại khóa: Free, Starter, Core, Advanced, Premium, B2B                     |
-| Enrollment      | Starter/Core dẫn checkout; Advanced/Premium/B2B dẫn contact; nếu chưa login thì login/register |
+| Enrollment      | Starter/Core dẫn [[requirement/page/student/checkout|checkout]]; Advanced/Premium/B2B dẫn [[requirement/page/website/contact|contact]]; nếu chưa [[requirement/page/student/login|login]] thì [[requirement/page/student/login|login]]/register |
 | Coming soon     | Nếu khóa chưa mở, hiển thị `Coming soon` và form nhận thông báo                              |
-| Certificate     | Nếu khóa có certificate, hiển thị certificate section                                        |
+| Certificate     | Nếu khóa có [[requirement/page/website/certificate|certificate]], hiển thị [[requirement/page/website/certificate|certificate]] section                                        |
 | Related courses | Gợi ý khóa liên quan                                                                         |
 | SEO             | Mỗi khóa có title, description, og image riêng                                               |
 | Responsive      | Layout đẹp trên desktop và mobile                                                            |
@@ -293,7 +293,7 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 | `modules`      | danh sách module thuộc khóa                              |
 | `lessons`      | lesson trong từng module                                 |
 | `enrollments`  | kiểm tra user đã đăng ký chưa                            |
-| `certificates` | kiểm tra khóa có certificate không                       |
+| `certificates` | kiểm tra khóa có [[requirement/page/website/certificate|certificate]] không                       |
 | `leads`        | lưu người đăng ký tư vấn                                 |
 | `course_reviews` | review/rating đã publish                              |
 | `course_faqs`  | FAQ riêng của từng khóa, chỉ hiển thị `status = published` |
@@ -310,7 +310,7 @@ Tham gia khóa học và hoàn thành project có thể đưa vào portfolio.
 | Pricing       | Nên đặt gần giữa/cuối trang và có CTA rõ               |
 | Sticky CTA    | Desktop dùng box giá/CTA sticky bên phải               |
 | Mobile        | CTA hiện rõ sau hero và cuối trang                     |
-| Trust         | Dùng certificate, project output, FAQ để tăng niềm tin |
+| Trust         | Dùng [[requirement/page/website/certificate|certificate]], project output, FAQ để tăng niềm tin |
 
 ---
 
@@ -326,10 +326,26 @@ Trang `/courses/[slug]` đạt nếu:
 | Có learning outcomes rõ ràng                              |             |
 | Có curriculum/module/lesson                               |             |
 | Có project output hoặc kết quả học được                   |             |
-| Có certificate section nếu khóa có chứng chỉ              |             |
+| Có [[requirement/page/website/certificate|certificate]] section nếu khóa có chứng chỉ              |             |
 | CTA đúng theo loại khóa                                   |             |
 | Có trạng thái coming soon nếu khóa chưa mở                |             |
 | Responsive tốt trên mobile                                |             |
 | Có SEO metadata riêng cho từng khóa                       |             |
 
 ---
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/website
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/website/home|Public Website]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/contact|/contact — Trang liên hệ]]
+- **Incoming Links (Backlinks):** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]]

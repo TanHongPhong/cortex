@@ -33,7 +33,7 @@
 - **Course** (1) $\rightarrow$ (N) **CourseReview**
 - **CertificateTemplate** (1) $\rightarrow$ (N) **Certificate**
 - **Lead (Type B)**: Independent entity (Contact point only)
-- **Project**: Independent showcase entity (manual promotion from submissions)
+- **Project**: Independent showcase entity (manual promotion from [[requirement/page/instructor/submissions|submissions]])
 - **AuditLog**: Append-only system/admin/instructor activity log
 
 ---
@@ -50,7 +50,7 @@
 | `password_hash`     | String    | Not Null         | Mật khẩu mã hóa                    |
 | `phone`             | String    | -                | Số điện thoại/Zalo                 |
 | `avatar_url`        | String    | -                | Ảnh đại diện (Tùy chọn)            |
-| `role`              | Enum      | Not Null         | `student`, `instructor`, `admin`   |
+| `role`              | Enum      | Not Null         | `student`, `instructor`, [[requirement/page/admin/admin|`admin`]]   |
 | `status`            | Enum      | Not Null         | `active`, `blocked`                |
 | `learning_interest` | Text      | -                | Nhu cầu học tập                    |
 | `current_level`     | Text      | -                | Trình độ hiện tại                  |
@@ -59,7 +59,7 @@
 | `email_verified_at` | Timestamp | -                | Future only; MVP/P1 không build email verification |
 | `last_login_at`     | Timestamp | -                | Lần đăng nhập thành công gần nhất  |
 | `last_activity_at`  | Timestamp | -                | Lần hoạt động gần nhất             |
-| `created_by`        | UUID      | FK → `users.id`  | Người tạo (admin/system)           |
+| `created_by`        | UUID      | FK → `users.id`  | Người tạo ([[requirement/page/admin/admin|admin]]/system)           |
 | `updated_by`        | UUID      | FK → `users.id`  | Người cập nhật cuối                |
 | `deleted_at`        | Timestamp | -                | Ngày xóa mềm (soft delete)         |
 | `created_at`        | Timestamp | Default: now()   | Ngày tạo tài khoản                 |
@@ -99,7 +99,7 @@
 | `created_by`     | UUID      | FK → `users.id`                             | Admin/system tạo giao dịch                       |
 | `created_at`     | Timestamp | Default: now()                              | Ngày tạo                                         |
 
-**Business Rule:** Refund chỉ cộng credit nội bộ vào `users.account_balance`; balance không dùng để checkout/mua khóa trong MVP/P1. User muốn rút tiền phải liên hệ admin, admin xử lý offline rồi tạo transaction `admin_withdrawal_reset` hoặc `admin_adjustment_reset` để đưa balance về `0`.
+**Business Rule:** Refund chỉ cộng credit nội bộ vào `users.account_balance`; balance không dùng để [[requirement/page/student/checkout|checkout]]/mua khóa trong MVP/P1. User muốn rút tiền phải liên hệ [[requirement/page/admin/admin|admin]], [[requirement/page/admin/admin|admin]] xử lý offline rồi tạo transaction `admin_withdrawal_reset` hoặc `admin_adjustment_reset` để đưa balance về `0`.
 
 ### 2.2. `courses` (Danh mục Khóa học)
 
@@ -121,7 +121,7 @@
 | `lock_mode`             | Enum      | -                | `free`, `sequential`                                         |
 | `is_featured`           | Boolean   | Default: false   | Hiển thị nổi bật                                             |
 | `display_order`         | Integer   | -                | Thứ tự hiển thị                                              |
-| `created_by`            | UUID      | FK → `users.id`  | Người tạo (admin/system)                                     |
+| `created_by`            | UUID      | FK → `users.id`  | Người tạo ([[requirement/page/admin/admin|admin]]/system)                                     |
 | `updated_by`            | UUID      | FK → `users.id`  | Người cập nhật cuối                                          |
 | `deleted_at`            | Timestamp | -                | Ngày xóa mềm (soft delete)                                   |
 | `created_at`            | Timestamp | Default: now()   | Ngày tạo                                                     |
@@ -199,12 +199,12 @@
 
 ### 2.4.2. `files` (File metadata dùng chung)
 
-`files` lưu metadata cho file nội bộ như avatar, thumbnail, tài liệu, attachment, certificate PDF, invoice PDF, payment proof. File binary nằm ở object storage/CDN, không nằm trong database.
+`files` lưu metadata cho file nội bộ như avatar, thumbnail, tài liệu, attachment, [[requirement/page/website/certificate|certificate]] PDF, invoice PDF, payment proof. File binary nằm ở object storage/CDN, không nằm trong database.
 
 | Field             | Type      | Constraint                         | Description                                      |
 | :---------------- | :-------- | :--------------------------------- | :----------------------------------------------- |
 | `id`              | UUID      | PK                                 | Định danh duy nhất                               |
-| `owner_type`      | String    | -                                  | Entity sở hữu: `user`, `course`, `lesson`, `submission`, `certificate`, `invoice`, `order` |
+| `owner_type`      | String    | -                                  | Entity sở hữu: `user`, `course`, `lesson`, `submission`, [[requirement/page/website/certificate|`certificate`]], `invoice`, `order` |
 | `owner_id`        | UUID      | -                                  | ID entity sở hữu                                 |
 | `file_name`       | String    | Not Null                           | Tên file gốc/hiển thị                            |
 | `mime_type`       | String    | -                                  | MIME type                                        |
@@ -247,7 +247,7 @@
 | `enrolled_at`       | Timestamp | Default: now()                                    | Ngày đăng ký                                  |
 | `completed_at`      | Timestamp | -                                                 | Ngày hoàn thành                               |
 | `access_expires_at` | Timestamp | -                                                 | Ngày hết hạn truy cập                         |
-| `note`              | Text      | -                                                 | Ghi chú của admin                             |
+| `note`              | Text      | -                                                 | Ghi chú của [[requirement/page/admin/admin|admin]]                             |
 | `created_by`        | UUID      | FK → `users.id`                                   | Admin gán khóa                                |
 | `updated_by`        | UUID      | FK → `users.id`                                   | Người cập nhật cuối                           |
 | `deleted_at`        | Timestamp | -                                                 | Ngày xóa mềm (soft delete)                    |
@@ -255,7 +255,7 @@
 | `updated_at`        | Timestamp | -                                                 | Ngày cập nhật                                 |
 
 **Partial Unique Index**: `UNIQUE (user_id, course_id) WHERE deleted_at IS NULL` - Ngăn đăng ký trùng lặp, fix race condition với soft delete.
-**Composite Index**: `(course_id, status)` - Optimize admin queries theo course/status.
+**Composite Index**: `(course_id, status)` - Optimize [[requirement/page/admin/admin|admin]] queries theo course/status.
 **Composite Index**: `(user_id, status)` - Optimize student's active enrollment list.
 
 ---
@@ -294,10 +294,10 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `updated_at`   | Timestamp | -                                   | Ngày cập nhật          |
 
 **PK**: (`user_id`, `lesson_id`)
-**Composite Index**: `(lesson_id, completed)` - Optimize admin view of lesson completion.
-**Business Rule:** Chỉ video/resource lesson được ghi complete trực tiếp vào `lesson_progress`. Quiz completion tính từ `quiz_attempts.passed`; assignment/final_project completion tính từ `submissions.status = approved`.
+**Composite Index**: `(lesson_id, completed)` - Optimize [[requirement/page/admin/admin|admin]] view of lesson completion.
+**Business Rule:** Chỉ video/resource lesson được ghi complete trực tiếp vào `lesson_progress`. Quiz completion tính từ `quiz_attempts.passed`; assignment/final_project completion tính từ `[[requirement/page/instructor/submissions|submissions]].status = approved`.
 
-### 2.8. `submissions` (Bài nộp)
+### 2.8. [[requirement/page/instructor/submissions|`submissions`]] (Bài nộp)
 
 | Field             | Type      | Constraint                                        | Description                       |
 | :---------------- | :-------- | :------------------------------------------------ | :-------------------------------- |
@@ -315,7 +315,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `attachment_url`  | String    | -                                                 | Link file đính kèm (nếu có)       |
 | `attempt_no`      | Integer   | Not Null, Default: 1                              | Lần nộp thứ mấy cho lesson này    |
 | `status`          | Enum      | Not Null                                          | `pending`, `approved`, `revision_requested`, `rejected` |
-| `feedback`        | Text      | -                                                 | Nhận xét của admin                |
+| `feedback`        | Text      | -                                                 | Nhận xét của [[requirement/page/admin/admin|admin]]                |
 | `submitted_at`    | Timestamp | Default: now()                                    | Ngày nộp                          |
 | `reviewed_at`     | Timestamp | -                                                 | Ngày duyệt                        |
 | `reviewed_by`     | UUID      | FK → `users.id`                                   | Admin duyệt bài                   |
@@ -382,7 +382,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `course_title_snapshot` | String    | Not Null                                                                       | Tên khóa tại thời điểm mua                                   |
 | `course_price_snapshot` | Decimal   | Not Null, CHECK(course_price_snapshot >= 0)                                    | Giá khóa tại thời điểm mua                                   |
 | `coupon_id`             | UUID      | FK → `coupons.id` ON DELETE SET NULL                                           | Coupon được áp dụng nếu có                                   |
-| `coupon_code_snapshot`  | String    | -                                                                              | Mã coupon tại thời điểm mua                                  |
+| `coupon_code_snapshot`  | String    | -                                                                              | Mã [[requirement/page/student/coupon|coupon]] tại thời điểm mua                                  |
 | `referral_code_id`      | UUID      | FK → `referral_codes.id` ON DELETE SET NULL                                    | Mã giới thiệu nếu có                                         |
 | `created_by`            | UUID      | FK → `users.id`                                                                | Admin tạo đơn hàng thủ công                                  |
 | `updated_by`            | UUID      | FK → `users.id`                                                                | Người cập nhật cuối                                          |
@@ -400,8 +400,8 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 - `orders.user_id` là **NOT NULL** - mọi order phải thuộc về một user.
 - `orders.lead_id` chỉ dùng cho analytics (theo dõi conversion từ lead).
 - `final_amount` luôn bằng `amount - discount_amount`.
-- `course_title_snapshot`, `course_price_snapshot`, `coupon_code_snapshot` không được cập nhật sau khi order tạo, trừ khi admin hủy order và tạo lại.
-- Refund trong MVP/P1 không hoàn tiền tự động qua gateway. Khi admin mark refunded, hệ thống cộng `orders.final_amount` vào `users.account_balance`, tạo `account_balance_transactions.type = refund_credit`, chuyển enrollment liên quan sang `cancelled`, và ghi `audit_logs`.
+- `course_title_snapshot`, `course_price_snapshot`, `coupon_code_snapshot` không được cập nhật sau khi order tạo, trừ khi [[requirement/page/admin/admin|admin]] hủy order và tạo lại.
+- Refund trong MVP/P1 không hoàn tiền tự động qua gateway. Khi [[requirement/page/admin/admin|admin]] mark refunded, hệ thống cộng `orders.final_amount` vào `users.account_balance`, tạo `account_balance_transactions.type = refund_credit`, chuyển enrollment liên quan sang `cancelled`, và ghi `audit_logs`.
 - Không hard delete orders. Nếu cần ẩn, dùng `deleted_at`, nhưng báo cáo tài chính mặc định vẫn phải có tùy chọn xem lịch sử.
 
 ### 2.10.1. `coupons` (Mã giảm giá)
@@ -424,7 +424,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `level`                | Enum      | -                                               | Nếu áp dụng cho level: `starter`, `core`, ...    |
 | `starts_at`            | Timestamp | -                                               | Thời điểm bắt đầu                                |
 | `expires_at`           | Timestamp | -                                               | Thời điểm hết hạn                                |
-| `is_stackable`         | Boolean   | Default: false                                  | Có được stack với referral không                 |
+| `is_stackable`         | Boolean   | Default: false                                  | Có được stack với [[requirement/page/student/referral|referral]] không                 |
 | `status`               | Enum      | Not Null                                        | `active`, `paused`, `expired`, `archived`        |
 | `created_by`           | UUID      | FK → `users.id`                                 | Admin tạo mã                                     |
 | `updated_by`           | UUID      | FK → `users.id`                                 | Người cập nhật cuối                              |
@@ -432,19 +432,19 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`           | Timestamp | Default: now()                                  | Ngày tạo                                         |
 | `updated_at`           | Timestamp | -                                               | Ngày cập nhật                                    |
 
-### 2.10.2. `coupon_redemptions` (Lịch sử dùng coupon)
+### 2.10.2. `coupon_redemptions` (Lịch sử dùng [[requirement/page/student/coupon|coupon]])
 
 | Field             | Type      | Constraint                                | Description                                   |
 | :---------------- | :-------- | :---------------------------------------- | :-------------------------------------------- |
 | `id`              | UUID      | PK                                        | Định danh duy nhất                            |
 | `coupon_id`       | UUID      | Not Null, FK → `coupons.id`               | Coupon được dùng                              |
 | `order_id`        | UUID      | Not Null, FK → `orders.id`                | Đơn hàng áp dụng                              |
-| `user_id`         | UUID      | Not Null, FK → `users.id`                 | User dùng coupon                              |
+| `user_id`         | UUID      | Not Null, FK → `users.id`                 | User dùng [[requirement/page/student/coupon|coupon]]                              |
 | `course_id`       | UUID      | Not Null, FK → `courses.id`               | Khóa học áp dụng                              |
 | `redeemed_amount` | Decimal   | Not Null, CHECK(redeemed_amount >= 0)     | Số tiền giảm thực tế                          |
 | `status`          | Enum      | Not Null                                  | `reserved`, `applied`, `cancelled`, `refunded` |
-| `reserved_expires_at` | Timestamp | -                                      | Hạn giữ coupon khi order còn pending          |
-| `redeemed_at`     | Timestamp | -                                         | Thời điểm coupon được applied                 |
+| `reserved_expires_at` | Timestamp | -                                      | Hạn giữ [[requirement/page/student/coupon|coupon]] khi order còn pending          |
+| `redeemed_at`     | Timestamp | -                                         | Thời điểm [[requirement/page/student/coupon|coupon]] được applied                 |
 | `created_at`      | Timestamp | Default: now()                            | Ngày tạo                                      |
 
 **Business Rule:** `reserved` quá `reserved_expires_at` không được tính là giữ chỗ khi check usage limit; cleanup job có thể chuyển sang `cancelled`.
@@ -519,7 +519,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `code`                   | String    | Unique, Not Null                    | Mã giới thiệu                                |
 | `referred_discount_type` | Enum      | -                                   | `percentage`, `fixed_amount`                 |
 | `referred_discount_value`| Decimal   | CHECK(referred_discount_value >= 0) | Giá trị giảm cho người được giới thiệu       |
-| `reward_type`            | Enum      | Not Null                            | `coupon`, `credit`, `cash`, `project_review`, `mentoring` |
+| `reward_type`            | Enum      | Not Null                            | [[requirement/page/student/coupon|`coupon`]], `credit`, `cash`, `project_review`, `mentoring` |
 | `reward_value`           | String    | -                                   | Giá trị/thông tin phần thưởng                |
 | `usage_limit_total`      | Integer   | CHECK(usage_limit_total >= 0)       | Tổng lượt dùng tối đa                        |
 | `used_count`             | Integer   | Default: 0                          | Số conversion đã paid                        |
@@ -527,7 +527,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`             | Timestamp | Default: now()                      | Ngày tạo                                     |
 | `updated_at`             | Timestamp | -                                   | Ngày cập nhật                                |
 
-### 2.10.7. `referral_conversions` (Chuyển đổi referral)
+### 2.10.7. `referral_conversions` (Chuyển đổi [[requirement/page/student/referral|referral]])
 
 | Field              | Type      | Constraint                          | Description                              |
 | :----------------- | :-------- | :---------------------------------- | :--------------------------------------- |
@@ -551,22 +551,22 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `interest`   | String    | -               | Nhu cầu quan tâm                    |
 | `message`    | Text      | -               | Nội dung yêu cầu                    |
 | `source`     | String    | -               | contact_page, workshop_signup, etc. |
-| `source_entity_type` | String | -            | Entity nguồn cụ thể: `resource`, `course`, `page` |
+| `source_entity_type` | String | -            | Entity nguồn cụ thể: `resource`, `course`, [[requirement/page|`page`]] |
 | `source_entity_id` | UUID | -                | ID entity nguồn nếu có               |
 | `consent_marketing` | Boolean | Default: false | Đồng ý nhận tư vấn/marketing        |
 | `consent_privacy_policy` | Boolean | Default: false | Đồng ý chính sách dữ liệu          |
 | `utm_source` | String    | -               | UTM source                          |
 | `utm_medium` | String    | -               | UTM medium                          |
 | `utm_campaign` | String  | -               | UTM campaign                        |
-| `landing_page_url` | String | -             | URL landing page nguồn              |
+| `landing_page_url` | String | -             | URL landing [[requirement/page|page]] nguồn              |
 | `status`     | Enum      | Not Null        | `new`, `contacted`, `lost`          |
-| `created_by` | UUID      | FK → `users.id` | Người tạo (admin/system)            |
+| `created_by` | UUID      | FK → `users.id` | Người tạo ([[requirement/page/admin/admin|admin]]/system)            |
 | `updated_by` | UUID      | FK → `users.id` | Người cập nhật cuối                 |
 | `deleted_at` | Timestamp | -               | Ngày xóa mềm (soft delete)          |
 | `created_at` | Timestamp | Default: now()  | Ngày tạo                            |
 | `updated_at` | Timestamp | -               | Ngày cập nhật                       |
 
-### 2.12. `projects` (Triển lãm Dự án - Independent)
+### 2.12. [[requirement/page/website/projects|`projects`]] (Triển lãm Dự án - Independent)
 
 | Field         | Type      | Constraint                           | Description                            |
 | :------------ | :-------- | :----------------------------------- | :------------------------------------- |
@@ -606,7 +606,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at` | Timestamp | Default: now()                                  | Thời điểm tạo ghi chú                          |
 | `updated_at` | Timestamp | -                                               | Ngày cập nhật                                  |
 
-### 2.14. `resources` (Public resource / blog hub)
+### 2.14. `resources` (Public resource / [[requirement/page/website/blog|blog]] hub)
 
 `resources` là source duy nhất cho `/blog`, resource hub và resource section trên homepage. Không tạo song song bảng nội dung public khác trong MVP/P1.
 
@@ -687,9 +687,9 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 
 **Unique Index**: `UNIQUE(course_id, instructor_id)` - Một instructor không được phân công trùng cùng khóa.
 
-**Permission Rule:** Default: instructor được xem course (read-only), trả lời Q&A, duyệt submissions và xem progress của course được phân công. Instructor không được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement, xử lý order/payment/coupon/invoice/referral/revenue, hoặc cấp/revoke certificate. Tất cả quản lý khóa học, video, học viên, announcement là quyền của admin.
+**Permission Rule:** Default: instructor được xem course (read-only), trả lời Q&A, duyệt [[requirement/page/instructor/submissions|submissions]] và xem progress của course được phân công. Instructor không được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement, xử lý order/payment/coupon/invoice/referral/revenue, hoặc cấp/revoke [[requirement/page/website/certificate|certificate]]. Tất cả quản lý khóa học, video, học viên, announcement là quyền của [[requirement/page/admin/admin|admin]].
 
-### 2.18. `notifications` (Thông báo cá nhân in-app)
+### 2.18. [[requirement/page/student/notifications|`notifications`]] (Thông báo cá nhân in-app)
 
 | Field            | Type      | Constraint                         | Description                                      |
 | :--------------- | :-------- | :--------------------------------- | :----------------------------------------------- |
@@ -699,7 +699,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `type`           | Enum      | Not Null                           | `order_paid`, `submission_reviewed`, `certificate_issued`, `announcement`, `question_answered`, `system` |
 | `title`          | String    | Not Null                           | Tiêu đề hiển thị                                 |
 | `body`           | Text      | -                                  | Nội dung ngắn                                    |
-| `target_type`    | String    | -                                  | Entity đích: `course`, `lesson`, `order`, `certificate`, `question`, `announcement` |
+| `target_type`    | String    | -                                  | Entity đích: `course`, `lesson`, `order`, [[requirement/page/website/certificate|`certificate`]], `question`, `announcement` |
 | `target_id`      | UUID      | -                                  | ID entity đích                                  |
 | `target_url`     | String    | -                                  | Link điều hướng                                  |
 | `read_at`        | Timestamp | -                                  | Đã đọc lúc nào                                   |
@@ -751,7 +751,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `question_type`   | Enum      | Not Null                    | `single_choice`, `multiple_choice`, `short_text` |
 | `question_text`   | Text      | Not Null                    | Nội dung câu hỏi                             |
 | `options`         | JSONB     | -                           | Danh sách lựa chọn cho choice question       |
-| `correct_answer`  | JSONB     | -                           | Đáp án đúng, chỉ admin/instructor xem        |
+| `correct_answer`  | JSONB     | -                           | Đáp án đúng, chỉ [[requirement/page/admin/admin|admin]]/instructor xem        |
 | `explanation`     | Text      | -                           | Giải thích sau khi nộp                       |
 | `points`          | Integer   | Default: 1                  | Điểm câu hỏi                                 |
 | `order_index`     | Integer   | Not Null                    | Thứ tự câu hỏi                               |
@@ -816,7 +816,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `id`          | UUID      | PK                         | Định danh duy nhất                           |
 | `actor_id`    | UUID      | FK → `users.id`            | Người thực hiện                              |
 | `actor_role`  | String    | Not Null                   | Role tại thời điểm thao tác                  |
-| `action`      | String    | Not Null                   | Ví dụ: `order.confirm_paid`, `certificate.revoke` |
+| `action`      | String    | Not Null                   | Ví dụ: `order.confirm_paid`, `[[requirement/page/website/certificate|certificate]].revoke` |
 | `entity_type` | String    | Not Null                   | Bảng/loại entity bị tác động                 |
 | `entity_id`   | UUID      | -                          | ID entity                                    |
 | `metadata`    | JSONB     | -                          | Snapshot thay đổi/lý do                      |
@@ -832,7 +832,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 - **Trigger**: Khi `orders.status` chuyển sang `paid`.
 - **Action**: Hệ thống tự động tạo bản ghi trong `enrollments` với `status = active`.
 - **Exception**: Admin có thể gán `enrollment` thủ công cho học viên (cho mục đích scholarship hoặc trial).
-- **Idempotency**: Trước khi tạo enrollment phải check partial unique index `(user_id, course_id) WHERE deleted_at IS NULL` để không tạo trùng khi webhook retry hoặc admin bấm confirm nhiều lần.
+- **Idempotency**: Trước khi tạo enrollment phải check partial unique index `(user_id, course_id) WHERE deleted_at IS NULL` để không tạo trùng khi webhook retry hoặc [[requirement/page/admin/admin|admin]] bấm confirm nhiều lần.
 - **Source of truth**: `orders.status` quyết định quyền học tổng thể; `payment_transactions.status` chỉ ghi nhận từng lần thanh toán cụ thể.
 
 ### 3.1.1. Checkout / Payment / Coupon / Referral Flow
@@ -844,30 +844,30 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 2. User chọn course và mở /checkout/:courseSlug
 3. Backend tạo order pending, payment_status = unpaid
 4. Snapshot course_title_snapshot và course_price_snapshot vào order
-5. Nếu có coupon/referral, validate trước rồi ghi snapshot vào order
+5. Nếu có [[requirement/page/student/coupon|coupon]]/referral, validate trước rồi ghi snapshot vào order
 6. Tạo payment_transactions cho từng lần thanh toán/thử thanh toán
 7. Khi thanh toán thành công:
    - payment_transactions.status = success
    - orders.status = paid
    - orders.payment_status = paid
    - orders.paid_at = now()
-   - coupon_redemptions.status = applied nếu có coupon
-   - referral_conversions.reward_status = approved nếu có referral
+   - coupon_redemptions.status = applied nếu có [[requirement/page/student/coupon|coupon]]
+   - referral_conversions.reward_status = approved nếu có [[requirement/page/student/referral|referral]]
    - tạo enrollment active nếu chưa tồn tại
 ```
 
 **Coupon usage rule:**
 
-- Khi user nhập coupon vào order pending, có thể tạo `coupon_redemptions.status = reserved`.
+- Khi user nhập [[requirement/page/student/coupon|coupon]] vào order pending, có thể tạo `coupon_redemptions.status = reserved`.
 - `reserved` phải có `reserved_expires_at`; reservation hết hạn không được tính vào usage limit.
-- Khi apply coupon thành paid, validate usage limit trong transaction và lock coupon row để tránh vượt limit do race condition.
+- Khi apply [[requirement/page/student/coupon|coupon]] thành paid, validate usage limit trong transaction và lock [[requirement/page/student/coupon|coupon]] row để tránh vượt limit do race condition.
 - Chỉ tăng `coupons.used_count` khi order chuyển sang `paid` và redemption chuyển sang `applied`.
 - Nếu order `cancelled` hoặc `failed`, redemption chuyển `cancelled` và không tăng `used_count`.
 - Nếu order `refunded`, redemption chuyển `refunded`; `coupons.used_count` giữ nguyên để audit, không trừ lại.
 
 **Referral anti-abuse rule:**
 
-- User không được dùng referral code của chính mình.
+- User không được dùng [[requirement/page/student/referral|referral]] code của chính mình.
 - Một `referred_user_id` chỉ được tính một conversion đầu tiên đã paid.
 - Chỉ tạo/phê duyệt reward khi `orders.status = paid`.
 - Nếu order refunded thì `referral_conversions.reward_status = cancelled`.
@@ -877,9 +877,9 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 - Admin chỉ refund order đang `paid`.
 - Khi refund: `orders.status = refunded`, `orders.payment_status = refunded`, `orders.refunded_at = now()`, bắt buộc có `refund_reason`.
 - Hệ thống tạo một `account_balance_transactions.type = refund_credit` với `source_type = order`, `source_id = orders.id`, `amount = orders.final_amount`.
-- `users.account_balance` tăng đúng bằng `orders.final_amount`; không dùng balance để checkout trong MVP/P1.
-- Enrollment sinh từ order refunded chuyển `cancelled` để khóa quyền học. Nếu admin muốn giữ quyền học, phải tạo override riêng và ghi audit log `enrollment.override_after_refund`.
-- User muốn rút số dư phải liên hệ admin qua `/contact?type=support`; admin xử lý offline và tạo ledger reset balance về `0`.
+- `users.account_balance` tăng đúng bằng `orders.final_amount`; không dùng balance để [[requirement/page/student/checkout|checkout]] trong MVP/P1.
+- Enrollment sinh từ order refunded chuyển `cancelled` để khóa quyền học. Nếu [[requirement/page/admin/admin|admin]] muốn giữ quyền học, phải tạo override riêng và ghi audit log `enrollment.override_after_refund`.
+- User muốn rút số dư phải liên hệ [[requirement/page/admin/admin|admin]] qua `/contact?type=support`; [[requirement/page/admin/admin|admin]] xử lý offline và tạo ledger reset balance về `0`.
 
 **Invoice / receipt rule:**
 
@@ -891,7 +891,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 
 - **`active`**: Học viên có quyền truy cập khóa học.
 - **`completed`**: Học viên đã hoàn thành khóa.
-- **`cancelled`**: Hủy bởi admin/hệ thống.
+- **`cancelled`**: Hủy bởi [[requirement/page/admin/admin|admin]]/hệ thống.
 - **`expired`**: Truy cập hết hạn (được set khi `access_expires_at` đã qua). Có thể tự động chuyển từ `active` $\rightarrow$ `expired` bằng cron job.
 - Sau mỗi lần hoàn thành video/resource, pass quiz, hoặc submission được approved, hệ thống recompute required lessons. Nếu tất cả bài bắt buộc đã hoàn thành, set `enrollments.status = completed` và `completed_at = now()` idempotently.
 
@@ -902,7 +902,7 @@ _Bài hoàn thành_:
 
 - `video` / `resource`: `lesson_progress.completed = true`.
 - `quiz`: có ít nhất một `quiz_attempts.passed = true`.
-- `assignment` / `final_project`: có ít nhất một `submissions.status = approved`.
+- `assignment` / `final_project`: có ít nhất một `[[requirement/page/instructor/submissions|submissions]].status = approved`.
 - `pending`, `revision_requested`, `rejected` không tính là hoàn thành.
 
 ### 3.4. Certificate Eligibility (Computed)
@@ -921,7 +921,7 @@ Một học viên **đủ điều kiện** nhận chứng chỉ khi thỏa mãn:
 
 ### 3.5. Course Access Control
 
-- **Free Course** (`level = 'free'`): Truy cập tự do cho mọi user (không yêu cầu login/enrollment). Tuy nhiên, để nhận chứng chỉ, vẫn yêu cầu một bản ghi `enrollment` (có thể tự động tạo).
+- **Free Course** (`level = 'free'`): Truy cập tự do cho mọi user (không yêu cầu [[requirement/page/student/login|login]]/enrollment). Tuy nhiên, để nhận chứng chỉ, vẫn yêu cầu một bản ghi `enrollment` (có thể tự động tạo).
 - **Paid Course**: Yêu cầu `enrollment` trạng thái `active`. **Không hỗ trợ `is_preview` bài học**.
 - **Enrollment Logic**: Enrollment được quản lý tích hợp trong Student Detail Drawer (Admin).
 
@@ -930,7 +930,7 @@ Một học viên **đủ điều kiện** nhận chứng chỉ khi thỏa mãn:
 - Trường `users.last_activity_at` được cập nhật mỗi khi user:
   - Đăng nhập thành công
   - Truy cập trang học (`/learn/*`)
-  - Nộp bài (`submissions`)
+  - Nộp bài ([[requirement/page/instructor/submissions|`submissions`]])
 - Dùng cho Admin Dashboard: xác định học viên "chăm học" vs "im lặng".
 
 ---
@@ -948,9 +948,9 @@ Một học viên **đủ điều kiện** nhận chứng chỉ khi thỏa mãn:
 2. Hệ thống ghi:
    - `certificates.status` $\rightarrow$ `revoked`
    - `revoked_at` $\rightarrow$ `NOW()`
-   - `revoked_by` $\rightarrow$ `admin.id`
-   - `revoked_reason` $\rightarrow$ lý do do admin nhập (ví dụ: "Gian lận bài final project", "Vi phạm chính sách").
-3. **Không được** xóa bản ghi certificate (giữ lại lịch sử).
+   - `revoked_by` $\rightarrow$ `[[requirement/page/admin/admin|admin]].id`
+   - `revoked_reason` $\rightarrow$ lý do do [[requirement/page/admin/admin|admin]] nhập (ví dụ: "Gian lận bài final project", "Vi phạm chính sách").
+3. **Không được** xóa bản ghi [[requirement/page/website/certificate|certificate]] (giữ lại lịch sử).
 4. **Không được** thay đổi trạng thái học tập của học viên (vì học viên vẫn đã hoàn thành khóa học, chỉ bị tước bằng chứng).
 
 **Tác dụng:**
@@ -985,7 +985,7 @@ Một học viên **đủ điều kiện** nhận chứng chỉ khi thỏa mãn:
 **Soft Delete Không Propagate Tự Động:**
 
 - Xóa mềm `courses` $\rightarrow$ `enrollments` **không** tự động xóa mềm.
-- Xóa mềm `users` $\rightarrow$ `enrollments`, `submissions`, `orders` **có thể** SET NULL (tùy FK action). Tuy nhiên, với `orders.user_id` là `ON DELETE RESTRICT`, user không thể bị xóa (hard/soft) nếu còn orders liên kết.
+- Xóa mềm `users` $\rightarrow$ `enrollments`, [[requirement/page/instructor/submissions|`submissions`]], `orders` **có thể** SET NULL (tùy FK action). Tuy nhiên, với `orders.user_id` là `ON DELETE RESTRICT`, user không thể bị xóa (hard/soft) nếu còn orders liên kết.
 
 **Access Control với Soft Delete:**
 
@@ -1014,11 +1014,11 @@ WHERE status = 'published' AND deleted_at IS NULL;
 
 **Announcement / Notification:**
 
-- **Chỉ admin** tạo và quản lý `announcements` với `scope = global` hoặc `scope = course`.
+- **Chỉ [[requirement/page/admin/admin|admin]]** tạo và quản lý `announcements` với `scope = global` hoặc `scope = course`.
 - Instructor không có quyền tạo/sửa/xóa announcement.
 - Announcement scope course chỉ hiển thị với user có quyền học course đó hoặc instructor được phân công.
-- Khi publish announcement, hệ thống tạo `notifications.type = announcement` cho người nhận phù hợp.
-- `notifications` là delivery cá nhân; không thay thế `announcements` là nội dung nguồn.
+- Khi publish announcement, hệ thống tạo `[[requirement/page/student/notifications|notifications]].type = announcement` cho người nhận phù hợp.
+- [[requirement/page/student/notifications|`notifications`]] là delivery cá nhân; không thay thế `announcements` là nội dung nguồn.
 - MVP chỉ hỗ trợ in-app notification. Email/push là future.
 
 **Lesson Q&A:**
@@ -1041,7 +1041,7 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - Video bài học dùng `video_assets` làm source chính; `lessons.video_url` chỉ là legacy/fallback.
 - Admin upload/chọn video asset trong `/admin/lessons`; provider xử lý encode/thumbnail/duration ngoài app.
 - Lesson video chỉ publish khi `video_assets.processing_status = ready`.
-- Student playback phải check login, enrollment active, course/lesson published trước khi trả `embed_url` hoặc playback token.
+- Student playback phải check [[requirement/page/student/login|login]], enrollment active, course/lesson published trước khi trả `embed_url` hoặc playback token.
 - Không expose raw private video file cho client. Nếu provider cần signed token, backend phát token sau khi kiểm tra quyền.
 - Video đang `pending`, `processing`, `failed`, hoặc `archived` không được mark complete.
 
@@ -1049,32 +1049,32 @@ WHERE status = 'published' AND deleted_at IS NULL;
 
 - Chỉ user đã enrolled course mới được tạo review.
 - Mỗi user chỉ có một review active cho mỗi course.
-- Review public cần `status = published`; admin có thể hide/reject nếu spam hoặc vi phạm.
+- Review public cần `status = published`; [[requirement/page/admin/admin|admin]] có thể hide/reject nếu spam hoặc vi phạm.
 
 **Certificate Template:**
 
-- Khi cấp certificate, phải chọn active `certificate_templates`.
+- Khi cấp [[requirement/page/website/certificate|certificate]], phải chọn active `certificate_templates`.
 - Certificate lưu `template_id`, `template_name_snapshot`, `template_version_snapshot` để không sai lịch sử khi template đổi.
 
 **Audit Log:**
 
 - `audit_logs` là append-only, không sửa/xóa qua UI thường.
-- Bắt buộc ghi log cho: confirm paid, refund to balance, balance reset, issue/revoke certificate, change course publish status, change user role, instructor assignment/permission change, review moderation, announcement publish/archive, coupon create/update/archive, webhook manual match, resource publish/archive, video asset retry/fail, enrollment cancel/override, archive/delete/restore content.
+- Bắt buộc ghi log cho: confirm paid, refund to balance, balance reset, issue/revoke [[requirement/page/website/certificate|certificate]], change course publish status, change user role, instructor assignment/permission change, review moderation, announcement publish/archive, [[requirement/page/student/coupon|coupon]] create/update/archive, webhook manual match, resource publish/archive, video asset retry/fail, enrollment cancel/override, archive/delete/restore content.
 
 **Instructor Role (Chuyên trách chấm bài & hỗ trợ học viên):**
 
 - `instructor` chỉ xử lý các công việc liên quan đến **chấm bài và hỗ trợ học viên** trong khóa được phân công.
 - Phân công instructor hợp lệ khi `course_instructors.status = active` và permission flag tương ứng là `true`.
 - Default flags: `can_view_course = true`, `can_answer_questions = true`, `can_review_submissions = true`, `can_view_student_progress = true`.
-- **KHÔNG có flag `can_manage_announcements`** — tất cả announcement do admin quản lý.
+- **KHÔNG có flag `can_manage_announcements`** — tất cả announcement do [[requirement/page/admin/admin|admin]] quản lý.
 
 **Instructor KHÔNG có quyền:**
 
-- Upload/sửa video lesson hoặc quản lý nội dung khóa học (đây là quyền của admin).
-- Quản lý học viên, gán khóa, block/unblock (đây là quyền của admin).
-- Tạo/sửa/xóa course, module, lesson (đây là quyền của admin).
+- Upload/sửa video lesson hoặc quản lý nội dung khóa học (đây là quyền của [[requirement/page/admin/admin|admin]]).
+- Quản lý học viên, gán khóa, block/unblock (đây là quyền của [[requirement/page/admin/admin|admin]]).
+- Tạo/sửa/xóa course, module, lesson (đây là quyền của [[requirement/page/admin/admin|admin]]).
 - Xử lý order/payment/coupon/invoice/referral/revenue.
-- Cấp/revoke certificate.
+- Cấp/revoke [[requirement/page/website/certificate|certificate]].
 - Quản lý announcement.
 
 **Instructor CHỈ có quyền:**
@@ -1086,9 +1086,9 @@ WHERE status = 'published' AND deleted_at IS NULL;
 
 ### 3.11. Submission $\rightarrow$ Project Promotion
 
-- `submissions` và `projects` là 2 bảng độc lập.
+- [[requirement/page/instructor/submissions|`submissions`]] và [[requirement/page/website/projects|`projects`]] là 2 bảng độc lập.
 - Không có logic tự động chuyển bài nộp thành project.
-- **Luồng thủ công**: Admin xem bài nộp $\rightarrow$ Bấm "Add to Projects" $\rightarrow$ Mở form pre-fill từ submission $\rightarrow$ Tạo bản ghi trong bảng `projects`.
+- **Luồng thủ công**: Admin xem bài nộp $\rightarrow$ Bấm "Add to Projects" $\rightarrow$ Mở form pre-fill từ submission $\rightarrow$ Tạo bản ghi trong bảng [[requirement/page/website/projects|`projects`]].
 
 ## 4. Indexing Strategy
 
@@ -1104,11 +1104,11 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - `lesson_progress(user_id, lesson_id)`: Composite PK (O(1) check)
 - `enrollments(user_id, course_id)`: **Partial Unique Index** (WHERE `deleted_at IS NULL`) - Prevent duplicate enrollments, fix race condition with soft delete.
 - `enrollments(course_id, status)`: Composite Index (Admin filter by course + status)
-- `enrollments(course_id, status, user_id)`: Covering index for admin queries
+- `enrollments(course_id, status, user_id)`: Covering index for [[requirement/page/admin/admin|admin]] queries
 - `enrollments(user_id, status)`: Composite Index (Student's active courses)
-- `submissions(user_id, status)`: Composite Index (Student view + Admin queue)
-- `submissions(course_id, status)`: Composite Index (Admin review by course)
-- `submissions(user_id, lesson_id, attempt_no)`: Unique Index (Submission retry history)
+- `[[requirement/page/instructor/submissions|submissions]](user_id, status)`: Composite Index (Student view + Admin queue)
+- `[[requirement/page/instructor/submissions|submissions]](course_id, status)`: Composite Index (Admin review by course)
+- `[[requirement/page/instructor/submissions|submissions]](user_id, lesson_id, attempt_no)`: Unique Index (Submission retry history)
 - `lesson_progress(lesson_id, completed)`: Composite Index (Lesson completion analytics)
 - `lesson_progress(lesson_id, completed, user_id)`: Covering index for analytics
 - `orders(user_id, status)`: Composite Index (Student order history)
@@ -1119,7 +1119,7 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - `orders(coupon_id)`: Index (Coupon analytics)
 - `orders(referral_code_id)`: Index (Referral analytics)
 - `coupons(code)`: Unique Index (Coupon lookup)
-- `coupons(status, starts_at, expires_at)`: Composite Index (Active coupon validation)
+- `coupons(status, starts_at, expires_at)`: Composite Index (Active [[requirement/page/student/coupon|coupon]] validation)
 - `coupon_redemptions(coupon_id, status)`: Composite Index (Coupon usage count)
 - `coupon_redemptions(user_id, coupon_id, status)`: Composite Index (Per-user limit check)
 - `coupon_redemptions(status, reserved_expires_at)`: Composite Index (Expired reservation cleanup)
@@ -1136,8 +1136,8 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - `announcements(course_id, status)`: Composite Index (Course announcement feed)
 - `course_instructors(instructor_id, status)`: Composite Index (Instructor workspace course list)
 - `course_instructors(course_id, status)`: Composite Index (Course instructor lookup)
-- `notifications(user_id, read_at, created_at)`: Composite Index (Student notification inbox)
-- `notifications(user_id, delivery_status)`: Composite Index (Failed/pending delivery debug)
+- `[[requirement/page/student/notifications|notifications]](user_id, read_at, created_at)`: Composite Index (Student notification inbox)
+- `[[requirement/page/student/notifications|notifications]](user_id, delivery_status)`: Composite Index (Failed/pending delivery debug)
 - `lesson_questions(lesson_id, status, created_at)`: Composite Index (Lesson Q&A thread)
 - `lesson_questions(course_id, status)`: Composite Index (Instructor question queue)
 - `quizzes(lesson_id)`: Unique Index (One quiz per quiz lesson)
@@ -1174,10 +1174,10 @@ All foreign keys automatically indexed in PostgreSQL:
 - `account_balance_transactions(created_by)` → `users(id)`
 - `enrollments(user_id)` → `users(id)`
 - `enrollments(course_id)` → `courses(id)`
-- `submissions(user_id)` → `users(id)`
-- `submissions(course_id)` → `courses(id)`
-- `submissions(lesson_id)` → `lessons(id)`
-- `submissions(reviewed_by)` → `users(id)`
+- `[[requirement/page/instructor/submissions|submissions]](user_id)` → `users(id)`
+- `[[requirement/page/instructor/submissions|submissions]](course_id)` → `courses(id)`
+- `[[requirement/page/instructor/submissions|submissions]](lesson_id)` → `lessons(id)`
+- `[[requirement/page/instructor/submissions|submissions]](reviewed_by)` → `users(id)`
 - `certificates(user_id)` → `users(id)`
 - `certificates(course_id)` → `courses(id)`
 - `certificates(template_id)` → `certificate_templates(id)`
@@ -1205,9 +1205,9 @@ All foreign keys automatically indexed in PostgreSQL:
 - `referral_conversions(referrer_user_id)` → `users(id)`
 - `referral_conversions(referred_user_id)` → `users(id)`
 - `referral_conversions(order_id)` → `orders(id)`
-- `projects(student_id)` → `users(id)`
-- `projects(course_id)` → `courses(id)`
-- `projects(created_by)` → `users(id)`
+- `[[requirement/page/website/projects|projects]](student_id)` → `users(id)`
+- `[[requirement/page/website/projects|projects]](course_id)` → `courses(id)`
+- `[[requirement/page/website/projects|projects]](created_by)` → `users(id)`
 - `lessons(video_asset_id)` → `video_assets(id)`
 - `video_assets(created_by)` → `users(id)`
 - `video_assets(updated_by)` → `users(id)`
@@ -1232,8 +1232,8 @@ All foreign keys automatically indexed in PostgreSQL:
 - `course_instructors(course_id)` → `courses(id)`
 - `course_instructors(instructor_id)` → `users(id)`
 - `course_instructors(assigned_by)` → `users(id)`
-- `notifications(user_id)` → `users(id)`
-- `notifications(announcement_id)` → `announcements(id)`
+- `[[requirement/page/student/notifications|notifications]](user_id)` → `users(id)`
+- `[[requirement/page/student/notifications|notifications]](announcement_id)` → `announcements(id)`
 - `lesson_questions(lesson_id)` → `lessons(id)`
 - `lesson_questions(course_id)` → `courses(id)`
 - `lesson_questions(user_id)` → `users(id)`
@@ -1284,7 +1284,7 @@ CREATE UNIQUE INDEX idx_lessons_course_final_project ON lessons(course_id) WHERE
 
 ### 5.1. Materialized View: `course_enrollment_stats`
 
-**Purpose:** Optimize dashboard and admin reports for course performance.
+**Purpose:** Optimize [[requirement/page/student/dashboard|dashboard]] and [[requirement/page/admin/admin|admin]] reports for course performance.
 **Refresh Strategy:** Via cron job (e.g., every 1 hour) using `REFRESH MATERIALIZED VIEW CONCURRENTLY`.
 **Concurrent Refresh Requirement**: `CREATE UNIQUE INDEX idx_course_enrollment_stats_course_id ON course_enrollment_stats(course_id);`
 
@@ -1308,7 +1308,7 @@ GROUP BY c.id;
 
 ### 5.2. Function: `check_certificate_eligibility`
 
-**Purpose:** Real-time computed check for certificate eligibility.
+**Purpose:** Real-time computed check for [[requirement/page/website/certificate|certificate]] eligibility.
 **Logic:** Validates course settings, enrollment status, and completion of required published lessons and final project.
 
 ```sql
@@ -1356,7 +1356,7 @@ BEGIN
                   WHERE user_id = p_user_id AND lesson_id = lessons.id AND passed = true
               ))
               OR (lesson_type IN ('assignment', 'final_project') AND NOT EXISTS (
-                  SELECT 1 FROM submissions
+                  SELECT 1 FROM [[requirement/page/instructor/submissions|submissions]]
                   WHERE user_id = p_user_id AND lesson_id = lessons.id AND status = 'approved'
               ))
           )
@@ -1365,7 +1365,7 @@ BEGIN
     -- 3. Check if the course final project (if any) is approved
     -- Only consider published final project lessons
     SELECT EXISTS (
-        SELECT 1 FROM submissions
+        SELECT 1 FROM [[requirement/page/instructor/submissions|submissions]]
         WHERE user_id = p_user_id
           AND lesson_id = (
               SELECT id FROM lessons
@@ -1390,3 +1390,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 ```
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/student/notifications|/notifications — Thông báo của tôi]], [[requirement/page/student/referral|/referral — Mã giới thiệu]], [[requirement/page/website/blog|/blog — Blog / Resources Hub]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/projects|/projects — Trang dự án học viên]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[requirement/hard_notes|Hard Notes]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]]

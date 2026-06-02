@@ -5,7 +5,7 @@
 **Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
 **Build decision:** Build
 
-**Lưu ý:** Chỉ admin mới có quyền tạo/sửa/xóa khóa học. Instructor không có quyền truy cập.
+**Lưu ý:** Chỉ [[requirement/page/admin/admin|admin]] mới có quyền tạo/sửa/xóa khóa học. Instructor không có quyền truy cập.
 
 ## 1. Mục tiêu trang
 
@@ -16,7 +16,7 @@ Admin dùng trang này để:
 2. Chỉnh sửa thông tin khóa học
 3. Quản lý trạng thái khóa: draft / published / archived
 4. Quản lý level, giá, thời lượng, thumbnail
-5. Cấu hình khóa có certificate hay không
+5. Cấu hình khóa có [[requirement/page/website/certificate|certificate]] hay không
 6. Cấu hình khóa học tự do hoặc học theo thứ tự
 7. Điều hướng sang trang quản lý module/lesson của khóa
 ```
@@ -182,7 +182,7 @@ Dựa theo bộ sản phẩm em định làm:
 | B2B      | AI training for clubs, teams, SMEs | Custom          |
 
 **Rule:**
-Premium và B2B vẫn có thể lưu trong `courses`, nhưng ngoài public page `/courses` thì nên tách thành section riêng, không gộp chung 4 course card chính.
+Premium và B2B vẫn có thể lưu trong `courses`, nhưng ngoài public [[requirement/page|page]] `/courses` thì nên tách thành section riêng, không gộp chung 4 course card chính.
 
 ---
 
@@ -199,7 +199,7 @@ Premium và B2B vẫn có thể lưu trong `courses`, nhưng ngoài public page 
 ```text
 draft → không hiển thị ngoài public
 published → hiển thị ở /courses và /courses/[slug]
-archived → không hiển thị public, admin vẫn xem được
+archived → không hiển thị public, [[requirement/page/admin/admin|admin]] vẫn xem được
 ```
 
 ---
@@ -277,7 +277,7 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 | Slug bị trùng                | Báo lỗi, không cho lưu                                 |
 | Thiếu title/slug/status      | Không cho submit                                       |
 | Status = published           | Phải có title, slug, mô tả ngắn, thumbnail cơ bản      |
-| Certificate available = true | Khóa có thể cấp certificate khi học viên đủ điều kiện  |
+| Certificate available = true | Khóa có thể cấp [[requirement/page/website/certificate|certificate]] khi học viên đủ điều kiện  |
 | Lock mode = sequential       | Lesson phải học theo thứ tự                            |
 | Lock mode = free             | Học viên có thể học tự do                              |
 | Course ordering              | Hiển thị khóa theo thứ tự sản phẩm đã định             |
@@ -291,7 +291,7 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 
 | Nhóm            | Yêu cầu                                    |
 | --------------- | ------------------------------------------ |
-| Auth            | Chỉ admin mới vào được                     |
+| Auth            | Chỉ [[requirement/page/admin/admin|admin]] mới vào được                     |
 | Course list     | Hiển thị toàn bộ 4–6 khóa học              |
 | Course ordering | Hiển thị khóa theo thứ tự sản phẩm đã định |
 | Create course   | Tạo khóa học mới                           |
@@ -316,7 +316,7 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 | `course_instructors` | Instructor được phân công theo khóa và permission flags |
 | `course_faqs`  | FAQ public theo khóa, status/order_index |
 | `enrollments`  | Đếm số học viên enrolled               |
-| `certificates` | Kiểm tra certificate liên quan nếu cần |
+| `certificates` | Kiểm tra [[requirement/page/website/certificate|certificate]] liên quan nếu cần |
 
 ---
 
@@ -343,7 +343,7 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 | `created_at`            | Ngày tạo                                              |
 | `updated_at`            | Ngày cập nhật                                         |
 
-Nên có thêm `display_order` để admin kiểm soát thứ tự 4–6 khóa.
+Nên có thêm `display_order` để [[requirement/page/admin/admin|admin]] kiểm soát thứ tự 4–6 khóa.
 
 ---
 
@@ -366,7 +366,7 @@ Nếu khóa đủ thông tin bắt buộc:
 → cho chuyển status = published
 
 Nếu thiếu thông tin:
-→ báo admin bổ sung trước khi publish
+→ báo [[requirement/page/admin/admin|admin]] bổ sung trước khi publish
 ```
 
 ## Archive khóa học
@@ -473,4 +473,20 @@ Trang `/admin/courses` đạt nếu:
 9. Empty/loading/error state
 ```
 
-Nói ngắn gọn: **`/admin/courses` là nơi quản lý “vỏ khóa học”: tên, mô tả, giá, level, trạng thái, certificate và lock mode. Vì số lượng khóa ít nên không cần search/filter ở MVP; chỉ cần bảng/list rõ ràng và đúng thứ tự sản phẩm.**
+Nói ngắn gọn: **`/admin/courses` là nơi quản lý “vỏ khóa học”: tên, mô tả, giá, level, trạng thái, [[requirement/page/website/certificate|certificate]] và lock mode. Vì số lượng khóa ít nên không cần search/filter ở MVP; chỉ cần bảng/list rõ ràng và đúng thứ tự sản phẩm.**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** *None*

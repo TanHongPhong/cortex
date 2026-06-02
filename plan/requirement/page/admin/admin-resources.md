@@ -37,8 +37,8 @@ Admin tạo, sửa, publish/archive tài liệu public cho Resources Hub. Đây 
 
 ## 4. Permission / Rule
 
-- Chỉ admin được tạo/sửa/publish/archive resource.
-- Public page chỉ hiển thị `resources.status = published`.
+- Chỉ [[requirement/page/admin/admin|admin]] được tạo/sửa/publish/archive resource.
+- Public [[requirement/page|page]] chỉ hiển thị `resources.status = published`.
 - `access_type = email_required` phải tạo `leads` trước khi cho tải file.
 - Lead từ resource phải ghi `source = resource_download`, `source_entity_type = resource`, `source_entity_id = resources.id`.
 - `access_type = student_only` yêu cầu user có enrollment active với `resources.course_id`.
@@ -66,3 +66,19 @@ Admin tạo, sửa, publish/archive tài liệu public cho Resources Hub. Đây 
 | Lead capture hoạt động với `access_type = email_required` | |
 | Lead capture lưu được source entity của resource | |
 | Course resource lọc được bằng `course_id` | |
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]]
+- **Incoming Links (Backlinks):** *None*

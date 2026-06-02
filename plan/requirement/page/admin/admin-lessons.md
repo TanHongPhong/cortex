@@ -5,7 +5,7 @@
 **Source of truth:** `plan/requirement/page_function_matrix.md`, `plan/requirement/unified_database_schema.md`
 **Build decision:** Build
 
-**Lưu ý:** Chỉ admin mới có quyền upload video và quản lý nội dung khóa học tại trang này. Instructor không có quyền truy cập.
+**Lưu ý:** Chỉ [[requirement/page/admin/admin|admin]] mới có quyền upload video và quản lý nội dung khóa học tại trang này. Instructor không có quyền truy cập.
 
 ## 1. Mục tiêu trang
 
@@ -155,7 +155,7 @@ Ví dụ:
 
 ```text
 ✓ 2.1 Tư duy Vibe Coding                  [Video]
-✓ 2.2 Tạo landing page đầu tiên           [Video]
+✓ 2.2 Tạo landing [[requirement/page|page]] đầu tiên           [Video]
 ○ 2.3 Bài tập: Viết prompt tạo layout     [Assignment]
 ○ 2.4 Template & resources                [Resource]
 ○ 2.5 Quiz: Kiểm tra prompt basics        [Quiz]
@@ -212,7 +212,7 @@ Video source rule:
 - Provider trả `provider_asset_id`; hệ thống lưu `playback_url`, `embed_url`, `thumbnail_url`, `duration_seconds` khi asset ready.
 - Không dùng YouTube/Drive public link làm chuẩn cho paid course. `lessons.video_url` chỉ là legacy/fallback/demo.
 
-CTA admin:
+CTA [[requirement/page/admin/admin|admin]]:
 
 ```text
 Save Video Lesson
@@ -229,7 +229,7 @@ Save Video Lesson
 | Resource list           | Có             | File/link/template/prompt |
 | Required for completion | Không bắt buộc | Có thể true/false         |
 
-CTA admin:
+CTA [[requirement/page/admin/admin|admin]]:
 
 ```text
 Save Resource Lesson
@@ -246,13 +246,13 @@ Save Resource Lesson
 | Passing score           | Có       | Mặc định 70                              |
 | Max attempts            | Không    | NULL là không giới hạn                   |
 | Questions               | Có       | single_choice / multiple_choice / short_text |
-| Correct answers         | Có       | Chỉ admin/instructor xem; `short_text` lưu accepted answers để auto-grade exact/normalized match |
+| Correct answers         | Có       | Chỉ [[requirement/page/admin/admin|admin]]/instructor xem; `short_text` lưu accepted answers để auto-grade exact/normalized match |
 | Explanation             | Không    | Hiển thị sau submit                      |
 | Required for completion | Có       | Nếu true thì cần `quiz_attempts.passed`  |
 
 Rule: `short_text` trong MVP/P1 không chấm tay. Hệ thống trim/lowercase câu trả lời và so với danh sách accepted answers trong `quiz_questions.correct_answer`.
 
-CTA admin:
+CTA [[requirement/page/admin/admin|admin]]:
 
 ```text
 Save Quiz Lesson
@@ -273,7 +273,7 @@ Save Quiz Lesson
 | Requires submission     | Có       | true                         |
 | Required for completion | Có       | thường là true               |
 
-CTA admin:
+CTA [[requirement/page/admin/admin|admin]]:
 
 ```text
 Save Assignment
@@ -290,11 +290,11 @@ Save Assignment
 | Project requirements       | Có       | Yêu cầu cần nộp                   |
 | Project output             | Có       | Demo link, source, reflection     |
 | Evaluation criteria        | Có       | Rubric đánh giá                   |
-| Certificate condition note | Có       | Nêu điều kiện để nhận certificate |
+| Certificate condition note | Có       | Nêu điều kiện để nhận [[requirement/page/website/certificate|certificate]] |
 | Requires submission        | Có       | true                              |
 | Required for completion    | Có       | true                              |
 
-CTA admin:
+CTA [[requirement/page/admin/admin|admin]]:
 
 ```text
 Save Final Project
@@ -313,7 +313,7 @@ Mỗi lesson có thể gắn tài liệu kèm theo.
 | PDF      | Slide bài học                  |
 | Prompt   | Prompt mẫu                     |
 | Link     | Demo link, Notion, Docs        |
-| Template | Template landing page/workflow |
+| Template | Template landing [[requirement/page|page]]/workflow |
 | File     | File bài tập                   |
 
 ## Resource field
@@ -334,7 +334,7 @@ Video assets quản lý tại trang `/admin/lessons` (không tách trang riêng)
 
 ## Video Asset Table trong Lesson Editor
 
-Khi admin chọn lesson type = video, hiển thị bảng quản lý video assets:
+Khi [[requirement/page/admin/admin|admin]] chọn lesson type = video, hiển thị bảng quản lý video assets:
 
 | Cột | Nội dung |
 |-----|---------|
@@ -400,14 +400,14 @@ Khi admin chọn lesson type = video, hiển thị bảng quản lý video asset
 - **Paid course**: Chỉ dùng streaming provider (Cloudflare Stream, Bunny Stream, Vimeo). Không dùng YouTube/Drive public link.
 - **Free course**: Có thể dùng external URL (YouTube embed) làm fallback.
 - **Lesson publish**: Chỉ publish khi `video_assets.processing_status = ready`.
-- **Student playback**: Backend kiểm tra login + enrollment active + course/lesson published trước khi trả embed_url.
+- **Student playback**: Backend kiểm tra [[requirement/page/student/login|login]] + enrollment active + course/lesson published trước khi trả embed_url.
 - **Security**: Không expose raw private video file. Nếu provider cần signed token, backend phát token sau khi kiểm tra quyền.
 
 ---
 
 # 11. Thứ tự module/lesson
 
-Vì khóa học cần flow rõ, admin nên chỉnh được thứ tự.
+Vì khóa học cần flow rõ, [[requirement/page/admin/admin|admin]] nên chỉnh được thứ tự.
 
 | Chức năng       | Yêu cầu                                               |
 | --------------- | ----------------------------------------------------- |
@@ -444,7 +444,7 @@ Dùng nút Move Up / Move Down là đủ.
 
 | Nhóm            | Yêu cầu                                         |
 | --------------- | ----------------------------------------------- |
-| Auth            | Chỉ admin mới vào được                          |
+| Auth            | Chỉ [[requirement/page/admin/admin|admin]] mới vào được                          |
 | Course select   | Chọn khóa cần chỉnh lesson                      |
 | Module CRUD     | Tạo/sửa/xóa/ẩn module                           |
 | Lesson CRUD     | Tạo/sửa/xóa/ẩn lesson                           |
@@ -469,7 +469,7 @@ Dùng nút Move Up / Move Down là đủ.
 | `lesson_resources` | Tài liệu kèm lesson                                  |
 | `files`            | File nội bộ gắn với tài liệu/attachment              |
 | `lesson_progress`  | Kiểm tra lesson đã có người học chưa                 |
-| `submissions`      | Kiểm tra assignment/final project đã có bài nộp chưa |
+| [[requirement/page/instructor/submissions|`submissions`]]      | Kiểm tra assignment/final project đã có bài nộp chưa |
 
 ---
 
@@ -699,4 +699,20 @@ Trang `/admin/lessons` đạt nếu:
 12. Empty/loading/error state
 ```
 
-Nói ngắn gọn: **`/admin/lessons` là nơi admin xây toàn bộ nội dung học của khóa: module, video bài giảng, tài liệu, quiz, bài tập và final project. Đây là trang quan trọng nhất để tạo trải nghiệm học trong Student Portal.**
+Nói ngắn gọn: **`/admin/lessons` là nơi [[requirement/page/admin/admin|admin]] xây toàn bộ nội dung học của khóa: module, video bài giảng, tài liệu, quiz, bài tập và final project. Đây là trang quan trọng nhất để tạo trải nghiệm học trong Student Portal.**
+
+---
+
+## 🗺️ Obsidian Meta
+
+### Tags
+- #cortex/page/admin
+- #cortex/plan
+- #cortex/requirement
+
+### Navigation
+- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[requirement/page|Requirements]] / [[requirement/page/admin/admin|Admin Dashboard]]
+
+### Relations
+- **Outgoing Links:** [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/login|/login — Đăng nhập]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]
