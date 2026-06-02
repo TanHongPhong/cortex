@@ -1,259 +1,273 @@
+---
+categories:
+  - "[[Projects]]"
+  - "[[cortex.ai]]"
+  - "[[cortex.ai Web]]"
+  - "[[System Audit]]"
+type: ["[[System Audit]]"]
+org: ["[[cortex.ai]]"]
+start: 2026-06-02
+year: 2026
+url: https://github.com/TanHongPhong/cortex
+status: "[[Planned]]"
+---
+
 # Plan Conflict Audit - CORTEX Requirements
 
-Ngay doc: 2026-06-02
+Ngày đọc: 2026-06-02
 
-## Pham vi da check
+## Phạm vi đã check
 
-Da doi chieu toan bo `plan/requirement/` hien tai:
+Đã đối chiếu toàn bộ `plan/web/` hiện tại:
 
-- Source-of-truth tong: [[requirement/page_function_matrix|`page_function_matrix.md`]], [[requirement/page|`page.md`]], [[requirement/unified_database_schema|`unified_database_schema.md`]], [[requirement/security|`security.md`]], [[requirement/architecture|`architecture.md`]], [[requirement/infrastructure|`infrastructure.md`]], [[requirement/hard_notes|`hard_notes.md`]].
-- Page docs: public website, student, instructor, [[requirement/page/admin/admin|admin]].
-- Luu y: [[requirement/hard_notes|`hard_notes.md`]] tu khai bao khong phai build contract, nen chi dung de phan loai future/ops, khong dung de override schema/page.
+- Source-of-truth tổng: [[web/page_function_matrix|`page_function_matrix.md`]], [[web/page|`page.md`]], [[web/unified_database_schema|`unified_database_schema.md`]], [[web/security|`security.md`]], [[web/architecture|`architecture.md`]], [[web/infrastructure|`infrastructure.md`]], [[web/hard_notes|`hard_notes.md`]].
+- Page docs: public website, student, instructor, [[web/page/admin/admin|admin]].
+- Lưu ý: [[web/hard_notes|`hard_notes.md`]] tự khai báo không phải build contract, nên chỉ dùng để phân loại future/ops, không dùng để override schema/page.
 
-## Ket luan ngan
+## Kết luận ngắn
 
-Tai lieu requirement hien tai da thong nhat tot ve huong san pham chinh: khong co trang student assignment/referral/coupon rieng, khong co `/admin/revenue`, [[requirement/page/student/checkout|checkout]] chi mua mot khoa, instructor chi cham bai va Q&A trong course duoc gan.
+Tài liệu requirement hiện tại đã thống nhất tốt về hướng sản phẩm chính: không có trang student assignment/referral/coupon riêng, không có `/admin/revenue`, [[web/page/student/checkout|checkout]] chỉ mua một khóa, instructor chỉ chấm bài và Q&A trong course được gán.
 
-Conflict con lai chu yeu nam o tang chi tiet: route co trong matrix nhung thieu file detail, format [[requirement/page/website/certificate|certificate]] ID bi lech vi du, audit action naming khong dong bo, foreign key cascade trai voi rule giu lich su, retention policy trai voi soft-delete policy, va mot so scope MVP/P1 bi lan.
+Conflict còn lại chủ yếu nằm ở tầng chi tiết: route có trong matrix nhưng thiếu file detail, format [[web/page/website/certificate|certificate]] ID bị lệch ví dụ, audit action naming không đồng bộ, foreign key cascade trái với rule giữ lịch sử, retention policy trái với soft-delete policy, và một số scope MVP/P1 bị lẫn.
 
-## Conflict P0 - can chot truoc khi build/migrate
+## Conflict P0 - cần chốt trước khi build/migrate
 
-### 1. FK cascade trai voi policy giu lich su va khong propagate soft delete
+### 1. FK cascade trái với policy giữ lịch sử và không propagate soft delete
 
-Bang chung:
+Bằng chứng:
 
-- [[requirement/unified_database_schema|`unified_database_schema.md`]] dat `modules.course_id`, `lessons.course_id`, `lessons.module_id`, `enrollments.course_id`, `lesson_progress.user_id`, `lesson_progress.lesson_id`, `[[requirement/page/instructor/submissions|submissions]].user_id/course_id/lesson_id`, `certificates.user_id/course_id` la `ON DELETE CASCADE`.
-- Cung file lai chot: course soft delete khong tu dong xoa enrollments, user soft delete khong tu dong xoa/set null enrollments/submissions/orders, va record lich su phai giu de phuc vu learning/finance/audit.
-- `orders.course_id` da dung `ON DELETE RESTRICT` de tranh mat lich su, nhung `enrollments`, [[requirement/page/instructor/submissions|`submissions`]], `certificates` lai cascade.
+- [[web/unified_database_schema|`unified_database_schema.md`]] đặt `modules.course_id`, `lessons.course_id`, `lessons.module_id`, `enrollments.course_id`, `lesson_progress.user_id`, `lesson_progress.lesson_id`, `[[web/page/instructor/submissions|submissions]].user_id/course_id/lesson_id`, `certificates.user_id/course_id` là `ON DELETE CASCADE`.
+- Cùng file lại chốt: course soft delete không tự động xóa enrollments, user soft delete không tự động xóa/set null enrollments/submissions/orders, và record lịch sử phải giữ để phục vụ learning/finance/audit.
+- `orders.course_id` đã dùng `ON DELETE RESTRICT` để tránh mất lịch sử, nhưng `enrollments`, [[web/page/instructor/submissions|`submissions`]], `certificates` lại cascade.
 
-Rui ro:
+Rủi ro:
 
-- Neu co hard delete o DB hoac migration/tool cleanup chay nham, lich su hoc tap/chung chi/bai nop co the bi xoa theo.
-- Trai voi rule [[requirement/page/admin/admin|admin]] [[requirement/page|page]]: course/user co du lieu van hanh thi uu tien archive/block, khong xoa.
+- Nếu có hard delete ở DB hoặc migration/tool cleanup chạy nhầm, lịch sử học tập/chứng chỉ/bài nộp có thể bị xóa theo.
+- Trái với rule [[web/page/admin/admin|admin]] [[web/page|page]]: analysis/user có dữ liệu vận hành thì ưu tiên archive/block, không xóa.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Cac entity lich su (`enrollments`, [[requirement/page/instructor/submissions|`submissions`]], `certificates`, `lesson_progress`, `quiz_attempts`, `orders`, `invoices`, `audit_logs`) dung `ON DELETE RESTRICT` hoac `NO ACTION`.
-- Chi cascade cho child content thuan cau truc khi parent chac chan chi duoc xoa luc draft/empty, hoac chuyen sang soft delete/hidden neu da co lich su.
-- Them mot bang "FK policy" trong schema: `configuration/content draft`, `learning history`, `commerce history`, `audit/history`.
+- Các entity lịch sử (`enrollments`, [[web/page/instructor/submissions|`submissions`]], `certificates`, `lesson_progress`, `quiz_attempts`, `orders`, `invoices`, `audit_logs`) dùng `ON DELETE RESTRICT` hoặc `NO ACTION`.
+- Chỉ cascade cho child content thuần cấu trúc khi parent chắc chắn chỉ được xóa lúc draft/empty, hoặc chuyển sang soft delete/hidden nếu đã có lịch sử.
+- Thêm một bảng "FK policy" trong schema: `configuration/content draft`, `learning history`, `commerce history`, `audit/history`.
 
-### 2. Security retention "auto-delete soft deleted records sau 90 ngay" trai voi policy giu lich su
+### 2. Security retention "auto-delete soft deleted records sau 90 ngày" trái với policy giữ lịch sử
 
-Bang chung:
+Bằng chứng:
 
-- [[requirement/security|`security.md`]] muc data retention ghi `Soft deleted records | 90 days | Auto-delete after 90 days`.
-- [[requirement/unified_database_schema|`unified_database_schema.md`]] lai chot khong hard delete orders, [[requirement/page/website/certificate|certificate]] revoke khong xoa record, soft delete user/course khong propagate va van giu lich su van hanh.
+- [[web/security|`security.md`]] mục data retention ghi `Soft deleted records | 90 days | Auto-delete after 90 days`.
+- [[web/unified_database_schema|`unified_database_schema.md`]] lại chốt không hard delete orders, [[web/page/website/certificate|certificate]] revoke không xóa record, soft delete user/course không propagate và vẫn giữ lịch sử vận hành.
 
-Rui ro:
+Rủi ro:
 
-- Cleanup job co the xoa record dang can cho audit, finance, [[requirement/page/website/certificate|certificate]] verification, student history.
-- Khong ro "soft deleted records" ap dung cho bang nao.
+- Cleanup job có thể xóa record đang cần cho audit, finance, [[web/page/website/certificate|certificate]] verification, student history.
+- Không rõ "soft deleted records" áp dụng cho bảng nào.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Doi retention thanh theo nhom bang:
-  - `password_reset_tokens`: xoa sau expiry.
-  - `payment_webhook_logs`: co the prune/archived sau 90 ngay neu da co audit/event summary.
-  - `audit_logs`: archive sau 1 nam, khong xoa trong P1 neu chua co archival policy.
-  - `orders`, `invoices`, `certificates`, [[requirement/page/instructor/submissions|`submissions`]], `enrollments`, `account_balance_transactions`: khong auto-delete trong P1.
-  - `users.deleted_at`: khong auto-delete neu co lien ket lich su; neu user rong thi mo requirement rieng.
+- Đổi retention thành theo nhóm bảng:
+  - `password_reset_tokens`: xóa sau expiry.
+  - `payment_webhook_logs`: có thể prune/archived sau 90 ngày nếu đã có audit/event summary.
+  - `audit_logs`: archive sau 1 năm, không xóa trong P1 nếu chưa có archival policy.
+  - `orders`, `invoices`, `certificates`, [[web/page/instructor/submissions|`submissions`]], `enrollments`, `account_balance_transactions`: không auto-delete trong P1.
+  - `users.deleted_at`: không auto-delete nếu có liên kết lịch sử; nếu user rỗng thì mở requirement riêng.
 
-### 3. Certificate ID format thong nhat o rule nhung vi du bi lech
+### 3. Certificate ID format thống nhất ở rule nhưng ví dụ bị lệch
 
-Bang chung:
+Bằng chứng:
 
-- Schema/security/verify [[requirement/page|page]] chot regex `^CERT-\d{8}-\d{6}$` va format `CERT-{YYYY}{RRRR}-{NNNNNN}`.
-- Nhieu vi du trong [[requirement/page|page]] detail lai dung `MAY-AI-2026-0001` hoac `MAY-AIAGENT-2026-0001`, khong match regex.
+- Schema/security/verify [[web/page|page]] chốt regex `^CERT-\d{8}-\d{6}$` và format `CERT-{YYYY}{RRRR}-{NNNNNN}`.
+- Nhiều ví dụ trong [[web/page|page]] detail lại dùng `MAY-AI-2026-0001` hoặc `MAY-AIAGENT-2026-0001`, không match regex.
 
-Rui ro:
+Rủi ro:
 
-- Verify [[requirement/page|page]], [[requirement/page/website/certificate|certificate]] [[requirement/page|page]], [[requirement/page/admin/admin|admin]] certificates va student [[requirement/page/student/my-certificates|my-certificates]] co the build theo 2 format khac nhau.
-- QR/link verify co the fail neu copy theo vi du cu.
+- Verify [[web/page|page]], [[web/page/website/certificate|certificate]] [[web/page|page]], [[web/page/admin/admin|admin]] certificates và student [[web/page/student/my-certificates|my-certificates]] có thể build theo 2 format khác nhau.
+- QR/link verify có thể fail nếu copy theo ví dụ cũ.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Chot format P1: `CERT-{YYYY}{RRRR}-{NNNNNN}`.
-- Doi tat ca vi du `MAY-*` thanh `CERT-*`.
-- Neu muon brand-readable code nhu `MAY-AI-*`, mo requirement rieng va update regex/schema/security cung luc.
+- Chốt format P1: `CERT-{YYYY}{RRRR}-{NNNNNN}`.
+- Đổi tất cả ví dụ `MAY-*` thành `CERT-*`.
+- Nếu muốn brand-readable code nào như `MAY-AI-*`, mở requirement riêng và update regex/schema/security cùng lúc.
 
-### 4. Audit action naming khong dong bo giua lesson detail va schema
+### 4. Audit action naming không đồng bộ giữa lesson detail và schema
 
-Bang chung:
+Bằng chứng:
 
-- [[requirement/unified_database_schema|`unified_database_schema.md`]] danh sach action bat buoc chi co `course.publish/archive/delete`, `lesson.publish/archive/delete/reorder`, `submission.review`, ...
-- [[requirement/page/admin/admin-lessons|`admin-lessons.md`]] dung them `module.create`, `module.update`, `module.reorder`, `module.archive`, `module.delete`, `lesson.create`, `lesson.update`, `lesson.type_change`.
+- [[web/unified_database_schema|`unified_database_schema.md`]] danh sách action bắt buộc chỉ có `course.publish/archive/delete`, `lesson.publish/archive/delete/reorder`, `submission.review`, ...
+- [[web/page/admin/admin-lessons|`admin-lessons.md`]] dùng thêm `module.create`, `module.update`, `module.reorder`, `module.archive`, `module.delete`, `lesson.create`, `lesson.update`, `lesson.type_change`.
 
-Rui ro:
+Rủi ro:
 
-- Dev khong biet action nao la canonical khi implement audit.
-- Admin audit log filter/export co the thieu event create/update/type_change.
+- Dev không biết action nào là canonical khi implement audit.
+- Admin audit log filter/export có thể thiếu event create/update/type_change.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Mo rong danh sach canonical trong schema, khong cat bo action chi tiet.
-- Chot naming group:
+- Mở rộng danh sách canonical trong schema, không cắt bỏ action chi tiết.
+- Chốt naming group:
   - `module.create/update/reorder/archive/delete`
   - `lesson.create/update/type_change/reorder/publish/archive/delete`
   - `quiz.create/update/archive`
   - `video_asset.retry/fail/archive`
-- Page [[requirement/page/admin/admin-audit-logs|admin-audit-logs]] phai tham chieu dung danh sach canonical nay.
+- Page [[web/page/admin/admin-audit-logs|admin-audit-logs]] phải tham chiếu đúng danh sách canonical này.
 
-## Conflict P1 - can chot de build route/page dung coverage
+## Conflict P1 - cần chốt để build route/page đúng coverage
 
-### 5. Route co trong matrix nhung thieu file detail rieng
+### 5. Route có trong matrix nhưng thiếu file detail riêng
 
-Bang chung:
+Bằng chứng:
 
-- Matrix co `/reset-password`, `/projects/[slug]`, `/blog/[slug]`, `/admin/courses/[id]`, `/admin/students/[id]`, cac route nested `/admin/lessons/*`, `/admin/submissions/*`, `/instructor/courses/*`, `/instructor/submissions/*`.
-- File detail rieng chi co mot so [[requirement/page|page]] gom chung, vi du [[requirement/page/student/forgot-password|`forgot-password.md`]] gom ca `/reset-password`, [[requirement/page/student/checkout-result|`checkout-result.md`]] gom success/failed, [[requirement/page/website/projects|`projects.md`]] gom ca detail.
+- Matrix có `/reset-password`, `/projects/[slug]`, `/blog/[slug]`, `/admin/courses/[id]`, `/admin/students/[id]`, các route nested `/admin/lessons/*`, `/admin/submissions/*`, `/instructor/courses/*`, `/instructor/submissions/*`.
+- File detail riêng chỉ có một số [[web/page|page]] gom chung, ví dụ [[web/page/student/forgot-password|`forgot-password.md`]] gom cả `/reset-password`, [[web/page/student/checkout-result|`checkout-result.md`]] gom success/failed, [[web/page/website/projects|`projects.md`]] gom cả detail.
 
-Day khong phai conflict nghiem trong neu chap nhan "gom file", nhung hien matrix la source-of-truth route va [[requirement/page|page]] docs dang khong cung granularity.
+Đây không phải conflict nghiêm trọng nếu chấp nhận "gom file", nhưng hiện matrix là source-of-truth route và [[web/page|page]] docs đang không cùng granularity.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Chot convention: route nested co the nam chung file neu title noi ro "covers route X/Y".
-- Them muc "Covered routes" o dau moi file [[requirement/page|page]] detail.
-- Hoac tach file detail cho route co logic rieng:
+- Chốt convention: route nested có thể nằm chung file nếu title nói rõ "covers route X/Y".
+- Thêm mục "Covered routes" ở đầu mỗi file [[web/page|page]] detail.
+- Hoặc tách file detail cho route có logic riêng:
   - `student/reset-password.md`
   - `website/blog-detail.md`
   - `website/project-detail.md`
-  - `[[requirement/page/admin/admin|admin]]/admin-course-detail.md`
-  - `[[requirement/page/admin/admin|admin]]/admin-student-detail.md`
+  - `[[web/page/admin/admin|admin]]/admin-course-detail.md`
+  - `[[web/page/admin/admin|admin]]/admin-student-detail.md`
 
-### 6. Scope MVP/P1 bi lan o mot so [[requirement/page|page]]
+### 6. Scope MVP/P1 bị lẫn ở một số [[web/page|page]]
 
-Bang chung:
+Bằng chứng:
 
-- Matrix danh dau `/notifications`, instructor workspace, `/admin/resources`, `/admin/announcements`, `/admin/reviews`, `/admin/audit-logs`, `/admin/system/users/new` la P1 hoac P1 ops.
-- Mot so file tong [[requirement/page|`page.md`]] liet ke chung cac route do khong tach build phase; [[requirement/page/admin/admin|`admin.md`]] co "MVP + P1" va thu tu phase rieng.
+- Matrix đánh dấu `/notifications`, instructor workspace, `/admin/resources`, `/admin/announcements`, `/admin/reviews`, `/admin/audit-logs`, `/admin/system/users/new` là P1 hoặc P1 ops.
+- Một số file tổng [[web/page|`page.md`]] liệt kê chung các route đó không tách build phase; [[web/page/admin/admin|`admin.md`]] có "MVP + P1" và thứ tự phase riêng.
 
-Rui ro:
+Rủi ro:
 
-- Sprint MVP co the bi keo qua P1 neu dev doc [[requirement/page|`page.md`]] nhu build all.
+- Sprint MVP có thể bị kéo qua P1 nếu dev đọc [[web/page|`page.md`]] như build all.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Them cot `Phase` vao [[requirement/page_function_matrix|`page_function_matrix.md`]]: `MVP`, `P1`, `Future`.
-- Page detail dau file phai co `Status` va `Build decision` nhu dang lam; [[requirement/page|`page.md`]] nen ghi ro la catalog tong, khong phai sprint MVP checklist.
-- Tao `MVP_BUILD_ORDER.md` neu can, tach khoi full requirement.
+- Thêm cột `Phase` vào [[web/page_function_matrix|`page_function_matrix.md`]]: `MVP`, `P1`, `Future`.
+- Page detail đầu file phải có `Status` và `Build decision` như đang làm; [[web/page|`page.md`]] nên ghi rõ là catalog tổng, không phải sprint MVP checklist.
+- Tạo `MVP_BUILD_ORDER.md` nếu cần, tách khỏi full requirement.
 
-### 7. Checkout success/failed route va file name khong trung
+### 7. Checkout success/failed route và file name không trùng
 
-Bang chung:
+Bằng chứng:
 
-- Matrix/page chot hai route `/checkout/success` va `/checkout/failed`.
-- File detail la [[requirement/page/student/checkout-result|`checkout-result.md`]], gom ca hai route.
+- Matrix/page chốt hai route `/checkout/success` và `/checkout/failed`.
+- File detail là [[web/page/student/checkout-result|`checkout-result.md`]], gom cả hai route.
 
-Rui ro:
+Rủi ro:
 
-- Nho, chu yeu la coverage/discovery. Dev co the tim file theo route va khong thay.
+- Nhỏ, chủ yếu là coverage/discovery. Dev có thể tìm file theo route và không thấy.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Giu file gom chung nhung them "Covered routes: `/checkout/success`, `/checkout/failed`" o dau file.
-- Khong can tach neu khong muon tang so file.
+- Giữ file gom chung nhưng thêm "Covered routes: `/checkout/success`, `/checkout/failed`" ở đầu file.
+- Không cần tách nếu không muốn tăng số file.
 
-## Conflict P2 - can don sach de tranh hieu nham
+## Conflict P2 - cần dọn sạch để tránh hiểu nhầm
 
-### 8. Referral reward co `cash` trong enum nhung refund/withdrawal P1 la offline/no self-service
+### 8. Referral reward có `cash` trong enum nhưng refund/withdrawal P1 là offline/no self-service
 
-Bang chung:
+Bằng chứng:
 
-- `referral_codes.reward_type` co `cash`.
-- Matrix chot balance withdrawal la user lien he support, khong self-service; [[requirement/page/student/referral|referral]] conversion xem trong `/admin/orders`, khong co trang [[requirement/page/student/referral|referral]] rieng.
+- `referral_codes.reward_type` có `cash`.
+- Matrix chốt balance withdrawal là user liên hệ support, không self-service; [[web/page/student/referral|referral]] conversion xem trong `/admin/orders`, không có trang [[web/page/student/referral|referral]] riêng.
 
-Day khong sai tuyet doi, vi `cash` co the la reward offline. Nhung can ghi ro neu giu.
+Đây không sai tuyệt đối, vì `cash` có thể là reward offline. Nhưng cần ghi rõ nếu giữ.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Neu P1 van cho reward offline, doi mo ta `cash` thanh "offline_cash_reward_manual".
-- Neu chua van hanh cash reward, bo `cash` khoi P1 enum va dua vao future.
+- Nếu P1 vẫn cho reward offline, đổi mô tả `cash` thành "offline_cash_reward_manual".
+- Nếu chưa vận hành cash reward, bỏ `cash` khỏi P1 enum và đưa vào future.
 
-### 9. `payment_transactions` duplicate rule nhac `provider_event_id` nhung field nay nam o webhook logs
+### 9. `payment_transactions` duplicate rule nhắc `provider_event_id` nhưng field này nằm ở webhook logs
 
-Bang chung:
+Bằng chứng:
 
-- `payment_transactions` business rule noi duplicate neu trung `provider + provider_event_id`.
-- Bang `payment_transactions` khong co field `provider_event_id`; field nay nam o `payment_webhook_logs`.
+- `payment_transactions` business rule nói duplicate nếu trùng `provider + provider_event_id`.
+- Bảng `payment_transactions` không có field `provider_event_id`; field này nằm ở `payment_webhook_logs`.
 
-Rui ro:
+Rủi ro:
 
-- Dev co the them sai field vao transactions hoac implement duplicate check sai tang.
+- Dev có thể thêm sai field vào transactions hoặc implement duplicate check sai tầng.
 
-Quyet dinh de xuat:
+Quyết định đề xuất:
 
-- Rule transaction: duplicate theo `provider + idempotency_key` hoac `provider + provider_transaction_id`.
+- Rule transaction: duplicate theo `provider + idempotency_key` hoặc `provider + provider_transaction_id`.
 - Rule webhook log: duplicate theo `provider + provider_event_id`.
-- Khi webhook processed thanh transaction, link qua `order_id`/`provider_transaction_id`, khong can duplicate event id tren transaction tru khi co requirement moi.
+- Khi webhook processed thành transaction, link qua `order_id`/`provider_transaction_id`, không cần duplicate event id trên transaction trừ khi có requirement mới.
 
-## Khong thay conflict lon
+## Không thấy conflict lớn
 
-Nhung diem sau da thong nhat tot trong requirement hien tai:
+Những điểm sau đã thống nhất tốt trong requirement hiện tại:
 
-- Khong co `/admin/revenue`; revenue/report nam trong `/admin/orders`.
-- Khong co trang student [[requirement/page/student/coupon|coupon]]/referral rieng; [[requirement/page/student/coupon|coupon]]/referral di qua [[requirement/page/student/checkout|checkout]]/register/login URL/session.
-- Assignment, final project, quiz nam trong `/learn/[course]/[lesson]`, khong tao route rieng.
-- Instructor khong quan ly course/video/student/announcement/commerce/certificate; chi read-only curriculum, cham submission, tra loi Q&A theo course assignment.
-- Checkout mua mot khoa mot order; khong co `order_items` trong MVP/P1.
-- Refund P1 la credit noi bo vao `users.account_balance`, withdrawal qua support/admin offline.
-- Blog/resource hub dung `resources`, khong tao bang [[requirement/page/website/blog|blog]] song song.
+- Không có `/admin/revenue`; revenue/report nằm trong `/admin/orders`.
+- Không có trang student [[web/page/student/coupon|coupon]]/referral riêng; [[web/page/student/coupon|coupon]]/referral đi qua [[web/page/student/checkout|checkout]]/register/login URL/session.
+- Assignment, final project, quiz nằm trong `/learn/[course]/[lesson]`, không tạo route riêng.
+- Instructor không quản lý analysis/video/student/announcement/commerce/certificate; chỉ read-only curriculum, chấm submission, trả lời Q&A theo course assignment.
+- Checkout mua một khóa một order; không có `order_items` trong MVP/P1.
+- Refund P1 là credit nội bộ vào `users.account_balance`, withdrawal qua support/admin offline.
+- Blog/resource hub dùng `resources`, không tạo bảng [[web/page/website/blog|blog]] song song.
 
-## Plan xu ly conflict
+## Plan xử lý conflict
 
-### Phase 1 - Chot rule canonical
+### Phase 1 - Chốt rule canonical
 
-1. Chot [[requirement/unified_database_schema|`unified_database_schema.md`]] la canonical cho DB, nhung sua FK delete policy de khop rule giu lich su.
-2. Chot [[requirement/page/website/certificate|certificate]] ID P1 la `CERT-{YYYY}{RRRR}-{NNNNNN}`.
-3. Chot audit action canonical va bo sung missing module/lesson create/update/type_change.
-4. Chot retention theo nhom bang, khong dung rule chung "soft deleted records auto-delete 90 days".
+1. Chốt [[web/unified_database_schema|`unified_database_schema.md`]] là canonical cho DB, nhưng sửa FK delete policy để khớp rule giữ lịch sử.
+2. Chốt [[web/page/website/certificate|certificate]] ID P1 là `CERT-{YYYY}{RRRR}-{NNNNNN}`.
+3. Chốt audit action canonical và bổ sung missing module/lesson create/update/type_change.
+4. Chốt retention theo nhóm bảng, không dùng rule chung "soft deleted records auto-delete 90 days".
 
-### Phase 2 - Sua tai lieu source-of-truth
+### Phase 2 - Sửa tài liệu source-of-truth
 
-1. Update [[requirement/unified_database_schema|`unified_database_schema.md`]]:
+1. Update [[web/unified_database_schema|`unified_database_schema.md`]]:
    - FK policy table.
    - Certificate examples.
-   - Payment duplicate rule tach transaction/webhook.
+   - Payment duplicate rule tách transaction/webhook.
    - Audit action list.
-2. Update [[requirement/security|`security.md`]]:
-   - Certificate examples/regex giu dong bo.
-   - Data retention theo nhom bang.
-3. Update [[requirement/page_function_matrix|`page_function_matrix.md`]]:
-   - Them cot phase.
-   - Them convention "route nested co the covered by file chung".
+2. Update [[web/security|`security.md`]]:
+   - Certificate examples/regex giữ đồng bộ.
+   - Data retention theo nhóm bảng.
+3. Update [[web/page_function_matrix|`page_function_matrix.md`]]:
+   - Thêm cột phase.
+   - Thêm convention "route nested có thể covered by file chung".
 
-### Phase 3 - Sua [[requirement/page|page]] docs bi lech
+### Phase 3 - Sửa [[web/page|page]] docs bị lệch
 
-1. Doi tat ca vi du [[requirement/page/website/certificate|certificate]] `MAY-*` thanh `CERT-*`.
-2. Them `Covered routes` vao cac file gom nhieu route:
-   - `[[requirement/page|page]]/student/forgot-password.md`
-   - `[[requirement/page|page]]/student/checkout-result.md`
-   - `[[requirement/page|page]]/website/blog.md`
-   - `[[requirement/page|page]]/website/projects.md`
-   - `[[requirement/page|page]]/admin/admin-courses.md`
-   - `[[requirement/page|page]]/admin/admin-students.md`
-   - `[[requirement/page|page]]/admin/admin-lessons.md`
-   - `[[requirement/page|page]]/admin/admin-submissions.md`
-   - [[requirement/page/instructor/courses|`page/instructor/courses.md`]]
-   - `[[requirement/page|page]]/instructor/submissions.md`
-3. Update [[requirement/page/admin/admin-audit-logs|`admin-audit-logs.md`]] de list action canonical moi.
+1. Đổi tất cả ví dụ [[web/page/website/certificate|certificate]] `MAY-*` thành `CERT-*`.
+2. Thêm `Covered routes` vào các file gom nhiều route:
+   - `[[web/page|page]]/student/forgot-password.md`
+   - `[[web/page|page]]/student/checkout-result.md`
+   - `[[web/page|page]]/website/blog.md`
+   - `[[web/page|page]]/website/projects.md`
+   - `[[web/page|page]]/admin/admin-courses.md`
+   - `[[web/page|page]]/admin/admin-students.md`
+   - `[[web/page|page]]/admin/admin-lessons.md`
+   - `[[web/page|page]]/admin/admin-submissions.md`
+   - [[web/page/instructor/courses|`page/instructor/courses.md`]]
+   - `[[web/page|page]]/instructor/submissions.md`
+3. Update [[web/page/admin/admin-audit-logs|`admin-audit-logs.md`]] để list action canonical mới.
 
-### Phase 4 - Verify lai
+### Phase 4 - Verify lại
 
-1. Chay grep route deprecated:
+1. Chạy grep route deprecated:
    - `/admin/revenue`, `/admin/referrals`, `/referral`, `/coupon`, `/assignments`, `/submit-project`.
-2. Chay grep [[requirement/page/website/certificate|certificate]] example:
-   - Khong con `MAY-AI` hoac `MAY-AIAGENT`.
-3. Chay grep audit action:
-   - Tat ca action trong [[requirement/page|page]] docs co trong canonical list.
-4. Chay grep FK:
-   - Cac history table khong con `ON DELETE CASCADE` trai policy.
+2. Chạy grep [[web/page/website/certificate|certificate]] example:
+   - Không còn `MAY-AI` hoặc `MAY-AIAGENT`.
+3. Chạy grep audit action:
+   - Tất cả action trong [[web/page|page]] docs có trong canonical list.
+4. Chạy grep FK:
+   - Các history table không còn `ON DELETE CASCADE` trái policy.
 
-## Thu tu uu tien neu thoi gian han che
+## Thứ tự ưu tiên nếu thời gian hạn chế
 
-1. Sua FK/retention truoc vi anh huong migration va mat du lieu.
-2. Sua [[requirement/page/website/certificate|certificate]] format vi anh huong verify public va QR.
-3. Sua audit action canonical vi anh huong logging va [[requirement/page/admin/admin|admin]] audit.
-4. Sua route coverage/phase labels vi anh huong planning va build order.
+1. Sửa FK/retention trước vì ảnh hưởng migration và mất dữ liệu.
+2. Sửa [[web/page/website/certificate|certificate]] format vì ảnh hưởng verify public và QR.
+3. Sửa audit action canonical vì ảnh hưởng logging và [[web/page/admin/admin|admin]] audit.
+4. Sửa route coverage/phase labels vì ảnh hưởng planning và build order.
 
 ---
 
@@ -266,5 +280,5 @@ Nhung diem sau da thong nhat tot trong requirement hien tai:
 - **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]]
 
 ### Relations
-- **Outgoing Links:** [[requirement/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[requirement/hard_notes|Hard Notes]], [[requirement/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]], [[requirement/page|1. Public Website — phần người ngoài nhìn thấy]], [[requirement/page/admin/admin|Admin Dashboard — Requirement]], [[requirement/page/admin/admin-audit-logs|/admin/audit-logs — Lịch sử thao tác]], [[requirement/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[requirement/page/instructor/courses|/instructor/courses — Khóa được phân công]], [[requirement/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[requirement/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[requirement/page/student/checkout-result|/checkout/success và /checkout/failed — Kết quả thanh toán]], [[requirement/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[requirement/page/student/forgot-password|/forgot-password — Quên mật khẩu]], [[requirement/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[requirement/page/student/referral|/referral — Mã giới thiệu]], [[requirement/page/website/blog|/blog — Blog / Resources Hub]], [[requirement/page/website/certificate|/certificate — Trang chứng chỉ]], [[requirement/page/website/projects|/projects — Trang dự án học viên]], [[requirement/page_function_matrix|Page Function Matrix — CORTEX]], [[requirement/security|Security — Bảo mật hệ thống CORTEX]], [[requirement/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Outgoing Links:** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/hard_notes|Hard Notes]], [[web/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-audit-logs|/admin/audit-logs — Lịch sử thao tác]], [[web/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[web/page/instructor/courses|/instructor/courses — Khóa được phân công]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/checkout-result|/checkout/success và /checkout/failed — Kết quả thanh toán]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/forgot-password|/forgot-password — Quên mật khẩu]], [[web/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[web/page/student/referral|/referral — Mã giới thiệu]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/security|Security — Bảo mật hệ thống CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
 - **Incoming Links (Backlinks):** *None*
