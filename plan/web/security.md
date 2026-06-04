@@ -74,27 +74,36 @@ status: "[[Security Requirements & Implementation Guide]]"
 
 ### 2.1. Role-based Access Control (RBAC)
 
-| Route Pattern | student | instructor | [[web/page/admin/admin|admin]] |
-|---------------|:-------:|:----------:|:-----:|
-| `/(public)/*` | ✅ | ✅ | ✅ |
-| `/(auth)/*` | ✅ | ✅ | ✅ |
-| `/(student)/*` | ✅ | ❌ | ✅ |
-| `/(instructor)/*` | ❌ | ✅ | ✅ |
-| `/([[web/page/admin/admin|admin]])/*` | ❌ | ❌ | ✅ |
-| `/api/admin/*` | ❌ | ❌ | ✅ |
+| Route Pattern | student | instructor | course_editor | [[web/page/admin/admin|admin]] |
+|---------------|:-------:|:----------:|:-------------:|:-----:|
+| `/(public)/*` | ✅ | ✅ | ✅ | ✅ |
+| `/(auth)/*` | ✅ | ✅ | ✅ | ✅ |
+| `/(student)/*` | ✅ | ❌ | ❌ | ✅ |
+| `/(instructor)/*` | ❌ | ✅ | ❌ | ✅ |
+| `/admin/courses*` | ❌ | ❌ | ✅ | ✅ |
+| `/admin/lessons*` | ❌ | ❌ | ✅ | ✅ |
+| `/admin/*` còn lại | ❌ | ❌ | ❌ | ✅ |
+| `/api/admin/courses*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/lessons*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/modules*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/lesson-resources*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/quizzes*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/quiz-questions*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/video-assets*` | ❌ | ❌ | ✅ | ✅ |
+| `/api/admin/*` còn lại | ❌ | ❌ | ❌ | ✅ |
 
 ### 2.2. Resource-level Authorization
 
 ```typescript
 // Middleware check
-async function authorize(request, requiredRole) {
+async function authorize(request, allowedRoles) {
   const user = await getUserFromToken(request)
 
   if (!user) {
     return 401 // Unauthorized
   }
 
-  if (user.role !== requiredRole && user.role !== '[[web/page/admin/admin|admin]]') {
+  if (!allowedRoles.includes(user.role)) {
     return 403 // Forbidden
   }
 
@@ -107,16 +116,18 @@ async function authorize(request, requiredRole) {
 
 ### 2.3. Data Access Rules
 
-| Entity | Student | Instructor | Admin |
-|--------|---------|-----------|-------|
-| Own [[web/page/student/profile|profile]] | Read/Write | Read/Write | Read/Write |
-| Other users | ❌ | ❌ | Read/Write |
-| Own enrollments | Read | ❌ | Read/Write |
-| Course curriculum | Read (enrolled) | Read (assigned) | Read/Write |
-| Own [[web/page/instructor/submissions|submissions]] | Read/Write | Read/Write (assigned) | Read/Write |
-| Own certificates | Read | ❌ | Read/Write |
-| Own orders | Read | ❌ | Read/Write |
-| All orders | ❌ | ❌ | Read/Write |
+| Entity | Student | Instructor | Course Editor | Admin |
+|--------|---------|-----------|---------------|-------|
+| Own [[web/page/student/profile|profile]] | Read/Write | Read/Write | Read/Write | Read/Write |
+| Other users | ❌ | ❌ | ❌ | Read/Write |
+| Own enrollments | Read | ❌ | ❌ | Read/Write |
+| Course curriculum | Read (enrolled) | Read (assigned) | Read/Write via `/admin/courses` + `/admin/lessons` | Read/Write |
+| Own [[web/page/instructor/submissions|submissions]] | Read/Write | Read/Write (assigned) | ❌ | Read/Write |
+| Own certificates | Read | ❌ | ❌ | Read/Write |
+| Own orders | Read | ❌ | ❌ | Read/Write |
+| All orders | ❌ | ❌ | ❌ | Read/Write |
+
+**Course editor guard:** `course_editor` không được vào `/instructor/*`; không được gọi API finance, user/role management, audit logs, students, certificates, announcements, reviews, coupons, invoices, payments, orders, referrals hoặc revenue.
 
 ---
 
@@ -248,7 +259,6 @@ const cspHeader = `
 | Thumbnail | image/jpeg, image/png, image/webp | 5MB |
 | Document | application/pdf | 10MB |
 | Video | video/mp4, video/webm | 500MB |
-| Payment proof | image/jpeg, image/png, application/pdf | 5MB |
 
 ### 6.2. File Validation
 
@@ -368,10 +378,14 @@ export async function checkRateLimit(identifier: string) {
 
 | Data | Retention | Cleanup |
 |------|-----------|---------|
-| Soft deleted records | 90 days | Auto-delete after 90 days |
-| Password reset tokens | 15 minutes | Auto-delete after expiry |
-| Audit logs | 1 year | Archive after 1 year |
-| Payment webhooks | 90 days | Auto-delete after 90 days |
+| Password reset tokens | 15 minutes | Auto-delete after expiry/used state |
+| Payment webhook logs | 90 days hot storage | Archive/prune only after transaction/audit summary is preserved |
+| Audit logs | 1 year hot storage | Archive after 1 year; no UI delete in P1 |
+| Orders, invoices, account balance transactions | Indefinite in P1 | No auto-delete; preserve finance and refund history |
+| Enrollments, lesson progress, submissions, certificates | Indefinite in P1 | No auto-delete; preserve learning history and certificate verification |
+| Soft-deleted users/courses/content | Indefinite unless a separate archival requirement exists | Do not run generic auto-delete; use table-specific archival policy |
+
+**Rule:** Không dùng cleanup job chung kiểu "soft deleted records auto-delete sau 90 ngày". Mọi hard delete/archival phải theo nhóm bảng và không được làm mất finance, certificate, learning history hoặc audit trail.
 
 ---
 
@@ -435,4 +449,4 @@ const securityHeaders = {
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/hard_notes|Hard Notes]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]]
+- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/hard_notes|Hard Notes]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]]

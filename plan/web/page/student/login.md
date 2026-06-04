@@ -24,8 +24,8 @@ status: "[[MVP]]"
 
 | Mục tiêu             | Mô tả                                  |
 | -------------------- | -------------------------------------- |
-| Đăng nhập tài khoản  | Cho student/instructor/admin vào hệ thống |
-| Điều hướng đúng role | Student vào [[web/page/student/dashboard|dashboard]], instructor vào instructor workspace, [[web/page/admin/admin|admin]] vào [[web/page/admin/admin|admin]] |
+| Đăng nhập tài khoản  | Cho student/instructor/course_editor/admin vào hệ thống |
+| Điều hướng đúng role | Student vào [[web/page/student/dashboard|dashboard]], instructor vào instructor workspace, `course_editor` vào `/admin/courses`, [[web/page/admin/admin|admin]] vào [[web/page/admin/admin|admin]] |
 | Ít phân tâm          | Không cần nhiều nội dung marketing     |
 
 ---
@@ -65,7 +65,7 @@ Logo CORTEX
 | Login email/password | Xác thực tài khoản                       |
 | Forgot password      | Dùng `password_reset_tokens`, dẫn tới `/forgot-password` |
 | Register link        | Dẫn tới `/register`                      |
-| Role redirect        | Student → `/dashboard`, instructor → `/instructor`, [[web/page/admin/admin|admin]] → `/admin` |
+| Role redirect        | Student → `/dashboard`, instructor → `/instructor`, `course_editor` → `/admin/courses`, [[web/page/admin/admin|admin]] → `/admin` |
 | Error message        | Báo sai email/mật khẩu                   |
 | Loading state        | Hiển thị đang đăng nhập                  |
 

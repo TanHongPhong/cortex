@@ -34,7 +34,7 @@ status: "[[Single Source of Truth for Technical Architecture]]"
 | File Storage | Cloudflare R2 / S3-compatible | Scalable, cost-effective |
 | Video Hosting | Cloudflare Stream / Bunny Stream | Secure streaming, token-based access |
 | Email | Resend / Nodemailer | Transactional email |
-| Payment | Manual bank transfer (MVP) | Momo/VNPay integration sau |
+| Payment | Momo/VNPay online payment (MVP) | Automatic payment redirect, callback/webhook, transaction idempotency |
 | Hosting | Vercel (frontend) + Railway/Supabase (DB) | Easy deployment, auto-scaling |
 | CDN | Cloudflare | Global edge caching |
 | Monitoring | Vercel Analytics + Sentry | Performance + error tracking |
@@ -94,8 +94,8 @@ cortex/
 │   │   ├── [[web/page/instructor/submissions|submissions]]/page.tsx
 │   │   └── [[web/page/instructor/questions|questions]]/page.tsx
 │   │
-│   ├── ([[web/page/admin/admin|admin]])/                  # Admin [[web/page/student/dashboard|dashboard]] (auth required, role=[[web/page/admin/admin|admin]])
-│   │   ├── layout.tsx            # Admin layout with sidebar
+│   ├── ([[web/page/admin/admin|admin]])/                  # Admin dashboard (auth required; role=admin, content routes allow course_editor)
+│   │   ├── layout.tsx            # Admin layout with role-filtered sidebar
 │   │   ├── [[web/page|page]].tsx              # Overview
 │   │   ├── courses/
 │   │   │   ├── [[web/page|page]].tsx
@@ -261,7 +261,7 @@ GET /admin/orders?status=paid&course_id=xxx&from=2026-01-01&to=2026-12-31
 {
   sub: string,        // user_id
   email: string,
-  role: 'student' | 'instructor' | '[[web/page/admin/admin|admin]]',
+  role: 'student' | 'instructor' | 'course_editor' | '[[web/page/admin/admin|admin]]',
   iat: number,
   exp: number
 }
@@ -279,7 +279,8 @@ GET /admin/orders?status=paid&course_id=xxx&from=2026-01-01&to=2026-12-31
 3. If expired, try refresh token
 4. Attach user to request context
 5. Route protection:
-   - /admin/* → require role = [[web/page/admin/admin|admin]]
+   - /admin/courses* và /admin/lessons* → require role = course_editor OR [[web/page/admin/admin|admin]]
+   - /admin/* còn lại → require role = [[web/page/admin/admin|admin]]
    - /instructor/* → require role = instructor OR [[web/page/admin/admin|admin]]
    - (student)/* → require role = student
    - (public)/* → no auth required
@@ -396,6 +397,19 @@ EMAIL_PROVIDER=resend
 RESEND_API_KEY=...
 EMAIL_FROM=noreply@cortex.vn
 
+# Payment Gateway
+PAYMENT_PROVIDERS=momo,vnpay
+MOMO_PARTNER_CODE=...
+MOMO_ACCESS_KEY=...
+MOMO_SECRET_KEY=...
+MOMO_ENDPOINT=...
+VNPAY_TMN_CODE=...
+VNPAY_HASH_SECRET=...
+VNPAY_PAYMENT_URL=...
+PAYMENT_RETURN_URL=https://cortex.vn/checkout/success
+PAYMENT_FAILED_URL=https://cortex.vn/checkout/failed
+PAYMENT_WEBHOOK_URL=https://cortex.vn/api/webhooks/payment
+
 # App
 NEXT_PUBLIC_APP_URL=https://cortex.vn
 NODE_ENV=production
@@ -414,4 +428,4 @@ NODE_ENV=production
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/forgot-password|/forgot-password — Quên mật khẩu]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[web/page/student/my-courses|/my-courses — Khóa học của tôi]], [[web/page/student/my-orders|/my-orders và /my-orders/:id — Đơn hàng của tôi]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/student/referral|/referral — Mã giới thiệu]], [[web/page/student/register|/register — Đăng ký tài khoản]], [[web/page/website/404|/404 — Trang không tìm thấy]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page/website/refund-policy|/refund-policy — Chính sách refund]], [[web/page/website/terms|/terms — Điều khoản sử dụng]], [[web/page/website/verify-certificate|/verify-certificate — Trang xác thực chứng chỉ]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/hard_notes|Hard Notes]]
+- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/hard_notes|Hard Notes]]

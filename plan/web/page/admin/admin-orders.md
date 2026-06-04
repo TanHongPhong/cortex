@@ -28,7 +28,7 @@ Admin dùng trang này để:
 1. Xem danh sách đơn hàng
 2. Theo dõi doanh thu theo trạng thái thanh toán
 3. Kiểm tra học viên đã mua khóa nào
-4. Xác nhận thanh toán thủ công nếu cần
+4. Đối soát giao dịch Momo/VNPay và webhook/callback
 5. Xử lý pending / paid / refunded
 6. Xuất CSV/Excel phục vụ kế toán, đối soát, khai báo thuế
 ```
@@ -44,7 +44,6 @@ Trang này quản lý **dữ liệu tiền**, khác với quyền học (enrollm
 
 [Page Header]
 - Title: Quản lý đơn hàng
-- CTA: Tạo đơn thủ công nếu cần
 - CTA: Export CSV / Excel
 
 [KPI Cards]
@@ -129,7 +128,7 @@ Trang orders cần có filter vì liên quan xuất báo cáo.
 | To date        | Lọc đến ngày                       |
 | Payment status | pending / paid / failed / refunded |
 | Course         | Lọc theo khóa                      |
-| Payment method | bank transfer / cash / online      |
+| Payment method | momo / vnpay                       |
 
 MVP cần tối thiểu:
 
@@ -155,7 +154,7 @@ Date range + Status filter + Course filter
 | Status       | pending / paid / failed / refunded    |
 | Paid at      | Ngày thanh toán                       |
 | Created at   | Ngày tạo đơn                          |
-| Actions      | View / Confirm paid / Refund / Export |
+| Actions      | View / Retry payment / Refund / Export |
 
 ---
 
@@ -173,7 +172,7 @@ Amount: 2.990.000đ
 Discount: 300.000đ
 Final amount: 2.690.000đ
 
-Payment method: Bank transfer
+Payment method: VNPay
 Status: Paid
 Paid at: 21/05/2026
 
@@ -208,10 +207,9 @@ cancelled
 | Action              | Chức năng                  |
 | ------------------- | -------------------------- |
 | `View`              | Xem chi tiết đơn           |
-| `Confirm paid`      | Xác nhận đã thanh toán     |
+| `Retry payment`     | Tạo giao dịch gateway mới cho order pending/failed |
 | `Mark refunded`     | Đánh dấu hoàn tiền         |
 | `Cancel order`      | Hủy đơn chưa thanh toán    |
-| `Create enrollment` | Tạo quyền học nếu đơn paid |
 | `Export row`        | Xuất riêng đơn đó          |
 | `Copy order ID`     | Copy mã đơn                |
 
@@ -297,14 +295,13 @@ Order Detail
 | Discount        | Số tiền giảm giá                |
 | Final amount    | Số tiền thực thu                |
 | Payment status  | unpaid / paid / refunded / partially_refunded |
-| Payment method  | bank_transfer / cash / online   |
-| Transaction ID  | Mã giao dịch chính/legacy       |
-| Payment proof   | Ảnh/link chứng từ chuyển khoản  |
+| Payment method  | momo / vnpay                    |
+| Transaction ID  | Mã giao dịch gateway chính      |
 | Paid at         | Ngày thanh toán                 |
 | Refunded at     | Ngày hoàn tiền                  |
 | Refund reason   | Lý do hoàn tiền                 |
 | Note            | Ghi chú thanh toán              |
-| Created by      | Admin tạo đơn (nếu thủ công)    |
+| Created by      | User/system tạo đơn             |
 
 ## G. Payment Transactions
 
@@ -319,7 +316,7 @@ Status
 Created at
 ```
 
-Không ghi đè transaction cũ khi user/admin thử thanh toán lại. Tạo record mới để audit.
+Không ghi đè transaction cũ khi user thử thanh toán lại hoặc gateway retry. Tạo record mới để audit.
 
 ---
 
@@ -365,22 +362,22 @@ Note
 ```text
 Lead hoặc student đăng ký khóa
 → tạo order status = pending
-→ [[web/page/admin/admin|admin]]/online payment xác nhận thanh toán
+→ user thanh toán qua Momo/VNPay
+→ gateway callback/webhook hợp lệ xác nhận thanh toán
 → order status = paid
 → tạo enrollment status = active
 → học viên được vào học
 ```
 
-## Flow [[web/page/admin/admin|admin]] xác nhận chuyển khoản
+## Flow gateway xác nhận thanh toán
 
 ```text
-Admin mở /admin/orders
-→ tìm đơn pending
-→ kiểm tra giao dịch ngân hàng
-→ bấm Confirm paid
-→ nhập paid_at + provider_transaction_id nếu có
-→ order status = paid
-→ tạo enrollment
+Gateway gửi callback/webhook
+→ backend ghi payment_webhook_logs
+→ verify chữ ký/hash + amount + currency + order_id
+→ cập nhật payment_transactions success/failed
+→ nếu success: order status = paid
+→ tạo enrollment idempotently
 ```
 
 ## Flow hoàn tiền
@@ -425,8 +422,7 @@ Admin mở order
 | Status filter     | Lọc pending / paid / refunded / cancelled        |
 | Course filter     | Lọc theo khóa học                                |
 | Order detail      | Xem đầy đủ thông tin đơn                         |
-| Confirm paid      | Xác nhận đơn đã thanh toán                       |
-| Create enrollment | Tạo quyền học sau khi paid                       |
+| Gateway transactions | Xem transaction/callback/webhook của Momo/VNPay |
 | Refund            | Đánh dấu refunded, nhập lý do, credit vào account balance |
 | Export            | Xuất CSV/Excel theo filter                       |
 | Safety            | Không tạo enrollment trùng                       |
@@ -469,9 +465,8 @@ Admin mở order
 | `currency`              | VND                                            |
 | `status`                | pending / paid / failed / refunded / cancelled |
 | `payment_status`        | unpaid / paid / refunded / partially_refunded  |
-| `payment_method`        | bank_transfer / cash / online / manual         |
-| `transaction_id`        | Mã giao dịch chính/legacy                      |
-| `payment_proof_url`     | Chứng từ chuyển khoản                          |
+| `payment_method`        | momo / vnpay                                   |
+| `transaction_id`        | Mã giao dịch gateway chính                     |
 | `billing_name`          | Tên billing                                    |
 | `billing_email`         | Email billing                                  |
 | `billing_phone`         | Phone billing                                  |
@@ -488,7 +483,7 @@ Admin mở order
 | `refunded_at`           | Ngày hoàn tiền                                 |
 | `refund_reason`         | Lý do hoàn tiền                                |
 | `note`                  | Ghi chú nội bộ                                 |
-| `created_by`            | Admin tạo đơn nếu thủ công                     |
+| `created_by`            | User/system tạo đơn                            |
 | `created_at`            | Ngày tạo                                       |
 | `updated_at`            | Ngày cập nhật                                  |
 
@@ -502,7 +497,7 @@ MVP nên dùng bảng này để không mất lịch sử các lần thử thanh
 | ------------------------- | ------------------------------------- |
 | `id`                      | ID transaction                        |
 | `order_id`                | Thuộc đơn nào                         |
-| `provider`                | bank_transfer / momo / vnpay / manual |
+| `provider`                | momo / vnpay                           |
 | `provider_transaction_id` | Mã giao dịch từ provider              |
 | `idempotency_key`         | Key chống duplicate khi retry/webhook |
 | `amount`                  | Số tiền thanh toán                    |
@@ -520,7 +515,7 @@ MVP nên dùng bảng này để không mất lịch sử các lần thử thanh
 ## Tạo order
 
 ```text
-Admin hoặc hệ thống tạo order
+User checkout hoặc hệ thống tạo order
 → generate order_code
 → status = pending
 → payment_status = unpaid
@@ -529,14 +524,17 @@ Admin hoặc hệ thống tạo order
 → snapshot course_title_snapshot + course_price_snapshot
 ```
 
-## Confirm paid
+## Gateway paid callback/webhook
 
 ```text
-Admin bấm Confirm paid
-→ nhập payment_method, paid_at, provider_transaction_id nếu có
-→ tạo payment_transactions.status = success nếu chưa có
+Gateway gửi callback/webhook Momo/VNPay
+→ ghi payment_webhook_logs
+→ verify chữ ký/hash, amount, currency, order_id
+→ match payment_transactions pending bằng provider_transaction_id/idempotency_key
+→ set payment_transactions.status = success
 → order.status = paid
 → order.payment_status = paid
+→ order.paid_at = now()
 → nếu chưa có enrollment:
    tạo enrollment status = active
 ```
@@ -578,7 +576,7 @@ Admin chọn date range/status/course
 | `OrderStatusFilter` | Lọc theo trạng thái                     |
 | `OrderTable`        | Danh sách đơn                           |
 | `OrderDetailDrawer` | Chi tiết đơn                            |
-| `ConfirmPaidModal`  | Xác nhận thanh toán                     |
+| `PaymentGatewayDrawer` | Xem callback/webhook và transaction gateway |
 | `RefundModal`       | Hoàn tiền                               |
 | `ExportButton`      | Xuất CSV/Excel                          |
 | `StatusBadge`       | pending / paid / refunded / cancelled   |
@@ -594,7 +592,7 @@ Admin chọn date range/status/course
 ```text
 Chưa có đơn hàng nào.
 
-Đơn hàng sẽ xuất hiện khi học viên đăng ký/mua khóa hoặc [[web/page/admin/admin|admin]] tạo đơn thủ công.
+Đơn hàng sẽ xuất hiện khi học viên đăng ký/mua khóa và đi qua checkout online.
 ```
 
 ## Không tìm thấy đơn theo bộ lọc
@@ -633,8 +631,8 @@ Trang `/admin/orders` đạt nếu:
 | Admin xem được danh sách đơn hàng               |             |
 | Admin lọc đơn theo ngày/status/course           |             |
 | Admin mở được chi tiết đơn                      |             |
-| Admin confirm paid được                         |             |
-| Confirm paid tạo enrollment nếu chưa có         |             |
+| Gateway callback/webhook hợp lệ mark paid được  |             |
+| Paid từ gateway tạo enrollment nếu chưa có      |             |
 | Không tạo enrollment trùng                      |             |
 | Admin mark refunded được và bắt buộc nhập lý do |             |
 | Refund tạo `account_balance_transactions` và cộng đúng `users.account_balance` |             |
@@ -664,8 +662,8 @@ Trang `/admin/orders` đạt nếu:
 5. Status/course filter
 6. Order table
 7. Order detail drawer
-8. Confirm paid
-9. Auto/manual create enrollment after paid
+8. Gateway transaction/webhook detail
+9. Auto create enrollment after gateway paid
 10. Mark refunded
 11. Export CSV/Excel
 12. Empty/loading/error state

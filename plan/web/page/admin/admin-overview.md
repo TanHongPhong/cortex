@@ -179,7 +179,7 @@ Dẫn tới:
 | Alert              | Dẫn tới                         |
 | ------------------ | ------------------------------- |
 | Pending orders > 0 | `/admin/orders?status=pending`  |
-| Manual proof mới   | `/admin/orders?payment=manual`  |
+| Gateway pending    | `/admin/payments?status=pending` |
 | Failed payments    | `/admin/payments?status=failed` |
 | Invoice requested  | `/admin/invoices?status=draft`  |
 

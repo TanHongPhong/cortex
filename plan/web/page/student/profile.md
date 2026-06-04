@@ -256,7 +256,7 @@ Nếu dùng một bảng `users`:
 | `email`             | Email              |
 | `phone`             | Số điện thoại/Zalo |
 | `avatar_url`        | Ảnh đại diện       |
-| `role`              | student/instructor/admin |
+| `role`              | student/instructor/course_editor/admin |
 | `learning_interest` | Nhu cầu học        |
 | `current_level`     | Mức độ hiện tại    |
 | `learning_goal`     | Mục tiêu học       |

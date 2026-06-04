@@ -62,10 +62,12 @@ Action
 | ---------- | ---- |
 | Payment success | Có thể chuyển order paid nếu match amount/order hợp lệ |
 | Payment failed | Không mở quyền học |
+| Gateway providers | MVP/P1 chỉ hỗ trợ `momo` và `vnpay` |
+| Gateway verification | Phải verify chữ ký/hash, amount, currency, order_id và idempotency trước khi cập nhật order |
 | Webhook retry | Không tạo duplicate transaction nếu trùng `provider_transaction_id` hoặc `idempotency_key` |
 | Webhook duplicate event | Nếu trùng `provider + provider_event_id`, log mới là `ignored`, không tạo transaction |
 | Raw payload | Chỉ đọc, không sửa |
-| Manual payment | Admin có thể tạo transaction provider = manual/bank_transfer |
+| Offline payment | Không hỗ trợ tạo transaction offline; order paid chỉ từ gateway success |
 
 ---
 
@@ -90,6 +92,7 @@ Action
 | Xem được raw payload/webhook logs | |
 | Webhook trùng provider_event_id hiển thị ignored và không tạo duplicate transaction | |
 | Không sửa trực tiếp raw payload | |
+| Không có action tạo offline transaction | |
 
 ---
 

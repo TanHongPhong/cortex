@@ -16,15 +16,16 @@ status: "[[MVP]]"
 # `/admin/courses` — Quản lý khóa học
 
 **Status:** MVP
-**Owner area:** Admin
+**Owner area:** Admin / Course Editor
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
+**Covered routes:** `/admin/courses`, `/admin/courses/[id]`
 
-**Lưu ý:** Chỉ [[web/page/admin/admin|admin]] mới có quyền tạo/sửa/xóa khóa học. Instructor không có quyền truy cập.
+**Lưu ý:** [[web/page/admin/admin|Admin]] và `course_editor` được truy cập trang này. `course_editor` chỉ có quyền content-only: tạo/sửa thông tin khóa và đi tới lesson editor; không assign instructor/staff, không xem tài chính/học viên, không xử lý publish/archive/delete nhạy cảm. Instructor không có quyền truy cập.
 
 ## 1. Mục tiêu trang
 
-Admin dùng trang này để:
+Admin hoặc `course_editor` dùng trang này để:
 
 ```text
 1. Tạo khóa học mới
@@ -233,6 +234,8 @@ archived → không hiển thị public, [[web/page/admin/admin|admin]] vẫn xe
 | `Archive`        | Lưu trữ/ẩn khóa (set `status = archived`)                                  |
 | `Delete`         | Xóa mềm (set `deleted_at = now()`) chỉ khi chưa có enrollment; nếu đã có học viên thì dùng archive |
 
+**Course editor action limit:** `course_editor` chỉ thấy `Edit`, `Manage Lessons`, `Manage FAQ` và `Preview`. Các action `Assign Instructor`, `Publish`, `Unpublish`, `Archive`, `Delete`, field giá/doanh thu và dữ liệu học viên/order phải bị ẩn ở UI và bị chặn ở API.
+
 ---
 
 # 8.1. Quản lý FAQ khóa học
@@ -306,16 +309,16 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 
 | Nhóm            | Yêu cầu                                    |
 | --------------- | ------------------------------------------ |
-| Auth            | Chỉ [[web/page/admin/admin|admin]] mới vào được                     |
+| Auth            | [[web/page/admin/admin|Admin]] và `course_editor` được vào; instructor/student bị chặn |
 | Course list     | Hiển thị toàn bộ 4–6 khóa học              |
 | Course ordering | Hiển thị khóa theo thứ tự sản phẩm đã định |
 | Create course   | Tạo khóa học mới                           |
 | Edit course     | Sửa thông tin khóa                         |
-| Publish/archive | Đổi trạng thái khóa                        |
+| Publish/archive | Admin-only nếu action ảnh hưởng catalog/enrollment/order |
 | Slug validation | Không cho slug trùng                       |
 | Delete rule     | Chỉ xóa khóa chưa có học viên              |
 | Manage lessons  | Có nút dẫn sang `/admin/lessons`           |
-| Assign instructor | Gán instructor và permission flags rõ ràng |
+| Assign instructor | Admin-only; `course_editor` không được phân quyền |
 | Public preview  | Có nút xem trang public                    |
 | Responsive      | Ưu tiên desktop, mobile xem được           |
 
@@ -459,6 +462,8 @@ Trang `/admin/courses` đạt nếu:
 | Tiêu chí                                          | Đạt / Không |
 | ------------------------------------------------- | ----------- |
 | Student không truy cập được                       |             |
+| Instructor không truy cập được                    |             |
+| Course editor truy cập được và chỉ thấy action content-only |             |
 | Admin xem được danh sách khóa                     |             |
 | Danh sách khóa hiển thị gọn, đúng thứ tự sản phẩm |             |
 | Admin tạo được khóa mới                           |             |
@@ -477,18 +482,18 @@ Trang `/admin/courses` đạt nếu:
 ```text
 /admin/courses cần có:
 
-1. Admin layout chung
+1. Admin layout chung; sidebar filter theo role, với `course_editor` chỉ hiện Courses và Lessons
 2. Page header + Create Course button
 3. Course summary cards
 4. Course table/list hiển thị toàn bộ 4–6 khóa
 5. Create/edit course form
 6. Status control: draft/published/archived
-7. Actions: edit, manage lessons, assign instructor, preview, archive
+7. Actions: edit, manage lessons, assign instructor, preview, archive; với `course_editor` chỉ hiện action content-only
 8. Delete protection nếu course đã có enrollment
 9. Empty/loading/error state
 ```
 
-Nói ngắn gọn: **`/admin/courses` là nơi quản lý “vỏ khóa học”: tên, mô tả, giá, level, trạng thái, [[web/page/website/certificate|certificate]] và lock mode. Vì số lượng khóa ít nên không cần search/filter ở MVP; chỉ cần bảng/list rõ ràng và đúng thứ tự sản phẩm.**
+Nói ngắn gọn: **`/admin/courses` là nơi quản lý “vỏ khóa học”: tên, mô tả, level, trạng thái, [[web/page/website/certificate|certificate]] và lock mode. Admin có toàn quyền vận hành; `course_editor` chỉ chỉnh phần nội dung khóa học và không đụng tài chính, học viên hay phân quyền.**
 
 ---
 

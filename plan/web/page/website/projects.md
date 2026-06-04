@@ -19,6 +19,7 @@ status: "[[MVP]]"
 **Owner area:** Public
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
+**Covered routes:** `/projects`; project detail uses an MVP modal. Future route: `/projects/[slug]`.
 
 ## 1. Mục tiêu trang
 
@@ -275,4 +276,4 @@ Trang `/projects` đạt nếu:
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

@@ -19,7 +19,9 @@ Welcome to the CORTEX Product Plan & Specifications Dashboard. This Map of Conte
 ---
 
 ## 🧭 System Audits & Roadmaps
-- **System Audit:** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]
+- **Role / Permission Plans:**
+  - [[COURSE_EDITOR_ROLE_PLAN|Course Editor Role Plan]]
+
 - **Course Roadmaps & Details:**
   - [[analysis/course_vn|1. MindX — AI Agent Engineer]]
   - [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]]

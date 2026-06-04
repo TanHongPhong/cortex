@@ -127,7 +127,7 @@ Eligible
 ```text
 Phạm Đức Trí
 Course: AI Agent & Vibe Coding Bootcamp
-Certificate ID: MAY-AI-2026-0001
+Certificate ID: CERT-20260234-000001
 Status: Valid
 Issued at: 21/05/2026
 PDF: Available
@@ -193,7 +193,7 @@ Cấp chứng chỉ
 
 Student: Phạm Đức Trí
 Course: AI Agent & Vibe Coding Bootcamp
-Certificate ID: MAY-AI-2026-0001
+Certificate ID: CERT-20260234-000001
 Issued date: Today
 
 [Generate Certificate]
@@ -342,7 +342,7 @@ Certificate PDF fields:
 Mỗi [[web/page/website/certificate|certificate]] phải có link verify:
 
 ```text
-/verify-certificate?id=MAY-AIAGENT-2026-0001
+/verify-certificate?id=CERT-20260234-000001
 ```
 
 Admin có thể:

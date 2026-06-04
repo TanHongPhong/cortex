@@ -106,6 +106,19 @@ EMAIL_PROVIDER=resend
 RESEND_API_KEY=<resend-api-key>
 EMAIL_FROM=noreply@cortex.vn
 
+# ===== Payment Gateway (Momo/VNPay) =====
+PAYMENT_PROVIDERS=momo,vnpay
+MOMO_PARTNER_CODE=<momo-partner-code>
+MOMO_ACCESS_KEY=<momo-access-key>
+MOMO_SECRET_KEY=<momo-secret-key>
+MOMO_ENDPOINT=<momo-endpoint>
+VNPAY_TMN_CODE=<vnpay-terminal-code>
+VNPAY_HASH_SECRET=<vnpay-hash-secret>
+VNPAY_PAYMENT_URL=<vnpay-payment-url>
+PAYMENT_RETURN_URL=https://cortex.vn/checkout/success
+PAYMENT_FAILED_URL=https://cortex.vn/checkout/failed
+PAYMENT_WEBHOOK_URL=https://cortex.vn/api/webhooks/payment
+
 # ===== Rate Limiting (Upstash Redis) =====
 UPSTASH_REDIS_REST_URL=<upstash-url>
 UPSTASH_REDIS_REST_TOKEN=<upstash-token>
@@ -525,4 +538,4 @@ hotfix/*      → Hotfix branches (PR to main)
 
 ### Relations
 - **Outgoing Links:** [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/maintenance|/maintenance — Trang bảo trì hệ thống]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]
+- **Incoming Links (Backlinks):** *None*

@@ -19,12 +19,13 @@ status: "[[P1]]"
 **Owner area:** Instructor
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
+**Covered routes:** `/instructor/courses` and read-only assigned-course detail inside the same page.
 
 ## 1. Mục tiêu trang
 
 Instructor xem curriculum và trạng thái học viên của các khóa được phân công (read-only).
 
-**Nguyên tắc:** Instructor chỉ xem — không sửa lesson content, không upload video, không quản lý khóa/học viên. Tất cả quản lý nội dung là quyền của [[web/page/admin/admin|admin]].
+**Nguyên tắc:** Instructor chỉ xem — không sửa lesson content, không upload video, không quản lý khóa/học viên. Quản lý nội dung course/lesson là quyền của [[web/page/admin/admin|admin]] hoặc `course_editor` trong `/admin/courses*` và `/admin/lessons*`.
 
 ---
 
@@ -87,4 +88,4 @@ Instructor xem curriculum và trạng thái học viên của các khóa đượ
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]
+- **Incoming Links (Backlinks):** *None*

@@ -245,8 +245,8 @@ status: "[[Planned]]"
 | Course summary       | Hiển thị `course_title_snapshot`, giá, thời lượng, [[web/page/website/certificate|certificate]].                       |
 | Coupon/referral      | Cho nhập mã, validate backend, hiển thị số tiền giảm.                                 |
 | Billing form         | Họ tên, email, phone, địa chỉ, công ty, mã số thuế, yêu cầu hóa đơn.                  |
-| Payment method       | Chuyển khoản/manual trước; Momo/VNPay có thể thêm sau qua `payment_transactions`.      |
-| Payment proof        | Upload hoặc nhập link chứng từ nếu manual/bank transfer.                              |
+| Payment method       | Thanh toán online qua Momo hoặc VNPay, ghi nhận bằng `payment_transactions`.           |
+| Gateway redirect     | Tạo transaction pending rồi chuyển user sang cổng thanh toán.                          |
 | Order summary        | Giá gốc, discount, final amount, currency.                                            |
 | Success/error states | Sau submit chuyển `/checkout/success` hoặc `/checkout/failed` tùy kết quả thanh toán. |
 
@@ -256,13 +256,13 @@ status: "[[Planned]]"
 
 ## `/checkout/success` Thanh toán thành công
 
-**Mục tiêu:** xác nhận đơn đã thanh toán hoặc đang chờ [[web/page/admin/admin|admin]] kiểm tra nếu là chuyển khoản thủ công.
+**Mục tiêu:** xác nhận đơn đã thanh toán thành công qua Momo/VNPay sau khi gateway callback/webhook hợp lệ.
 
 | Khu vực      | Nên làm như nào                                                |
 | ------------ | -------------------------------------------------------------- |
-| Result       | Hiển thị trạng thái order: paid hoặc pending manual review.    |
+| Result       | Hiển thị trạng thái order: paid, failed, cancelled hoặc pending gateway confirmation. |
 | Order info   | Mã đơn, khóa học, số tiền, phương thức thanh toán.             |
-| Next action  | Nếu paid: `Vào học`; nếu pending: `Xem đơn hàng`.              |
+| Next action  | Nếu paid: `Vào học`; nếu pending: `Xem đơn hàng`; nếu failed/cancelled: thử lại. |
 | Data [[web/page/website/privacy|privacy]] | Không hiển thị payload thanh toán nhạy cảm.                    |
 
 ---
@@ -275,7 +275,7 @@ status: "[[Planned]]"
 | ----------- | ---------------------------------------------------- |
 | Error state | Báo thanh toán thất bại/hủy.                         |
 | Retry CTA   | `Thử thanh toán lại` dẫn về [[web/page/student/checkout|checkout]] hoặc order.     |
-| Support CTA | `Liên hệ hỗ trợ` dẫn `/contact?type=support` nếu user đã chuyển khoản thủ công. |
+| Support CTA | `Liên hệ hỗ trợ` dẫn `/contact?type=support` nếu gateway timeout hoặc lệch trạng thái quá lâu. |
 
 ---
 
@@ -289,7 +289,7 @@ status: "[[Planned]]"
 | --------------- | --------------------------------------------- |
 | Login form      | Email + password.                             |
 | Forgot password | Link đặt lại mật khẩu.                        |
-| Role redirect   | Student vào `/dashboard`, instructor vào `/instructor`, [[web/page/admin/admin|admin]] vào `/admin`. |
+| Role redirect   | Student vào `/dashboard`, instructor vào `/instructor`, `course_editor` vào `/admin/courses`, [[web/page/admin/admin|admin]] vào `/admin`. |
 
 **Cần có:** validate lỗi sai mật khẩu/email không tồn tại.
 **Không build:** Google OAuth và email verification trong MVP/P1.
@@ -481,7 +481,7 @@ status: "[[Planned]]"
 
 ---
 
-## `/referral` Mã giới thiệu
+## `/referral` Mã giới thiệu (Future)
 
 **Mục tiêu:** học viên xem mã giới thiệu, invite link, conversion và reward.
 
@@ -520,7 +520,7 @@ status: "[[Planned]]"
 | Filters             | Date range, status, course, payment method.                            |
 | Order table         | Order code, customer, course snapshot, amount, discount, status.        |
 | Order detail drawer | Billing, [[web/page/student/coupon|coupon]]/referral, transactions, invoice, enrollment status.     |
-| Actions             | Mark as paid, cancel, refund, create invoice, verify payment proof.     |
+| Actions             | Xem giao dịch gateway, cancel pending order, refund to balance, create invoice. |
 
 **Rule:** order paid tạo enrollment idempotent, không tạo trùng.
 
@@ -564,7 +564,7 @@ status: "[[Planned]]"
 
 ---
 
-## `/admin/referrals` Theo dõi [[web/page/student/referral|referral]]
+## `/admin/referrals` Theo dõi [[web/page/student/referral|referral]] (Future)
 
 **Mục tiêu:** quản lý mã giới thiệu, conversion và reward.
 
@@ -576,7 +576,7 @@ status: "[[Planned]]"
 
 ---
 
-## `/admin/revenue` Dashboard doanh thu
+## `/admin/revenue` Dashboard doanh thu (Future/P2)
 
 **Mục tiêu:** báo cáo doanh thu sau khi dữ liệu order/payment ổn định.
 
@@ -713,7 +713,8 @@ status: "[[Planned]]"
 # 4. Instructor Workspace — phần giảng viên (Chuyên trách chấm bài & hỗ trợ học viên)
 
 **Nguyên tắc phân quyền:**
-- **Admin** là người duy nhất upload video, quản lý khóa học, quản lý học viên, gán khóa, quản lý announcement.
+- **Admin** quản lý vận hành hệ thống: học viên, gán khóa, announcement, tài chính, phân quyền và audit.
+- **Course editor** chỉ chỉnh nội dung khóa học trong `/admin/courses*` và `/admin/lessons*`, gồm course content, module, lesson, resource, quiz và video asset.
 - **Instructor** chỉ chấm bài (duyệt [[web/page/instructor/submissions|submissions]]) và hỗ trợ học viên (trả lời Q&A) trong khóa được phân công.
 - Instructor KHÔNG được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement.
 
@@ -772,7 +773,7 @@ status: "[[Planned]]"
 **Rule tổng thể:**
 - Instructor chỉ chấm bài và trả lời Q&A — không quản lý khóa học, video, học viên hay announcement.
 - Instructor không có quyền vào order/payment/coupon/invoice/referral/revenue.
-- Tất cả quản lý nội dung khóa (video, lesson, module) và quản lý học viên là quyền của [[web/page/admin/admin|admin]].
+- Quản lý nội dung khóa (video, lesson, module) là quyền của [[web/page/admin/admin|admin]] hoặc `course_editor` trong `/admin/courses*` và `/admin/lessons*`; quản lý học viên vẫn là quyền của [[web/page/admin/admin|admin]].
 
 ---
 
@@ -802,4 +803,4 @@ status: "[[Planned]]"
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/student/referral|/referral — Mã giới thiệu]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[web/page/website/courses|/courses — Product Catalog Page]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/hard_notes|Hard Notes]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-certificates|/admin/certificates — Quản lý chứng chỉ]], [[web/page/admin/admin-courses|/admin/courses — Quản lý khóa học]], [[web/page/admin/admin-leads|/admin/leads — Quản lý Type B Leads]], [[web/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[web/page/admin/admin-resources|/admin/resources — Quản lý Resources Hub]], [[web/page/admin/admin-reviews|/admin/reviews — Kiểm duyệt đánh giá khóa học]], [[web/page/admin/admin-system-users-new|/admin/system/users/new — Hidden Staff Account Creation]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/learn-course|/learn/course — Trang học của một khóa]], [[web/page/student/learn-lesson|/learn/analysis/lesson — Trang bài học]], [[web/page/student/my-courses|/my-courses — Khóa học của tôi]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[web/page/website/courses|/courses — Product Catalog Page]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page/website/maintenance|/maintenance — Trang bảo trì hệ thống]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page/website/refund-policy|/refund-policy — Chính sách refund]], [[web/page/website/terms|/terms — Điều khoản sử dụng]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Incoming Links (Backlinks):** [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/hard_notes|Hard Notes]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-certificates|/admin/certificates — Quản lý chứng chỉ]], [[web/page/admin/admin-courses|/admin/courses — Quản lý khóa học]], [[web/page/admin/admin-leads|/admin/leads — Quản lý Type B Leads]], [[web/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[web/page/admin/admin-resources|/admin/resources — Quản lý Resources Hub]], [[web/page/admin/admin-reviews|/admin/reviews — Kiểm duyệt đánh giá khóa học]], [[web/page/admin/admin-system-users-new|/admin/system/users/new — Hidden Staff Account Creation]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/learn-course|/learn/course — Trang học của một khóa]], [[web/page/student/learn-lesson|/learn/analysis/lesson — Trang bài học]], [[web/page/student/my-courses|/my-courses — Khóa học của tôi]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[web/page/website/courses|/courses — Product Catalog Page]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page/website/maintenance|/maintenance — Trang bảo trì hệ thống]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page/website/refund-policy|/refund-policy — Chính sách refund]], [[web/page/website/terms|/terms — Điều khoản sử dụng]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

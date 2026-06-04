@@ -52,6 +52,7 @@ Checkout
 | `coupon_redemptions` | reserved/applied [[web/page/student/coupon|coupon]], reserved_expires_at |
 | `referral_codes` | validate [[web/page/student/referral|referral]] |
 | `payment_transactions` | từng lần thanh toán, idempotency_key |
+| `payment_webhook_logs` | callback/webhook từ Momo/VNPay |
 
 ---
 
@@ -64,15 +65,18 @@ Checkout
 4. Snapshot course title + price vào order
 5. User nhập [[web/page/student/coupon|coupon]]/referral nếu có
 6. Backend validate và tính discount
-7. User nhập billing info và chọn payment method
-8. Tạo payment_transaction
-9. Nếu paid:
+7. User nhập billing info và chọn Momo hoặc VNPay
+8. Backend tạo payment_transaction pending và redirect sang gateway
+9. Gateway callback/webhook được verify chữ ký/hash, amount, currency và order
+10. Nếu gateway xác nhận paid:
    - orders.status = paid
    - orders.payment_status = paid
+   - payment_transactions.status = success
    - tạo enrollment active
-10. Nếu manual transfer:
-   - order giữ pending
-   - [[web/page/admin/admin|admin]] xác nhận trong /admin/orders
+11. Nếu gateway failed/cancelled/timeout:
+   - ghi payment_transactions.status = failed nếu có kết quả chắc chắn
+   - không tạo enrollment
+   - dẫn user sang /checkout/failed hoặc /my-orders/:id
 ```
 
 ---
@@ -89,6 +93,8 @@ Checkout
 | Account balance | Không dùng để thanh toán/mua khóa trong MVP/P1 |
 | Order paid rồi | Không cho sửa amount/discount |
 | Payment retry | Tạo transaction mới, không ghi đè transaction cũ |
+| Offline payment | Không hỗ trợ trong checkout; order paid chỉ từ gateway success |
+| Gateway callback | Phải verify chữ ký/hash, amount, currency, order_id và idempotency trước khi mark paid |
 
 ---
 
@@ -101,7 +107,8 @@ Checkout
 | Order tạo snapshot course | |
 | Coupon/referral validate backend | |
 | Billing fields lưu vào order | |
-| Payment transaction được tạo | |
+| Payment transaction pending được tạo trước khi redirect gateway | |
+| Gateway callback/webhook hợp lệ mới mark paid | |
 | Paid order tạo enrollment | |
 | Không tạo enrollment trùng | |
 | Có success/error state | |
@@ -120,4 +127,4 @@ Checkout
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/referral|/referral — Mã giới thiệu]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-revenue|/admin/revenue — Dashboard doanh thu]], [[web/page/student/checkout-result|/checkout/success và /checkout/failed — Kết quả thanh toán]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[web/page/website/courses|/courses — Product Catalog Page]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-revenue|/admin/revenue — Dashboard doanh thu]], [[web/page/student/checkout-result|/checkout/success và /checkout/failed — Kết quả thanh toán]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/website/course-detail|/courses/slug — Trang chi tiết khóa học]], [[web/page/website/courses|/courses — Product Catalog Page]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]

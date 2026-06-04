@@ -19,6 +19,7 @@ status: "[[MVP]]"
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
+**Covered routes:** `/forgot-password`, `/reset-password`
 
 ## 1. Mục tiêu
 
@@ -269,4 +270,4 @@ CORTEX
 
 ### Relations
 - **Outgoing Links:** *None*
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

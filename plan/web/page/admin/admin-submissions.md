@@ -19,6 +19,7 @@ status: "[[MVP]]"
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
+**Covered routes:** `/admin/submissions` and submission detail drawer/actions inside the same page.
 
 ## 1. Mục tiêu trang
 

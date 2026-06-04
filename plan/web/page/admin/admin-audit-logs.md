@@ -51,7 +51,9 @@ Admin xem lịch sử thao tác nhạy cảm để truy vết lỗi dữ liệu,
 
 - Trang này read-only.
 - Không sửa/xóa audit log qua UI thường.
-- Bắt buộc log: confirm paid, refund to balance, balance reset, issue/revoke [[web/page/website/certificate|certificate]], publish/archive course, change role, instructor assignment/permission change, review moderation, announcement publish/archive, [[web/page/student/coupon|coupon]] create/update/archive, webhook manual match, resource publish/archive, video asset retry/fail, enrollment cancel/override, delete/restore content.
+- Action filter phải dùng canonical action list trong `unified_database_schema.md`.
+- Bắt buộc hỗ trợ các nhóm action: commerce, learning access, certificate/template, course/content, video, people/roles, P1 ops/moderation.
+- Ví dụ action canonical: `payment.webhook_processed`, `payment.gateway_callback_verified`, `order.mark_paid_from_gateway`, `order.refund_to_balance`, `certificate.issue`, `certificate.revoke`, `module.create`, `module.update`, `module.reorder`, `lesson.create`, `lesson.update`, `lesson.type_change`, `lesson.reorder`, `quiz.create`, `quiz.update`, `video_asset.retry`, `video_asset.fail`, `submission.review`, `announcement.publish`, `review.hide`.
 - Instructor không được xem audit log toàn hệ thống.
 
 ---
@@ -79,4 +81,4 @@ Admin xem lịch sử thao tác nhạy cảm để truy vết lỗi dữ liệu,
 
 ### Relations
 - **Outgoing Links:** [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]
+- **Incoming Links (Backlinks):** *None*

@@ -95,7 +95,7 @@ Certificate is valid
 Student: Nguyễn Văn A
 Course: AI Agent & Vibe Coding Bootcamp
 Issued date: 21/05/2026
-Certificate ID: MAY-AI-2026-0001
+Certificate ID: CERT-20260234-000001
 Status: Valid
 ```
 
@@ -163,7 +163,7 @@ Cần hỗ trợ 2 cách:
 Người dùng tự nhập ID.
 
 ```text
-/verify-certificate?id=MAY-AI-2026-0001
+/verify-certificate?id=CERT-20260234-000001
 ```
 
 Quét QR tự động mở và kiểm tra ID.

@@ -19,6 +19,7 @@ status: "[[MVP]]"
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
+**Covered routes:** `/checkout/success`, `/checkout/failed`
 
 ## 1. Mục tiêu
 
@@ -32,7 +33,7 @@ Hiển thị kết quả sau [[web/page/student/checkout|checkout]] và hướng
 | ---------- | -------- | --------- |
 | `orders.status = paid` | Thanh toán thành công, khóa đã mở | `Vào học` |
 | `orders.status = refunded` | Đơn đã refund, tiền đã cộng vào số dư tài khoản | `Xem đơn hàng` |
-| Manual transfer pending | CORTEX đã nhận thông tin, đang chờ xác nhận | `Xem đơn hàng` |
+| Gateway confirmation pending | Cổng thanh toán đang xác nhận giao dịch | `Xem đơn hàng` |
 | Paid nhưng enrollment chưa tạo | Báo đang xử lý quyền học | `Xem đơn hàng` |
 
 Data hiển thị:
@@ -56,9 +57,9 @@ Không hiển thị raw payment payload hoặc thông tin nhạy cảm.
 | ---------- | -------- | --------- |
 | Payment failed | Thanh toán chưa thành công | `Thử lại` |
 | User cancelled | Bạn đã hủy thanh toán | `Quay lại [[web/page/student/checkout|checkout]]` |
-| Gateway timeout | Chưa xác nhận được thanh toán | `Xem đơn hàng` |
+| Gateway timeout | Chưa xác nhận được thanh toán từ Momo/VNPay | `Xem đơn hàng` |
 
-Nếu user đã chuyển khoản thủ công nhưng hệ thống chưa nhận, CTA phụ là:
+Nếu gateway timeout hoặc có giao dịch bị lệch trạng thái quá lâu, CTA phụ là:
 
 ```text
 Liên hệ hỗ trợ (`/contact?type=support`)
@@ -83,7 +84,7 @@ Liên hệ hỗ trợ (`/contact?type=support`)
 | -------- | ----------- |
 | User chỉ xem được order của chính mình | |
 | Success paid dẫn được vào khóa học | |
-| Manual pending không báo nhầm là paid | |
+| Gateway pending không báo nhầm là paid | |
 | Failed state cho thử lại hoặc xem đơn hàng | |
 | Refunded state nói rõ refund vào số dư nội bộ, rút tiền qua [[web/page/admin/admin|admin]] support | |
 | Không hiển thị dữ liệu thanh toán nhạy cảm | |
@@ -102,4 +103,4 @@ Liên hệ hỗ trợ (`/contact?type=support`)
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]]
+- **Incoming Links (Backlinks):** *None*

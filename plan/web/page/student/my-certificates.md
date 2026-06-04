@@ -107,7 +107,7 @@ Mỗi chứng chỉ hiển thị dạng card.
 AI Agent & Vibe Coding Bootcamp
 
 Certificate of Completion
-Certificate ID: MAY-AI-2026-0001
+Certificate ID: CERT-20260234-000001
 Issued date: 21/05/2026
 Status: Valid
 
@@ -119,7 +119,7 @@ Status: Valid
 ```text
 AI Agent & Vibe Coding Bootcamp
 
-Certificate ID: MAY-AI-2026-0001
+Certificate ID: CERT-20260234-000001
 Issued date: 21/05/2026
 Status: Revoked
 
@@ -257,7 +257,7 @@ Lấy tất cả certificates có user_id = current_user.id
 ## Verify link
 
 ```text
-/verify-certificate?id=MAY-AI-2026-0001
+/verify-certificate?id=CERT-20260234-000001
 ```
 
 ## Download PDF
@@ -337,4 +337,4 @@ Nói ngắn gọn: **trang này chỉ để quản lý chứng chỉ đã đư�
 
 ### Relations
 - **Outgoing Links:** [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[PLAN_CONFLICT_AUDIT|Plan Conflict Audit - CORTEX Requirements]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]

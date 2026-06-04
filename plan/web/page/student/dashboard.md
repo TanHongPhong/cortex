@@ -282,7 +282,7 @@ Nếu đã cấp:
 
 ```text
 Certificate of Completion
-ID: MAY-AI-2026-0001
+ID: CERT-20260234-000001
 [Download PDF] [Verify]
 ```
 
