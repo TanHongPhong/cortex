@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,12 +18,16 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 **Covered routes:** `/checkout/success`, `/checkout/failed`
+**Layout decision:** Standalone checkout result route. Không dùng student dashboard shell, không render student sidebar.
 
 ## 1. Mục tiêu
 
 Hiển thị kết quả sau [[web/page/student/checkout|checkout]] và hướng user đến bước tiếp theo dựa trên trạng thái `orders.status` và `orders.payment_status`.
+
+Trang kết quả thanh toán nằm cùng flow standalone checkout, tách khỏi dashboard. Layout chỉ có minimal header, result panel, order summary/action links; không có sidebar student portal.
 
 ---
 
@@ -33,7 +37,7 @@ Hiển thị kết quả sau [[web/page/student/checkout|checkout]] và hướng
 | ---------- | -------- | --------- |
 | `orders.status = paid` | Thanh toán thành công, khóa đã mở | `Vào học` |
 | `orders.status = refunded` | Đơn đã refund, tiền đã cộng vào số dư tài khoản | `Xem đơn hàng` |
-| Gateway confirmation pending | Cổng thanh toán đang xác nhận giao dịch | `Xem đơn hàng` |
+| Webhook pending sau khi quét QR | Hệ thống đang chờ provider gửi/xác nhận webhook | `Xem đơn hàng` |
 | Paid nhưng enrollment chưa tạo | Báo đang xử lý quyền học | `Xem đơn hàng` |
 
 Data hiển thị:
@@ -57,9 +61,9 @@ Không hiển thị raw payment payload hoặc thông tin nhạy cảm.
 | ---------- | -------- | --------- |
 | Payment failed | Thanh toán chưa thành công | `Thử lại` |
 | User cancelled | Bạn đã hủy thanh toán | `Quay lại [[web/page/student/checkout|checkout]]` |
-| Gateway timeout | Chưa xác nhận được thanh toán từ Momo/VNPay | `Xem đơn hàng` |
+| QR expired / webhook timeout | Mã QR đã hết hạn hoặc chưa nhận được webhook hợp lệ từ Momo/VNPay | `Thử lại` |
 
-Nếu gateway timeout hoặc có giao dịch bị lệch trạng thái quá lâu, CTA phụ là:
+Nếu QR expired hoặc có giao dịch bị lệch trạng thái quá lâu, CTA phụ là:
 
 ```text
 Liên hệ hỗ trợ (`/contact?type=support`)
@@ -84,22 +88,25 @@ Liên hệ hỗ trợ (`/contact?type=support`)
 | -------- | ----------- |
 | User chỉ xem được order của chính mình | |
 | Success paid dẫn được vào khóa học | |
-| Gateway pending không báo nhầm là paid | |
+| Webhook pending không báo nhầm là paid | |
 | Failed state cho thử lại hoặc xem đơn hàng | |
 | Refunded state nói rõ refund vào số dư nội bộ, rút tiền qua [[web/page/admin/admin|admin]] support | |
 | Không hiển thị dữ liệu thanh toán nhạy cảm | |
+| Success/failed pages không render student dashboard sidebar | |
+| CTA điều hướng rõ: vào học, xem đơn hàng, thử lại hoặc liên hệ support | |
+| Không có CTA self-confirm hoặc upload biên lai | |
 
 ---
 
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/checkout|Standalone Checkout]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]]

@@ -1,31 +1,32 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: ["[[MVP]]", "[[P1]]"]
 ---
 
 # `/admin/lessons` — Quản lý module/bài học
 
 **Status:** MVP + P1
-**Owner area:** Admin / Course Editor
+**Owner area:** Admin / Instructor Content Edit
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 **Covered routes:** `/admin/lessons` and nested module/lesson/video/quiz management flows inside the same page.
 
-**Lưu ý:** [[web/page/admin/admin|Admin]] và `course_editor` được truy cập trang này để chỉnh nội dung khóa học. `course_editor` không kế thừa instructor, không vào submission/Q&A, không xem tài chính/học viên/phân quyền. Instructor không có quyền truy cập.
+**Lưu ý:** [[web/page/admin/admin|Admin]] và instructor có `course_instructors.can_edit_course_content = true` được truy cập trang này để chỉnh nội dung khóa học được phân công. Instructor content edit không xem tài chính/học viên/phân quyền, không vào các route admin khác ngoài Courses/Lessons, và không có quyền publish/archive/delete nhạy cảm.
 
 ## 1. Mục tiêu trang
 
-Admin hoặc `course_editor` dùng trang này để:
+Admin hoặc instructor có `can_edit_course_content = true` dùng trang này để:
 
 ```text
 1. Chọn khóa học cần chỉnh nội dung
@@ -262,7 +263,7 @@ Save Resource Lesson
 | Passing score           | Có       | Mặc định 70                              |
 | Max attempts            | Không    | NULL là không giới hạn                   |
 | Questions               | Có       | single_choice / multiple_choice / short_text |
-| Correct answers         | Có       | Chỉ [[web/page/admin/admin|admin]]/`course_editor` xem; `short_text` lưu accepted answers để auto-grade exact/normalized match |
+| Correct answers         | Có       | Chỉ [[web/page/admin/admin|admin]] hoặc instructor có `can_edit_course_content = true` xem; `short_text` lưu accepted answers để auto-grade exact/normalized match |
 | Explanation             | Không    | Hiển thị sau submit                      |
 | Required for completion | Có       | Nếu true thì cần `quiz_attempts.passed`  |
 
@@ -460,16 +461,16 @@ Dùng nút Move Up / Move Down là đủ.
 
 | Nhóm            | Yêu cầu                                         |
 | --------------- | ----------------------------------------------- |
-| Auth            | [[web/page/admin/admin|Admin]] và `course_editor` được vào; instructor/student bị chặn |
+| Auth            | [[web/page/admin/admin|Admin]] được vào toàn bộ; instructor có `can_edit_course_content = true` chỉ vào content của assigned courses; student bị chặn |
 | Course select   | Chọn khóa cần chỉnh lesson                      |
-| Module CRUD     | Tạo/sửa/xóa/ẩn module                           |
-| Lesson CRUD     | Tạo/sửa/xóa/ẩn lesson                           |
+| Module CRUD     | Admin tạo/sửa/xóa/ẩn module; instructor content edit chỉ tạo/sửa/reorder, không được ẩn/xóa |
+| Lesson CRUD     | Admin tạo/sửa/xóa/ẩn lesson; instructor content edit chỉ tạo/sửa/reorder, không được ẩn/xóa |
 | Lesson type     | Hỗ trợ video/resource/quiz/assignment/final_project |
 | Resources       | Gắn tài liệu vào lesson                         |
 | Order           | Sắp xếp module/lesson                           |
 | Validation      | Kiểm tra field bắt buộc theo lesson type        |
-| Publish control | Draft/published/hidden                          |
-| Safety          | Không xóa cứng lesson đã có progress/submission |
+| Publish control | Draft/published/hidden; hidden/delete là admin-only |
+| Safety          | Không xóa cứng lesson đã có progress/submission; instructor content edit không có quyền ẩn/xóa module hoặc lesson |
 | Preview         | Có thể mở preview lesson nếu cần                |
 
 ---
@@ -653,20 +654,6 @@ Hãy thêm video, resource, quiz, assignment hoặc final project.
 
 ---
 
-# 18. UI style đề xuất
-
-| Phần        | Gợi ý                                                  |
-| ----------- | ------------------------------------------------------ |
-| Tổng thể    | Admin editor, rõ ràng, ưu tiên thao tác                |
-| Layout      | 2 cột: module list bên trái, lesson editor bên phải    |
-| Lesson type | Dùng badge/icon dễ phân biệt                           |
-| Form        | Chia theo nhóm: Basic / Content / Resources / Settings |
-| Status      | Badge draft/published/hidden                           |
-| Reorder     | Drag/drop nếu làm được, không thì move up/down         |
-| Mobile      | Có thể dùng accordion thay vì 2 cột                    |
-
----
-
 # 19. Acceptance Criteria
 
 Trang `/admin/lessons` đạt nếu:
@@ -696,7 +683,7 @@ Trang `/admin/lessons` đạt nếu:
 ```text
 /admin/lessons cần có:
 
-1. Admin layout chung; sidebar filter theo role, với `course_editor` chỉ hiện Courses và Lessons
+1. Admin layout chung; sidebar filter theo quyền, với instructor content edit chỉ hiện Courses và Lessons
 2. Page header
 3. Course selector
 4. Module manager
@@ -710,24 +697,24 @@ Trang `/admin/lessons` đạt nếu:
 7. Form riêng theo lesson type
 8. Resource manager
 9. Reorder module/lesson
-10. Status control: draft/published/hidden
-11. Delete/hidden protection
+10. Status control: draft/published/hidden; instructor content edit không được set hidden hoặc xóa
+11. Delete/hidden protection; hidden/delete là admin-only
 12. Empty/loading/error state
 ```
 
-Nói ngắn gọn: **`/admin/lessons` là nơi [[web/page/admin/admin|admin]] và `course_editor` xây toàn bộ nội dung học của khóa: module, video bài giảng, tài liệu, quiz, bài tập và final project. `course_editor` chỉ có quyền content-only và không đụng submission/Q&A, tài chính, học viên hay phân quyền.**
+Nói ngắn gọn: **`/admin/lessons` là nơi [[web/page/admin/admin|admin]] và instructor có `can_edit_course_content = true` xây toàn bộ nội dung học của khóa được phân công: module, video bài giảng, tài liệu, quiz, bài tập và final project. Instructor content edit chỉ có quyền content-only; không được ẩn/xóa module hoặc lesson, và không đụng submission, tài chính, học viên hay phân quyền.**
 
 ---
 
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]

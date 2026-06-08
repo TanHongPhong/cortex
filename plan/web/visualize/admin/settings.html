@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu hình hệ thống - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Settings layout specifics */
+    .settings-container {
+      display: grid;
+      grid-template-columns: 3fr 9fr;
+      gap: 24px;
+      margin-top: 10px;
+    }
+    
+    .settings-sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .settings-tab-btn {
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .settings-tab-btn:hover {
+      background-color: var(--border-passive);
+      color: var(--text-primary);
+    }
+    .settings-tab-btn.active {
+      background-color: var(--sidebar-active-bg);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .settings-tab-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+    
+    .settings-content-panel {
+      min-height: 450px;
+    }
+    
+    .settings-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .settings-title svg {
+      width: 18px;
+      height: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link active" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Cấu hình hệ thống</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Quản lý thiết lập chung, giao diện hiển thị, cổng thanh toán và khóa API.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div>
+          <button class="btn-black" id="save-all-settings-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="save"></i>
+            <span>Lưu cấu hình</span>
+          </button>
+        </div>
+        </div>
+      </section>
+
+      <!-- Settings Layout -->
+      <div class="settings-container">
+        
+        <!-- Left Sub-Menu tabs -->
+        <div class="settings-sidebar-menu">
+          <button class="settings-tab-btn active" data-tab="general">
+            <i data-lucide="sliders"></i>
+            <span>Thông tin chung</span>
+          </button>
+          <button class="settings-tab-btn" data-tab="theme">
+            <i data-lucide="palette"></i>
+            <span>Giao diện & Theme</span>
+          </button>
+          <button class="settings-tab-btn" data-tab="payments">
+            <i data-lucide="credit-card"></i>
+            <span>Cổng thanh toán</span>
+          </button>
+          <button class="settings-tab-btn" data-tab="api">
+            <i data-lucide="key"></i>
+            <span>n8n & Webhooks</span>
+          </button>
+          <button class="settings-tab-btn" data-tab="security">
+            <i data-lucide="shield"></i>
+            <span>Bảo mật & Phân quyền</span>
+          </button>
+        </div>
+
+        <!-- Right Content Tab panels -->
+        <div class="settings-content-panel">
+          
+          <!-- TAB 1: General Settings -->
+          <div class="panel tab-panel-content" id="panel-general">
+            <h2 class="settings-title">
+              <i data-lucide="sliders"></i>
+              <span>Thông tin chung</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">Tên nền tảng (Platform Name)</label>
+              <input type="text" class="form-control" value="Blueprint Learning Platform" style="padding: 6px 10px;">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Domain chính thức</label>
+              <input type="text" class="form-control" value="https://blueprint.edu.vn" style="padding: 6px 10px;">
+            </div>
+
+            <div class="form-row" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+              <div class="form-group">
+                <label class="form-label">Email hỗ trợ khách hàng</label>
+                <input type="email" class="form-control" value="support@blueprint.edu.vn" style="padding: 6px 10px;">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Số điện thoại liên hệ</label>
+                <input type="text" class="form-control" value="+84 24 1234 5678" style="padding: 6px 10px;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Footer Copyright Text</label>
+              <input type="text" class="form-control" value="© 2026 Blueprint. All rights reserved." style="padding: 6px 10px;">
+            </div>
+          </div>
+
+          <!-- TAB 2: Theme Settings -->
+          <div class="panel tab-panel-content" id="panel-theme" style="display: none;">
+            <h2 class="settings-title">
+              <i data-lucide="palette"></i>
+              <span>Giao diện & Theme</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">Theme hiển thị mặc định</label>
+              <select class="form-control form-select" style="padding: 6px 10px;">
+                <option value="warm">Warm Operational System (Lovable Theme)</option>
+                <option value="dark">Sleek Dark Mode</option>
+                <option value="system">Theo cấu hình hệ điều hành (Auto)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Phông chữ hiển thị chính</label>
+              <select class="form-control form-select" style="padding: 6px 10px;">
+                <option>Plus Jakarta Sans & Inter (Mặc định)</option>
+                <option>Outfit & Roboto</option>
+                <option>System Sans-Serif Stack</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Mật độ bố cục bảng (Table layout density)</label>
+              <div style="display: flex; gap: 14px; margin-top: 6px;">
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 12.5px;">
+                  <input type="radio" name="density" checked>
+                  <span>Compact (Khuyên dùng cho admin)</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 6px; font-size: 12.5px;">
+                  <input type="radio" name="density">
+                  <span>Comfortable (Thoải mái)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Payment Settings -->
+          <div class="panel tab-panel-content" id="panel-payments" style="display: none;">
+            <h2 class="settings-title">
+              <i data-lucide="credit-card"></i>
+              <span>Cổng thanh toán QR Code</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+                <span>Cổng Momo QR Code</span>
+                <span class="badge badge-green">ĐANG HOẠT ĐỘNG</span>
+              </label>
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-top: 6px;">
+                <input type="text" class="form-control" placeholder="Partner Code" value="MOMO_PARTNER_2026" style="padding: 6px 10px;">
+                <input type="password" class="form-control" placeholder="Secret Key" value="••••••••••••••••••••••••••••••••" style="padding: 6px 10px;">
+              </div>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-passive); padding-top: 14px; margin-top: 16px;">
+              <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+                <span>Cổng VNPay QR Code</span>
+                <span class="badge badge-indigo">TEST MODE</span>
+              </label>
+              <div class="form-row" style="display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin-top: 6px;">
+                <input type="text" class="form-control" placeholder="TmnCode" value="VNPAY_TMN_9988" style="padding: 6px 10px;">
+                <input type="password" class="form-control" placeholder="HashSecret Key" value="••••••••••••••••••••••••••••••••" style="padding: 6px 10px;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Đơn vị tiền tệ hiển thị mặc định</label>
+              <select class="form-control form-select" style="padding: 6px 10px; max-width: 150px;">
+                <option value="vnd">VND (đ)</option>
+                <option value="usd">USD ($)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TAB 4: API & Webhooks -->
+          <div class="panel tab-panel-content" id="panel-api" style="display: none;">
+            <h2 class="settings-title">
+              <i data-lucide="key"></i>
+              <span>n8n Webhook & API Integrations</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">n8n Lead Sync Endpoint (contact-form webhook)</label>
+              <input type="text" class="form-control" value="https://n8n.blueprint.sh/webhook/c3a0df1e-8e42-491b-b461-a083f2bc90fa" style="padding: 6px 10px; font-family: var(--font-mono); font-size: 11.5px;">
+              <span style="font-size: 10px; color: var(--text-secondary); margin-top: 4px; display: block;">Trigger gửi dữ liệu leads Type B khi có contact form submission.</span>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-passive); padding-top: 14px; margin-top: 16px;">
+              <label class="form-label">n8n Course Completion & Certificate Generation Hook</label>
+              <input type="text" class="form-control" value="https://n8n.blueprint.sh/webhook/cert-gen-7bf83bc81" style="padding: 6px 10px; font-family: var(--font-mono); font-size: 11.5px;">
+              <span style="font-size: 10px; color: var(--text-secondary); margin-top: 4px; display: block;">Webhook n8n tự động phát sinh và ký chứng chỉ PDF khi học viên xong 100% khóa.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Idempotency Key validation timeout (seconds)</label>
+              <input type="number" class="form-control" value="86400" style="padding: 6px 10px; max-width: 120px;">
+              <span style="font-size: 10.5px; color: var(--text-secondary); margin-top: 4px; display: block;">Thời gian chặn duplicate transaction khi trùng Idempotency-Key. Default: 24h.</span>
+            </div>
+          </div>
+
+          <!-- TAB 5: Security Settings -->
+          <div class="panel tab-panel-content" id="panel-security" style="display: none;">
+            <h2 class="settings-title">
+              <i data-lucide="shield"></i>
+              <span>Bảo mật & Phân quyền</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">Ngưỡng cảnh báo Brute-force (Brute-force lockout threshold)</label>
+              <input type="number" class="form-control" value="5" style="padding: 6px 10px; max-width: 120px;">
+              <span style="font-size: 10.5px; color: var(--text-secondary); margin-top: 4px; display: block;">Tự động block IP tạm thời khi đăng nhập sai quá số lần này.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Hiệu lực Session của Admin/Giảng viên (Session Lifetime)</label>
+              <select class="form-control form-select" style="padding: 6px 10px; max-width: 200px;">
+                <option value="2h">2 tiếng (An toàn cao)</option>
+                <option value="12h" selected>12 tiếng (Thông thường)</option>
+                <option value="7d">7 ngày (Ghi nhớ đăng nhập)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="border-top: 1px solid var(--border-passive); padding-top: 14px; margin-top: 16px;">
+              <label class="form-label">Quy tắc đặt mật khẩu của học viên</label>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px;">
+                  <input type="checkbox" checked disabled>
+                  <span>Mật khẩu tối thiểu 8 ký tự</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px;">
+                  <input type="checkbox" checked>
+                  <span>Yêu cầu có ít nhất 1 chữ hoa, 1 chữ số</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px;">
+                  <input type="checkbox">
+                  <span>Yêu cầu có ít nhất 1 ký tự đặc biệt (@, #, $, ...)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabButtons = document.querySelectorAll('.settings-tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel-content');
+      
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active
+          tabButtons.forEach(b => b.classList.remove('active'));
+          tabPanels.forEach(p => p.style.display = 'none');
+          
+          // Add active to current
+          btn.classList.add('active');
+          const targetTabId = btn.getAttribute('data-tab');
+          document.getElementById(`panel-${targetTabId}`).style.display = 'flex';
+        });
+      });
+      
+      // Save settings handler
+      document.getElementById('save-all-settings-btn').addEventListener('click', () => {
+        if (window.showToast) {
+          window.showToast('Đã lưu tất cả thay đổi cấu hình hệ thống.');
+        } else {
+          alert('Đã lưu cấu hình thành công!');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

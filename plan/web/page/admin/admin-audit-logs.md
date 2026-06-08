@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[P1]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[P1]]"
 **Status:** P1
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 
 ## 1. Mục tiêu trang
@@ -53,7 +54,7 @@ Admin xem lịch sử thao tác nhạy cảm để truy vết lỗi dữ liệu,
 - Không sửa/xóa audit log qua UI thường.
 - Action filter phải dùng canonical action list trong `unified_database_schema.md`.
 - Bắt buộc hỗ trợ các nhóm action: commerce, learning access, certificate/template, course/content, video, people/roles, P1 ops/moderation.
-- Ví dụ action canonical: `payment.webhook_processed`, `payment.gateway_callback_verified`, `order.mark_paid_from_gateway`, `order.refund_to_balance`, `certificate.issue`, `certificate.revoke`, `module.create`, `module.update`, `module.reorder`, `lesson.create`, `lesson.update`, `lesson.type_change`, `lesson.reorder`, `quiz.create`, `quiz.update`, `video_asset.retry`, `video_asset.fail`, `submission.review`, `announcement.publish`, `review.hide`.
+- Ví dụ action canonical: `payment.webhook_processed`, `payment.qr_webhook_verified`, `order.mark_paid_from_qr_webhook`, `order.refund_to_balance`, `certificate.issue`, `certificate.revoke`, `module.create`, `module.update`, `module.reorder`, `lesson.create`, `lesson.update`, `lesson.type_change`, `lesson.reorder`, `quiz.create`, `quiz.update`, `video_asset.retry`, `video_asset.fail`, `submission.review`, `announcement.publish`, `review.hide`.
 - Instructor không được xem audit log toàn hệ thống.
 
 ---
@@ -72,13 +73,13 @@ Admin xem lịch sử thao tác nhạy cảm để truy vết lỗi dữ liệu,
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Outgoing Links:** [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
 - **Incoming Links (Backlinks):** *None*

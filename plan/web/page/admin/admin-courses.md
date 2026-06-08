@@ -1,31 +1,32 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
 # `/admin/courses` — Quản lý khóa học
 
 **Status:** MVP
-**Owner area:** Admin / Course Editor
+**Owner area:** Admin / Instructor Content Edit
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 **Covered routes:** `/admin/courses`, `/admin/courses/[id]`
 
-**Lưu ý:** [[web/page/admin/admin|Admin]] và `course_editor` được truy cập trang này. `course_editor` chỉ có quyền content-only: tạo/sửa thông tin khóa và đi tới lesson editor; không assign instructor/staff, không xem tài chính/học viên, không xử lý publish/archive/delete nhạy cảm. Instructor không có quyền truy cập.
+**Lưu ý:** [[web/page/admin/admin|Admin]] và instructor có `course_instructors.can_edit_course_content = true` được truy cập trang này. Instructor content edit chỉ có quyền content-only theo khóa được phân công: sửa thông tin khóa, quản lý FAQ và đi tới lesson editor; không tạo khóa mới, không assign instructor/staff, không xem tài chính/học viên, không xử lý publish/archive/delete nhạy cảm.
 
 ## 1. Mục tiêu trang
 
-Admin hoặc `course_editor` dùng trang này để:
+Admin hoặc instructor có `can_edit_course_content = true` dùng trang này để:
 
 ```text
 1. Tạo khóa học mới
@@ -78,7 +79,7 @@ Không cần Search/Filter Bar ở MVP vì số lượng khóa ít.
 | Thành phần | Yêu cầu                                   |
 | ---------- | ----------------------------------------- |
 | Title      | `Quản lý khóa học`                        |
-| Subtitle   | “Tạo và quản lý các khóa học của CORTEX.” |
+| Subtitle   | “Tạo và quản lý các khóa học của Blueprint.” |
 | CTA chính  | `Tạo khóa học`                            |
 
 CTA `Tạo khóa học` mở modal hoặc trang tạo khóa mới.
@@ -234,7 +235,7 @@ archived → không hiển thị public, [[web/page/admin/admin|admin]] vẫn xe
 | `Archive`        | Lưu trữ/ẩn khóa (set `status = archived`)                                  |
 | `Delete`         | Xóa mềm (set `deleted_at = now()`) chỉ khi chưa có enrollment; nếu đã có học viên thì dùng archive |
 
-**Course editor action limit:** `course_editor` chỉ thấy `Edit`, `Manage Lessons`, `Manage FAQ` và `Preview`. Các action `Assign Instructor`, `Publish`, `Unpublish`, `Archive`, `Delete`, field giá/doanh thu và dữ liệu học viên/order phải bị ẩn ở UI và bị chặn ở API.
+**Instructor content-edit action limit:** instructor có `can_edit_course_content = true` chỉ thấy assigned courses và chỉ thấy `Edit`, `Manage Lessons`, `Manage FAQ` và `Preview`. Các action `Create Course`, `Assign Instructor`, `Publish`, `Unpublish`, `Archive`, `Delete`, field giá/doanh thu và dữ liệu học viên/order phải bị ẩn ở UI và bị chặn ở API.
 
 ---
 
@@ -301,7 +302,7 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 | Course ordering              | Hiển thị khóa theo thứ tự sản phẩm đã định             |
 | Total students cache         | Tự động cập nhật khi có enrollment mới/cancelled       |
 | Audit trail                  | Mọi thao tác tạo/sửa lưu `created_by` / `updated_by`   |
-| Instructor permissions       | Khi assign instructor phải set flags: `can_view_course`, `can_answer_questions`, `can_review_submissions`, `can_view_student_progress`. Instructor chỉ chấm bài & hỗ trợ học viên, không quản lý khóa/video/học viên/announcement. |
+| Instructor permissions       | Khi assign instructor phải set flags: `can_view_course`, `can_review_submissions`, `can_view_student_progress`, `can_edit_course_content`. Instructor chỉ chỉnh content khóa được phân công khi `can_edit_course_content = true`; không quản lý học viên/tài chính/phân quyền; được tạo và quản lý announcements cho khóa học phụ trách. |
 
 ---
 
@@ -309,16 +310,16 @@ FAQ quản lý tại trang `/admin/courses` qua action "Manage FAQ" (không tác
 
 | Nhóm            | Yêu cầu                                    |
 | --------------- | ------------------------------------------ |
-| Auth            | [[web/page/admin/admin|Admin]] và `course_editor` được vào; instructor/student bị chặn |
+| Auth            | [[web/page/admin/admin|Admin]] được vào toàn bộ; instructor có `can_edit_course_content = true` chỉ vào assigned courses; student bị chặn |
 | Course list     | Hiển thị toàn bộ 4–6 khóa học              |
 | Course ordering | Hiển thị khóa theo thứ tự sản phẩm đã định |
-| Create course   | Tạo khóa học mới                           |
+| Create course   | Admin-only tạo khóa học mới                |
 | Edit course     | Sửa thông tin khóa                         |
 | Publish/archive | Admin-only nếu action ảnh hưởng catalog/enrollment/order |
 | Slug validation | Không cho slug trùng                       |
 | Delete rule     | Chỉ xóa khóa chưa có học viên              |
 | Manage lessons  | Có nút dẫn sang `/admin/lessons`           |
-| Assign instructor | Admin-only; `course_editor` không được phân quyền |
+| Assign instructor | Admin-only; instructor content edit không được phân quyền |
 | Public preview  | Có nút xem trang public                    |
 | Responsive      | Ưu tiên desktop, mobile xem được           |
 
@@ -435,23 +436,9 @@ Nếu chưa có khóa học nào:
 ```text
 Chưa có khóa học nào.
 
-Hãy tạo khóa học đầu tiên cho CORTEX.
+Hãy tạo khóa học đầu tiên cho Blueprint.
 [Tạo khóa học]
 ```
-
----
-
-# 16. UI style đề xuất
-
-| Phần             | Gợi ý                                         |
-| ---------------- | --------------------------------------------- |
-| Tổng thể         | Admin app, rõ ràng, ít hiệu ứng               |
-| Table/List       | Vì chỉ có 4–6 khóa nên bảng phải gọn, dễ nhìn |
-| Course thumbnail | Nhỏ, không chiếm quá nhiều chỗ                |
-| Status badge     | Màu nhẹ, dễ phân biệt                         |
-| Create/Edit form | Chia nhóm thông tin: Basic, Pricing, Settings |
-| Desktop          | Table full-width                              |
-| Mobile           | Có thể chuyển table thành card list           |
 
 ---
 
@@ -463,7 +450,7 @@ Trang `/admin/courses` đạt nếu:
 | ------------------------------------------------- | ----------- |
 | Student không truy cập được                       |             |
 | Instructor không truy cập được                    |             |
-| Course editor truy cập được và chỉ thấy action content-only |             |
+| Instructor có `can_edit_course_content = true` truy cập được assigned courses và chỉ thấy action content-only |             |
 | Admin xem được danh sách khóa                     |             |
 | Danh sách khóa hiển thị gọn, đúng thứ tự sản phẩm |             |
 | Admin tạo được khóa mới                           |             |
@@ -482,30 +469,30 @@ Trang `/admin/courses` đạt nếu:
 ```text
 /admin/courses cần có:
 
-1. Admin layout chung; sidebar filter theo role, với `course_editor` chỉ hiện Courses và Lessons
+1. Admin layout chung; sidebar filter theo quyền, với instructor content edit chỉ hiện Courses và Lessons
 2. Page header + Create Course button
 3. Course summary cards
 4. Course table/list hiển thị toàn bộ 4–6 khóa
 5. Create/edit course form
 6. Status control: draft/published/archived
-7. Actions: edit, manage lessons, assign instructor, preview, archive; với `course_editor` chỉ hiện action content-only
+7. Actions: edit, manage lessons, assign instructor, preview, archive; với instructor content edit chỉ hiện action content-only
 8. Delete protection nếu course đã có enrollment
 9. Empty/loading/error state
 ```
 
-Nói ngắn gọn: **`/admin/courses` là nơi quản lý “vỏ khóa học”: tên, mô tả, level, trạng thái, [[web/page/website/certificate|certificate]] và lock mode. Admin có toàn quyền vận hành; `course_editor` chỉ chỉnh phần nội dung khóa học và không đụng tài chính, học viên hay phân quyền.**
+Nói ngắn gọn: **`/admin/courses` là nơi quản lý “vỏ khóa học”: tên, mô tả, level, trạng thái, [[web/page/website/certificate|certificate]] và lock mode. Admin có toàn quyền vận hành; instructor có `can_edit_course_content = true` chỉ chỉnh phần nội dung khóa học được phân công và không đụng tài chính, học viên hay phân quyền.**
 
 ---
 
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]

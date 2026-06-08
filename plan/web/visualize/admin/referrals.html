@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Referral - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link active" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Header -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý chương trình giới thiệu (Referral)</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Theo dõi các mã giới thiệu và phê duyệt thanh toán hoa hồng affiliate.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI Row (5 Cards) -->
+      <section class="kpi-row-1 kpi-row-cols-5" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Mã đang hoạt động</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px;">120</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Active referral codes</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Tổng lượt giới thiệu</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px;">450</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">click hoặc sử dụng link</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Đơn thành công (Paid)</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px; color: var(--color-green);">210</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">đăng ký học paid thành công</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Thưởng chờ duyệt</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px; color: var(--color-orange);">15</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">conversions cần đối soát</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Tổng hoa hồng đã phát</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px; color: var(--color-indigo);">19,500,000đ</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">đã chuyển khoản</span>
+        </div>
+      </section>
+
+      <!-- Layout Grid - Split 6fr - 6fr or similar to display Referral Codes and Conversions -->
+      <section class="dashboard-grid" id="referrals-grid" style="grid-template-columns: 1fr; gap: 20px;">
+        
+        <!-- TOP SECTION: Referral Codes Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Danh sách mã giới thiệu (Referrals)</h2>
+              <span class="panel-subtitle">Theo dõi mã chiết khấu cá nhân</span>
+            </div>
+          </div>
+          <div class="table-container">
+            <table id="codes-table">
+              <thead>
+                <tr>
+                  <th>Chủ mã (User)</th>
+                  <th class="col-secondary">Mã referral</th>
+                  <th>Tỉ lệ thưởng</th>
+                  <th class="col-secondary">Đơn hàng thành công</th>
+                  <th>Tổng doanh thu</th>
+                  <th class="col-secondary">Hoa hồng tích lũy</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BOTTOM SECTION: Conversions Table -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Lịch sử conversions và đối soát hoa hồng</h2>
+              <span class="panel-subtitle">Chi tiết từng giao dịch giới thiệu thành công</span>
+            </div>
+          </div>
+          <div class="table-container">
+            <table id="conversions-table">
+              <thead>
+                <tr>
+                  <th>Người giới thiệu</th>
+                  <th class="col-secondary">Học viên mới</th>
+                  <th>Đơn hàng</th>
+                  <th class="col-secondary">Giá trị đơn</th>
+                  <th>Hoa hồng</th>
+                  <th class="col-secondary">Ngày ghi nhận</th>
+                  <th>Trạng thái thưởng</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         CONVERSION DETAIL / PAYOUT DRAWER
+         ========================================================================== -->
+    <div class="detail-drawer drawer-closed" id="conversion-drawer">
+      <div class="drawer-header">
+        <h3 class="drawer-title">Đối soát hoa hồng Referral</h3>
+        <button class="drawer-close-btn" id="drawer-close" aria-label="Close drawer">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        
+        <!-- Referrer Info -->
+        <div class="drawer-section">
+          <span class="drawer-section-title">Người giới thiệu (Referrer)</span>
+          <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+            <div class="avatar avatar-tt" id="drawer-referrer-avatar">TT</div>
+            <div style="display: flex; flex-direction: column;">
+              <span style="font-weight: 600;" id="drawer-referrer-name">Trần Văn Tài</span>
+              <span style="font-size: 11px; color: var(--text-secondary);" id="drawer-referrer-email">tai.tran@email.com</span>
+            </div>
+          </div>
+          <div style="margin-top: 10px; font-size: 12px; display: flex; flex-direction: column; gap: 4px;">
+            <div>Mã code: <strong id="drawer-referrer-code">TAI10</strong></div>
+            <div>Tài khoản ngân hàng: <strong id="drawer-referrer-bank">VCB - 1029819281 - TRAN VAN TAI</strong></div>
+          </div>
+        </div>
+
+        <!-- Referred Info -->
+        <div class="drawer-section">
+          <span class="drawer-section-title">Học viên mới mua (Referred)</span>
+          <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+            <div class="avatar avatar-nv" id="drawer-referred-avatar">LA</div>
+            <div style="display: flex; flex-direction: column;">
+              <span style="font-weight: 600;" id="drawer-referred-name">Lâm Anh</span>
+              <span style="font-size: 11px; color: var(--text-secondary);" id="drawer-referred-email">anh.lam@email.com</span>
+            </div>
+          </div>
+          <div style="margin-top: 10px; font-size: 12px; display: flex; flex-direction: column; gap: 4px;">
+            <div>Khóa đăng ký: <strong id="drawer-referred-course">AI Agent & Vibe Coding Bootcamp</strong></div>
+            <div>Mã đơn hàng: <strong id="drawer-referred-order">ORD-881928</strong></div>
+            <div>Trạng thái đơn: <span class="badge badge-green">Paid</span></div>
+          </div>
+        </div>
+
+        <!-- Payout Info -->
+        <div class="drawer-section">
+          <span class="drawer-section-title">Chi tiết hoa hồng đối soát</span>
+          <div style="background-color: var(--bg-app); border: 1px solid var(--border-passive); border-radius: 6px; padding: 12px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+              <span>Giá trị đơn hàng:</span>
+              <strong id="drawer-payout-total">3,500,000đ</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+              <span>Tỉ lệ hoa hồng:</span>
+              <strong id="drawer-payout-rate">10%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid var(--border-passive); padding-top: 6px; margin-top: 4px;">
+              <span>Số tiền thưởng:</span>
+              <strong style="color: var(--color-indigo);" id="drawer-payout-reward">350,000đ</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="drawer-actions" id="payout-actions-block" style="display: flex; gap: 8px; margin-top: 24px;">
+          <button class="btn-secondary" id="decline-reward-btn" style="flex: 1; color: var(--color-red); height: 36px;">Hủy / Từ chối thưởng</button>
+          <button class="btn-black" id="approve-reward-btn" style="flex: 1; height: 36px;">Phê duyệt và chi trả</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Referral Codes Data
+      const codesData = [
+        {
+          id: "1",
+          owner: "Nguyễn Văn An",
+          email: "an.nguyen@email.com",
+          avatarText: "NA",
+          code: "AN10",
+          rate: "10%",
+          conversions: 8,
+          revenue: "28,000,000đ",
+          commission: "2,800,000đ",
+          status: "active",
+          statusName: "Đang chạy"
+        },
+        {
+          id: "2",
+          owner: "Trần Thị Bình",
+          email: "binh.tran@email.com",
+          avatarText: "TB",
+          code: "BINH15",
+          rate: "15%",
+          conversions: 14,
+          revenue: "56,000,000đ",
+          commission: "8,400,000đ",
+          status: "active",
+          statusName: "Đang chạy"
+        },
+        {
+          id: "3",
+          owner: "Lê Minh Châu",
+          email: "chau.le@email.com",
+          avatarText: "LC",
+          code: "CHAU20",
+          rate: "20%",
+          conversions: 3,
+          revenue: "9,000,000đ",
+          commission: "1,800,000đ",
+          status: "paused",
+          statusName: "Tạm dừng"
+        }
+      ];
+
+      // Mock Conversions Data
+      const conversionsData = [
+        {
+          id: "101",
+          referrerName: "Nguyễn Văn An",
+          referrerEmail: "an.nguyen@email.com",
+          referrerCode: "AN10",
+          referrerBank: "Techcombank - 1903829182901 - NGUYEN VAN AN",
+          referredName: "Phạm Hải Nam",
+          referredEmail: "nam.pham@email.com",
+          referredCourse: "AI Agent & Vibe Coding Bootcamp",
+          orderCode: "ORD-992019",
+          orderAmount: "3,500,000đ",
+          rewardAmount: "350,000đ",
+          date: "06/06/2026 11:20",
+          status: "pending",
+          statusName: "Chờ duyệt"
+        },
+        {
+          id: "102",
+          referrerName: "Trần Thị Bình",
+          referrerEmail: "binh.tran@email.com",
+          referrerCode: "BINH15",
+          referrerBank: "Vietcombank - 001100298192 - TRAN THI BINH",
+          referredName: "Hoàng Minh Đức",
+          referredEmail: "duc.hoang@email.com",
+          referredCourse: "Web Automation n8n nâng cao",
+          orderCode: "ORD-991082",
+          orderAmount: "2,000,000đ",
+          rewardAmount: "300,000đ",
+          date: "05/06/2026 15:45",
+          status: "approved",
+          statusName: "Đã duyệt & chi"
+        },
+        {
+          id: "103",
+          referrerName: "Lê Minh Châu",
+          referrerEmail: "chau.le@email.com",
+          referrerCode: "CHAU20",
+          referrerBank: "MB Bank - 09819281928 - LE MINH CHAU",
+          referredName: "Đỗ Bảo Trâm",
+          referredEmail: "tram.do@email.com",
+          referredCourse: "AI Agent & Vibe Coding Bootcamp",
+          orderCode: "ORD-990022",
+          orderAmount: "3,500,000đ",
+          rewardAmount: "700,000đ",
+          date: "02/06/2026 09:15",
+          status: "cancelled",
+          statusName: "Bị hủy (Refund)"
+        }
+      ];
+
+      const codesTableBody = document.querySelector('#codes-table tbody');
+      const convTableBody = document.querySelector('#conversions-table tbody');
+      const drawer = document.getElementById('conversion-drawer');
+      const drawerClose = document.getElementById('drawer-close');
+
+      // Drawer detail elements
+      const dRefAvatar = document.getElementById('drawer-referrer-avatar');
+      const dRefName = document.getElementById('drawer-referrer-name');
+      const dRefEmail = document.getElementById('drawer-referrer-email');
+      const dRefCode = document.getElementById('drawer-referrer-code');
+      const dRefBank = document.getElementById('drawer-referrer-bank');
+      
+      const dReferredAvatar = document.getElementById('drawer-referred-avatar');
+      const dReferredName = document.getElementById('drawer-referred-name');
+      const dReferredEmail = document.getElementById('drawer-referred-email');
+      const dReferredCourse = document.getElementById('drawer-referred-course');
+      const dReferredOrder = document.getElementById('drawer-referred-order');
+      
+      const dPayoutTotal = document.getElementById('drawer-payout-total');
+      const dPayoutRate = document.getElementById('drawer-payout-rate');
+      const dPayoutReward = document.getElementById('drawer-payout-reward');
+
+      const approveBtn = document.getElementById('approve-reward-btn');
+      const declineBtn = document.getElementById('decline-reward-btn');
+      const actionsBlock = document.getElementById('payout-actions-block');
+
+      let activeConversionId = null;
+
+      // Render Referral Codes Table
+      function renderCodes() {
+        codesTableBody.innerHTML = '';
+        codesData.forEach(item => {
+          const row = document.createElement('tr');
+          let statusClass = item.status === 'active' ? 'badge-green' : 'badge-orange';
+          // Cols: 1=Owner, 2=Code(hide), 3=Rate, 4=Conversions(hide), 5=Revenue, 6=Commission(hide), 7=Status, 8=Action
+          row.innerHTML = `
+            <td>
+              <div class="col-student">
+                <div class="avatar" style="width: 24px; height: 24px; font-size: 10px;">${item.avatarText}</div>
+                <div style="display: flex; flex-direction: column;">
+                  <span class="student-name">${item.owner}</span>
+                  <span style="font-size: 10px; color: var(--text-secondary);">${item.email}</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-secondary"><span class="cert-id" style="font-size:12px;">${item.code}</span></td>
+            <td><strong style="font-size:11.5px;">${item.rate}</strong></td>
+            <td class="col-secondary" style="font-weight:600; text-align:center;">${item.conversions}</td>
+            <td style="font-size:11.5px;">${item.revenue}</td>
+            <td class="col-secondary" style="font-size:11.5px; font-weight:600; color: var(--color-indigo);">${item.commission}</td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+            <td>
+              <button class="btn-small pause-code-btn" style="padding: 2px 6px;">
+                ${item.status === 'active' ? 'Tạm dừng' : 'Chạy lại'}
+              </button>
+            </td>
+          `;
+
+          // Pause code action
+          row.querySelector('.pause-code-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (item.status === 'active') {
+              item.status = 'paused';
+              item.statusName = 'Tạm dừng';
+              if (window.showToast) window.showToast(`Mã ${item.code} đã tạm ngưng hoạt động.`, 'error');
+            } else {
+              item.status = 'active';
+              item.statusName = 'Đang chạy';
+              if (window.showToast) window.showToast(`Mã ${item.code} đã hoạt động trở lại.`);
+            }
+            renderCodes();
+          });
+
+          codesTableBody.appendChild(row);
+        });
+      }
+
+      // Render Conversions Table
+      function renderConversions() {
+        convTableBody.innerHTML = '';
+        conversionsData.forEach(item => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+
+          let statusClass = 'badge-orange';
+          if (item.status === 'approved') statusClass = 'badge-green';
+          if (item.status === 'cancelled') statusClass = 'badge-red';
+
+          // Cols: 1=Referrer, 2=Referred(hide), 3=Order, 4=Value(hide), 5=Commission, 6=Date(hide), 7=Status
+          row.innerHTML = `
+            <td>
+              <div style="display: flex; flex-direction: column;">
+                <span class="student-name">${item.referrerName}</span>
+                <span style="font-size: 10px; color: var(--text-secondary); font-family:var(--font-mono);">${item.referrerCode}</span>
+              </div>
+            </td>
+            <td class="col-secondary">
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-weight:600; font-size:11.5px;">${item.referredName}</span>
+                <span style="font-size: 10px; color: var(--text-secondary);">${item.referredEmail}</span>
+              </div>
+            </td>
+            <td><span class="cert-id" style="font-size:11.5px;">${item.orderCode}</span></td>
+            <td class="col-secondary" style="font-size:11.5px;">${item.orderAmount}</td>
+            <td style="font-size:11.5px; font-weight: 600; color: var(--color-indigo);">${item.rewardAmount}</td>
+            <td class="col-secondary" style="font-size:11px; color: var(--text-secondary);">${item.date}</td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+          `;
+
+          row.addEventListener('click', () => {
+            loadConversionToDrawer(item);
+          });
+
+          convTableBody.appendChild(row);
+        });
+      }
+
+      // Load Conversion to Drawer
+      function loadConversionToDrawer(item) {
+        activeConversionId = item.id;
+        
+        // Referrer details
+        dRefName.innerText = item.referrerName;
+        dRefEmail.innerText = item.referrerEmail;
+        dRefCode.innerText = item.referrerCode;
+        dRefBank.innerText = item.referrerBank;
+        dRefAvatar.innerText = item.referrerName.split(' ').slice(-1)[0].substring(0,2).toUpperCase();
+
+        // Referred details
+        dReferredName.innerText = item.referredName;
+        dReferredEmail.innerText = item.referredEmail;
+        dReferredCourse.innerText = item.referredCourse;
+        dReferredOrder.innerText = item.orderCode;
+        dReferredAvatar.innerText = item.referredName.split(' ').slice(-1)[0].substring(0,2).toUpperCase();
+
+        // Financial calculations
+        dPayoutTotal.innerText = item.orderAmount;
+        dPayoutReward.innerText = item.rewardAmount;
+        
+        let rateVal = "10%";
+        if (item.referrerCode.includes("15")) rateVal = "15%";
+        if (item.referrerCode.includes("20")) rateVal = "20%";
+        dPayoutRate.innerText = rateVal;
+
+        // Hide action buttons if already approved or cancelled
+        if (item.status === 'pending') {
+          actionsBlock.style.display = 'flex';
+        } else {
+          actionsBlock.style.display = 'none';
+        }
+
+        // Open Drawer — collapse secondary columns in table
+        drawer.classList.remove('drawer-closed');
+        document.getElementById('referrals-grid').classList.add('split-active');
+      }
+
+      // Approve reward payout
+      approveBtn.addEventListener('click', () => {
+        if (!activeConversionId) return;
+        if (confirm('Phê duyệt hoa hồng này và chuyển sang trạng thái Đã chi trả?')) {
+          const index = conversionsData.findIndex(x => x.id === activeConversionId);
+          if (index !== -1) {
+            conversionsData[index].status = 'approved';
+            conversionsData[index].statusName = 'Đã duyệt & chi';
+            
+            // Add commission to referrer's total commission code details (simplified mockup update)
+            const refCode = conversionsData[index].referrerCode;
+            const codeIndex = codesData.findIndex(x => x.code === refCode);
+            if (codeIndex !== -1) {
+              codesData[codeIndex].conversions += 1;
+            }
+
+            if (window.showToast) window.showToast('Phê duyệt hoa hồng thành công.');
+            renderCodes();
+            renderConversions();
+            drawer.classList.add('drawer-closed');
+            document.getElementById('referrals-grid').classList.remove('split-active');
+          }
+        }
+      });
+
+      // Decline/Cancel reward
+      declineBtn.addEventListener('click', () => {
+        if (!activeConversionId) return;
+        if (confirm('Hủy và đánh dấu giao dịch referral này là gian lận/hoàn tiền?')) {
+          const index = conversionsData.findIndex(x => x.id === activeConversionId);
+          if (index !== -1) {
+            conversionsData[index].status = 'cancelled';
+            conversionsData[index].statusName = 'Bị hủy (Refund)';
+            if (window.showToast) window.showToast('Đã từ chối/hủy khoản hoa hồng này.', 'error');
+            renderConversions();
+            drawer.classList.add('drawer-closed');
+            document.getElementById('referrals-grid').classList.remove('split-active');
+          }
+        }
+      });
+
+      drawerClose.addEventListener('click', () => {
+        drawer.classList.add('drawer-closed');
+        document.getElementById('referrals-grid').classList.remove('split-active');
+      });
+
+      // Close drawer on click outside
+      document.addEventListener('click', (e) => {
+        if (!drawer.classList.contains('drawer-closed') && 
+            !drawer.contains(e.target) && 
+            !e.target.closest('tr')) {
+          drawer.classList.add('drawer-closed');
+          document.getElementById('referrals-grid').classList.remove('split-active');
+        }
+      });
+
+      // Initial Render
+      renderCodes();
+      renderConversions();
+    });
+  </script>
+</body>
+</html>

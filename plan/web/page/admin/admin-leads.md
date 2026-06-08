@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 
 > **Trạng thái:** Trang `/admin/leads` tồn tại như là trang riêng để quản lý Type B leads (khách hàng tiềm năng từ [[web/page/website/contact|contact]] [[web/page|page]], workshop, B2B).
@@ -166,12 +167,12 @@ Contact Form → leads (Type B, status=new) → /admin/leads ([[web/page/admin/a
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/website/contact|/contact — Trang liên hệ]]

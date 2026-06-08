@@ -1,28 +1,29 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[P2]]"
 ---
 
-# `/admin/referrals` — Quản lý [[web/page/student/referral|referral]]
+# `/admin/referrals` — Quản lý referral
 
 **Status:** P2
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Future
 
 ## 1. Mục tiêu
 
-Admin theo dõi [[web/page/student/referral|referral]] codes, conversions và reward.
+Admin theo dõi referral codes, conversions và reward.
 
 ---
 
@@ -78,7 +79,7 @@ Admin theo dõi [[web/page/student/referral|referral]] codes, conversions và re
 
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
-| Admin xem [[web/page/student/referral|referral]] codes được | |
+| Admin xem referral codes được | |
 | Admin xem conversions được | |
 | Reward status đúng theo order | |
 | Pause/archive code được | |
@@ -89,13 +90,13 @@ Admin theo dõi [[web/page/student/referral|referral]] codes, conversions và re
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/student/referral|/referral — Mã giới thiệu]]
+- **Outgoing Links:** [[web/page/student/profile|/profile — Hồ sơ cá nhân]]
 - **Incoming Links (Backlinks):** *None*

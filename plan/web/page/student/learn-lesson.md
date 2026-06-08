@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: ["[[MVP]]", "[[P1]]"]
 ---
 
@@ -18,6 +18,7 @@ status: ["[[MVP]]", "[[P1]]"]
 **Status:** MVP + P1
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Vai trò của trang
@@ -108,7 +109,7 @@ Sidebar bên phải dùng để chuyển bài nhanh.
 | Module list       | Danh sách module                                         |
 | Lesson list       | Các lesson trong module                                  |
 | Lesson type badge | Video / Assignment / Final Project                       |
-| Status icon       | Check / current / locked / pending / approved / revision_requested / rejected |
+| Status state      | completed / current / locked / pending / approved / revision_requested / rejected |
 | Current lesson    | Highlight bài đang xem                                   |
 | Progress nhỏ      | Ví dụ: 8/20 completed                                    |
 
@@ -497,7 +498,7 @@ Hiển thị rõ điều kiện nhận [[web/page/website/certificate|certificat
 Để nhận Certificate of Completion, bạn cần:
 1. Hoàn thành các lesson bắt buộc
 2. Nộp final project
-3. Final project được CORTEX duyệt
+3. Final project được Blueprint duyệt
 ```
 
 Nếu final project approved:
@@ -583,7 +584,6 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | Responsive         | Mobile video/form full width, sidebar thu gọn           |
 | Error state        | Có thông báo nếu video/tài liệu/form lỗi                |
 | Quiz               | Nếu là quiz lesson, hiển thị câu hỏi, submit attempt, pass/fail |
-| Q&A                | Hiển thị thread hỏi đáp theo lesson cho enrolled student |
 
 ---
 
@@ -603,7 +603,6 @@ Bạn cần chờ bài nộp được duyệt trước khi mở bài tiếp theo
 | `quizzes`          | Quiz gắn với lesson                                         |
 | `quiz_questions`   | Câu hỏi quiz, không trả correct_answer trước submit         |
 | `quiz_attempts`    | Lịch sử làm quiz, điểm, pass/fail                           |
-| `lesson_questions` | Q&A/comment theo lesson                                     |
 
 ---
 
@@ -686,26 +685,7 @@ Quiz giúp kiểm tra nhanh kiến thức ngay trong flow học, không tạo ro
 
 ---
 
-# 15. P1 — Q&A trong lesson
-
-## Mục tiêu
-
-Học viên hỏi câu hỏi ngay trong lesson, instructor/admin trả lời theo thread.
-
-| Thành phần | Yêu cầu |
-| ---------- | ------- |
-| Question composer | Student nhập câu hỏi nếu đã enrolled. |
-| Thread list | Hiển thị câu hỏi, reply, trạng thái open/answered/resolved. |
-| Instructor answer | Reply từ instructor/admin có badge riêng. |
-| Resolve state | Instructor/admin mark resolved; student thấy trạng thái. |
-| Empty state | “Chưa có câu hỏi nào cho bài học này.” |
-| Notification | Khi có câu trả lời, tạo `[[web/page/student/notifications|notifications]].type = question_answered`. |
-
-**Scope:** đây là Q&A theo lesson, không phải forum/community lớn.
-
----
-
-# 16. Component cần có
+# 15. Component cần có
 
 | Component                   | Dùng để làm gì              |
 | --------------------------- | --------------------------- |
@@ -717,7 +697,6 @@ Học viên hỏi câu hỏi ngay trong lesson, instructor/admin trả lời the
 | `FinalProjectLessonContent` | Render final project lesson |
 | `ResourceBox`               | Hiển thị tài liệu           |
 | `QuizAttemptResult`         | Hiển thị điểm/pass/fail     |
-| `LessonQuestionThread`      | Q&A theo lesson             |
 | `SubmissionForm`            | Form nộp assignment/project |
 | `SubmissionStatusBox`       | Hiển thị trạng thái bài nộp |
 | `FeedbackBox`               | Hiển thị feedback từ [[web/page/admin/admin|admin]]  |
@@ -728,7 +707,7 @@ Học viên hỏi câu hỏi ngay trong lesson, instructor/admin trả lời the
 
 ---
 
-# 17. Acceptance Criteria
+# 16. Acceptance Criteria
 
 Trang `/learn/[course]/[lesson]` đạt nếu:
 
@@ -746,7 +725,6 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 | Rejected submission cho phép chỉnh sửa/nộp lại                                                         |             |
 | Approved submission được tính là hoàn thành lesson                                                     |             |
 | Required quiz chỉ tính hoàn thành khi có `quiz_attempts.passed = true`                                  |             |
-| Enrolled student xem/tạo Q&A; instructor/admin trả lời và mark resolved được                            |             |
 | Sidebar highlight đúng lesson hiện tại                                                                 |             |
 | Previous/Next lesson hoạt động đúng                                                                    |             |
 | Locked lesson không truy cập được                                                                      |             |
@@ -754,7 +732,7 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 
 ---
 
-# 18. Chốt scope trang lesson
+# 17. Chốt scope trang lesson
 
 ```text
 /learn/[course]/[lesson] cần có:
@@ -771,13 +749,12 @@ Trang `/learn/[course]/[lesson]` đạt nếu:
 6. Final project form cho project cuối khóa
 7. Submission status + feedback
 8. Quiz attempt/result cho quiz lesson
-9. Lesson Q&A thread
-10. Complete button cho video/resource
-11. Previous / Next lesson
-12. Lesson sidebar
-13. Progress saving
-14. Submission saving
-15. Locked/error/loading state
+9. Complete button cho video/resource
+10. Previous / Next lesson
+11. Lesson sidebar
+12. Progress saving
+13. Submission saving
+14. Locked/error/loading state
 ```
 
 Nói ngắn gọn: **trang lesson là nơi học viên học video, làm assignment và nộp final project trong cùng một flow học. Video giữ layout cũ; assignment và final project có layout riêng, form riêng, trạng thái duyệt riêng.**
@@ -787,12 +764,12 @@ Nói ngắn gọn: **trang lesson là nơi học viên học video, làm assignm
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]

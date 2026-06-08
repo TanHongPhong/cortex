@@ -1,18 +1,18 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
 type: ["[[Technical Specification]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[Deployment & Operations Guide]]"
 ---
 
-# Infrastructure — Hạ tầng triển khai CORTEX
+# Infrastructure — Hạ tầng triển khai Blueprint
 
 **Version:** 1.0
 **Last Updated:** 2026-06-01
@@ -68,19 +68,19 @@ status: "[[Deployment & Operations Guide]]"
 | Environment | URL | Purpose |
 |-------------|-----|---------|
 | Development | localhost:3000 | Local development |
-| Staging | staging.cortex.vn | Testing before production |
-| Production | cortex.vn | Live application |
+| Staging | staging.blueprint.vn | Testing before production |
+| Production | blueprint.vn | Live application |
 
 ### 3.2. Environment Variables
 
 ```env
 # ===== Application =====
 NODE_ENV=production
-NEXT_PUBLIC_APP_URL=https://cortex.vn
-NEXT_PUBLIC_APP_NAME=CORTEX
+NEXT_PUBLIC_APP_URL=https://blueprint.vn
+NEXT_PUBLIC_APP_NAME=Blueprint
 
 # ===== Database =====
-DATABASE_URL=postgresql://user:password@host:5432/cortex?sslmode=require
+DATABASE_URL=postgresql://user:password@host:5432/blueprint?sslmode=require
 
 # ===== Authentication =====
 JWT_SECRET=<32-random-chars>
@@ -93,8 +93,8 @@ STORAGE_PROVIDER=cloudflare_r2
 R2_ACCOUNT_ID=<cloudflare-account-id>
 R2_ACCESS_KEY_ID=<r2-access-key>
 R2_SECRET_ACCESS_KEY=<r2-secret-key>
-R2_BUCKET=cortex-files
-R2_PUBLIC_URL=https://files.cortex.vn
+R2_BUCKET=blueprint-files
+R2_PUBLIC_URL=https://files.blueprint.vn
 
 # ===== Video (Cloudflare Stream) =====
 VIDEO_PROVIDER=cloudflare_stream
@@ -104,7 +104,7 @@ CF_STREAM_API_TOKEN=<stream-api-token>
 # ===== Email (Resend) =====
 EMAIL_PROVIDER=resend
 RESEND_API_KEY=<resend-api-key>
-EMAIL_FROM=noreply@cortex.vn
+EMAIL_FROM=noreply@blueprint.vn
 
 # ===== Payment Gateway (Momo/VNPay) =====
 PAYMENT_PROVIDERS=momo,vnpay
@@ -115,9 +115,9 @@ MOMO_ENDPOINT=<momo-endpoint>
 VNPAY_TMN_CODE=<vnpay-terminal-code>
 VNPAY_HASH_SECRET=<vnpay-hash-secret>
 VNPAY_PAYMENT_URL=<vnpay-payment-url>
-PAYMENT_RETURN_URL=https://cortex.vn/checkout/success
-PAYMENT_FAILED_URL=https://cortex.vn/checkout/failed
-PAYMENT_WEBHOOK_URL=https://cortex.vn/api/webhooks/payment
+PAYMENT_RETURN_URL=https://blueprint.vn/checkout/success
+PAYMENT_FAILED_URL=https://blueprint.vn/checkout/failed
+PAYMENT_WEBHOOK_URL=https://blueprint.vn/api/webhooks/payment
 
 # ===== Rate Limiting (Upstash Redis) =====
 UPSTASH_REDIS_REST_URL=<upstash-url>
@@ -251,8 +251,8 @@ Sentry.init({
 
 | Check | URL | Interval | Alert |
 |-------|-----|----------|-------|
-| Homepage | https://cortex.vn | 1 min | Email + SMS |
-| API Health | https://cortex.vn/api/health | 1 min | Email + SMS |
+| Homepage | https://blueprint.vn | 1 min | Email + SMS |
+| API Health | https://blueprint.vn/api/health | 1 min | Email + SMS |
 | Database | Internal | 5 min | Email |
 
 ### 6.3. Performance Monitoring (Vercel Analytics)
@@ -490,8 +490,8 @@ Database Rollback:
 
 ```bash
 # Clone repo
-git clone https://github.com/cortex/cortex.git
-cd cortex
+git clone https://github.com/blueprint/blueprint.git
+cd blueprint
 
 # Install dependencies
 npm install
@@ -530,11 +530,11 @@ hotfix/*      → Hotfix branches (PR to main)
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/maintenance|/maintenance — Trang bảo trì hệ thống]]

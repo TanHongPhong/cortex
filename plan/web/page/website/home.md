@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Public Website]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -26,7 +26,7 @@ Trang chủ phải làm được 4 việc:
 
 | Mục tiêu         | Mô tả                                                             |
 | ---------------- | ----------------------------------------------------------------- |
-| Giới thiệu nhanh | Người xem hiểu CORTEX là nền tảng học AI / AI Agent / Vibe Coding |
+| Giới thiệu nhanh | Người xem hiểu Blueprint là nền tảng học AI / AI Agent / Vibe Coding |
 | Tạo ấn tượng     | Có visual 3D, mascot Rubik công nghệ, giao diện hiện đại          |
 | Dẫn người dùng   | Điều hướng sang khóa học, lộ trình, [[web/page/website/certificate|certificate]], [[web/page/website/contact|contact]]          |
 | Thu lead         | Có CTA và form/nút đăng ký học thử                                |
@@ -41,7 +41,7 @@ Trang chủ phải làm được 4 việc:
 
 | Thành phần  | Yêu cầu                                             |
 | ----------- | --------------------------------------------------- |
-| Logo        | Hiển thị logo CORTEX                                |
+| Logo        | Hiển thị logo Blueprint                                |
 | Menu        | Home, Courses, Projects, Certificate, Blog, Contact |
 | CTA phải có | Nút `Đăng ký học thử`                               |
 | Responsive  | Mobile chuyển thành hamburger menu                  |
@@ -56,7 +56,7 @@ Trang chủ phải làm được 4 việc:
 | Thành phần   | Yêu cầu                                                      |
 | ------------ | ------------------------------------------------------------ |
 | Headline     | Câu lớn, rõ lợi ích                                          |
-| Subheadline  | Giải thích ngắn CORTEX giúp ai, học gì                       |
+| Subheadline  | Giải thích ngắn Blueprint giúp ai, học gì                       |
 | CTA chính    | `Đăng ký học thử`                                            |
 | CTA phụ      | `Xem lộ trình học` hoặc `Khám phá khóa học`                  |
 | Visual       | Mascot Rubik 3D / khối Rubik công nghệ xoay nhẹ              |
@@ -67,7 +67,7 @@ Trang chủ phải làm được 4 việc:
 ```text
 Học AI Agent & Vibe Coding từ con số 0
 
-CORTEX giúp bạn học AI theo hướng thực chiến:
+Blueprint giúp bạn học AI theo hướng thực chiến:
 biết dùng AI, tạo sản phẩm, tự động hóa công việc và xây portfolio cá nhân.
 ```
 
@@ -90,11 +90,11 @@ biết dùng AI, tạo sản phẩm, tự động hóa công việc và xây por
 
 ## Section 4: Solution Section
 
-**Mục đích:** giới thiệu CORTEX là giải pháp.
+**Mục đích:** giới thiệu Blueprint là giải pháp.
 
 | Thành phần      | Yêu cầu                                                   |
 | --------------- | --------------------------------------------------------- |
-| Tiêu đề         | “CORTEX giúp bạn học AI theo cách thực chiến hơn”         |
+| Tiêu đề         | “Blueprint giúp bạn học AI theo cách thực chiến hơn”         |
 | 3 giá trị chính | Học có lộ trình, học qua project, có sản phẩm/certificate |
 | Visual phụ      | Có thể dùng diagram hoặc card flow                        |
 
@@ -150,7 +150,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | Project cards | 3–4 project mẫu                          |
 | Mỗi project   | Tên, mô tả ngắn, ảnh/demo, tool dùng     |
 | CTA           | `Xem thêm project`                       |
-| Giai đoạn đầu | Có thể ghi rõ là “Project mẫu từ CORTEX” |
+| Giai đoạn đầu | Có thể ghi rõ là “Project mẫu từ Blueprint” |
 
 **Project gợi ý:**
 
@@ -178,7 +178,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 
 ---
 
-## Section 9: Why CORTEX
+## Section 9: Why Blueprint
 
 **Mục đích:** nêu lý do nên học ở đây.
 
@@ -208,7 +208,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | Học online hay offline?              |
 | Cần laptop cấu hình mạnh không?      |
 
-**CTA cuối FAQ:** `Cần tư vấn? Liên hệ CORTEX`
+**CTA cuối FAQ:** `Cần tư vấn? Liên hệ Blueprint`
 
 ---
 
@@ -228,7 +228,7 @@ Ví dụ:
 ```text
 Sẵn sàng biến AI thành kỹ năng thật của bạn?
 
-Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
+Bắt đầu với lộ trình học AI thực chiến từ Blueprint.
 ```
 
 ---
@@ -237,7 +237,7 @@ Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
 
 | Thành phần        | Yêu cầu                                       |
 | ----------------- | --------------------------------------------- |
-| Logo + mô tả ngắn | CORTEX là gì                                  |
+| Logo + mô tả ngắn | Blueprint là gì                                  |
 | Links             | Courses, Projects, Certificate, Blog, Contact |
 | Legal             | Terms, Privacy, Refund Policy                 |
 | Social            | Facebook, LinkedIn, YouTube, Zalo nếu có      |
@@ -276,11 +276,11 @@ Bắt đầu với lộ trình học AI thực chiến từ CORTEX.
 
 | Phần      | Yêu cầu style                          |
 | --------- | -------------------------------------- |
-| Tổng thể  | Modern, clean, premium, futuristic     |
-| Màu       | Blue, cyan, purple, white              |
-| Visual    | Rubik 3D công nghệ, UI card bay nhẹ    |
-| Button    | Bo góc, gradient nhẹ, hover rõ         |
-| Card      | Rounded, shadow nhẹ, glass/soft 3D     |
+| Tổng thể  | Modern, clean, premium, đơn sắc theo [[web/page/website/design|Blueprint Mono / Dark Mono]] |
+| Màu       | Trắng/đen/xám than/xanh dương; không dùng neon hoặc màu nóng |
+| Visual    | Rubik 3D công nghệ nhưng giữ vật liệu/ánh sáng monochrome, điểm nhấn xanh dương |
+| Button    | CTA chính dùng `--primary`, hover `--secondary`, gradient xanh rất nhẹ nếu cần |
+| Card      | Nền `--surface`, card phụ `--surface-2`, border `--border`, shadow `--shadow` |
 | Animation | Nhẹ, không làm chậm web                |
 | Mobile    | Hero nên chuyển visual xuống dưới text |
 
@@ -292,7 +292,7 @@ Trang chủ được xem là đạt nếu:
 
 | Điều kiện                                      | Đạt / Không |
 | ---------------------------------------------- | ----------- |
-| Người dùng hiểu CORTEX dạy gì trong 5 giây đầu |             |
+| Người dùng hiểu Blueprint dạy gì trong 5 giây đầu |             |
 | Có CTA đăng ký học thử rõ ràng                 |             |
 | Có section lộ trình học                        |             |
 | Có section khóa học nổi bật                    |             |
@@ -309,13 +309,13 @@ Trang chủ được xem là đạt nếu:
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/website
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/website
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/projects|/projects — Trang dự án học viên]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/projects|/projects — Trang dự án học viên]]
 - **Incoming Links (Backlinks):** *None*

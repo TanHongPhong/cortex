@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Public Website]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -27,7 +27,7 @@ status: "[[MVP]]"
 | ---------------- | ------------------------------------------------------------ |
 | Lưu trữ tài liệu | Tập trung toàn bộ bài viết, roadmap, template, prompt, guide |
 | Kéo traffic      | Dùng SEO để thu hút người học mới                            |
-| Tạo niềm tin     | Cho thấy CORTEX có kiến thức và hệ thống học rõ              |
+| Tạo niềm tin     | Cho thấy Blueprint có kiến thức và hệ thống học rõ              |
 | Thu lead         | Một số tài liệu miễn phí yêu cầu để lại email/Zalo để tải    |
 | Hỗ trợ học viên  | Học viên có nơi tra cứu thêm ngoài khóa học                  |
 
@@ -43,7 +43,7 @@ Route chính thức là `/blog`; title hiển thị là **Resources Hub**.
 | Resources       | Hợp hơn nếu là kho tài liệu   |
 | Learning Hub    | Nghe giống trung tâm học tập  |
 | AI Resource Hub | Rõ ràng, chuyên nghiệp        |
-| CORTEX Library  | Có cảm giác thư viện học liệu |
+| Blueprint Library  | Có cảm giác thư viện học liệu |
 
 Future: có thể thêm alias `/resources` redirect về `/blog` nếu muốn SEO/resource naming rõ hơn.
 
@@ -71,7 +71,7 @@ Future: có thể thêm alias `/resources` redirect về `/blog` nếu muốn SE
 
 | Thành phần | Yêu cầu                                                            |
 | ---------- | ------------------------------------------------------------------ |
-| Title      | `Resources Hub` hoặc `Kho tài liệu AI của CORTEX`                  |
+| Title      | `Resources Hub` hoặc `Kho tài liệu AI của Blueprint`                  |
 | Subtitle   | Giải thích đây là nơi tổng hợp bài viết, roadmap, prompt, template |
 | CTA chính  | `Tải roadmap miễn phí`                                             |
 | CTA phụ    | `Xem khóa học`                                                     |
@@ -190,7 +190,7 @@ Ví dụ bài viết ban đầu:
 | Thành phần | Yêu cầu                                     |
 | ---------- | ------------------------------------------- |
 | Headline   | “Muốn học có lộ trình thay vì tự mò?”       |
-| Subtext    | CORTEX có workshop, mini course và bootcamp |
+| Subtext    | Blueprint có workshop, mini course và bootcamp |
 | CTA chính  | `Xem khóa học`                              |
 | CTA phụ    | `Đăng ký tư vấn`                            |
 
@@ -204,7 +204,7 @@ Ví dụ bài viết ban đầu:
 | ----------------- | --------------------------- |
 | Title             | Tiêu đề bài viết            |
 | Category/type     | Article, Guide, Template... |
-| Author            | CORTEX hoặc tên người viết  |
+| Author            | Blueprint hoặc tên người viết  |
 | Published date    | Ngày đăng                   |
 | Reading time      | Thời gian đọc               |
 | Content           | Nội dung bài                |
@@ -292,13 +292,13 @@ Trang `/blog` đạt nếu:
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/website
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/website
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]]
-- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]]
+- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

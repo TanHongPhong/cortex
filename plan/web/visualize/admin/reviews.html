@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kiểm duyệt đánh giá - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .star-rating {
+      display: inline-flex;
+      gap: 2px;
+      align-items: center;
+    }
+    .star-rating svg {
+      width: 13px;
+      height: 13px;
+      stroke-width: 1.5px;
+    }
+    .star-rating svg.filled {
+      fill: #f59e0b;
+      stroke: #d97706;
+    }
+    .star-rating svg.empty {
+      fill: #f3f4f6;
+      stroke: #d1d5db;
+    }
+    
+    .rating-number {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-left: 4px;
+    }
+    
+    .comment-text {
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    
+    .reply-box {
+      background-color: var(--bg-app);
+      border: 1px solid var(--border-passive);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 8px;
+      position: relative;
+    }
+    .reply-box-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .action-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link active" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Kiểm duyệt đánh giá</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Quản lý, phản hồi và kiểm duyệt các đánh giá khóa học từ học viên.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-secondary" id="export-reviews-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="download"></i>
+            <span>Export CSV</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (5 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-5" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Tổng đánh giá</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">1,248</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+12%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đánh giá 5★</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">856</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+15%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đánh giá 4★</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">284</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+8%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Rating trung bình</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">4.7★</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+0.1</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Chờ kiểm duyệt</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px; color: var(--color-orange-dark);">12</span>
+            <span class="badge badge-orange" style="font-size: 9.5px; padding: 2px 4px;">Cần duyệt</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">hành động cần xử lý</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right Drawer)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="reviews-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Filters & Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel" style="padding: 14px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              
+              <div class="form-group" style="margin-bottom: 0; min-width: 160px; flex: 1.5;">
+                <select class="form-control form-select" id="filter-course" style="padding: 4px 8px;">
+                  <option value="">Tất cả khóa học</option>
+                  <option value="ai">AI Agent & Vibe Coding</option>
+                  <option value="n8n">Web Automation n8n</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 120px; flex: 1;">
+                <select class="form-control form-select" id="filter-rating" style="padding: 4px 8px;">
+                  <option value="">Tất cả rating</option>
+                  <option value="5">5 sao</option>
+                  <option value="4">4 sao</option>
+                  <option value="3">3 sao và dưới</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1;">
+                <select class="form-control form-select" id="filter-status" style="padding: 4px 8px;">
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="approved">Đã duyệt</option>
+                  <option value="pending">Chờ duyệt</option>
+                  <option value="hidden">Đã ẩn</option>
+                </select>
+              </div>
+
+              <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;" title="Reset filters">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Danh sách đánh giá</h2>
+                <span class="panel-subtitle" id="reviews-count-label">4 đánh giá</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="reviews-table">
+                <thead>
+                  <tr>
+                    <th>Học viên</th>
+                    <th class="col-secondary">Khóa học</th>
+                    <th>Đánh giá</th>
+                    <th class="col-secondary">Nhận xét</th>
+                    <th>Trạng thái</th>
+                    <th class="col-secondary">Ngày đánh giá</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginator -->
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 - 4 trong 4 đánh giá</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>10 / trang</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Detail Drawer -->
+        <div class="grid-col-right">
+          <div class="panel" style="position: sticky; top: 16px;">
+            
+            <div class="student-profile-header" style="padding-bottom: 10px;">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span class="student-profile-name" style="font-size: 15px;">Chi tiết kiểm duyệt</span>
+                <span class="cert-id" id="drawer-review-id">REV-2026-0001</span>
+              </div>
+              <button class="btn-icon-only" id="close-drawer-btn" style="position: absolute; right: 0; top: 0;" title="Đóng panel"><i data-lucide="x"></i></button>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between;">
+              <span class="badge" id="drawer-status-badge">CHỜ DUYỆT</span>
+              <span style="font-size: 11px; color: var(--text-secondary);" id="drawer-review-time">Ngày gửi: 05/06/2026 14:22</span>
+            </div>
+
+            <!-- Reviewer Info -->
+            <div class="detail-section-title">
+              <span>Học viên đánh giá</span>
+              <i data-lucide="user" style="width: 13px; height: 13px;"></i>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+              <div class="avatar avatar-vt" id="drawer-reviewer-avatar" style="width: 36px; height: 36px; font-size: 13px;">VT</div>
+              <div style="display: flex; flex-direction: column; gap: 1px;">
+                <span id="drawer-reviewer-name" style="font-size: 12.5px; font-weight: 600;">Võ Thị Khánh</span>
+                <span id="drawer-reviewer-email" style="font-size: 11px; color: var(--text-secondary);">khanh.vo@email.com</span>
+              </div>
+            </div>
+
+            <div class="detail-list" style="margin-top: 12px;">
+              <div class="detail-item" style="align-items: flex-start;">
+                <span class="detail-label">Khóa học</span>
+                <span class="detail-value" id="drawer-course" style="font-weight:600; max-width:180px; text-align:right;">AI Agent & Vibe Coding</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Độ lớn đánh giá</span>
+                <div class="star-rating" id="drawer-stars">
+                  <!-- Filled dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Content block -->
+            <div class="detail-section-title">
+              <span>Nhận xét chi tiết</span>
+              <i data-lucide="message-square" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="note-edit-box" id="drawer-comment" style="line-height: 1.4; padding: 12px; font-size:12px; font-style: italic;">
+              "Khóa học rất thực tế. Giảng viên giải thích cặn kẽ và các bài thực hành giúp tôi tự xây dựng được Agent chạy tự động."
+            </div>
+
+            <!-- Reply Form -->
+            <div class="detail-section-title">
+              <span>Phản hồi đánh giá (Admin/Instructor)</span>
+              <i data-lucide="corner-down-right" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="form-group" style="margin-top: 6px; margin-bottom: 0;">
+              <textarea class="form-control" id="drawer-reply-input" rows="3" style="font-size:12px; padding: 8px;" placeholder="Nhập phản hồi công khai của giảng viên hoặc ban quản trị..."></textarea>
+              <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+                <button class="btn-small" id="drawer-save-reply-btn" style="height: 24px; padding: 0 8px; font-size: 10px;">
+                  <span>Lưu phản hồi</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="reply-box" id="drawer-reply-box" style="display: none;">
+              <div class="reply-box-title">
+                <i data-lucide="message-square" style="width: 12px; height: 12px;"></i>
+                <span>Phản hồi đã lưu:</span>
+              </div>
+              <span id="drawer-reply-content"></span>
+            </div>
+
+            <!-- Moderation Notes input & logs -->
+            <div class="detail-section-title" style="margin-top: 14px;">
+              <span>Ghi chú duyệt & Lịch sử</span>
+              <i data-lucide="shield" style="width: 13px; height: 13px;"></i>
+            </div>
+            
+            <div class="form-group" style="margin-top: 6px;">
+              <label class="form-label" style="font-size: 11px;">Ghi chú duyệt (Nội bộ)</label>
+              <input type="text" class="form-control" id="drawer-moderation-note-input" style="padding: 6px 10px; font-size: 12px;" placeholder="Nhập lý do ẩn hoặc lưu ý khác...">
+            </div>
+
+            <div class="timeline" id="drawer-moderation-timeline" style="margin-top: 12px; font-size: 11px; max-height: 120px; overflow-y: auto; padding-right: 4px;">
+              <!-- Timelines will be generated dynamically -->
+            </div>
+
+            <!-- Moderate Actions -->
+            <div class="action-grid-3" style="margin-top: 18px; border-top:1px solid var(--border-passive); padding-top:12px;">
+              <button class="btn-black" id="drawer-approve-btn" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; justify-content: center; height: 28px; background-color: var(--color-green); border-color: var(--color-green);">
+                <i data-lucide="check" style="width: 12px; height: 12px;"></i>
+                <span>Phê duyệt</span>
+              </button>
+              <button class="btn-secondary" id="drawer-hide-btn" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; justify-content: center; height: 28px;">
+                <i data-lucide="eye-off" style="width: 12px; height: 12px;"></i>
+                <span>Ẩn review</span>
+              </button>
+              <button class="btn-secondary" id="drawer-reject-btn" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; justify-content: center; height: 28px; color: var(--color-red); border-color: var(--border-passive);">
+                <i data-lucide="trash-2" style="width: 12px; height: 12px;"></i>
+                <span>Từ chối</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Data
+      const reviewsData = [
+        {
+          id: "REV-2026-0001",
+          name: "Võ Thị Khánh",
+          email: "khanh.vo@email.com",
+          avatarClass: "avatar-vt",
+          avatarText: "VT",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          rating: 5,
+          comment: "Khóa học rất thực tế. Giảng viên giải thích cặn kẽ và các bài thực hành giúp tôi tự xây dựng được Agent chạy tự động.",
+          status: "pending",
+          statusName: "Chờ duyệt",
+          date: "05/06/2026 14:22",
+          reply: ""
+        },
+        {
+          id: "REV-2026-0002",
+          name: "Nguyễn Văn An",
+          email: "an.nguyen@email.com",
+          avatarClass: "avatar-nv",
+          avatarText: "NV",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          rating: 5,
+          comment: "Tuyệt vời! Nội dung học cập nhật những tool mới nhất như Cursor AI, v0 dev. Rất đáng tiền.",
+          status: "approved",
+          statusName: "Đã duyệt",
+          date: "04/06/2026 09:15",
+          reply: "Cảm ơn bạn đã phản hồi! Chúc bạn ứng dụng tốt các tool AI vào công việc."
+        },
+        {
+          id: "REV-2026-0003",
+          name: "Trần Thị Bình",
+          email: "binh.tran@email.com",
+          avatarClass: "avatar-tt",
+          avatarText: "TT",
+          course: "Web Automation n8n nâng cao",
+          courseCode: "n8n",
+          rating: 4,
+          comment: "Bài thực hành hơi nhanh một chút đối với người mới. Nhưng workflow mẫu rất chất lượng.",
+          status: "approved",
+          statusName: "Đã duyệt",
+          date: "02/06/2026 18:40",
+          reply: ""
+        },
+        {
+          id: "REV-2026-0004",
+          name: "Lê Minh Châu",
+          email: "chau.le@email.com",
+          avatarClass: "avatar-lm",
+          avatarText: "LM",
+          course: "Web Automation n8n nâng cao",
+          courseCode: "n8n",
+          rating: 2,
+          comment: "Hệ thống nộp bài lỗi liên tục, không chấm được điểm.",
+          status: "hidden",
+          statusName: "Đã ẩn",
+          date: "28/05/2026 11:10",
+          reply: "Chào Châu, ban kỹ thuật đã liên hệ hỗ trợ riêng để kiểm tra tài khoản nộp bài của bạn rồi nhé."
+        }
+      ];
+
+      let activeIndex = -1;
+
+      // DOM Elements
+      const tableBody = document.querySelector('#reviews-table tbody');
+      const gridContainer = document.getElementById('reviews-grid');
+      const courseFilter = document.getElementById('filter-course');
+      const ratingFilter = document.getElementById('filter-rating');
+      const statusFilter = document.getElementById('filter-status');
+      const resetBtn = document.getElementById('filter-reset-btn');
+
+      // Drawer DOM Elements
+      const drawerReviewId = document.getElementById('drawer-review-id');
+      const drawerStatusBadge = document.getElementById('drawer-status-badge');
+      const drawerReviewTime = document.getElementById('drawer-review-time');
+      const drawerReviewerAvatar = document.getElementById('drawer-reviewer-avatar');
+      const drawerReviewerName = document.getElementById('drawer-reviewer-name');
+      const drawerReviewerEmail = document.getElementById('drawer-reviewer-email');
+      const drawerCourse = document.getElementById('drawer-course');
+      const drawerStars = document.getElementById('drawer-stars');
+      const drawerComment = document.getElementById('drawer-comment');
+      const drawerReplyInput = document.getElementById('drawer-reply-input');
+      const drawerReplyBox = document.getElementById('drawer-reply-box');
+      const drawerReplyContent = document.getElementById('drawer-reply-content');
+      const drawerModerationNoteInput = document.getElementById('drawer-moderation-note-input');
+      const drawerModerationTimeline = document.getElementById('drawer-moderation-timeline');
+      
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+      const saveReplyBtn = document.getElementById('drawer-save-reply-btn');
+      const approveBtn = document.getElementById('drawer-approve-btn');
+      const hideBtn = document.getElementById('drawer-hide-btn');
+      const rejectBtn = document.getElementById('drawer-reject-btn');
+
+      // Function to render stars in HTML
+      function getStarsHTML(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+          if (i <= rating) {
+            stars += '<i data-lucide="star" class="filled"></i>';
+          } else {
+            stars += '<i data-lucide="star" class="empty"></i>';
+          }
+        }
+        return `<div class="star-rating">${stars}<span class="rating-number">${rating}.0</span></div>`;
+      }
+
+      // Render Table
+      function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px;"></i>
+                  <span>Không tìm thấy đánh giá nào khớp</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('reviews-count-label').innerText = '0 đánh giá';
+          document.getElementById('pagination-label').innerText = 'Hiển thị 0 - 0 trong 0 đánh giá';
+          return;
+        }
+
+        data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          if (activeIndex === index) {
+            row.classList.add('highlight-row');
+          }
+
+          let statusClass = 'badge-gray';
+          if (item.status === 'approved') statusClass = 'badge-green';
+          else if (item.status === 'pending') statusClass = 'badge-orange';
+          else if (item.status === 'hidden') statusClass = 'badge-red';
+
+          row.innerHTML = `
+            <td>
+              <div class="col-student">
+                <div class="avatar ${item.avatarClass}">${item.avatarText}</div>
+                <div style="display: flex; flex-direction: column;">
+                  <span class="student-name">${item.name}</span>
+                  <span style="font-size: 10.5px; color: var(--text-secondary);">${item.email}</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-secondary"><span class="course-title" style="font-weight: 500;">${item.course}</span></td>
+            <td>${getStarsHTML(item.rating)}</td>
+            <td class="col-secondary"><div class="comment-text" title="${item.comment}">${item.comment}</div></td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+            <td class="col-secondary" style="color: var(--text-secondary);">${item.date}</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-icon-only view-details-btn" title="Xem chi tiết & Kiểm duyệt"><i data-lucide="eye"></i></button>
+                <button class="btn-icon-only" title="Hành động khác"><i data-lucide="more-horizontal"></i></button>
+              </div>
+            </td>
+          `;
+
+          // Row click to open drawer
+          row.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            openDrawer(item, index);
+          });
+
+          // Eye click
+          row.querySelector('.view-details-btn').addEventListener('click', () => {
+            openDrawer(item, index);
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        
+        // Dynamic dynamic stars styling overrides
+        document.querySelectorAll('.star-rating svg').forEach(svg => {
+          if (svg.classList.contains('filled')) {
+            svg.style.fill = '#f59e0b';
+            svg.style.stroke = '#d97706';
+          } else {
+            svg.style.fill = '#f3f4f6';
+            svg.style.stroke = '#d1d5db';
+          }
+        });
+
+        document.getElementById('reviews-count-label').innerText = `${data.length} đánh giá`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} đánh giá`;
+      }
+
+      function openDrawer(item, index) {
+        activeIndex = index;
+
+        // Highlight active row
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((r, idx) => {
+          if (idx === index) r.classList.add('highlight-row');
+          else r.classList.remove('highlight-row');
+        });
+
+        // Set drawer content
+        drawerReviewId.innerText = item.id;
+        
+        let statusClass = 'badge-gray';
+        if (item.status === 'approved') statusClass = 'badge-green';
+        else if (item.status === 'pending') statusClass = 'badge-orange';
+        else if (item.status === 'hidden') statusClass = 'badge-red';
+        drawerStatusBadge.className = `badge ${statusClass}`;
+        drawerStatusBadge.innerText = item.statusName.toUpperCase();
+
+        drawerReviewTime.innerText = `Ngày gửi: ${item.date}`;
+        drawerReviewerAvatar.className = `avatar ${item.avatarClass}`;
+        drawerReviewerAvatar.innerText = item.avatarText;
+        drawerReviewerName.innerText = item.name;
+        drawerReviewerEmail.innerText = item.email;
+        drawerCourse.innerText = item.course;
+        
+        // Stars in drawer
+        drawerStars.innerHTML = '';
+        for (let i = 1; i <= 5; i++) {
+          const starIcon = document.createElement('i');
+          starIcon.setAttribute('data-lucide', 'star');
+          if (i <= item.rating) {
+            starIcon.className = 'filled';
+            starIcon.style.fill = '#f59e0b';
+            starIcon.style.stroke = '#d97706';
+          } else {
+            starIcon.className = 'empty';
+            starIcon.style.fill = '#f3f4f6';
+            starIcon.style.stroke = '#d1d5db';
+          }
+          drawerStars.appendChild(starIcon);
+        }
+        const ratingNumSpan = document.createElement('span');
+        ratingNumSpan.className = 'rating-number';
+        ratingNumSpan.innerText = `${item.rating}.0`;
+        drawerStars.appendChild(ratingNumSpan);
+        
+        drawerComment.innerText = `"${item.comment}"`;
+        drawerReplyInput.value = item.reply;
+        
+        if (item.reply) {
+          drawerReplyBox.style.display = 'block';
+          drawerReplyContent.innerText = item.reply;
+        } else {
+          drawerReplyBox.style.display = 'none';
+        }
+
+        drawerModerationNoteInput.value = '';
+        renderTimeline(item);
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        gridContainer.classList.remove('drawer-closed');
+      }
+
+      function renderTimeline(item) {
+        drawerModerationTimeline.innerHTML = '';
+        if (!item.moderationLogs) {
+          item.moderationLogs = [];
+          if (item.status !== 'pending') {
+            item.moderationLogs.push({
+              action: item.status === 'approved' ? 'Phê duyệt' : 'Ẩn review',
+              actor: 'Admin User',
+              time: item.date,
+              note: 'Hệ thống tự động duyệt dựa trên cấu hình tin cậy.'
+            });
+          }
+        }
+        
+        if (item.moderationLogs.length === 0) {
+          drawerModerationTimeline.innerHTML = '<span style="color: var(--text-secondary); font-style: italic; font-size: 11px;">Chưa có lịch sử xử lý.</span>';
+          return;
+        }
+        
+        item.moderationLogs.forEach(log => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'timeline-item';
+          itemDiv.style.marginBottom = '8px';
+          
+          let dotColor = 'gray';
+          if (log.action.includes('duyệt') || log.action.includes('Approve')) dotColor = 'green';
+          else if (log.action.includes('Ẩn') || log.action.includes('Hide')) dotColor = 'orange';
+          else dotColor = 'red';
+          
+          itemDiv.innerHTML = `
+            <div class="timeline-dot ${dotColor}"></div>
+            <div class="timeline-content" style="padding-left: 12px;">
+              <span class="timeline-title" style="font-weight:600; display:block;">${log.action} bởi ${log.actor}</span>
+              <span class="timeline-time" style="font-size:10px; color:var(--text-secondary); display:block;">${log.time}</span>
+              <span class="timeline-desc" style="color:var(--text-primary); display:block; margin-top:2px;">${log.note}</span>
+            </div>
+          `;
+          drawerModerationTimeline.appendChild(itemDiv);
+        });
+      }
+
+      function closeDrawer() {
+        activeIndex = -1;
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlight-row'));
+        gridContainer.classList.add('drawer-closed');
+      }
+
+      closeDrawerBtn.addEventListener('click', closeDrawer);
+
+      // Save Reply
+      saveReplyBtn.addEventListener('click', () => {
+        if (activeIndex === -1) return;
+        const replyVal = drawerReplyInput.value.trim();
+        reviewsData[activeIndex].reply = replyVal;
+        
+        if (replyVal) {
+          drawerReplyBox.style.display = 'block';
+          drawerReplyContent.innerText = replyVal;
+          if (window.showToast) window.showToast('Đã lưu phản hồi đánh giá.');
+        } else {
+          drawerReplyBox.style.display = 'none';
+          if (window.showToast) window.showToast('Đã xóa phản hồi.');
+        }
+      });
+
+      // Approve review
+      approveBtn.addEventListener('click', () => {
+        if (activeIndex === -1) return;
+        const item = reviewsData[activeIndex];
+        const noteVal = drawerModerationNoteInput.value.trim() || 'Phê duyệt hiển thị đánh giá công khai.';
+        item.status = 'approved';
+        item.statusName = 'Đã duyệt';
+        
+        if (!item.moderationLogs) item.moderationLogs = [];
+        item.moderationLogs.unshift({
+          action: 'Phê duyệt',
+          actor: 'Admin User',
+          time: new Date().toLocaleString('vi-VN'),
+          note: noteVal
+        });
+        
+        if (window.showToast) window.showToast('Đã phê duyệt đánh giá thành công.');
+        renderTable(reviewsData);
+        openDrawer(item, activeIndex);
+      });
+
+      // Hide review
+      hideBtn.addEventListener('click', () => {
+        if (activeIndex === -1) return;
+        const item = reviewsData[activeIndex];
+        const noteVal = drawerModerationNoteInput.value.trim() || 'Ẩn đánh giá khỏi trang chủ.';
+        item.status = 'hidden';
+        item.statusName = 'Đã ẩn';
+        
+        if (!item.moderationLogs) item.moderationLogs = [];
+        item.moderationLogs.unshift({
+          action: 'Ẩn review',
+          actor: 'Admin User',
+          time: new Date().toLocaleString('vi-VN'),
+          note: noteVal
+        });
+        
+        if (window.showToast) window.showToast('Đã ẩn đánh giá.');
+        renderTable(reviewsData);
+        openDrawer(item, activeIndex);
+      });
+
+      // Reject/Delete review
+      rejectBtn.addEventListener('click', () => {
+        if (activeIndex === -1) return;
+        const item = reviewsData[activeIndex];
+        const noteVal = drawerModerationNoteInput.value.trim() || 'Từ chối đánh giá do nội dung vi phạm hoặc spam.';
+        
+        if (confirm(`Bạn có chắc muốn từ chối/ẩn đánh giá của học viên ${item.name}?`)) {
+          item.status = 'hidden';
+          item.statusName = 'Đã ẩn';
+          
+          if (!item.moderationLogs) item.moderationLogs = [];
+          item.moderationLogs.unshift({
+            action: 'Từ chối (Ẩn)',
+            actor: 'Admin User',
+            time: new Date().toLocaleString('vi-VN'),
+            note: noteVal
+          });
+          
+          if (window.showToast) window.showToast('Đã chuyển trạng thái ẩn đánh giá.');
+          renderTable(reviewsData);
+          openDrawer(item, activeIndex);
+        }
+      });
+
+      // Filters logic
+      function runFilters() {
+        const courseVal = courseFilter.value;
+        const ratingVal = ratingFilter.value;
+        const statusVal = statusFilter.value;
+
+        let filtered = reviewsData;
+        if (courseVal) {
+          filtered = filtered.filter(x => x.courseCode === courseVal);
+        }
+        if (ratingVal) {
+          if (ratingVal === "5" || ratingVal === "4") {
+            filtered = filtered.filter(x => x.rating === parseInt(ratingVal));
+          } else {
+            filtered = filtered.filter(x => x.rating <= 3);
+          }
+        }
+        if (statusVal) {
+          filtered = filtered.filter(x => x.status === statusVal);
+        }
+
+        renderTable(filtered);
+        closeDrawer();
+      }
+
+      courseFilter.addEventListener('change', runFilters);
+      ratingFilter.addEventListener('change', runFilters);
+      statusFilter.addEventListener('change', runFilters);
+      
+      resetBtn.addEventListener('click', () => {
+        courseFilter.value = '';
+        ratingFilter.value = '';
+        statusFilter.value = '';
+        renderTable(reviewsData);
+        closeDrawer();
+      });
+
+      // Header actions
+      document.getElementById('export-reviews-btn').addEventListener('click', () => {
+        if (window.showToast) window.showToast('Đang tải danh sách đánh giá dưới dạng CSV...');
+      });
+
+      // Initial render
+      renderTable(reviewsData);
+    });
+  </script>
+</body>
+</html>

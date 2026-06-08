@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý chứng chỉ - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Certificate specific styling */
+    .quick-link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-passive);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 12px;
+      transition: padding-left var(--transition-fast);
+    }
+    .quick-link-item:last-child {
+      border-bottom: none;
+    }
+    .quick-link-item:hover {
+      padding-left: 4px;
+      color: var(--text-primary);
+    }
+    
+    .pdf-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #ef4444;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .pdf-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal field layout styling */
+    .form-group label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 11px;
+      margin-bottom: 4px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link active" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý chứng chỉ</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Cấp phát, xác thực, tải xuống và theo dõi lịch sử chứng chỉ của học viên.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="btn-secondary" id="export-certs-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="download"></i>
+            <span>Export list</span>
+          </button>
+          <button class="btn-black" id="issue-cert-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="plus"></i>
+            <span>Cấp chứng chỉ</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (4 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-4" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Tổng đã cấp</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" id="kpi-total-certs" style="font-size: 20px;">1,248</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+14%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">tổng số chứng nhận</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đang hoạt động</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" id="kpi-valid-certs" style="font-size: 20px; color: var(--color-green);">1,235</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+98</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">chứng chỉ hợp lệ</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đã thu hồi</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" id="kpi-revoked-certs" style="font-size: 20px; color: var(--color-red);">13</span>
+            <span class="badge badge-red" style="font-size: 9.5px; padding: 2px 4px;">Revoked</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">do hủy/gian lận</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Học viên đủ điều kiện</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" id="kpi-eligible-students" style="font-size: 20px;">4</span>
+            <span style="font-size: 11px; color: var(--text-secondary);">chờ cấp chứng nhận</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">đáp ứng quy tắc</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (Stacked panels, full width)
+           ========================================================================== -->
+      <section class="dashboard-stack" id="certs-grid" style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 24px;">
+        
+        <!-- Filter Panel -->
+        <div class="panel" style="padding: 14px 20px;">
+          <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            
+            <div class="form-group" style="margin-bottom: 0; min-width: 200px; flex: 1.5;">
+              <select class="form-control form-select" id="filter-course" style="padding: 4px 8px;">
+                <option value="">Tất cả khóa học</option>
+                <option value="ai">AI Agent & Vibe Coding Bootcamp</option>
+                <option value="n8n">Web Automation n8n nâng cao</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0; min-width: 160px; flex: 1;">
+              <select class="form-control form-select" id="filter-status" style="padding: 4px 8px;">
+                <option value="">Tất cả trạng thái</option>
+                <option value="valid">Đang hoạt động</option>
+                <option value="revoked">Đã thu hồi</option>
+              </select>
+            </div>
+
+            <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;" title="Reset filters">
+              <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- TOP PANEL: Học viên đủ điều kiện cấp (Eligible students - Main) -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Học viên đủ điều kiện cấp chứng chỉ</h2>
+              <span class="panel-subtitle" id="eligible-count-label">4 học viên</span>
+            </div>
+            <a href="#" class="panel-header-link" id="view-all-eligible-btn">Xem tất cả</a>
+          </div>
+
+          <div class="table-container">
+            <table id="eligible-table">
+              <thead>
+                <tr>
+                  <th>Học viên</th>
+                  <th>Khóa học</th>
+                  <th style="text-align: center;">Tiến trình</th>
+                  <th style="text-align: center;">Final Project</th>
+                  <th>Ngày hoàn thành</th>
+                  <th style="text-align: right; padding-right: 20px;">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginator -->
+          <div class="pagination-container">
+            <span id="eligible-pagination-label">Hiển thị 1 - 4 trong 4 học viên</span>
+            <div class="pagination-pages">
+              <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+            </div>
+            <select class="page-select-dropdown">
+              <option>10 / trang</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- BOTTOM PANEL: Danh sách chứng chỉ đã cấp (Issued certificates - Secondary) -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2 class="panel-title">Danh sách chứng chỉ đã cấp</h2>
+              <span class="panel-subtitle" id="certs-count-label">4 chứng chỉ</span>
+            </div>
+          </div>
+          
+          <div class="table-container">
+            <table id="certs-table">
+              <thead>
+                <tr>
+                  <th>Học viên</th>
+                  <th>Khóa học</th>
+                  <th>Mã chứng chỉ</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày cấp</th>
+                  <th style="text-align: center;">File PDF</th>
+                  <th>Mẫu thiết kế</th>
+                  <th style="text-align: right; padding-right: 20px;">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Filled dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginator -->
+          <div class="pagination-container">
+            <span id="certs-pagination-label">Hiển thị 1 - 4 trong 4 chứng chỉ</span>
+            <div class="pagination-pages">
+              <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+            </div>
+            <select class="page-select-dropdown">
+              <option>10 / trang</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- ACCESSORY INFO ROW -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          <!-- Panel 1: Tools & Quick Links -->
+          <div class="panel" style="padding: 16px 20px; display: flex; flex-direction: column; justify-content: center;">
+            <div class="panel-header" style="margin-bottom: 8px; border-bottom: 1px solid var(--border-passive); padding-bottom: 8px;">
+              <h2 class="panel-title" style="font-size: 13.5px;">Công cụ & Quick links</h2>
+            </div>
+            
+            <a href="#" class="quick-link-item" id="tool-verify">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="shield-check" style="width: 14.5px; height: 14.5px; color: var(--text-secondary);"></i>
+                <span style="font-size: 12.5px;">Kiểm tra chứng chỉ công khai</span>
+              </div>
+              <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: #c4c1b5;"></i>
+            </a>
+            
+            <a href="#" class="quick-link-item" id="tool-templates">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="layout" style="width: 14.5px; height: 14.5px; color: var(--text-secondary);"></i>
+                <span style="font-size: 12.5px;">Quản lý mẫu chứng chỉ</span>
+              </div>
+              <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: #c4c1b5;"></i>
+            </a>
+
+            <a href="#" class="quick-link-item" id="tool-rules">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="settings" style="width: 14.5px; height: 14.5px; color: var(--text-secondary);"></i>
+                <span style="font-size: 12.5px;">Cài đặt mặc định và quy tắc</span>
+              </div>
+              <i data-lucide="chevron-right" style="width: 14px; height: 14px; color: #c4c1b5;"></i>
+            </a>
+          </div>
+
+          <!-- Panel 2: Need Help Box -->
+          <div class="panel" style="background-color: var(--bg-app); border-style: dashed; padding: 16px 20px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;">
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <span style="font-size: 13.5px; font-weight: 600;">Cần hỗ trợ?</span>
+                <span style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">Xem tài liệu hướng dẫn quy trình cấp phát, ký số bảo mật SHA-256 và cách thu hồi chứng chỉ học viên khi phát hiện vi phạm.</span>
+              </div>
+              <i data-lucide="book-open" style="width: 24px; height: 24px; color: var(--text-secondary); opacity: 0.6; flex-shrink: 0; margin-top: 2px;"></i>
+            </div>
+            <button class="btn-secondary" id="help-docs-btn" style="margin-top: 14px; width: 100%; font-size: 12px; height: 32px; justify-content: center;">
+              <span>Xem hướng dẫn</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ==========================================================================
+       MODALS & DRAWERS
+       ========================================================================== -->
+
+  <!-- Add/Issue Certificate Modal -->
+  <div class="modal-backdrop" id="issue-cert-modal">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Cấp chứng chỉ mới</h3>
+        <button class="btn-icon-only" id="close-issue-modal-btn" title="Đóng"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Học viên đủ điều kiện <span style="color: var(--color-red);">*</span></label>
+          <select class="form-control form-select" id="issue-student-select" style="padding: 6px 10px; font-size: 12px;">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Khóa học <span style="color: var(--color-red);">*</span></label>
+          <input type="text" class="form-control" id="issue-course-input" readonly style="padding: 6px 10px; font-size: 12px; background-color: var(--bg-app); cursor: not-allowed;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Mã chứng chỉ (Tự động tạo) <span style="color: var(--color-red);">*</span></label>
+          <input type="text" class="form-control" id="issue-cert-id" readonly style="padding: 6px 10px; font-size: 12px; background-color: var(--bg-app); font-family: monospace; font-weight: 600;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Ngày cấp <span style="color: var(--color-red);">*</span></label>
+            <input type="date" class="form-control" id="issue-date-input" style="padding: 6px 10px; font-size: 12px;">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Mẫu chứng chỉ <span style="color: var(--color-red);">*</span></label>
+            <select class="form-control form-select" id="issue-template-select" style="padding: 6px 10px; font-size: 12px;">
+              <option value="Classic v1.2">Classic v1.2</option>
+              <option value="Minimal v1.0">Minimal v1.0</option>
+              <option value="Dark v1.0">Dark v1.0</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Ghi chú cấp chứng chỉ</label>
+          <textarea class="form-control" id="issue-note" placeholder="Nhập ghi chú nội bộ (không bắt buộc)..." style="padding: 6px 10px; font-size: 12px; min-height: 60px; resize: vertical;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 12px;">
+        <button class="btn-secondary" id="cancel-issue-modal-btn" style="font-size: 11.5px; padding: 6px 12px;">Hủy</button>
+        <button class="btn-black" id="confirm-issue-btn" style="font-size: 11.5px; padding: 6px 12px;">Xác nhận cấp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revoke Certificate Modal -->
+  <div class="modal-backdrop" id="revoke-cert-modal">
+    <div class="modal-content" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: var(--color-red);">Thu hồi chứng chỉ</h3>
+        <button class="btn-icon-only" id="close-revoke-modal-btn" title="Đóng"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="background-color: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 12px; display: flex; gap: 10px;">
+          <i data-lucide="alert-octagon" style="width: 20px; height: 20px; color: var(--color-red); flex-shrink: 0; margin-top: 2px;"></i>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 12px; font-weight: 600; color: #991b1b;">Cảnh báo hành động thu hồi</span>
+            <span style="font-size: 11px; color: #7f1d1d; line-height: 1.4;">Hành động này sẽ hủy hiệu lực của chứng chỉ ngay lập tức. Trang tra cứu công khai sẽ hiển thị trạng thái "Đã thu hồi".</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px;">
+          <div><strong style="color: var(--text-secondary);">Học viên:</strong> <span id="revoke-student-name" style="font-weight: 600;">Nguyễn Văn An</span></div>
+          <div><strong style="color: var(--text-secondary);">Mã chứng chỉ:</strong> <span id="revoke-cert-code" style="font-family: monospace; font-weight: 600; color: var(--color-red);">CERT-12345678-0001</span></div>
+          <div><strong style="color: var(--text-secondary);">Khóa học:</strong> <span id="revoke-course-title">AI Agent & Vibe Coding Bootcamp</span></div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Lý do thu hồi <span style="color: var(--color-red);">*</span></label>
+          <select class="form-control form-select" id="revoke-reason-select" style="padding: 6px 10px; font-size: 12px;">
+            <option value="Cấp nhầm">Cấp nhầm (Sai học viên / Sai khóa học)</option>
+            <option value="Thông tin sai">Thông tin sai (Sai tên, sai ngày cấp)</option>
+            <option value="Vi phạm quy định">Vi phạm quy định (Gian lận project / Bài nộp copy)</option>
+            <option value="Admin thao tác lỗi">Admin thao tác lỗi</option>
+            <option value="Khác">Lý do khác...</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block; font-weight: 600;">Chi tiết lý do</label>
+          <textarea class="form-control" id="revoke-note" placeholder="Nhập thêm chi tiết lý do thu hồi chứng chỉ..." style="padding: 6px 10px; font-size: 12px; min-height: 60px; resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: flex; align-items: flex-start; gap: 8px; margin-top: 4px;">
+          <input type="checkbox" id="revoke-confirm-checkbox" style="margin-top: 3px; cursor: pointer;">
+          <label for="revoke-confirm-checkbox" style="font-size: 11px; color: var(--text-secondary); line-height: 1.4; cursor: pointer; user-select: none;">
+            Tôi xác nhận muốn thu hồi chứng chỉ này và chịu trách nhiệm về quyết định này.
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-top: 12px;">
+        <button class="btn-secondary" id="cancel-revoke-modal-btn" style="font-size: 11.5px; padding: 6px 12px;">Hủy</button>
+        <button class="btn-black" id="confirm-revoke-btn" disabled style="font-size: 11.5px; padding: 6px 12px; background-color: var(--color-red); color: white; border-color: var(--color-red);">Thu hồi chứng chỉ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail Drawer -->
+  <div class="detail-drawer drawer-closed" id="cert-detail-drawer">
+    <div class="drawer-header">
+      <h3 class="drawer-title">Chi tiết chứng chỉ</h3>
+      <button class="drawer-close-btn" id="close-detail-drawer-btn"><i data-lucide="x"></i></button>
+    </div>
+    <div class="drawer-body" style="font-size: 12px;">
+      
+      <!-- Status Box -->
+      <div id="drawer-status-box" style="padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; font-weight: 600; margin-bottom: 4px;">
+        <span style="font-size: 11px; text-transform: uppercase;">Trạng thái</span>
+        <span id="drawer-status-badge" class="badge">Đang hoạt động</span>
+      </div>
+
+      <!-- Section: Student info -->
+      <div class="drawer-section">
+        <span class="drawer-section-title">Thông tin học viên</span>
+        <div style="display: flex; align-items: center; gap: 10px; background-color: var(--bg-app); padding: 10px; border-radius: 6px;">
+          <div class="avatar" id="drawer-student-avatar" style="width: 32px; height: 32px; font-size: 12px; font-weight: 600;">ML</div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <span id="drawer-student-name" style="font-weight: 600; color: var(--text-primary);">Mai Lan</span>
+            <span id="drawer-student-email" style="font-size: 11px; color: var(--text-secondary);">lan.mai@email.com</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Course info -->
+      <div class="drawer-section">
+        <span class="drawer-section-title">Khóa học</span>
+        <div style="padding: 10px; border: 1px solid var(--border-passive); border-radius: 6px; display: flex; flex-direction: column; gap: 4px;">
+          <span id="drawer-course-title" style="font-weight: 600; color: var(--text-primary);">AI Agent & Vibe Coding Bootcamp</span>
+          <span style="font-size: 11px; color: var(--text-secondary);">Blueprint Academy Course</span>
+        </div>
+      </div>
+
+      <!-- Section: Certificate details -->
+      <div class="drawer-section">
+        <span class="drawer-section-title">Thông tin chứng chỉ</span>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-passive); padding-bottom: 6px;">
+            <span style="color: var(--text-secondary);">Mã chứng chỉ:</span>
+            <span id="drawer-cert-code" style="font-family: monospace; font-weight: 600; color: var(--text-primary);">CERT-20260601-000028</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-passive); padding-bottom: 6px;">
+            <span style="color: var(--text-secondary);">Ngày cấp:</span>
+            <span id="drawer-issued-date" style="color: var(--text-primary);">01/06/2026 10:30</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-passive); padding-bottom: 6px;">
+            <span style="color: var(--text-secondary);">Mẫu thiết kế:</span>
+            <span id="drawer-template-version" style="color: var(--text-primary);">Classic v1.2</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-passive); padding-bottom: 6px;">
+            <span style="color: var(--text-secondary);">Cấp bởi:</span>
+            <span style="color: var(--text-primary);">Admin User (Mã: ADM-001)</span>
+          </div>
+          <div id="drawer-revocation-row" style="display: flex; flex-direction: column; gap: 4px; border-bottom: 1px dashed var(--border-passive); padding-bottom: 6px; display: none;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--color-red); font-weight: 600;">Lý do thu hồi:</span>
+              <span id="drawer-revoked-reason" style="color: var(--color-red); font-weight: 600;">Vi phạm quy định</span>
+            </div>
+            <div style="font-size: 11px; color: var(--text-secondary); background-color: #fff5f5; padding: 6px; border-radius: 4px; margin-top: 4px; border: 1px solid #ffe3e3;" id="drawer-revoked-note">
+              Gian lận project nộp bài.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Verification -->
+      <div class="drawer-section">
+        <span class="drawer-section-title">Xác thực công khai</span>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 10px; background-color: var(--bg-app); padding: 8px; border-radius: 6px;">
+            <i data-lucide="qr-code" style="width: 36px; height: 36px; color: var(--text-primary); opacity: 0.8; flex-shrink: 0;"></i>
+            <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0;">
+              <span style="font-size: 10.5px; color: var(--text-secondary); text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" id="drawer-verify-url">https://blueprint.vn/verify?id=...</span>
+              <a href="#" id="drawer-copy-link-btn" style="font-size: 10.5px; font-weight: 600; color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 4px;">
+                <i data-lucide="copy" style="width: 10px; height: 10px;"></i>
+                <span>Sao chép link xác thực</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="drawer-actions">
+      <button class="btn-black" id="drawer-download-btn" style="flex: 1; font-size: 11.5px; height: 32px; justify-content: center; display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="download"></i>
+        <span>Tải file PDF</span>
+      </button>
+      <button class="btn-secondary" id="drawer-revoke-btn" style="flex: 1; font-size: 11.5px; height: 32px; color: var(--color-red); border-color: var(--border-passive); justify-content: center; display: inline-flex; align-items: center; gap: 6px;">
+        <i data-lucide="alert-octagon"></i>
+        <span>Thu hồi</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // Toast Notification Helper
+      window.showToast = function(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'toast-container';
+          container.className = 'toast-container';
+          document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        
+        let iconName = 'check-circle';
+        if (type === 'error') iconName = 'alert-octagon';
+        else if (type === 'info') iconName = 'info';
+        
+        toast.innerHTML = `
+          <i data-lucide="${iconName}" style="width: 14px; height: 14px;"></i>
+          <span>${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+        
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+
+      // Mock Certificates Data (Expanded as requested by the plan)
+      const certsData = [
+        {
+          id: "CERT-20260601-000028",
+          name: "Nguyễn Văn An",
+          email: "an.nguyen@email.com",
+          avatarClass: "avatar-nv",
+          avatarText: "NV",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          issuedAt: "01/06/2026 10:30",
+          status: "valid",
+          statusName: "Đang hoạt động",
+          template: "Minimal v1.0",
+          pdfStatus: "Available",
+          note: "Hoàn thành xuất sắc khóa học.",
+          revokedReason: "",
+          revokedNote: "",
+          revokedAt: "",
+          revokedBy: ""
+        },
+        {
+          id: "CERT-20260528-000027",
+          name: "Trần Thị Bình",
+          email: "binh.tran@email.com",
+          avatarClass: "avatar-tt",
+          avatarText: "TT",
+          course: "Web Automation n8n nâng cao",
+          courseCode: "n8n",
+          issuedAt: "28/05/2026 14:15",
+          status: "valid",
+          statusName: "Đang hoạt động",
+          template: "Classic v1.2",
+          pdfStatus: "Available",
+          note: "",
+          revokedReason: "",
+          revokedNote: "",
+          revokedAt: "",
+          revokedBy: ""
+        },
+        {
+          id: "CERT-20260520-000026",
+          name: "Lê Minh Châu",
+          email: "chau.le@email.com",
+          avatarClass: "avatar-lm",
+          avatarText: "LM",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          issuedAt: "20/05/2026 09:00",
+          status: "valid",
+          statusName: "Đang hoạt động",
+          template: "Minimal v1.0",
+          pdfStatus: "Available",
+          note: "",
+          revokedReason: "",
+          revokedNote: "",
+          revokedAt: "",
+          revokedBy: ""
+        },
+        {
+          id: "CERT-20260415-000012",
+          name: "Phạm Hoàng Duy",
+          email: "duy.pham@email.com",
+          avatarClass: "avatar-ph",
+          avatarText: "PH",
+          course: "Web Automation n8n nâng cao",
+          courseCode: "n8n",
+          issuedAt: "15/04/2026 17:45",
+          status: "revoked",
+          statusName: "Đã thu hồi",
+          template: "Classic v1.2",
+          pdfStatus: "Unavailable",
+          note: "",
+          revokedReason: "Vi phạm quy định",
+          revokedNote: "Học viên copy code từ nguồn khác cho bài final project.",
+          revokedAt: "22/04/2026 11:20",
+          revokedBy: "Admin User"
+        }
+      ];
+
+      // Mock Eligible Students Data (Waiting for certificate)
+      const eligibleStudents = [
+        {
+          name: "Mai Lan",
+          email: "lan.mai@email.com",
+          avatarClass: "avatar-ml",
+          avatarText: "ML",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          completedAt: "18/05/2026",
+          progress: "100%",
+          finalProject: "Approved"
+        },
+        {
+          name: "Vũ Quang",
+          email: "quang.vu@email.com",
+          avatarClass: "avatar-vq",
+          avatarText: "VQ",
+          course: "Web Automation n8n nâng cao",
+          courseCode: "n8n",
+          completedAt: "05/06/2026",
+          progress: "100%",
+          finalProject: "Approved"
+        },
+        {
+          name: "Hoàng Tú",
+          email: "tu.hoang@email.com",
+          avatarClass: "avatar-ht",
+          avatarText: "HT",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          completedAt: "02/06/2026",
+          progress: "100%",
+          finalProject: "Approved"
+        },
+        {
+          name: "Quỳnh Như",
+          email: "nhu.quynh@email.com",
+          avatarClass: "avatar-qn",
+          avatarText: "QN",
+          course: "Web Automation n8n nâng cao",
+          courseCode: "n8n",
+          completedAt: "25/05/2026",
+          progress: "100%",
+          finalProject: "Approved"
+        }
+      ];
+
+      // State variable for selected cert in modal actions
+      let activeCertId = null;
+
+      // DOM Elements
+      const certsTableBody = document.querySelector('#certs-table tbody');
+      const eligibleTableBody = document.querySelector('#eligible-table tbody');
+      
+      const courseFilter = document.getElementById('filter-course');
+      const statusFilter = document.getElementById('filter-status');
+      const resetBtn = document.getElementById('filter-reset-btn');
+
+      // Modals
+      const issueModal = document.getElementById('issue-cert-modal');
+      const revokeModal = document.getElementById('revoke-cert-modal');
+      const detailDrawer = document.getElementById('cert-detail-drawer');
+
+      // Helper to format date & time as DD/MM/YYYY HH:MM
+      function formatDateTime(date) {
+        const d = String(date.getDate()).padStart(2, '0');
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const y = date.getFullYear();
+        const h = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${d}/${m}/${y} ${h}:${min}`;
+      }
+
+      // Generate a Certificate ID based on format CERT-{YYYYRRRR}-{NNNNNN}
+      function generateCertificateCode() {
+        const year = new Date().getFullYear();
+        const rrrr = Math.floor(1000 + Math.random() * 9000); // 4 random digits
+        const count = certsData.length + 1;
+        const nnnnnn = String(count).padStart(6, '0');
+        return `CERT-${year}${rrrr}-${nnnnnn}`;
+      }
+
+      // Calculate & update KPI counters
+      function updateKPIs() {
+        const total = 1244 + certsData.length;
+        const valid = 1231 + certsData.filter(c => c.status === 'valid').length;
+        const revoked = 13 + certsData.filter(c => c.status === 'revoked').length;
+        const eligible = eligibleStudents.length;
+
+        document.getElementById('kpi-total-certs').innerText = total.toLocaleString('vi-VN');
+        document.getElementById('kpi-valid-certs').innerText = valid.toLocaleString('vi-VN');
+        document.getElementById('kpi-revoked-certs').innerText = revoked.toLocaleString('vi-VN');
+        document.getElementById('kpi-eligible-students').innerText = eligible.toLocaleString('vi-VN');
+      }
+
+      // Render Issued Certificates Table
+      function renderTable(data) {
+        certsTableBody.innerHTML = '';
+        if (data.length === 0) {
+          certsTableBody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px;"></i>
+                  <span>Không tìm thấy chứng chỉ nào khớp</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('certs-count-label').innerText = '0 chứng chỉ';
+          document.getElementById('certs-pagination-label').innerText = 'Hiển thị 0 - 0 trong 0 chứng chỉ';
+          return;
+        }
+
+        data.forEach((item) => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          let statusClass = item.status === 'valid' ? 'badge-green' : 'badge-red';
+
+          row.innerHTML = `
+            <td>
+              <div class="col-student">
+                <div class="avatar ${item.avatarClass}">${item.avatarText}</div>
+                <div style="display: flex; flex-direction: column;">
+                  <span class="student-name" style="font-weight: 600;">${item.name}</span>
+                  <span style="font-size: 10.5px; color: var(--text-secondary);">${item.email}</span>
+                </div>
+              </div>
+            </td>
+            <td><span class="course-title" style="font-weight: 500;">${item.course}</span></td>
+            <td><span class="cert-id" style="font-family: monospace; font-weight: 600;">${item.id}</span></td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+            <td style="color: var(--text-secondary);">${item.issuedAt}</td>
+            <td style="text-align: center;">
+              ${item.status === 'valid' ? `
+                <span class="badge badge-green" style="background-color: #f0fdf4; color: #16a34a; border-color: #bbf7d0;">
+                  <i data-lucide="file-check" style="width: 12px; height: 12px; margin-right: 4px; display: inline-block; vertical-align: middle;"></i>Sẵn sàng
+                </span>
+              ` : `
+                <span class="badge badge-red" style="background-color: #fef2f2; color: #ef4444; border-color: #fecaca;">
+                  <i data-lucide="file-x" style="width: 12px; height: 12px; margin-right: 4px; display: inline-block; vertical-align: middle;"></i>Hủy bỏ
+                </span>
+              `}
+            </td>
+            <td><span style="font-family: var(--font-heading); font-size: 11px; font-weight: 500;">${item.template}</span></td>
+            <td style="text-align: right; padding-right: 20px;">
+              <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-end;" onclick="event.stopPropagation();">
+                <button class="btn-secondary view-cert-btn" style="padding: 2px 6px; font-size: 11px; height: 24px;" data-id="${item.id}">
+                  Chi tiết
+                </button>
+                <button class="btn-secondary download-cert-btn" style="padding: 2px 6px; font-size: 11px; height: 24px;" data-id="${item.id}" ${item.status !== 'valid' ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                  Tải PDF
+                </button>
+                <button class="btn-secondary verify-cert-btn" style="padding: 2px 6px; font-size: 11px; height: 24px; color: var(--color-indigo);" data-id="${item.id}">
+                  Verify
+                </button>
+                ${item.status === 'valid' ? `
+                  <button class="btn-small revoke-cert-btn" style="color: var(--color-red); padding: 2px 6px; font-size: 11px; height: 24px;" data-id="${item.id}">
+                    Thu hồi
+                  </button>
+                ` : `
+                  <span style="font-size: 11px; color: var(--text-secondary); padding: 2px 6px;">Đã thu hồi</span>
+                `}
+              </div>
+            </td>
+          `;
+
+          // Row click to view detail drawer
+          row.addEventListener('click', () => {
+            openDetailDrawer(item);
+          });
+
+          // Action button handlers inside row
+          row.querySelector('.view-cert-btn').addEventListener('click', () => {
+            openDetailDrawer(item);
+          });
+
+          row.querySelector('.download-cert-btn').addEventListener('click', () => {
+            window.showToast(`Đang chuẩn bị tải xuống chứng chỉ: ${item.id}`);
+          });
+
+          row.querySelector('.verify-cert-btn').addEventListener('click', () => {
+            window.showToast(`Đang chuyển hướng tới trang xác thực công khai cho mã ${item.id}`, 'info');
+          });
+
+          if (item.status === 'valid') {
+            row.querySelector('.revoke-cert-btn').addEventListener('click', () => {
+              openRevokeModal(item);
+            });
+          }
+
+          certsTableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.getElementById('certs-count-label').innerText = `${data.length} chứng chỉ`;
+        document.getElementById('certs-pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} chứng chỉ`;
+      }
+
+      // Render Eligible Students Table
+      function renderEligible(data) {
+        eligibleTableBody.innerHTML = '';
+        if (data.length === 0) {
+          eligibleTableBody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="check-circle" style="width: 24px; height: 24px; color: var(--color-green);"></i>
+                  <span>Tất cả học viên đủ điều kiện đều đã được cấp chứng chỉ.</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('eligible-count-label').innerText = '0 học viên';
+          document.getElementById('eligible-pagination-label').innerText = 'Hiển thị 0 - 0 trong 0 học viên';
+          return;
+        }
+
+        data.forEach((student, index) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>
+              <div class="col-student">
+                <div class="avatar ${student.avatarClass}">${student.avatarText}</div>
+                <div style="display: flex; flex-direction: column;">
+                  <span class="student-name" style="font-weight: 600;">${student.name}</span>
+                  <span style="font-size: 10.5px; color: var(--text-secondary);">${student.email}</span>
+                </div>
+              </div>
+            </td>
+            <td><span class="course-title" style="font-weight: 500;">${student.course}</span></td>
+            <td style="text-align: center;">
+              <span class="badge badge-green" style="background-color: #f0fdf4; color: #16a34a; border-color: #bbf7d0;">${student.progress}</span>
+            </td>
+            <td style="text-align: center;">
+              <span class="badge" style="background-color: #f0fdf4; color: #16a34a; border-color: #bbf7d0; font-weight: 500;">
+                <i data-lucide="check" style="width: 12px; height: 12px; margin-right: 4px; display: inline-block; vertical-align: middle;"></i>${student.finalProject}
+              </span>
+            </td>
+            <td style="color: var(--text-secondary);">${student.completedAt}</td>
+            <td style="text-align: right; padding-right: 20px;">
+              <button class="btn-black issue-quick-btn" style="font-size: 11px; padding: 4px 10px; height: 26px; display: inline-flex; align-items: center; gap: 4px;" data-index="${index}">
+                <i data-lucide="award" style="width: 12px; height: 12px;"></i>
+                <span>Cấp chứng chỉ</span>
+              </button>
+            </td>
+          `;
+
+          // Quick issue click triggers modal with student pre-selected
+          row.querySelector('.issue-quick-btn').addEventListener('click', () => {
+            openIssueModal(student);
+          });
+
+          eligibleTableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.getElementById('eligible-count-label').innerText = `${data.length} học viên`;
+        document.getElementById('eligible-pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} học viên`;
+      }
+
+      // Filter Logic
+      function runFilters() {
+        const courseVal = courseFilter.value;
+        const statusVal = statusFilter.value;
+
+        // Filter certs
+        let filteredCerts = certsData;
+        if (courseVal) {
+          filteredCerts = filteredCerts.filter(x => x.courseCode === courseVal);
+        }
+        if (statusVal) {
+          filteredCerts = filteredCerts.filter(x => x.status === statusVal);
+        }
+        renderTable(filteredCerts);
+
+        // Filter eligible students
+        let filteredEligible = eligibleStudents;
+        if (courseVal) {
+          filteredEligible = filteredEligible.filter(x => x.courseCode === courseVal);
+        }
+        renderEligible(filteredEligible);
+      }
+
+      courseFilter.addEventListener('change', runFilters);
+      statusFilter.addEventListener('change', runFilters);
+
+      resetBtn.addEventListener('click', () => {
+        courseFilter.value = '';
+        statusFilter.value = '';
+        runFilters();
+        window.showToast('Đã đặt lại bộ lọc tìm kiếm.');
+      });
+
+      // ==========================================================================
+      // ISSUE CERTIFICATE MODAL LOGIC
+      // ==========================================================================
+      const studentSelect = document.getElementById('issue-student-select');
+      const courseInput = document.getElementById('issue-course-input');
+      const certIdInput = document.getElementById('issue-cert-id');
+      const dateInput = document.getElementById('issue-date-input');
+      const templateSelect = document.getElementById('issue-template-select');
+      const noteInput = document.getElementById('issue-note');
+      const confirmIssueBtn = document.getElementById('confirm-issue-btn');
+
+      // Prepopulate and open modal
+      function openIssueModal(preselectedStudent = null) {
+        // Clear options
+        studentSelect.innerHTML = '';
+        
+        if (preselectedStudent) {
+          // preselected student mode
+          const option = document.createElement('option');
+          option.value = preselectedStudent.name;
+          option.text = `${preselectedStudent.name} (${preselectedStudent.email})`;
+          option.setAttribute('data-course', preselectedStudent.course);
+          option.setAttribute('data-code', preselectedStudent.courseCode);
+          studentSelect.appendChild(option);
+          studentSelect.disabled = true;
+          courseInput.value = preselectedStudent.course;
+          courseInput.setAttribute('data-code', preselectedStudent.courseCode);
+        } else {
+          // general mode
+          studentSelect.disabled = false;
+          if (eligibleStudents.length === 0) {
+            const option = document.createElement('option');
+            option.value = "";
+            option.text = "Không có học viên nào đủ điều kiện cấp";
+            studentSelect.appendChild(option);
+            courseInput.value = "N/A";
+            courseInput.setAttribute('data-code', "");
+            confirmIssueBtn.disabled = true;
+          } else {
+            confirmIssueBtn.disabled = false;
+            eligibleStudents.forEach(s => {
+              const option = document.createElement('option');
+              option.value = s.name;
+              option.text = `${s.name} (${s.email})`;
+              option.setAttribute('data-course', s.course);
+              option.setAttribute('data-code', s.courseCode);
+              studentSelect.appendChild(option);
+            });
+            // trigger change on first element
+            const first = eligibleStudents[0];
+            courseInput.value = first.course;
+            courseInput.setAttribute('data-code', first.courseCode);
+          }
+        }
+
+        // Generate Certificate Code
+        certIdInput.value = generateCertificateCode();
+
+        // Default Date is today
+        const today = new Date().toISOString().slice(0, 10);
+        dateInput.value = today;
+
+        // Reset inputs
+        templateSelect.value = "Classic v1.2";
+        noteInput.value = "";
+
+        issueModal.classList.add('open');
+      }
+
+      // Dropdown student change updates course title
+      studentSelect.addEventListener('change', () => {
+        const selectedOption = studentSelect.options[studentSelect.selectedIndex];
+        if (selectedOption) {
+          const course = selectedOption.getAttribute('data-course');
+          const code = selectedOption.getAttribute('data-code');
+          courseInput.value = course || "N/A";
+          courseInput.setAttribute('data-code', code || "");
+        }
+      });
+
+      // Close issue modal
+      function closeIssueModal() {
+        issueModal.classList.remove('open');
+      }
+      document.getElementById('close-issue-modal-btn').addEventListener('click', closeIssueModal);
+      document.getElementById('cancel-issue-modal-btn').addEventListener('click', closeIssueModal);
+
+      // Confirm issue
+      confirmIssueBtn.addEventListener('click', () => {
+        const selectedName = studentSelect.value;
+        if (!selectedName) {
+          window.showToast("Vui lòng chọn học viên hợp lệ.", "error");
+          return;
+        }
+
+        const studentIndex = eligibleStudents.findIndex(s => s.name === selectedName);
+        if (studentIndex === -1) {
+          window.showToast("Học viên không khớp hoặc không đủ điều kiện.", "error");
+          return;
+        }
+
+        const student = eligibleStudents[studentIndex];
+        const certCode = certIdInput.value;
+        const issueDate = new Date(dateInput.value + "T12:00:00");
+
+        // Insert new certificate to certsData
+        certsData.unshift({
+          id: certCode,
+          name: student.name,
+          email: student.email,
+          avatarClass: student.avatarClass,
+          avatarText: student.avatarText,
+          course: student.course,
+          courseCode: student.courseCode,
+          issuedAt: formatDateTime(issueDate),
+          status: "valid",
+          statusName: "Đang hoạt động",
+          template: templateSelect.value,
+          pdfStatus: "Available",
+          note: noteInput.value,
+          revokedReason: "",
+          revokedNote: "",
+          revokedAt: "",
+          revokedBy: ""
+        });
+
+        // Remove from eligible students list
+        eligibleStudents.splice(studentIndex, 1);
+
+        window.showToast(`Đã cấp chứng chỉ thành công: ${certCode}`);
+        closeIssueModal();
+        runFilters();
+        updateKPIs();
+      });
+
+      // Top CTA Button Triggers general modal
+      document.getElementById('issue-cert-btn').addEventListener('click', () => {
+        openIssueModal();
+      });
+
+
+      // ==========================================================================
+      // REVOKE CERTIFICATE MODAL LOGIC
+      // ==========================================================================
+      const revokeConfirmCheckbox = document.getElementById('revoke-confirm-checkbox');
+      const confirmRevokeBtn = document.getElementById('confirm-revoke-btn');
+      const revokeReasonSelect = document.getElementById('revoke-reason-select');
+      const revokeNoteInput = document.getElementById('revoke-note');
+
+      function openRevokeModal(cert) {
+        activeCertId = cert.id;
+        document.getElementById('revoke-student-name').innerText = cert.name;
+        document.getElementById('revoke-cert-code').innerText = cert.id;
+        document.getElementById('revoke-course-title').innerText = cert.course;
+
+        // Reset fields
+        revokeConfirmCheckbox.checked = false;
+        confirmRevokeBtn.disabled = true;
+        revokeReasonSelect.value = "Cấp nhầm";
+        revokeNoteInput.value = "";
+
+        revokeModal.classList.add('open');
+      }
+
+      revokeConfirmCheckbox.addEventListener('change', () => {
+        confirmRevokeBtn.disabled = !revokeConfirmCheckbox.checked;
+      });
+
+      function closeRevokeModal() {
+        revokeModal.classList.remove('open');
+      }
+      document.getElementById('close-revoke-modal-btn').addEventListener('click', closeRevokeModal);
+      document.getElementById('cancel-revoke-modal-btn').addEventListener('click', closeRevokeModal);
+
+      confirmRevokeBtn.addEventListener('click', () => {
+        if (!activeCertId) return;
+
+        const certIndex = certsData.findIndex(c => c.id === activeCertId);
+        if (certIndex === -1) return;
+
+        const cert = certsData[certIndex];
+        cert.status = 'revoked';
+        cert.statusName = 'Đã thu hồi';
+        cert.pdfStatus = 'Unavailable';
+        cert.revokedReason = revokeReasonSelect.value;
+        cert.revokedNote = revokeNoteInput.value;
+        cert.revokedAt = formatDateTime(new Date());
+        cert.revokedBy = 'Admin User';
+
+        window.showToast(`Đã thu hồi chứng chỉ ${activeCertId} của ${cert.name}`, 'error');
+        closeRevokeModal();
+        closeDetailDrawer();
+        runFilters();
+        updateKPIs();
+      });
+
+
+      // ==========================================================================
+      // DETAIL DRAWER LOGIC
+      // ==========================================================================
+      function openDetailDrawer(cert) {
+        // Header
+        const badge = document.getElementById('drawer-status-badge');
+        const statusBox = document.getElementById('drawer-status-box');
+        badge.innerText = cert.statusName;
+        badge.className = 'badge';
+        
+        if (cert.status === 'valid') {
+          badge.classList.add('badge-green');
+          statusBox.style.backgroundColor = '#f0fdf4';
+          statusBox.style.color = '#16a34a';
+          statusBox.style.border = '1px solid #bbf7d0';
+          document.getElementById('drawer-revoke-btn').style.display = 'inline-flex';
+          document.getElementById('drawer-revocation-row').style.display = 'none';
+        } else {
+          badge.classList.add('badge-red');
+          statusBox.style.backgroundColor = '#fef2f2';
+          statusBox.style.color = '#ef4444';
+          statusBox.style.border = '1px solid #fecaca';
+          document.getElementById('drawer-revoke-btn').style.display = 'none';
+          
+          // Show revocation details
+          document.getElementById('drawer-revocation-row').style.display = 'flex';
+          document.getElementById('drawer-revoked-reason').innerText = cert.revokedReason || "N/A";
+          document.getElementById('drawer-revoked-note').innerText = cert.revokedNote || "Không có ghi chú thêm.";
+        }
+
+        // Student Info
+        document.getElementById('drawer-student-avatar').innerText = cert.avatarText;
+        document.getElementById('drawer-student-avatar').className = `avatar ${cert.avatarClass}`;
+        document.getElementById('drawer-student-name').innerText = cert.name;
+        document.getElementById('drawer-student-email').innerText = cert.email;
+
+        // Course & Cert details
+        document.getElementById('drawer-course-title').innerText = cert.course;
+        document.getElementById('drawer-cert-code').innerText = cert.id;
+        document.getElementById('drawer-issued-date').innerText = cert.issuedAt;
+        document.getElementById('drawer-template-version').innerText = cert.template;
+
+        // Verification URL
+        const verifyUrl = `https://blueprint.vn/verify-certificate?id=${cert.id}`;
+        document.getElementById('drawer-verify-url').innerText = verifyUrl;
+
+        // Copy button event
+        const copyBtn = document.getElementById('drawer-copy-link-btn');
+        // Clear previous event listeners by cloning
+        const newCopyBtn = copyBtn.cloneNode(true);
+        copyBtn.parentNode.replaceChild(newCopyBtn, copyBtn);
+        newCopyBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigator.clipboard.writeText(verifyUrl).then(() => {
+            window.showToast("Đã sao chép link xác thực vào clipboard!");
+          }).catch(() => {
+            window.showToast("Không thể sao chép tự động.", "error");
+          });
+        });
+
+        // Download button event
+        const downloadBtn = document.getElementById('drawer-download-btn');
+        const newDownloadBtn = downloadBtn.cloneNode(true);
+        downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+        if (cert.status === 'valid') {
+          newDownloadBtn.disabled = false;
+          newDownloadBtn.style.opacity = '1';
+          newDownloadBtn.style.cursor = 'pointer';
+          newDownloadBtn.addEventListener('click', () => {
+            window.showToast(`Đang tải chứng chỉ PDF: ${cert.id}`);
+          });
+        } else {
+          newDownloadBtn.disabled = true;
+          newDownloadBtn.style.opacity = '0.5';
+          newDownloadBtn.style.cursor = 'not-allowed';
+        }
+
+        // Revoke button event inside drawer
+        const drawerRevokeBtn = document.getElementById('drawer-revoke-btn');
+        const newDrawerRevokeBtn = drawerRevokeBtn.cloneNode(true);
+        drawerRevokeBtn.parentNode.replaceChild(newDrawerRevokeBtn, drawerRevokeBtn);
+        newDrawerRevokeBtn.addEventListener('click', () => {
+          openRevokeModal(cert);
+        });
+
+        // Open drawer
+        detailDrawer.classList.remove('drawer-closed');
+      }
+
+      function closeDetailDrawer() {
+        detailDrawer.classList.add('drawer-closed');
+      }
+      document.getElementById('close-detail-drawer-btn').addEventListener('click', closeDetailDrawer);
+
+      // Close drawer/modals on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeIssueModal();
+          closeRevokeModal();
+          closeDetailDrawer();
+        }
+      });
+
+      // Close modals on clicking backdrop
+      issueModal.addEventListener('click', (e) => {
+        if (e.target === issueModal) closeIssueModal();
+      });
+      revokeModal.addEventListener('click', (e) => {
+        if (e.target === revokeModal) closeRevokeModal();
+      });
+
+      // Accessory tools events
+      document.getElementById('tool-verify').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.showToast('Đang mở trang tra cứu xác thực chứng chỉ công khai...', 'info');
+      });
+      document.getElementById('tool-templates').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.showToast('Đang chuyển hướng tới trang Quản lý mẫu chứng chỉ...', 'info');
+        setTimeout(() => {
+          window.location.href = 'certificate-templates.html';
+        }, 800);
+      });
+      document.getElementById('tool-rules').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.showToast('Đang mở trang cấu hình Cài đặt mặc định và quy tắc cấp...', 'info');
+      });
+      document.getElementById('help-docs-btn').addEventListener('click', () => {
+        window.showToast('Đang tải tài liệu hướng dẫn cấp và thu hồi chứng chỉ...', 'info');
+      });
+      document.getElementById('export-certs-btn').addEventListener('click', () => {
+        window.showToast('Đang tạo và tải tệp CSV xuất danh sách chứng chỉ...');
+      });
+      document.getElementById('view-all-eligible-btn').addEventListener('click', (e) => {
+        e.preventDefault();
+        window.showToast('Hiện đang hiển thị đầy đủ học viên thỏa mãn quy tắc cấp chứng chỉ.', 'info');
+      });
+
+      // Initial Render
+      runFilters();
+      updateKPIs();
+    });
+  </script>
+</body>
+</html>

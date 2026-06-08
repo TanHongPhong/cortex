@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructor Overview - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Lock viewport height to 100% and remove main body scroll */
+    html, body, .app-container {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .main-viewport {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 20px 24px;
+      box-sizing: border-box;
+    }
+
+    /* Compact header and stats */
+    .page-header {
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .stats-grid {
+      margin-bottom: 16px;
+      flex-shrink: 0;
+      gap: 12px;
+    }
+
+    .stats-card {
+      padding: 10px 14px;
+      gap: 10px;
+    }
+
+    .stats-icon-box {
+      width: 36px;
+      height: 36px;
+    }
+
+    .stats-value {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    /* Main dashboard grid taking the rest of the space */
+    .dashboard-viewport-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 20px;
+      flex: 1;
+      min-height: 0; /* Important for flex layout inside */
+      margin-bottom: 0;
+    }
+
+    .grid-col-left, .grid-col-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding: 14px 18px;
+    }
+
+    .panel-header {
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+    .table-container {
+      flex: 1;
+      overflow-y: auto;
+      min-height: 0;
+    }
+
+    table th {
+      position: sticky;
+      top: 0;
+      background-color: var(--bg-card);
+      z-index: 10;
+    }
+
+    .panel-footer-link {
+      margin-top: 10px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <!-- Stylized clover/flower logo matching the screenshot logo -->
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+
+      <div class="sidebar-label">Instructor Workspace</div>
+
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" href="index.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="layout-grid"></i>
+            <span>Overview</span>
+          </div>
+        </a>
+        <a class="sidebar-link" href="courses.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="book-open"></i>
+            <span>Courses</span>
+          </div>
+        </a>
+        <a class="sidebar-link" href="submissions.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="clipboard-check"></i>
+            <span>Submissions</span>
+          </div>
+          <span class="sidebar-badge" id="sidebar-sub-badge">28</span>
+        </a>
+
+        <a class="sidebar-link" href="resources.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="library"></i>
+            <span>Resources</span>
+          </div>
+        </a>
+
+        <a class="sidebar-link" href="../admin/announcements.html?role=instructor">
+          <div class="sidebar-link-left">
+            <i data-lucide="megaphone"></i>
+            <span>Announcements</span>
+          </div>
+        </a>
+
+        <a class="sidebar-link" href="settings.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="settings"></i>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar" style="background-color: #f1f5f9; color: #475569;">
+            IT
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Instructor</span>
+            <span class="sidebar-user-role">
+              <span class="status-dot"></span>
+              Online
+            </span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <div class="sidebar-link-left">
+            <i data-lucide="log-out"></i>
+            <span>Log out</span>
+          </div>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+
+      <!-- Greeting Header -->
+      <section class="page-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="page-title">Chào mừng trở lại, Instructor!</h1>
+            <span class="page-subtitle">Đây là tổng quan công việc hôm nay của bạn.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- stats matrix grid -->
+      <section class="stats-grid">
+        <!-- Card 1 -->
+        <div class="stats-card">
+          <div class="stats-icon-box book">
+            <i data-lucide="book-open"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Khóa được phân công</span>
+            <span class="stats-value">4</span>
+            <span class="stats-trend neutral">Tổng số khóa học</span>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="stats-card">
+          <div class="stats-icon-box document">
+            <i data-lucide="clipboard-check"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Bài nộp chờ duyệt</span>
+            <span class="stats-value" id="counter-pending-review">28</span>
+            <span class="stats-trend up">&uarr; 6 mới từ hôm qua</span>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="stats-card">
+          <div class="stats-icon-box message">
+            <i data-lucide="library"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Tài nguyên xuất bản</span>
+            <span class="stats-value">24</span>
+            <span class="stats-trend neutral">Thư viện tài liệu</span>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="stats-card">
+          <div class="stats-icon-box bell">
+            <i data-lucide="megaphone"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Thông báo mới</span>
+            <span class="stats-value">3</span>
+            <span class="stats-trend neutral"><a href="../admin/announcements.html?role=instructor" style="color: inherit; text-decoration: none;">Xem thông báo</a></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Two Column Grid for tables -->
+      <section class="dashboard-viewport-grid">
+
+        <!-- LEFT COLUMN: Pending Submissions -->
+        <div class="grid-col-left">
+          <div class="panel" style="flex: 1; min-height: 0;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Bài nộp chờ duyệt</h2>
+                <span class="panel-badge">28</span>
+              </div>
+              <a href="submissions.html" class="panel-header-link">
+                <span>Xem tất cả</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Học viên</th>
+                    <th>Khóa học</th>
+                    <th>Bài học / Loại</th>
+                    <th class="col-secondary">Nộp lúc</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-pt">PT</div>
+                        <span class="student-name">Phạm Đức Trí</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">AI Agent & Vibe Coding Bootcamp</span></td>
+                    <td>
+                      <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <span class="lesson-name">Final Project – AI Landing Page</span>
+                        <span class="badge badge-indigo" style="align-self: flex-start;">Final Project</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="time-stamp">21/05/2026 14:32</span></td>
+                    <td><button class="btn-small view-submission-trigger" data-sub-id="submission-1">Xem</button></td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-nh">NH</div>
+                        <span class="student-name">Nguyễn Hoàng Anh</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">AI Agent & Vibe Coding Bootcamp</span></td>
+                    <td>
+                      <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <span class="lesson-name">Bài tập: Viết prompt tạo layout</span>
+                        <span class="badge badge-orange" style="align-self: flex-start;">Assignment</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="time-stamp">21/05/2026 09:15</span></td>
+                    <td><button class="btn-small view-submission-trigger" data-sub-id="submission-2">Xem</button></td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-ml">ML</div>
+                        <span class="student-name">Mai Lan</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">Web Development with Next.js</span></td>
+                    <td>
+                      <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <span class="lesson-name">Bài tập 2: Tạo landing đầu tiên</span>
+                        <span class="badge badge-orange" style="align-self: flex-start;">Assignment</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="time-stamp">20/05/2026 16:48</span></td>
+                    <td><button class="btn-small view-submission-trigger" data-sub-id="submission-3">Xem</button></td>
+                  </tr>
+                  <!-- Row 4 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-vh">VH</div>
+                        <span class="student-name">Võ Thị Khánh</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">AI Automation Fundamentals</span></td>
+                    <td>
+                      <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <span class="lesson-name">Bài tập 1: Automation workflow</span>
+                        <span class="badge badge-orange" style="align-self: flex-start;">Assignment</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="time-stamp">20/05/2026 11:21</span></td>
+                    <td><button class="btn-small view-submission-trigger" data-sub-id="submission-4">Xem</button></td>
+                  </tr>
+                  <!-- Row 5 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-dq">DQ</div>
+                        <span class="student-name">Đỗ Quang Minh</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">Mobile App Development</span></td>
+                    <td>
+                      <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <span class="lesson-name">Final Project – Todo App</span>
+                        <span class="badge badge-indigo" style="align-self: flex-start;">Final Project</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="time-stamp">19/05/2026 20:05</span></td>
+                    <td><button class="btn-small view-submission-trigger" data-sub-id="submission-5">Xem</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <a href="submissions.html" class="panel-footer-link">
+              <span>Xem tất cả bài nộp chờ duyệt</span>
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Recent Resources & Shortcuts -->
+        <div class="grid-col-right">
+          <!-- Recent Resources Panel -->
+          <div class="panel" style="flex: 1; min-height: 0;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Tài nguyên học thuật gần đây</h2>
+                <span class="panel-badge purple">4</span>
+              </div>
+              <a href="resources.html" class="panel-header-link">
+                <span>Xem tất cả</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tên tài nguyên</th>
+                    <th>Thể loại</th>
+                    <th style="text-align: center;">Lượt tải</th>
+                    <th class="col-secondary">Quyền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Resource 1 -->
+                  <tr>
+                    <td>
+                      <div class="resource-title-cell" style="display: flex; flex-direction: column; gap: 2px;">
+                        <span style="font-weight: 600; font-size: 12px; max-width: 140px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Hướng dẫn cài đặt n8n local với Docker</span>
+                        <span style="font-size: 9px; color: var(--text-secondary);">04/06/2026</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-indigo">Hướng dẫn</span></td>
+                    <td style="text-align: center; font-weight: 600; color: var(--color-indigo);">182</td>
+                    <td class="col-secondary"><span style="font-size: 11px; color: var(--text-secondary);">Free</span></td>
+                  </tr>
+                  <!-- Resource 2 -->
+                  <tr>
+                    <td>
+                      <div class="resource-title-cell" style="display: flex; flex-direction: column; gap: 2px;">
+                        <span style="font-weight: 600; font-size: 12px; max-width: 140px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Ebook: Xây dựng AI Agent tự quản lý Email</span>
+                        <span style="font-size: 9px; color: var(--text-secondary);">02/06/2026</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-purple">Ebook</span></td>
+                    <td style="text-align: center; font-weight: 600; color: var(--color-indigo);">148</td>
+                    <td class="col-secondary"><span style="font-size: 11px; color: var(--text-secondary);">Email</span></td>
+                  </tr>
+                  <!-- Resource 3 -->
+                  <tr>
+                    <td>
+                      <div class="resource-title-cell" style="display: flex; flex-direction: column; gap: 2px;">
+                        <span style="font-weight: 600; font-size: 12px; max-width: 140px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Prompt Template cho Code Assistant</span>
+                        <span style="font-size: 9px; color: var(--text-secondary);">25/05/2026</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-orange">Prompt</span></td>
+                    <td style="text-align: center; font-weight: 600; color: var(--color-indigo);">65</td>
+                    <td class="col-secondary"><span style="font-size: 11px; color: var(--text-secondary);">Học viên</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <a href="resources.html" class="panel-footer-link">
+              <span>Quản lý tài nguyên học tập</span>
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+
+          <!-- Shortcuts & Tips Panel -->
+          <div class="panel" style="flex: 0 0 auto; height: auto;">
+            <div class="panel-header" style="margin-bottom: 8px;">
+              <h2 class="panel-title" style="font-size: 13.5px;">Phím tắt & Hướng dẫn</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+              <a href="courses.html" class="btn-small" style="justify-content: flex-start; gap: 6px; padding: 6px 10px;">
+                <i data-lucide="book-open" style="width: 12px; height: 12px;"></i>
+                <span>Khóa học</span>
+              </a>
+              <a href="submissions.html" class="btn-small" style="justify-content: flex-start; gap: 6px; padding: 6px 10px;">
+                <i data-lucide="clipboard-check" style="width: 12px; height: 12px;"></i>
+                <span>Duyệt bài</span>
+              </a>
+              <a href="resources.html" class="btn-small" style="justify-content: flex-start; gap: 6px; padding: 6px 10px;">
+                <i data-lucide="library" style="width: 12px; height: 12px;"></i>
+                <span>Tài nguyên</span>
+              </a>
+              <a href="#" class="btn-small" style="justify-content: flex-start; gap: 6px; padding: 6px 10px;">
+                <i data-lucide="bell" style="width: 12px; height: 12px;"></i>
+                <span>Thông báo</span>
+              </a>
+            </div>
+
+            <div style="background-color: #fefaf0; border: 1px dashed #f5d0a9; border-radius: 6px; padding: 8px 12px; font-size: 11px; color: #7f5f3f; display: flex; flex-direction: column; gap: 4px;">
+              <div style="display: flex; align-items: center; gap: 4px; font-weight: 600;">
+                <i data-lucide="alert-circle" style="width: 12px; height: 12px; color: var(--color-orange-dark);"></i>
+                <span>Quy chế Instructor:</span>
+              </div>
+              <span style="line-height: 1.3;">Chỉ chấm bài và hỗ trợ học viên trong các khóa học được phân công. Không tự ý chỉnh sửa nội dung bài giảng.</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons & Custom Scripts -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Public Website]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -20,13 +20,13 @@ status: "[[MVP]]"
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Build decision:** Build
 
-Trang `/courses` là product catalog gọn cho bộ khóa học CORTEX. Trọng tâm là 4 thẻ khóa học chính; Premium và B2B tách thành section riêng để tránh làm rối lựa chọn.
+Trang `/courses` là product catalog gọn cho bộ khóa học Blueprint. Trọng tâm là 4 thẻ khóa học chính; Premium và B2B tách thành section riêng để tránh làm rối lựa chọn.
 
 ## 1. Mục tiêu trang
 
 | Mục tiêu                    | Mô tả                                                |
 | --------------------------- | ---------------------------------------------------- |
-| Hiển thị bộ sản phẩm học AI | Cho người xem biết CORTEX đang có những lựa chọn nào |
+| Hiển thị bộ sản phẩm học AI | Cho người xem biết Blueprint đang có những lựa chọn nào |
 | Đẩy mạnh sản phẩm chính     | Làm nổi bật **AI Agent & Vibe Coding Bootcamp**      |
 | Không làm rối               | Không search/filter, không marketplace               |
 | Dẫn người dùng đi tiếp      | Xem chi tiết khóa, đăng ký workshop, hoặc tư vấn     |
@@ -53,11 +53,11 @@ Trang `/courses` là product catalog gọn cho bộ khóa học CORTEX. Trọng 
 
 # 3. Section 1 — Page Header
 
-**Mục đích:** giới thiệu nhanh toàn bộ sản phẩm học AI của CORTEX.
+**Mục đích:** giới thiệu nhanh toàn bộ sản phẩm học AI của Blueprint.
 
 | Thành phần | Yêu cầu                                                                     |
 | ---------- | --------------------------------------------------------------------------- |
-| Title      | “Khóa học AI tại CORTEX”                                                    |
+| Title      | “Khóa học AI tại Blueprint”                                                    |
 | Subtitle   | Nói rõ có workshop miễn phí, khóa nhập môn, bootcamp chính và khóa nâng cao |
 | CTA chính  | `Tham gia workshop miễn phí`                                                |
 | CTA phụ    | `Nhận tư vấn khóa phù hợp`                                                  |
@@ -190,7 +190,7 @@ Phần này cũng **không gộp vào card khóa học**.
 **Mô tả ngắn:**
 
 ```text
-CORTEX thiết kế chương trình đào tạo AI riêng cho câu lạc bộ, đội nhóm và doanh nghiệp nhỏ muốn ứng dụng AI vào học tập, vận hành hoặc tự động hóa công việc.
+Blueprint thiết kế chương trình đào tạo AI riêng cho câu lạc bộ, đội nhóm và doanh nghiệp nhỏ muốn ứng dụng AI vào học tập, vận hành hoặc tự động hóa công việc.
 ```
 
 **CTA dẫn tới:** `/contact?type=b2b`
@@ -231,7 +231,7 @@ Chỉ cần 4–5 câu hỏi.
 | Thành phần | Yêu cầu                                        |
 | ---------- | ---------------------------------------------- |
 | Headline   | “Chưa biết nên chọn khóa nào?”                 |
-| Subtext    | CORTEX có thể tư vấn theo mục tiêu học của bạn |
+| Subtext    | Blueprint có thể tư vấn theo mục tiêu học của bạn |
 | CTA chính  | `Nhận tư vấn khóa phù hợp`                     |
 | CTA phụ    | `Tham gia workshop miễn phí`                   |
 
@@ -270,7 +270,7 @@ Chỉ cần 4–5 câu hỏi.
 ```text
 [Header]
 
-Khóa học AI tại CORTEX
+Khóa học AI tại Blueprint
 Subtitle + CTA workshop + CTA tư vấn
 
 [Free Workshop] [Starter Mini Course] [Core Bootcamp - nổi bật] [Advanced Automation]
@@ -312,13 +312,13 @@ Final CTA
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/website
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/website
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
 - **Incoming Links (Backlinks):** [[web/page|1. Public Website — phần người ngoài nhìn thấy]]

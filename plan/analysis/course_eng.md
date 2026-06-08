@@ -1,13 +1,13 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Analysis]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Analysis]]"
 type: ["[[Course Analysis]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://cortex.ai
+url: https://blueprint.vn
 status: "[[Planned]]"
 ---
 
@@ -77,7 +77,7 @@ Hugging Face có roadmap rất chuẩn cho người mới: **Fundamentals → To
 
 ### Cái đáng học từ khóa này
 
-Khóa này mạnh ở **design patterns**. Nếu cortex.ai muốn dạy có hệ thống, nên lấy logic:
+Khóa này mạnh ở **design patterns**. Nếu Blueprint muốn dạy có hệ thống, nên lấy logic:
 
 ```text
 Tool Use → RAG → Planning → Multi-Agent → Memory → Context Engineering → Production
@@ -200,7 +200,7 @@ Prototype → Tools/Memory/Guardrails → Orchestration → Evaluation → Busin
 
 ### Cái đáng học từ khóa này
 
-Khóa này không chỉ dạy agent framework mà dạy cả **prompt, custom GPT, data analysis, trustworthy AI**. Roadmap phù hợp nếu cortex.ai muốn xây hệ:
+Khóa này không chỉ dạy agent framework mà dạy cả **prompt, custom GPT, data analysis, trustworthy AI**. Roadmap phù hợp nếu Blueprint muốn xây hệ:
 
 ```text
 Prompt → Python Agent → Architecture → Custom Assistant → Data/Document Automation → Trustworthy AI
@@ -347,7 +347,7 @@ Single Agent → Crew → Memory → Routing → Multi-Crew → Content Studio P
 
 ### Cái đáng học từ khóa này
 
-Đây là roadmap kỹ thuật rất đầy đủ cho Core/Advanced nếu cortex.ai muốn dạy sâu về LangChain + LangGraph.
+Đây là roadmap kỹ thuật rất đầy đủ cho Core/Advanced nếu Blueprint muốn dạy sâu về LangChain + LangGraph.
 
 ---
 
@@ -381,7 +381,7 @@ Khóa này có project progression rất đẹp:
 Report Agent → Energy Advisor Agent → Autonomous Knowledge Agent
 ```
 
-Đây là kiểu cortex.ai nên học: mỗi khóa phải có **project có tên rõ ràng**, không chỉ “học module”.
+Đây là kiểu Blueprint nên học: mỗi khóa phải có **project có tên rõ ràng**, không chỉ “học module”.
 
 ---
 
@@ -425,7 +425,7 @@ LangChain Academy rất mạnh ở **state, memory, HITL và deployment**, nhữ
 ## 13. Google / Kaggle — 5-Day AI Agents Intensive
 
 **Level:** Intermediate
-**Định vị:** 5 ngày intensive, do Google và Kaggle tổ chức. Nội dung public mô tả bao gồm agent architectures, tools, memory, evaluation, từ prototype đến production, có codelabs/live và capstone project. ([[[web/page/website/blog|blog]].google][13])
+**Định vị:** 5 ngày intensive, do Google và Kaggle tổ chức. Nội dung public mô tả bao gồm agent architectures, tools, memory, evaluation, từ prototype đến production, có codelabs/live và capstone project. ([blog.google][13])
 
 ### Roadmap có thể rút ra từ thông tin công khai
 
@@ -468,7 +468,7 @@ Architecture → Tools → Memory → Evaluation → Capstone
 
 ### Cái đáng học từ khóa này
 
-Khóa này không dành cho dev, mà dành cho **business adoption**. cortex.ai có thể học cách giải thích AI Agent bằng ngôn ngữ dễ hiểu cho người không kỹ thuật.
+Khóa này không dành cho dev, mà dành cho **business adoption**. Blueprint có thể học cách giải thích AI Agent bằng ngôn ngữ dễ hiểu cho người không kỹ thuật.
 
 ---
 
@@ -649,7 +649,7 @@ RAG Production → LangGraph Workflow → Self-correction → HITL → Monitorin
 
 ### Cái đáng học từ nhóm Udemy
 
-Udemy mạnh ở “project marketing”: không chỉ nói học gì, mà nói rõ **build 5–8 apps gì**. cortex.ai nên học cách đóng gói project names thật hấp dẫn.
+Udemy mạnh ở “project marketing”: không chỉ nói học gì, mà nói rõ **build 5–8 apps gì**. Blueprint nên học cách đóng gói project names thật hấp dẫn.
 
 ---
 
@@ -676,7 +676,7 @@ Sau khi gom các khóa trên, anh thấy gần như mọi roadmap mạnh đều 
 
 # C. Roadmap “thô” tổng hợp từ thế giới
 
-Đây chưa phải roadmap cortex.ai, mà là **bản xương sống quốc tế**:
+Đây chưa phải roadmap Blueprint, mà là **bản xương sống quốc tế**:
 
 ```text
 1. AI Agent là gì
@@ -715,7 +715,7 @@ Nếu gom theo cấp độ học, nó sẽ thành:
 | **Advanced Builder**    | Multi-agent, HITL, evaluation, observability, deployment          |
 | **Production/Industry** | Security, cost, monitoring, domain workflows, real data, capstone |
 
-Chốt lại: các khóa tốt nhất trên thế giới không dạy AI Agent kiểu rời rạc. Chúng đều đi theo logic **foundation → tools → memory/RAG → orchestration → evaluation → production → project**. Đây là bộ nguyên liệu rất tốt để bước sau anh xây cho em một roadmap riêng cho cortex.ai theo các gói **Free / Starter / Core / Advanced**.
+Chốt lại: các khóa tốt nhất trên thế giới không dạy AI Agent kiểu rời rạc. Chúng đều đi theo logic **foundation → tools → memory/RAG → orchestration → evaluation → production → project**. Đây là bộ nguyên liệu rất tốt để bước sau anh xây cho em một roadmap riêng cho Blueprint theo các gói **Free / Starter / Core / Advanced**.
 
 [1]: https://huggingface.co/learn/agents-analysis/en/unit0/introduction "Welcome to the  AI Agents Course · Hugging Face"
 [2]: https://github.com/microsoft/ai-agents-for-beginners "GitHub - microsoft/ai-agents-for-beginners: 12 Lessons to Get Started Building AI Agents · GitHub"
@@ -743,12 +743,12 @@ Chốt lại: các khóa tốt nhất trên thế giới không dạy AI Agent k
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/course
-- #cortex/plan
+- #blueprint/course
+- #blueprint/plan
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]]
 
 ### Relations
-- **Outgoing Links:** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page/student/assignments|/assignments — Legacy / Không ưu tiên MVP]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/security|Security — Bảo mật hệ thống CORTEX]]
+- **Outgoing Links:** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page/student/assignments|/assignments — Legacy / Không ưu tiên MVP]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/security|Security — Bảo mật hệ thống Blueprint]]
 - **Incoming Links (Backlinks):** *None*

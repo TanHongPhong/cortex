@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cấu hình cá nhân - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Settings layout specifics */
+    .settings-container {
+      display: grid;
+      grid-template-columns: 3fr 9fr;
+      gap: 24px;
+      margin-top: 10px;
+    }
+    
+    .settings-sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .settings-tab-btn {
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .settings-tab-btn:hover {
+      background-color: var(--border-passive);
+      color: var(--text-primary);
+    }
+    .settings-tab-btn.active {
+      background-color: var(--sidebar-active-bg);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .settings-tab-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+    
+    .settings-content-panel {
+      min-height: 450px;
+    }
+    
+    .settings-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .settings-title svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (max-width: 768px) {
+      .settings-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+
+      <div class="sidebar-label">Instructor Workspace</div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="layout-grid"></i>
+            <span>Overview</span>
+          </div>
+        </a>
+        <a class="sidebar-link" href="courses.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="book-open"></i>
+            <span>Courses</span>
+          </div>
+        </a>
+        <a class="sidebar-link" href="submissions.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="clipboard-check"></i>
+            <span>Submissions</span>
+          </div>
+          <span class="sidebar-badge" id="sidebar-sub-badge">28</span>
+        </a>
+
+        <a class="sidebar-link" href="resources.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="library"></i>
+            <span>Resources</span>
+          </div>
+        </a>
+
+        <a class="sidebar-link" href="../admin/announcements.html?role=instructor">
+          <div class="sidebar-link-left">
+            <i data-lucide="megaphone"></i>
+            <span>Announcements</span>
+          </div>
+        </a>
+
+        <a class="sidebar-link active" href="settings.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="settings"></i>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar" style="background-color: #f1f5f9; color: #475569;">
+            IT
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Instructor</span>
+            <span class="sidebar-user-role">
+              <span class="status-dot"></span>
+              Online
+            </span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <div class="sidebar-link-left">
+            <i data-lucide="log-out"></i>
+            <span>Log out</span>
+          </div>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title -->
+      <section class="page-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="page-title-group">
+            <h1 class="page-title">Cấu hình cá nhân</h1>
+            <p class="page-subtitle">Quản lý hồ sơ giảng viên, cấu hình chấm bài và thiết lập thông báo.</p>
+          </div>
+        </div>
+        <div>
+          <button class="btn-black" id="save-all-settings-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="save"></i>
+            <span>Lưu cấu hình</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Settings Layout -->
+      <div class="settings-container">
+        
+        <!-- Left Sub-Menu tabs -->
+        <div class="settings-sidebar-menu">
+          <button class="settings-tab-btn active" data-tab="profile">
+            <i data-lucide="user"></i>
+            <span>Thông tin cá nhân</span>
+          </button>
+          <button class="settings-tab-btn" data-tab="grading">
+            <i data-lucide="check-square"></i>
+            <span>Thiết lập chấm bài</span>
+          </button>
+          <button class="settings-tab-btn" data-tab="notifications">
+            <i data-lucide="bell"></i>
+            <span>Cấu hình thông báo</span>
+          </button>
+        </div>
+
+        <!-- Right Content Tab panels -->
+        <div class="settings-content-panel">
+          
+          <!-- TAB 1: Profile Settings -->
+          <div class="panel tab-panel-content" id="panel-profile">
+            <h2 class="settings-title">
+              <i data-lucide="user"></i>
+              <span>Thông tin cá nhân</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">Họ và tên giảng viên</label>
+              <input type="text" class="form-control" value="Instructor Tuấn" style="padding: 6px 10px;">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Email công việc</label>
+              <input type="email" class="form-control" value="tuan.nguyen@blueprint.edu.vn" style="padding: 6px 10px;">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Số điện thoại</label>
+              <input type="text" class="form-control" value="+84 987 654 321" style="padding: 6px 10px;">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bio ngắn (Giới thiệu)</label>
+              <textarea class="form-control" style="height: 80px; padding: 6px 10px; font-family: inherit;">Giảng viên Fullstack Developer & AI Solutions Engineer tại Blueprint. Đam mê giảng dạy automation và Vibe Coding.</textarea>
+            </div>
+          </div>
+
+          <!-- TAB 2: Grading Settings -->
+          <div class="panel tab-panel-content" id="panel-grading" style="display: none;">
+            <h2 class="settings-title">
+              <i data-lucide="check-square"></i>
+              <span>Thiết lập chấm bài</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">Template nhận xét nhanh (Quick feedback shortcut)</label>
+              <textarea class="form-control" style="height: 120px; padding: 6px 10px; font-family: inherit; font-size: 12px;">Chào em, bài làm của em rất tốt và đầy đủ các yêu cầu đề bài. Layout clean và responsive chuẩn. Tiếp tục phát huy trong bài tiếp theo nhé!</textarea>
+              <span style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; display: block;">Nội dung này sẽ tự động được sử dụng làm mẫu khi bạn click Duyệt nhanh bài làm.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Phân công bài chấm</label>
+              <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; cursor: pointer;">
+                  <input type="checkbox" checked>
+                  <span>Tự động nhận bài nộp mới của lớp phụ trách</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; cursor: pointer;">
+                  <input type="checkbox">
+                  <span>Nhận email nhắc nhở khi có bài nộp chờ duyệt quá 24h</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Notifications Settings -->
+          <div class="panel tab-panel-content" id="panel-notifications" style="display: none;">
+            <h2 class="settings-title">
+              <i data-lucide="bell"></i>
+              <span>Cấu hình thông báo</span>
+            </h2>
+            
+            <div class="form-group">
+              <label class="form-label">Kênh nhận thông báo</label>
+              <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px;">
+
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; cursor: pointer;">
+                  <input type="checkbox" checked>
+                  <span>Nhận email khi có bài tập / dự án được nộp</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; cursor: pointer;">
+                  <input type="checkbox" checked>
+                  <span>Thông báo hệ thống (Notification box trong workspace)</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; cursor: pointer;">
+                  <input type="checkbox">
+                  <span>Báo cáo hiệu suất học tập của lớp hàng tuần</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabButtons = document.querySelectorAll('.settings-tab-btn');
+      const tabPanels = document.querySelectorAll('.tab-panel-content');
+      
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active
+          tabButtons.forEach(b => b.classList.remove('active'));
+          tabPanels.forEach(p => p.style.display = 'none');
+          
+          // Add active to current
+          btn.classList.add('active');
+          const targetTabId = btn.getAttribute('data-tab');
+          document.getElementById(`panel-${targetTabId}`).style.display = 'flex';
+        });
+      });
+      
+      // Save settings handler
+      document.getElementById('save-all-settings-btn').addEventListener('click', () => {
+        if (window.showToast) {
+          window.showToast('Đã lưu tất cả thay đổi cấu hình giảng viên.');
+        } else {
+          alert('Đã lưu cấu hình thành công!');
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>

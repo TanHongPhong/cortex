@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: ["[[MVP]]", "[[P1]]"]
 ---
 
@@ -18,6 +18,7 @@ status: ["[[MVP]]", "[[P1]]"]
 **Status:** MVP + P1
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 
 ## 1. Mục tiêu trang
@@ -208,7 +209,7 @@ Nên dùng format dễ kiểm tra và có tính nhận diện.
 ## Gợi ý format
 
 ```text
-CERT-{YYYY}{RRRR}-{NNNNNN}
+CERT-{YYYYRRRR}-{NNNNNN}
 ```
 
 Ví dụ:
@@ -219,12 +220,14 @@ CERT-20261234-000002
 CERT-20269876-000003
 ```
 
+Trong đó `YYYYRRRR` là 8 chữ số gồm năm cấp chứng chỉ `YYYY` + 4 chữ số ngẫu nhiên `RRRR`; regex kiểm tra là `^CERT-\d{8}-\d{6}$`.
+
 ## Rule
 
 | Rule       | Mô tả                             |
 | ---------- | --------------------------------- |
 | Unique     | Certificate ID không được trùng   |
-| Readable   | Nhìn vào biết thuộc CORTEX        |
+| Readable   | Nhìn vào biết thuộc Blueprint        |
 | Verifyable | Dùng được ở `/verify-certificate` |
 | Stable     | Sau khi cấp không nên đổi ID      |
 
@@ -332,7 +335,7 @@ Certificate PDF fields:
 | Ngày cấp       | Issued date               |
 | Certificate ID | Mã duy nhất               |
 | QR code        | Dẫn đến verify link       |
-| Tên đơn vị cấp | CORTEX                    |
+| Tên đơn vị cấp | Blueprint                    |
 | Chữ ký         | Founder/Instructor nếu có |
 
 ---
@@ -538,20 +541,6 @@ Học viên cần hoàn thành lesson bắt buộc và final project trước.
 
 ---
 
-# 21. UI style đề xuất
-
-| Phần              | Gợi ý                                           |
-| ----------------- | ----------------------------------------------- |
-| Tổng thể          | Admin table rõ ràng, tin cậy                    |
-| Certificate table | Ưu tiên Certificate ID, student, course, status |
-| Status badge      | Valid xanh, revoked đỏ/xám                      |
-| Eligible section  | Đặt trên hoặc dưới table tùy ưu tiên            |
-| Detail drawer     | Có thông tin [[web/page/website/certificate|certificate]] + actions              |
-| Revoke modal      | Cảnh báo rõ vì đây là hành động nhạy cảm        |
-| Mobile            | Xem được, nhưng thao tác chính ưu tiên desktop  |
-
----
-
 # 22. Acceptance Criteria
 
 Trang `/admin/certificates` đạt nếu:
@@ -601,12 +590,12 @@ Nói ngắn gọn: **`/admin/certificates` là nơi cấp và kiểm soát chứ
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]

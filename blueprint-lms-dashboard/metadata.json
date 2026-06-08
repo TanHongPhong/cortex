@@ -1,0 +1,6 @@
+{
+  "name": "Blueprint LMS Dashboard",
+  "description": "An interactive and beautifully crafted LMS dashboard representing the Blueprint 'AI Agent & Vibe Coding Bootcamp', perfect for desktop layouts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

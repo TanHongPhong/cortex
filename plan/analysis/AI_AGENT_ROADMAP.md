@@ -1,13 +1,13 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Analysis]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Analysis]]"
 type: ["[[Course Analysis]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://cortex.ai
+url: https://blueprint.vn
 status: "[[Planned]]"
 ---
 
@@ -158,7 +158,7 @@ Create a team of 3 agents using CrewAI/LangGraph:
 - **Deployment:** Wrapping agents in **FastAPI**, containerizing with **Docker**, and deploying to Cloud (AWS/Azure/GCP).
 - **Agent Evaluation (Eval):**
   - **LLM-as-a-Judge:** Using a stronger model to grade a smaller model.
-  - **Golden Datasets:** A set of "Perfect Q&A" pairs to test against.
+  - **Golden Datasets:** A set of ideal question-answer examples to test against.
 - **Observability:** Implementing tracing to see exactly where an agent got lost in a loop.
 - **Guardrails:** Using **Llama Guard** or NeMo Guardrails to prevent toxic or off-topic responses.
 - **Optimization:** Prompt caching, KV cache, and model quantization for lower cost and higher speed.
@@ -183,11 +183,11 @@ Build and deploy a production-ready Agent API that:
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/course
-- #cortex/plan
+- #blueprint/course
+- #blueprint/plan
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]]

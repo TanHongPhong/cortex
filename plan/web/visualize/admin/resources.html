@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Resources Hub - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .resource-title-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .resource-meta-sub {
+      font-size: 10px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+    
+    .badge-blue { background-color: #eff6ff; color: #1e40af; }
+    .badge-amber { background-color: #fef3c7; color: #92400e; }
+    .badge-purple { background-color: #faf5ff; color: #6b21a8; }
+    
+    .detail-section-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 16px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 4px;
+    }
+
+    #resources-grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 24px !important;
+    }
+    #resources-grid .grid-col-left,
+    #resources-grid .grid-col-right {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    #resources-grid table th.col-secondary,
+    #resources-grid table td.col-secondary {
+      display: table-cell !important;
+    }
+    @media (max-width: 991px) {
+      #resources-grid table th.col-secondary,
+      #resources-grid table td.col-secondary {
+        display: none !important;
+      }
+    }
+
+    .resource-form-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .col-span-12 { grid-column: span 12; }
+    .col-span-8 { grid-column: span 8; }
+    .col-span-6 { grid-column: span 6; }
+    .col-span-4 { grid-column: span 4; }
+    .col-span-3 { grid-column: span 3; }
+    .col-span-2 { grid-column: span 2; }
+    
+    @media (max-width: 768px) {
+      .resource-form-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+
+    .form-checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+
+    .form-actions-right {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      border-top: 1px solid var(--border-passive);
+      padding-top: 16px;
+    }
+    
+    .form-actions-right button {
+      min-width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link active" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard Header -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý Resources Hub</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Thiết lập, xuất bản bài viết, ebook và tài liệu học miễn phí/bảo mật.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="btn-black" id="add-resource-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="plus"></i>
+            <span>Tạo Resource</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- KPI Row (5 Cards) -->
+      <section class="kpi-row-1 kpi-row-cols-5" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Tổng tài nguyên</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px;">24</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">tài liệu trong thư viện</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Đã xuất bản</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px; color: var(--color-green);">18</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">công khai trên website</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Bản nháp</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px; color: var(--color-orange);">4</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">đang biên tập nội dung</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Leads Captured</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px; color: var(--color-indigo);">340</span>
+            <span class="kpi-trend trend-up" style="font-size: 11px;"><i data-lucide="arrow-up-right"></i>+12%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">thu thập từ form email</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Chỉ học viên</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" style="font-size: 20px;">2</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">cần enrollment active</span>
+        </div>
+      </section>
+
+      <!-- Main Layout Grid -->
+      <section class="dashboard-grid" id="resources-grid">
+        
+        <!-- LEFT COLUMN: Resource List Panel -->
+        <div class="grid-col-left">
+          
+          <!-- Filter panel -->
+          <div class="panel" style="padding: 14px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1;">
+                <select class="form-control form-select" id="filter-type" style="padding: 4px 8px;">
+                  <option value="">Tất cả loại hình</option>
+                  <option value="article">Bài viết (Article)</option>
+                  <option value="guide">Hướng dẫn (Guide)</option>
+                  <option value="template">Mẫu Code / Prompt</option>
+                  <option value="download">Tài liệu tải xuống (Download)</option>
+                  <option value="case_study">Case Study</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1;">
+                <select class="form-control form-select" id="filter-access" style="padding: 4px 8px;">
+                  <option value="">Tất cả quyền truy cập</option>
+                  <option value="free">Công khai (Free)</option>
+                  <option value="email_required">Cần nhập Email (Lead capture)</option>
+                  <option value="student_only">Chỉ học viên (Student Only)</option>
+                </select>
+              </div>
+
+              <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;" title="Reset filters">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Panel -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Tài nguyên học thuật</h2>
+                <span class="panel-subtitle" id="resources-count-label">4 tài nguyên</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="resources-table">
+                <thead>
+                  <tr>
+                    <th>Tên tài nguyên</th>
+                    <th class="col-secondary">Thể loại</th>
+                    <th class="col-secondary">Quyền truy cập</th>
+                    <th class="col-secondary">Lượt tải/Xem</th>
+                    <th>Trạng thái</th>
+                    <th class="col-secondary">Ngày đăng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 - 4 trong 4 tài nguyên</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>10 / trang</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Slide Form Drawer / Editor -->
+        <div class="grid-col-right">
+          <div class="panel" id="resource-editor-panel">
+            <div class="panel-header" style="margin-bottom: 12px; border-bottom: 1px solid var(--border-passive); padding-bottom: 8px;">
+              <h2 class="panel-title" id="editor-title" style="font-size: 13.5px;">Tạo / Cập nhật tài nguyên</h2>
+            </div>
+            
+            <form id="resource-form">
+              <input type="hidden" id="resource-id">
+
+              <div class="resource-form-grid">
+                <!-- Row 1: Title & Slug -->
+                <div class="form-group col-span-6">
+                  <label class="form-label" for="res-title">Tiêu đề tài nguyên <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="res-title" required placeholder="Ví dụ: Cẩm nang Prompt Engineering">
+                </div>
+
+                <div class="form-group col-span-6">
+                  <label class="form-label" for="res-slug">Slug URL <span class="required">*</span></label>
+                  <input type="text" class="form-control" id="res-slug" required placeholder="cam-nang-prompt-engineering">
+                </div>
+
+                <!-- Row 2: Excerpt -->
+                <div class="form-group col-span-12">
+                  <label class="form-label" for="res-excerpt">Mô tả ngắn (Excerpt)</label>
+                  <textarea class="form-control" id="res-excerpt" style="height: 50px;" placeholder="Tóm tắt nội dung tài liệu..."></textarea>
+                </div>
+
+                <!-- Row 3: Content Body (Redesigned) -->
+                <div class="form-group col-span-12">
+                  <label class="form-label" for="res-content">Nội dung chi tiết (Markdown / HTML)</label>
+                  <textarea class="form-control form-textarea" id="res-content" style="height: 180px;" placeholder="Nhập nội dung chi tiết bài viết hoặc tài liệu học thuật ở đây..."></textarea>
+                </div>
+
+                <!-- Row 4: Type, Category, Access -->
+                <div class="form-group col-span-4">
+                  <label class="form-label" for="res-type">Loại tài nguyên</label>
+                  <select class="form-control form-select" id="res-type">
+                    <option value="article">Bài viết (Article)</option>
+                    <option value="guide">Hướng dẫn (Guide)</option>
+                    <option value="template">Mẫu Code / Prompt Template</option>
+                    <option value="download">Tài liệu tải xuống (Download)</option>
+                    <option value="case_study">Case Study</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-span-4">
+                  <label class="form-label" for="res-category">Nhóm nội dung (Category)</label>
+                  <input type="text" class="form-control" id="res-category" placeholder="Ví dụ: AI Agent, DevOps, Web">
+                </div>
+
+                <div class="form-group col-span-4">
+                  <label class="form-label" for="res-access">Quyền truy cập</label>
+                  <select class="form-control form-select" id="res-access">
+                    <option value="free">Công khai (Free)</option>
+                    <option value="email_required">Cần nhập Email (Lead capture)</option>
+                    <option value="student_only">Chỉ học viên đăng ký khóa (Student only)</option>
+                  </select>
+                </div>
+
+                <!-- Row 5: Course Link, File ID, External URL -->
+                <div class="form-group col-span-4" id="course-link-group">
+                  <label class="form-label" for="res-course">Khóa học liên kết</label>
+                  <select class="form-control form-select" id="res-course">
+                    <option value="">Không có (Global)</option>
+                    <option value="ai">AI Agent & Vibe Coding Bootcamp</option>
+                    <option value="n8n">Web Automation n8n nâng cao</option>
+                  </select>
+                </div>
+
+                <div class="form-group col-span-4">
+                  <label class="form-label" for="res-file-id">File đính kèm (file_id)</label>
+                  <input type="text" class="form-control" id="res-file-id" placeholder="file_id_123456">
+                </div>
+
+                <div class="form-group col-span-4">
+                  <label class="form-label" for="res-url">Đường dẫn ngoài (URL)</label>
+                  <input type="text" class="form-control" id="res-url" placeholder="https://drive.google.com/...">
+                </div>
+
+                <!-- Row 6: Thumbnail, Reading Time, Status, Featured -->
+                <div class="form-group col-span-4">
+                  <label class="form-label" for="res-thumbnail-url">Ảnh đại diện (Thumbnail URL)</label>
+                  <input type="text" class="form-control" id="res-thumbnail-url" placeholder="https://images.unsplash.com/... hoặc /images/...">
+                </div>
+
+                <div class="form-group col-span-2">
+                  <label class="form-label" for="res-reading-time">Thời gian đọc</label>
+                  <input type="text" class="form-control" id="res-reading-time" placeholder="Ví dụ: 5 phút">
+                </div>
+
+                <div class="form-group col-span-3">
+                  <label class="form-label" for="res-status">Trạng thái</label>
+                  <select class="form-control form-select" id="res-status">
+                    <option value="published">Đã xuất bản (Published)</option>
+                    <option value="draft">Bản nháp (Draft)</option>
+                    <option value="archived">Lưu trữ (Archived)</option>
+                  </select>
+                </div>
+
+                <div class="col-span-3 form-checkbox-group">
+                  <label class="form-checkbox-label" style="margin-top: 0; font-weight: 600;">
+                    <input type="checkbox" id="res-featured" style="margin-right: 4px;">
+                    Hiển thị nổi bật
+                  </label>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="form-actions-right">
+                <button type="button" class="btn-secondary" id="cancel-form-btn" style="height: 32px; font-size: 12.5px;">Hủy</button>
+                <button type="submit" class="btn-black" style="height: 32px; font-size: 12.5px;">Lưu</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Resources Data
+      const resourcesData = [
+        {
+          id: "1",
+          title: "Hướng dẫn cài đặt n8n local với Docker",
+          slug: "huong-dan-cai-dat-n8n-docker",
+          excerpt: "Hướng dẫn từng bước thiết lập n8n local trên máy tính cá nhân để tự động hóa công việc.",
+          content: "### Hướng dẫn cài đặt n8n local với Docker\n\nDocker là cách tốt nhất để chạy n8n trên máy tính cá nhân. Hãy thực hiện theo các bước sau:\n\n1. Cài đặt Docker Desktop trên máy tính.\n2. Chạy lệnh docker run để khởi chạy container n8n.\n3. Truy cập http://localhost:5678 để bắt đầu thiết kế workflow đầu tiên.",
+          type: "guide",
+          typeName: "Hướng dẫn",
+          category: "DevOps",
+          access: "free",
+          accessName: "Công khai",
+          downloads: 182,
+          status: "published",
+          statusName: "Đã xuất bản",
+          courseId: "n8n",
+          fileId: "",
+          url: "https://github.com/n8n-docker-local",
+          thumbnailUrl: "https://images.unsplash.com/photo-1618401471353-b98aedd07871?auto=format&fit=crop&w=300&q=80",
+          readingTime: "8 phút",
+          is_featured: false,
+          date: "04/06/2026"
+        },
+        {
+          id: "2",
+          title: "Ebook: Xây dựng AI Agent tự quản lý Email",
+          slug: "ebook-ai-agent-quan-ly-email",
+          excerpt: "Cuốn sách ngắn hướng dẫn sử dụng LangChain và GPT-4o để phân loại và trả lời tự động email.",
+          content: "### Ebook: Xây dựng AI Agent tự quản lý Email\n\nCuốn sách này cung cấp kiến thức nền tảng và hướng dẫn thực hành chi tiết:\n\n- Cách phân loại email đến bằng LLM.\n- Tích hợp n8n với Gmail API.\n- Thiết lập prompt thông minh trả lời email theo văn phong mong muốn.",
+          type: "download",
+          typeName: "Tài liệu tải xuống",
+          category: "AI Agent",
+          access: "email_required",
+          accessName: "Nhập Email",
+          downloads: 148,
+          status: "published",
+          statusName: "Đã xuất bản",
+          courseId: "ai",
+          fileId: "file_id_8819281",
+          url: "",
+          thumbnailUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=300&q=80",
+          readingTime: "25 phút",
+          is_featured: true,
+          date: "02/06/2026"
+        },
+        {
+          id: "3",
+          title: "Prompt Template cho Code Assistant",
+          slug: "prompt-template-code-assistant",
+          excerpt: "Bộ prompt tối ưu giúp tạo nhanh source code và sửa lỗi bảo mật.",
+          content: "### Prompt Template cho Code Assistant\n\nBộ prompt giúp bạn giao tiếp hiệu quả hơn với AI assistant (Cursor, Github Copilot, Claude):\n\n- Prompt viết test case tự động.\n- Prompt refactor code tối ưu hóa hiệu năng.\n- Prompt rà soát lỗi bảo mật.",
+          type: "template",
+          typeName: "Mẫu Code/Prompt",
+          category: "Prompt Engineering",
+          access: "student_only",
+          accessName: "Học viên",
+          downloads: 65,
+          status: "published",
+          statusName: "Đã xuất bản",
+          courseId: "ai",
+          fileId: "file_id_990112",
+          url: "",
+          thumbnailUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=300&q=80",
+          readingTime: "3 phút",
+          is_featured: false,
+          date: "25/05/2026"
+        },
+        {
+          id: "4",
+          title: "Báo cáo: Xu hướng Automation trong năm 2026",
+          slug: "bao-cao-xu-huong-automation-2026",
+          excerpt: "Phân tích xu hướng áp dụng tự động hóa quy trình nghiệp vụ trong các doanh nghiệp.",
+          content: "### Báo cáo: Xu hướng Automation trong năm 2026\n\nNội dung đang được soạn thảo...",
+          type: "download",
+          typeName: "Tài liệu tải xuống",
+          category: "Analytics",
+          access: "email_required",
+          accessName: "Nhập Email",
+          downloads: 0,
+          status: "draft",
+          statusName: "Bản nháp",
+          courseId: "",
+          fileId: "",
+          url: "",
+          thumbnailUrl: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=300&q=80",
+          readingTime: "12 phút",
+          is_featured: true,
+          date: "07/06/2026"
+        }
+      ];
+
+      const tableBody = document.querySelector('#resources-table tbody');
+      const form = document.getElementById('resource-form');
+      const editorTitle = document.getElementById('editor-title');
+      
+      const filterType = document.getElementById('filter-type');
+      const filterAccess = document.getElementById('filter-access');
+      const resetBtn = document.getElementById('filter-reset-btn');
+      
+      // Form fields
+      const inputId = document.getElementById('resource-id');
+      const inputTitle = document.getElementById('res-title');
+      const inputSlug = document.getElementById('res-slug');
+      const inputExcerpt = document.getElementById('res-excerpt');
+      const inputContent = document.getElementById('res-content');
+      const inputType = document.getElementById('res-type');
+      const inputCategory = document.getElementById('res-category');
+      const inputAccess = document.getElementById('res-access');
+      const inputCourse = document.getElementById('res-course');
+      const inputFileId = document.getElementById('res-file-id');
+      const inputUrl = document.getElementById('res-url');
+      const inputThumbnail = document.getElementById('res-thumbnail-url');
+      const inputReadingTime = document.getElementById('res-reading-time');
+      const inputStatus = document.getElementById('res-status');
+      const inputFeatured = document.getElementById('res-featured');
+
+      // Auto Generate Slug from Title
+      inputTitle.addEventListener('input', () => {
+        if (!inputId.value) { // Only auto-slug for new resources
+          let val = inputTitle.value.toLowerCase();
+          val = val.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+          val = val.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+          val = val.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+          val = val.replace(/ò|á|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+          val = val.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+          val = val.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+          val = val.replace(/đ/g, "d");
+          val = val.replace(/[^a-z0-9 -]/g, ""); // remove invalid chars
+          val = val.replace(/\s+/g, "-"); // collapse whitespace
+          val = val.replace(/-+/g, "-"); // collapse dashes
+          inputSlug.value = val;
+        }
+      });
+
+      // Render Resources Table
+      function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                Không tìm thấy tài nguyên nào phù hợp.
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        data.forEach(item => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+
+          let typeClass = 'badge-blue';
+          if (item.type === 'ebook' || item.type === 'download' || item.type === 'case_study') typeClass = 'badge-purple';
+          if (item.type === 'template') typeClass = 'badge-amber';
+
+          let statusClass = 'badge-gray';
+          if (item.status === 'published') statusClass = 'badge-green';
+          if (item.status === 'draft') statusClass = 'badge-orange';
+          if (item.status === 'archived') statusClass = 'badge-red';
+
+          let accessText = item.accessName;
+          if (item.access === 'email_required') accessText = '🔑 ' + accessText;
+          if (item.access === 'student_only') accessText = '🎓 ' + accessText;
+
+          // Featured star representation
+          const featuredStar = item.is_featured ? ' <span style="color:var(--color-orange);" title="Featured">★</span>' : '';
+
+          row.innerHTML = `
+            <td>
+              <div class="resource-title-cell">
+                <span style="font-weight:600;">${item.title}${featuredStar}</span>
+                <span class="resource-meta-sub">/${item.slug}</span>
+              </div>
+            </td>
+            <td class="col-secondary"><span class="badge ${typeClass}">${item.typeName}</span></td>
+            <td class="col-secondary"><span style="font-size: 11.5px; font-weight: 500;">${accessText}</span></td>
+            <td class="col-secondary" style="font-size: 11.5px; font-weight: 600; text-align: center;">${item.downloads}</td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+            <td class="col-secondary" style="font-size: 11px; color: var(--text-secondary);">${item.date}</td>
+          `;
+
+          row.addEventListener('click', () => {
+            loadResourceToForm(item);
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        document.getElementById('resources-count-label').innerText = `${data.length} tài nguyên`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} tài nguyên`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      function loadResourceToForm(item) {
+        editorTitle.innerText = `Chỉnh sửa: ${item.title}`;
+        inputId.value = item.id;
+        inputTitle.value = item.title;
+        inputSlug.value = item.slug;
+        inputExcerpt.value = item.excerpt || '';
+        inputContent.value = item.content || '';
+        inputType.value = item.type;
+        inputCategory.value = item.category || '';
+        inputAccess.value = item.access;
+        inputCourse.value = item.courseId || '';
+        inputFileId.value = item.fileId || '';
+        inputUrl.value = item.url || '';
+        inputThumbnail.value = item.thumbnailUrl || '';
+        inputReadingTime.value = item.readingTime || '';
+        inputStatus.value = item.status;
+        inputFeatured.checked = !!item.is_featured;
+      }
+
+      function resetForm() {
+        editorTitle.innerText = "Tạo Resource mới";
+        inputId.value = '';
+        inputTitle.value = '';
+        inputSlug.value = '';
+        inputExcerpt.value = '';
+        inputContent.value = '';
+        inputType.value = 'article';
+        inputCategory.value = '';
+        inputAccess.value = 'free';
+        inputCourse.value = '';
+        inputFileId.value = '';
+        inputUrl.value = '';
+        inputThumbnail.value = '';
+        inputReadingTime.value = '';
+        inputStatus.value = 'published';
+        inputFeatured.checked = false;
+      }
+
+      document.getElementById('add-resource-btn').addEventListener('click', resetForm);
+      document.getElementById('cancel-form-btn').addEventListener('click', resetForm);
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = inputId.value;
+        const title = inputTitle.value;
+        const slug = inputSlug.value;
+        const excerpt = inputExcerpt.value;
+        const content = inputContent.value;
+        const type = inputType.value;
+        const category = inputCategory.value;
+        const access = inputAccess.value;
+        const courseId = inputCourse.value;
+        const fileId = inputFileId.value;
+        const url = inputUrl.value;
+        const thumbnailUrl = inputThumbnail.value;
+        const readingTime = inputReadingTime.value;
+        const status = inputStatus.value;
+        const is_featured = inputFeatured.checked;
+
+        const typeName = inputType.options[inputType.selectedIndex].text;
+        const accessName = inputAccess.options[inputAccess.selectedIndex].text.split(' (')[0];
+        const statusName = inputStatus.options[inputStatus.selectedIndex].text.split(' (')[0];
+
+        // Validate slug unique
+        const duplicate = resourcesData.find(x => x.slug === slug && x.id !== id);
+        if (duplicate) {
+          alert('Slug URL đã tồn tại trong hệ thống, vui lòng đổi slug khác!');
+          return;
+        }
+
+        if (id) {
+          const index = resourcesData.findIndex(x => x.id === id);
+          if (index !== -1) {
+            resourcesData[index] = {
+              ...resourcesData[index],
+              title, slug, excerpt, content, type, typeName, category, access, accessName, courseId, fileId, url, thumbnailUrl, readingTime, status, statusName, is_featured
+            };
+            if (window.showToast) window.showToast('Đã lưu thay đổi Resource.');
+          }
+        } else {
+          resourcesData.unshift({
+            id: String(resourcesData.length + 1),
+            title, slug, excerpt, content, type, typeName, category, access, accessName, courseId, fileId, url, thumbnailUrl, readingTime, status, statusName, is_featured,
+            downloads: 0,
+            date: new Date().toLocaleDateString('vi-VN')
+          });
+          if (window.showToast) window.showToast('Đã thêm Resource mới thành công.');
+        }
+
+        renderTable(resourcesData);
+        resetForm();
+      });
+
+      // Filter handling
+      function runFilters() {
+        let filtered = resourcesData;
+        if (filterType.value) {
+          filtered = filtered.filter(x => x.type === filterType.value);
+        }
+        if (filterAccess.value) {
+          filtered = filtered.filter(x => x.access === filterAccess.value);
+        }
+        renderTable(filtered);
+      }
+
+      filterType.addEventListener('change', runFilters);
+      filterAccess.addEventListener('change', runFilters);
+      resetBtn.addEventListener('click', () => {
+        filterType.value = '';
+        filterAccess.value = '';
+        renderTable(resourcesData);
+      });
+
+      // Initial render
+      renderTable(resourcesData);
+    });
+  </script>
+</body>
+</html>

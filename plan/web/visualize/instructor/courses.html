@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khóa được phân công - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+
+      <div class="sidebar-label">Instructor Workspace</div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="layout-grid"></i>
+            <span>Overview</span>
+          </div>
+        </a>
+        <a class="sidebar-link active" href="courses.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="book-open"></i>
+            <span>Courses</span>
+          </div>
+        </a>
+        <a class="sidebar-link" href="submissions.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="clipboard-check"></i>
+            <span>Submissions</span>
+          </div>
+          <span class="sidebar-badge" id="sidebar-sub-badge">28</span>
+        </a>
+
+        <a class="sidebar-link" href="resources.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="library"></i>
+            <span>Resources</span>
+          </div>
+        </a>
+
+        <a class="sidebar-link" href="../admin/announcements.html?role=instructor">
+          <div class="sidebar-link-left">
+            <i data-lucide="megaphone"></i>
+            <span>Announcements</span>
+          </div>
+        </a>
+
+        <a class="sidebar-link" href="settings.html">
+          <div class="sidebar-link-left">
+            <i data-lucide="settings"></i>
+            <span>Settings</span>
+          </div>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar" style="background-color: #f1f5f9; color: #475569;">
+            IT
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Instructor</span>
+            <span class="sidebar-user-role">
+              <span class="status-dot"></span>
+              Online
+            </span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <div class="sidebar-link-left">
+            <i data-lucide="log-out"></i>
+            <span>Log out</span>
+          </div>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+
+      <!-- Dashboard title -->
+      <section class="page-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="page-title-group">
+            <h1 class="page-title">Khóa được phân công</h1>
+            <p class="page-subtitle">Xem chương trình học và trạng thái học viên cho các khóa bạn được phân công.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Counters row -->
+      <section class="stats-grid">
+        <!-- Card 1 -->
+        <div class="stats-card">
+          <div class="stats-icon-box book">
+            <i data-lucide="book-open"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Tổng khóa được phân công</span>
+            <span class="stats-value">4</span>
+            <span class="stats-trend neutral">&bull; 4 khóa</span>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="stats-card">
+          <div class="stats-icon-box book" style="background-color: #f0fdf4; border-color: #dcfce7; color: #16a34a;">
+            <i data-lucide="users"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Tổng học viên</span>
+            <span class="stats-value">1,248</span>
+            <span class="stats-trend neutral">&bull; Tất cả khóa</span>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="stats-card">
+          <div class="stats-icon-box document">
+            <i data-lucide="clipboard-check"></i>
+          </div>
+          <div class="stats-info">
+            <span class="stats-label">Bài nộp chờ duyệt</span>
+            <span class="stats-value">28</span>
+            <span class="stats-trend neutral">&bull; Cần xử lý</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Filter Panel -->
+      <section class="filter-panel">
+        <div class="filter-row">
+          <div class="search-input-wrapper">
+            <i data-lucide="search"></i>
+            <input type="text" class="search-input" placeholder="Tìm kiếm khóa học...">
+          </div>
+          
+          <div class="filter-group" style="max-width: 180px;">
+            <select class="form-select">
+              <option value="">Tất cả trạng thái</option>
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+          
+          <div class="filter-actions">
+            <button class="btn-secondary" style="height: 36px; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
+              <i data-lucide="rotate-cw" style="width: 14px; height: 14px;"></i>
+              <span>Làm mới</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Layout Grid -->
+      <div class="dashboard-grid drawer-closed">
+        
+        <!-- LEFT PANEL: Table List -->
+        <div class="grid-col-left">
+          <div class="panel">
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Khóa học</th>
+                    <th>Trạng thái</th>
+                    <th>Học viên</th>
+                    <th>Bài nộp chờ duyệt</th>
+                    <th class="col-secondary">Cập nhật gần nhất</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr class="course-row" data-id="course-1" style="cursor: pointer;">
+                    <td>
+                      <div class="col-student">
+                        <div class="drawer-course-thumb" style="width: 36px; height: 36px; border-radius: 4px;">
+                          <!-- Emulate image from screenshots -->
+                          <div style="background-color: #1e293b; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #38bdf8; font-weight: bold;">AI</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                          <span class="course-title" style="font-weight: 600;">AI Agent & Vibe Coding Bootcamp</span>
+                          <span class="course-level" style="font-size: 11px; color: var(--text-secondary);">Core Level</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Published</span></td>
+                    <td><span class="student-count" style="font-weight: 500;">568</span></td>
+                    <td><span class="sub-count" style="font-weight: 600; color: var(--color-orange-dark);">12</span></td>
+                    <td class="col-secondary"><span class="time-stamp last-update">21/05/2026 14:32</span></td>
+                    <td><button class="btn-small view-course-btn">Xem chi tiết</button></td>
+                  </tr>
+                  
+                  <!-- Row 2 -->
+                  <tr class="course-row" data-id="course-2" style="cursor: pointer;">
+                    <td>
+                      <div class="col-student">
+                        <div class="drawer-course-thumb" style="width: 36px; height: 36px; border-radius: 4px;">
+                          <div style="background-color: #0f172a; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #60a5fa; font-weight: bold;">WEB</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                          <span class="course-title" style="font-weight: 600;">Web Development with Next.js</span>
+                          <span class="course-level" style="font-size: 11px; color: var(--text-secondary);">Starter Level</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Published</span></td>
+                    <td><span class="student-count" style="font-weight: 500;">312</span></td>
+                    <td><span class="sub-count" style="font-weight: 600; color: var(--color-orange-dark);">8</span></td>
+                    <td class="col-secondary"><span class="time-stamp last-update">20/05/2026 09:15</span></td>
+                    <td><button class="btn-small view-course-btn">Xem chi tiết</button></td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr class="course-row" data-id="course-3" style="cursor: pointer;">
+                    <td>
+                      <div class="col-student">
+                        <div class="drawer-course-thumb" style="width: 36px; height: 36px; border-radius: 4px;">
+                          <div style="background-color: #312e81; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #818cf8; font-weight: bold;">AUTO</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                          <span class="course-title" style="font-weight: 600;">AI Automation Fundamentals</span>
+                          <span class="course-level" style="font-size: 11px; color: var(--text-secondary);">Core Level</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gray">Draft</span></td>
+                    <td><span class="student-count" style="font-weight: 500;">184</span></td>
+                    <td><span class="sub-count" style="font-weight: 600; color: var(--color-orange-dark);">5</span></td>
+                    <td class="col-secondary"><span class="time-stamp last-update">19/05/2026 16:48</span></td>
+                    <td><button class="btn-small view-course-btn">Xem chi tiết</button></td>
+                  </tr>
+
+                  <!-- Row 4 -->
+                  <tr class="course-row" data-id="course-4" style="cursor: pointer;">
+                    <td>
+                      <div class="col-student">
+                        <div class="drawer-course-thumb" style="width: 36px; height: 36px; border-radius: 4px;">
+                          <div style="background-color: #064e3b; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #34d399; font-weight: bold;">MOB</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 2px;">
+                          <span class="course-title" style="font-weight: 600;">Mobile App Development</span>
+                          <span class="course-level" style="font-size: 11px; color: var(--text-secondary);">Advanced Level</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Published</span></td>
+                    <td><span class="student-count" style="font-weight: 500;">184</span></td>
+                    <td><span class="sub-count" style="font-weight: 600; color: var(--color-orange-dark);">3</span></td>
+                    <td class="col-secondary"><span class="time-stamp last-update">18/05/2026 11:21</span></td>
+                    <td><button class="btn-small view-course-btn">Xem chi tiết</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="table-footer">
+              <span class="table-info">Hiển thị 1 đến 4 của 4 khóa học</span>
+              <div class="pagination">
+                <button class="pagination-btn disabled" aria-label="Previous page"><i data-lucide="chevron-left"></i></button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn disabled" aria-label="Next page"><i data-lucide="chevron-right"></i></button>
+              </div>
+              <div style="font-size: 12px; color: var(--text-secondary);">
+                <select class="form-select" style="height: 28px; padding: 0 8px; font-size: 11px;">
+                  <option>10 / trang</option>
+                  <option>20 / trang</option>
+                  <option>50 / trang</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom permissions panel -->
+          <div class="panel" style="margin-top: 12px; background-color: #fdfbf7; border-color: #f2edd8;">
+            <div class="panel-title-group" style="margin-bottom: 12px;">
+              <i data-lucide="info" style="color: var(--text-secondary); width: 16px; height: 16px;"></i>
+              <h2 class="tips-title" style="margin: 0; font-size: 13.5px;">Bạn đang có quyền:</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+              <div class="tips-item">
+                <i data-lucide="check-circle-2" class="check"></i>
+                <span>Xem tiến độ học viên - Trong các khóa được phân công</span>
+              </div>
+              <div class="tips-item">
+                <i data-lucide="check-circle-2" class="check"></i>
+                <span>Duyệt bài nộp - 28 bài nộp chờ duyệt</span>
+              </div>
+
+              <div class="tips-item">
+                <i data-lucide="x-circle" class="cross"></i>
+                <span>Không có quyền chỉnh sửa - Nội dung khóa học & học viên</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANEL: Slide-out Detail Drawer (Hidden initially inside column) -->
+        <div class="grid-col-right detail-drawer drawer-closed" id="course-detail-drawer">
+          
+          <div class="drawer-header">
+            <span class="drawer-title">Chi tiết khóa học</span>
+            <button class="drawer-close-btn" aria-label="Close details">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+          
+          <div class="drawer-body">
+            
+            <!-- Course Card summary -->
+            <div class="drawer-course-card">
+              <div class="drawer-course-thumb" style="width: 56px; height: 56px; border-radius: 6px;">
+                <div style="background-color: #1e293b; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #38bdf8; font-weight: bold;">AI</div>
+              </div>
+              <div class="drawer-course-info">
+                <h3 class="drawer-course-title" id="drawer-course-title">AI Agent & Vibe Coding Bootcamp</h3>
+                <div class="drawer-course-meta">
+                  <span id="drawer-course-level">Core Level</span>
+                  <span style="color: var(--border-passive);">|</span>
+                  <span id="drawer-course-status"><span class="badge badge-green">Published</span></span>
+                </div>
+                <span style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;" id="drawer-course-update">Cập nhật gần nhất: 21/05/2026 14:32</span>
+              </div>
+            </div>
+
+            <!-- Tab Headers -->
+            <div class="drawer-tabs">
+              <div class="drawer-tab active" data-tab="tab-syllabus">Chương trình học</div>
+              <div class="drawer-tab" data-tab="tab-overview">Tổng quan</div>
+              <div class="drawer-tab" data-tab="tab-students">Học viên</div>
+            </div>
+
+            <!-- Tab 1: Syllabus -->
+            <div class="tab-content active" id="tab-syllabus">
+              <div class="info-banner">
+                <i data-lucide="alert-circle"></i>
+                <span>Bạn chỉ có quyền xem. Không thể chỉnh sửa nội dung bài học hoặc bài tập.</span>
+              </div>
+
+              <div class="module-list">
+                <!-- Module 1 -->
+                <div class="module-item">
+                  <div class="module-header">
+                    <span class="module-title">Module 1. AI & Vibe Coding Overview</span>
+                    <span class="module-subtitle">3 lessons</span>
+                  </div>
+                  <div class="lessons-list">
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">1.1</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">AI và tương lai lập trình</span>
+                          <span class="lesson-meta"><i data-lucide="play"></i> Video &bull; 15:24</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">1.2</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Công cụ & môi trường làm việc</span>
+                          <span class="lesson-meta"><i data-lucide="file-text"></i> Resource</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">1.3</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Quiz: Kiểm tra kiến thức cơ bản</span>
+                          <span class="lesson-meta"><i data-lucide="help-circle"></i> Quiz &bull; 10 câu hỏi</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="module-item">
+                  <div class="module-header">
+                    <span class="module-title">Module 2. Vibe Coding Basics</span>
+                    <span class="module-subtitle">5 lessons</span>
+                  </div>
+                  <div class="lessons-list">
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">2.1</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Tư duy Vibe Coding</span>
+                          <span class="lesson-meta"><i data-lucide="play"></i> Video &bull; 18:36</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">2.2</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Tạo landing page đầu tiên</span>
+                          <span class="lesson-meta"><i data-lucide="play"></i> Video &bull; 22:11</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">2.3</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Bài tập: Viết prompt tạo layout</span>
+                          <span class="lesson-meta"><i data-lucide="file-check"></i> Assignment</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                  </div>
+                  <button class="see-more-btn">
+                    <span>Xem tất cả 5 lessons</span>
+                    <i data-lucide="chevron-down"></i>
+                  </button>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="module-item">
+                  <div class="module-header">
+                    <span class="module-title">Module 3. AI Agent Building</span>
+                    <span class="module-subtitle">4 lessons</span>
+                  </div>
+                  <div class="lessons-list">
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">3.1</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Hiểu về AI Agent</span>
+                          <span class="lesson-meta"><i data-lucide="play"></i> Video &bull; 20:08</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                    <div class="lesson-item">
+                      <div class="lesson-item-left">
+                        <span class="lesson-num">3.2</span>
+                        <div class="lesson-details">
+                          <span class="lesson-title">Xây agent đầu tiên với AI</span>
+                          <span class="lesson-meta"><i data-lucide="play"></i> Video &bull; 25:42</span>
+                        </div>
+                      </div>
+                      <i data-lucide="chevron-right" class="chevron"></i>
+                    </div>
+                  </div>
+                  <button class="see-more-btn">
+                    <span>Xem tất cả 4 lessons</span>
+                    <i data-lucide="chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: Overview (General) -->
+            <div class="tab-content" id="tab-overview">
+              <div class="submission-text-block">
+                <span class="submission-text-title">Mô tả tổng quan khóa học</span>
+                <p class="submission-text-content" style="font-size: 12px; margin-top: 4px;">Khóa học đào tạo tư duy lập trình cực nhanh với AI (Vibe Coding), phát triển các AI Agents từ cơ bản đến nâng cao. Học viên sẽ học cách phối hợp các mô hình ngôn ngữ lớn (LLMs), các IDE và CLI coding assistant mới nhất như Cursor, Claude Code, Copilot để tạo ứng dụng thực tế mà không cần viết quá nhiều code tay truyền thống.</p>
+              </div>
+              
+              <div class="metadata-grid" style="grid-template-columns: 1fr; gap: 8px; margin-top: 10px;">
+                <div class="metadata-item">
+                  <span class="metadata-label">Mục tiêu đầu ra</span>
+                  <span class="metadata-value" style="font-size: 11.5px;">Tự xây dựng landing page, web app, và các agent tự động hóa vận hành doanh nghiệp.</span>
+                </div>
+                <div class="metadata-item">
+                  <span class="metadata-label">Công nghệ giảng dạy</span>
+                  <span class="metadata-value" style="font-size: 11.5px;">Cursor, Claude Code, Next.js, n8n, OpenAI API, Python, Vercel.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 3: Students list progress -->
+            <div class="tab-content" id="tab-students">
+              <div class="submission-text-block">
+                <span class="submission-text-title">Danh sách học viên tiêu biểu</span>
+              </div>
+              <div class="table-container" style="margin: 0; padding: 0;">
+                <table style="min-width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>Học viên</th>
+                      <th>Tiến độ</th>
+                      <th>Bài đã nộp</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="student-name" style="font-size: 11.5px;">Phạm Đức Trí</span></td>
+                      <td><span style="font-weight: 600; color: var(--color-green);">95%</span></td>
+                      <td><span class="badge badge-green">Hoàn thành</span></td>
+                    </tr>
+                    <tr>
+                      <td><span class="student-name" style="font-size: 11.5px;">Nguyễn Hoàng Anh</span></td>
+                      <td><span style="font-weight: 600; color: var(--color-green);">82%</span></td>
+                      <td><span class="badge badge-indigo">12 bài tập</span></td>
+                    </tr>
+                    <tr>
+                      <td><span class="student-name" style="font-size: 11.5px;">Mai Lan</span></td>
+                      <td><span style="font-weight: 600; color: var(--color-green);">78%</span></td>
+                      <td><span class="badge badge-indigo">9 bài tập</span></td>
+                    </tr>
+                    <tr>
+                      <td><span class="student-name" style="font-size: 11.5px;">Võ Thị Khánh</span></td>
+                      <td><span style="font-weight: 600; color: var(--color-orange-dark);">54%</span></td>
+                      <td><span class="badge badge-orange">6 bài tập</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Drawer Action Navigation buttons -->
+          <div class="drawer-footer">
+            <button class="btn-primary" id="drawer-view-submissions-btn">
+              Xem danh sách bài nộp 
+              <span class="sidebar-badge" style="background-color: var(--color-orange); margin-left: 6px;">12</span>
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

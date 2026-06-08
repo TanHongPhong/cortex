@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Mục tiêu
@@ -33,7 +34,7 @@ status: "[[MVP]]"
 ## 2. Bố cục trang
 
 ```text
-Logo CORTEX
+Logo Blueprint
 
 Tạo tài khoản học viên
 
@@ -110,13 +111,13 @@ MVP/P1 không build Google OAuth và không build email verification.
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]]
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page/admin/admin-students|/admin/students — Quản lý học viên]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page/admin/admin-students|/admin/students — Quản lý học viên]]

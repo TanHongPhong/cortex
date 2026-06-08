@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 **Covered routes:** `/admin/submissions` and submission detail drawer/actions inside the same page.
 
@@ -484,20 +485,6 @@ Không tìm thấy bài nộp phù hợp với bộ lọc hiện tại.
 
 ---
 
-# 18. UI style đề xuất
-
-| Phần             | Gợi ý                                           |
-| ---------------- | ----------------------------------------------- |
-| Tổng thể         | Admin review workspace, rõ, tập trung duyệt bài |
-| Table            | Ưu tiên pending lên đầu                         |
-| Status badge     | Pending vàng, approved xanh, rejected đỏ nhẹ    |
-| Detail drawer    | Rộng hơn bình thường để xem nội dung/link       |
-| Feedback box     | Đặt gần actions approve/reject                  |
-| Link demo/source | Nút mở rõ ràng                                  |
-| Mobile           | Có thể xem được, nhưng ưu tiên desktop          |
-
----
-
 # 19. Acceptance Criteria
 
 Trang `/admin/submissions` đạt nếu:
@@ -546,12 +533,12 @@ Nói ngắn gọn: **`/admin/submissions` là nơi [[web/page/admin/admin|admin]
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/projects|/projects — Trang dự án học viên]]

@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Vai trò của trang
@@ -133,7 +134,7 @@ Mỗi lesson row cần có:
 | Lesson title  | Tên bài học                                                    |
 | Duration      | Thời lượng nếu là video                                        |
 | Type          | Video / Resource / Assignment / Final Project                  |
-| Status icon   | Completed / Available / Locked / Pending / Rejected / Approved |
+| Status state  | Completed / Available / Locked / Pending / Rejected / Approved |
 | Current state | Highlight bài đang học                                         |
 | Click action  | Bấm vào bài để mở `/learn/[course]/[lesson]`                   |
 
@@ -175,7 +176,7 @@ Mỗi item trong module có thể là một loại lesson khác nhau:
 | Trạng thái     | Cách hiển thị                                      |
 | -------------- | -------------------------------------------------- |
 | Completed      | Dấu check xanh, có thể xem lại                     |
-| Available      | Dấu tròn hoặc play icon, có thể bấm vào học        |
+| Available      | Có thể bấm vào học                                 |
 | Current        | Highlight nhẹ, ghi “Current lesson”                |
 | Locked         | Icon khóa, không bấm được hoặc hiện tooltip        |
 | Pending review | Assignment/final project đã nộp, đang chờ duyệt    |
@@ -277,7 +278,7 @@ Phù hợp với:
 ```text
 Bạn chưa có quyền truy cập khóa học này.
 
-Vui lòng đăng ký khóa học hoặc liên hệ CORTEX để được hỗ trợ.
+Vui lòng đăng ký khóa học hoặc liên hệ Blueprint để được hỗ trợ.
 [Xem khóa học] [Liên hệ hỗ trợ: /contact?type=support]
 ```
 
@@ -286,7 +287,7 @@ Vui lòng đăng ký khóa học hoặc liên hệ CORTEX để được hỗ tr
 ```text
 Nội dung khóa học đang được cập nhật.
 
-CORTEX sẽ thông báo khi bài học sẵn sàng.
+Blueprint sẽ thông báo khi bài học sẵn sàng.
 ```
 
 ## Nếu khóa đã hết hạn
@@ -294,7 +295,7 @@ CORTEX sẽ thông báo khi bài học sẵn sàng.
 ```text
 Quyền truy cập khóa học của bạn đã hết hạn.
 
-Vui lòng liên hệ CORTEX để được hỗ trợ gia hạn.
+Vui lòng liên hệ Blueprint để được hỗ trợ gia hạn.
 ```
 
 ---
@@ -404,22 +405,6 @@ Nếu course.lock_mode = free:
 
 ---
 
-# 10. UI style đề xuất
-
-| Phần          | Gợi ý                                                             |
-| ------------- | ----------------------------------------------------------------- |
-| Course header | Card lớn, rõ progress và CTA                                      |
-| Module list   | Accordion gọn, dễ scan                                            |
-| Lesson row    | Đơn giản, có icon trạng thái                                      |
-| Lesson type   | Có badge nhỏ để phân biệt video/resource/quiz/assignment/final project |
-| Right panel   | Sticky nhẹ trên desktop                                           |
-| Progress bar  | Rõ, dễ thấy                                                       |
-| Badge         | Level, status, [[web/page/website/certificate|certificate]]                                        |
-| Mobile        | Module list ưu tiên lên trước, info panel xuống dưới              |
-| Animation     | Chỉ dùng accordion/hover nhẹ                                      |
-
----
-
 # 11. Component cần có
 
 | Component              | Mục đích                                                       |
@@ -450,7 +435,7 @@ Trang `/learn/[course]` đạt nếu:
 | Hiển thị đúng module và lesson                                     |             |
 | Lesson hiển thị đúng type: video/resource/quiz/assignment/final_project |             |
 | Lesson completed có dấu check                                      |             |
-| Lesson locked có icon khóa                                         |             |
+| Lesson locked hiển thị trạng thái khóa                             |             |
 | Assignment/final project pending/rejected/approved hiển thị đúng   |             |
 | Progress tính đúng theo lesson completed và submission approved    |             |
 | Nút `Học tiếp bài gần nhất` dẫn đúng lesson                        |             |
@@ -486,12 +471,12 @@ Nói ngắn gọn: **`/learn/[course]` là bản đồ của một khóa học. 
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]

@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Public Website]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -37,7 +37,7 @@ status: "[[MVP]]"
 
 Verify Certificate
 
-Nhập Certificate ID để kiểm tra chứng chỉ được cấp bởi CORTEX.
+Nhập Certificate ID để kiểm tra chứng chỉ được cấp bởi Blueprint.
 
 [Input Certificate ID]
 [Button: Verify]
@@ -53,10 +53,9 @@ Nhập Certificate ID để kiểm tra chứng chỉ được cấp bởi CORTEX
 
 Certificate ID tuân theo định dạng:
 
-**Format**: `CERT-{YYYY}{RRRR}-{NNNNNN}`
+**Format**: `CERT-{YYYYRRRR}-{NNNNNN}`
 
-- `{YYYY}`: Năm cấp (ví dụ: 2026)
-- `{RRRR}`: 4 chữ số ngẫu nhiên (0001-9999)
+- `{YYYYRRRR}`: 8 chữ số gồm năm cấp `YYYY` + 4 chữ số ngẫu nhiên `RRRR`
 - `{NNNNNN}`: 6 chữ số tự động tăng (000001-999999)
 - **Ví dụ hợp lệ**: `CERT-20260234-000123`
 
@@ -87,7 +86,7 @@ Certificate ID tuân theo định dạng:
 
 ## A. Khi chứng chỉ hợp lệ
 
-Hiển thị box màu tích cực:
+Hiển thị box trạng thái dùng [[web/page/website/design|Blueprint Mono / Dark Mono]]: nền `--surface`, border `--border`, badge `--accent`, text trạng thái `--primary`.
 
 ```text
 Certificate is valid
@@ -118,7 +117,7 @@ Please check the Certificate ID and try again.
 Certificate revoked
 
 This [[web/page/website/certificate|certificate]] was issued before but is no longer valid.
-Please [[web/page/website/contact|contact]] CORTEX for more information.
+Please [[web/page/website/contact|contact]] Blueprint for more information.
 ```
 
 ---
@@ -184,13 +183,13 @@ Quét QR tự động mở và kiểm tra ID.
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/website
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/website
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]]

@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý học viên - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Specific styles for student management layout */
+    .search-filter-row {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-passive);
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 16px;
+    }
+    
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+    
+    .search-input-wrapper svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      width: 14px;
+      height: 14px;
+    }
+    
+    .search-input-wrapper input {
+      padding-left: 32px;
+    }
+    
+    /* Highlight cell details */
+    .student-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .student-cell .avatar {
+      width: 28px;
+      height: 28px;
+      font-size: 11px;
+    }
+    
+    /* Details drawer */
+    .drawer-profile-header {
+      background-color: #faf8f5;
+      border: 1px solid var(--border-passive);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+    
+    .drawer-profile-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .drawer-profile-avatar:not([class*="avatar-"]) {
+      background-color: #e2e8f0;
+      color: var(--text-primary);
+    }
+    
+    .drawer-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-passive);
+      margin-top: 16px;
+      margin-bottom: 12px;
+      gap: 14px;
+    }
+    
+    .drawer-tab {
+      padding-bottom: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition-fast);
+    }
+    
+    .drawer-tab.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--text-primary);
+      font-weight: 600;
+    }
+    
+    .drawer-section {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-passive);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+    
+    .drawer-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 6px;
+    }
+    
+    .drawer-section-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .drawer-info-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .drawer-info-item {
+      display: grid;
+      grid-template-columns: 4fr 8fr;
+      font-size: 12px;
+      align-items: baseline;
+    }
+    
+    .drawer-info-label {
+      color: var(--text-secondary);
+    }
+    
+    .drawer-info-value {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    
+    .drawer-footer-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    /* When the details drawer is open, hide some columns and let name, number of courses, status, created date, and actions display cleanly */
+    #student-grid:not(.drawer-closed) .grid-col-left table th:nth-child(1),
+    #student-grid:not(.drawer-closed) .grid-col-left table td:nth-child(1),
+    #student-grid:not(.drawer-closed) .grid-col-left table th:nth-child(3),
+    #student-grid:not(.drawer-closed) .grid-col-left table td:nth-child(3),
+    #student-grid:not(.drawer-closed) .grid-col-left table th:nth-child(4),
+    #student-grid:not(.drawer-closed) .grid-col-left table td:nth-child(4),
+    #student-grid:not(.drawer-closed) .grid-col-left table th:nth-child(6),
+    #student-grid:not(.drawer-closed) .grid-col-left table td:nth-child(6),
+    #student-grid:not(.drawer-closed) .grid-col-left table th:nth-child(7),
+    #student-grid:not(.drawer-closed) .grid-col-left table td:nth-child(7) {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link active" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">
+            <i data-lucide="user"></i>
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý học viên</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Theo dõi thông tin, tiến độ học và trạng thái học viên.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-secondary" id="export-btn">
+            <i data-lucide="download"></i>
+            <span>Export</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <button class="btn-black">
+            <i data-lucide="plus"></i>
+            <span>Thêm học viên</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (4 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-4" style="margin-bottom: 20px;">
+        <!-- Card 1: Total Students -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Tổng học viên</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,248</span>
+            <span class="kpi-trend trend-up">+28</span>
+          </div>
+          <span style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">Tất cả thời gian</span>
+        </div>
+
+        <!-- Card 2: Active Students -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Học viên đang hoạt động</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,076</span>
+            <span class="kpi-trend trend-up">+21</span>
+          </div>
+          <span style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">Học viên có ít nhất 1 khóa active</span>
+        </div>
+
+        <!-- Card 3: Blocked Students -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Học viên bị khóa</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">32</span>
+            <span class="kpi-trend trend-down">+3</span>
+          </div>
+          <span style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">Tài khoản bị khóa</span>
+        </div>
+
+        <!-- Card 4: New Students -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Học viên mới (30 ngày)</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">86</span>
+            <span class="kpi-trend trend-up">+12</span>
+          </div>
+          <span style="font-size: 10px; color: var(--text-secondary); margin-top: 4px;">Đăng ký trong 30 ngày qua</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="student-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Search & Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel">
+            <!-- Search & Filters -->
+            <div class="search-filter-row">
+              <div class="search-input-wrapper">
+                <i data-lucide="search"></i>
+                <input type="text" class="form-control" placeholder="Tìm theo tên, email hoặc số điện thoại...">
+              </div>
+              <button class="btn-secondary" style="font-size: 11.5px; padding: 6px 12px;">
+                <i data-lucide="sliders-horizontal" style="width: 14px; height: 14px;"></i>
+                <span>Bộ lọc</span>
+                <i data-lucide="chevron-down" style="width: 12px; height: 12px; margin-left: 2px;"></i>
+              </button>
+            </div>
+            
+            <!-- Table -->
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 32px;"><input type="checkbox" id="check-all"></th>
+                    <th>Học viên</th>
+                    <th>Email</th>
+                    <th>Phone / Zalo</th>
+                    <th style="text-align: center; width: 70px;">Khóa học</th>
+                    <th>Khóa hiện tại</th>
+                    <th>Tiến độ</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th style="width: 80px; text-align: right;">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr data-student-id="1" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-pt">PT</div>
+                        <span class="student-name">Phạm Đức Trí</span>
+                      </div>
+                    </td>
+                    <td>tri@email.com</td>
+                    <td style="color: var(--text-secondary);">09xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">2</td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill orange" style="width: 45%;"></div>
+                        </div>
+                        <span class="progress-value">45%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td style="color: var(--text-secondary);">28/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Row 2 -->
+                  <tr data-student-id="2" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-nh">NH</div>
+                        <span class="student-name">Nguyễn Hoàng Anh</span>
+                      </div>
+                    </td>
+                    <td>anh.nguyen@email.com</td>
+                    <td style="color: var(--text-secondary);">08xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">1</td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill green" style="width: 72%;"></div>
+                        </div>
+                        <span class="progress-value">72%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td style="color: var(--text-secondary);">26/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 3 -->
+                  <tr data-student-id="3" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-tl">TL</div>
+                        <span class="student-name">Trần Linh</span>
+                      </div>
+                    </td>
+                    <td>linh.tran@email.com</td>
+                    <td style="color: var(--text-secondary);">09xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">1</td>
+                    <td>Vibe Coding Basics</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill orange" style="width: 20%;"></div>
+                        </div>
+                        <span class="progress-value">20%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td style="color: var(--text-secondary);">24/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 4 -->
+                  <tr data-student-id="4" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-ml">ML</div>
+                        <span class="student-name">Mai Lan</span>
+                      </div>
+                    </td>
+                    <td>lan.mai@email.com</td>
+                    <td style="color: var(--text-secondary);">07xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">0</td>
+                    <td style="color: var(--text-secondary);">—</td>
+                    <td>
+                      <div class="progress-container">
+                        <span style="color: var(--text-secondary); font-size: 11.5px; padding-left: 6px;">—</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td style="color: var(--text-secondary);">18/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 5 -->
+                  <tr data-student-id="5" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-vq">VQ</div>
+                        <span class="student-name">Vũ Quang</span>
+                      </div>
+                    </td>
+                    <td>quangvu@email.com</td>
+                    <td style="color: var(--text-secondary);">09xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">1</td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill green" style="width: 100%;"></div>
+                        </div>
+                        <span class="progress-value">100%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gray">Completed</span></td>
+                    <td style="color: var(--text-secondary);">12/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 6 -->
+                  <tr data-student-id="6" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-ht">HT</div>
+                        <span class="student-name">Hoàng Tú</span>
+                      </div>
+                    </td>
+                    <td>tu.hoang@email.com</td>
+                    <td style="color: var(--text-secondary);">08xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">1</td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill gray" style="width: 0%;"></div>
+                        </div>
+                        <span class="progress-value">0%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-red">Blocked</span></td>
+                    <td style="color: var(--text-secondary);">10/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 7 -->
+                  <tr data-student-id="7" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-qn">QN</div>
+                        <span class="student-name">Quỳnh Như</span>
+                      </div>
+                    </td>
+                    <td>nhu.quynh@email.com</td>
+                    <td style="color: var(--text-secondary);">09xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">1</td>
+                    <td>Vibe Coding Basics</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill orange" style="width: 35%;"></div>
+                        </div>
+                        <span class="progress-value">35%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td style="color: var(--text-secondary);">08/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- Row 8 -->
+                  <tr data-student-id="8" style="cursor: pointer;">
+                    <td><input type="checkbox" class="student-checkbox"></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-dt">DT</div>
+                        <span class="student-name">Đỗ Thành</span>
+                      </div>
+                    </td>
+                    <td>thanh.do@email.com</td>
+                    <td style="color: var(--text-secondary);">09xxxxxxxx</td>
+                    <td style="text-align: center; color: var(--text-secondary);">2</td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td>
+                      <div class="progress-container">
+                        <div class="progress-bar-track">
+                          <div class="progress-bar-fill green" style="width: 60%;"></div>
+                        </div>
+                        <span class="progress-value">60%</span>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-green">Active</span></td>
+                    <td style="color: var(--text-secondary);">05/05/2026</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination-container">
+              <span>Hiển thị 1 đến 8 của 1,248 học viên</span>
+              <div class="pagination-pages">
+                <div class="page-btn"><i data-lucide="chevron-left"></i></div>
+                <div class="page-btn active">1</div>
+                <div class="page-btn">2</div>
+                <div class="page-btn">3</div>
+                <span style="color: var(--text-secondary); margin: 0 4px;">...</span>
+                <div class="page-btn">125</div>
+                <div class="page-btn"><i data-lucide="chevron-right"></i></div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <select class="page-select-dropdown">
+                  <option>10 / trang</option>
+                  <option>20 / trang</option>
+                  <option>50 / trang</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- RIGHT COLUMN: Student Details Drawer -->
+        <div class="grid-col-right">
+          
+          <div class="panel">
+            <div class="panel-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 14px;">
+              <h2 class="panel-title">Chi tiết học viên</h2>
+              <button class="btn-icon-only" id="close-drawer-btn" title="Đóng"><i data-lucide="x"></i></button>
+            </div>
+            
+            <!-- Profile Overview Header -->
+            <div class="drawer-profile-header">
+              <div class="drawer-profile-avatar" id="drawer-avatar">PT</div>
+              <div class="student-profile-info">
+                <div class="student-profile-name" id="drawer-name">Phạm Đức Trí</div>
+                <div class="student-profile-email" id="drawer-email">tri@email.com</div>
+                <div class="student-profile-meta">
+                  <span id="drawer-phone">09xxxxxxxx</span>
+                  <button class="copy-btn" title="Copy"><i data-lucide="copy"></i></button>
+                </div>
+              </div>
+              <span class="badge badge-green" id="drawer-status-badge" style="position: absolute; right: 16px; top: 16px;">Active</span>
+            </div>
+            
+            <!-- Drawer Tabs -->
+            <div class="drawer-tabs" id="drawer-tab-header">
+              <span class="drawer-tab active" data-tab="tong-quan">Tổng quan</span>
+              <span class="drawer-tab" data-tab="tien-do">Tiến độ</span>
+              <span class="drawer-tab" data-tab="bai-nop">Bài nộp</span>
+              <span class="drawer-tab" data-tab="chung-chi">Chứng chỉ</span>
+              <span class="drawer-tab" data-tab="so-du">Số dư & Giao dịch</span>
+              <span class="drawer-tab" data-tab="ghi-chu">Ghi chú</span>
+            </div>
+            
+            <!-- Drawer Tab Content Wrapper -->
+            <div id="drawer-tab-panes">
+              
+              <!-- Tab 1: Tổng quan -->
+              <div class="tab-pane" id="pane-tong-quan">
+                <!-- Section 1: Thông tin cá nhân -->
+                <div class="drawer-section">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Thông tin cá nhân</span>
+                    <button class="btn-secondary" style="font-size: 11px; padding: 3px 6px;">Chỉnh sửa</button>
+                  </div>
+                  
+                  <div class="drawer-info-grid">
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Họ tên</span>
+                      <span class="drawer-info-value" id="drawer-info-name">Phạm Đức Trí</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Email</span>
+                      <span class="drawer-info-value" id="drawer-info-email">tri@email.com</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Phone / Zalo</span>
+                      <span class="drawer-info-value" id="drawer-info-phone">09xxxxxxxx</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Vai trò</span>
+                      <span class="drawer-info-value">student</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Trạng thái</span>
+                      <span class="drawer-info-value" style="display: flex; align-items: center; gap: 8px;">
+                        <span class="badge badge-green" id="drawer-info-status">Active</span>
+                        <button class="btn-secondary" id="drawer-lock-btn" style="font-size: 10.5px; padding: 2px 6px; display: inline-flex; align-items: center; gap: 4px;">
+                          <i data-lucide="lock" style="width: 10px; height: 10px;"></i>
+                          <span>Khóa tài khoản</span>
+                        </button>
+                      </span>
+                    </div>
+                    <div class="drawer-info-item" style="margin-top: 4px;">
+                      <span class="drawer-info-label">Ngày tạo</span>
+                      <span class="drawer-info-value" id="drawer-info-created" style="color: var(--text-secondary);">28/05/2026 10:21</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Cập nhật cuối</span>
+                      <span class="drawer-info-value" id="drawer-info-updated" style="color: var(--text-secondary);">02/06/2026 09:15</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Section 2: Nhu cầu học tập -->
+                <div class="drawer-section">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Nhu cầu học tập</span>
+                    <button class="btn-secondary" style="font-size: 11px; padding: 3px 6px;">Chỉnh sửa</button>
+                  </div>
+                  
+                  <div class="drawer-info-grid">
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Nhu cầu học</span>
+                      <span class="drawer-info-value" id="drawer-need-course">AI Agent & Vibe Coding Bootcamp</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Trình độ hiện tại</span>
+                      <span class="drawer-info-value" id="drawer-need-level">Đã dùng ChatGPT cơ bản</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Mục tiêu học</span>
+                      <span class="drawer-info-value" id="drawer-need-goal">Tạo website/app bằng AI</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Ghi chú</span>
+                      <span class="drawer-info-value" id="drawer-need-note" style="font-style: italic; color: var(--text-secondary);">Muốn học để build sản phẩm cá nhân.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Section 3: Các khóa đã đăng ký -->
+                <div class="drawer-section" style="margin-bottom: 0;">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Các khóa đã đăng ký</span>
+                    <button class="btn-secondary" style="font-size: 11px; padding: 3px 6px;">
+                      <i data-lucide="plus" style="width: 10px; height: 10px; margin-right: 2px;"></i>
+                      <span>Gán khóa</span>
+                    </button>
+                  </div>
+                  
+                  <div class="table-container" style="border: none; padding: 0;">
+                    <table style="border: none;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid var(--border-passive);">
+                          <th style="padding: 6px 0; font-size: 11px;">Khóa học</th>
+                          <th style="padding: 6px 0; font-size: 11px;">Trạng thái</th>
+                          <th style="padding: 6px 0; font-size: 11px;">Tiến độ</th>
+                          <th style="padding: 6px 0; font-size: 11px;">Ngày đăng ký</th>
+                          <th style="padding: 6px 0; font-size: 11px; width: 30px; text-align: right;"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="drawer-courses-tbody">
+                        <!-- Filled by JS -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Tab 2: Tiến độ -->
+              <div class="tab-pane" id="pane-tien-do" style="display: none;">
+                <div class="drawer-section">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Tiến độ chi tiết</span>
+                  </div>
+                  <div class="drawer-info-grid">
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Bài học hoàn thành</span>
+                      <span class="drawer-info-value" id="drawer-progress-lessons">12 / 24 bài học</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Điểm trung bình quiz</span>
+                      <span class="drawer-info-value" id="drawer-progress-quiz">8.5 / 10</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Thời gian tự học</span>
+                      <span class="drawer-info-value" id="drawer-progress-time">18 giờ 45 phút</span>
+                    </div>
+                    <div class="drawer-info-item">
+                      <span class="drawer-info-label">Bài tập thực hành</span>
+                      <span class="drawer-info-value" id="drawer-progress-exercises">4 / 6 bài tập</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Tab 3: Bài nộp -->
+              <div class="tab-pane" id="pane-bai-nop" style="display: none;">
+                <div class="drawer-section">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Bài tập & Project đã nộp</span>
+                  </div>
+                  <div class="table-container" style="border: none; padding: 0;">
+                    <table style="border: none;">
+                      <thead>
+                        <tr style="border-bottom: 1px solid var(--border-passive);">
+                          <th style="padding: 6px 0; font-size: 11px;">Bài tập</th>
+                          <th style="padding: 6px 0; font-size: 11px;">Nộp lúc</th>
+                          <th style="padding: 6px 0; font-size: 11px;">Trạng thái</th>
+                        </tr>
+                      </thead>
+                      <tbody id="drawer-submissions-tbody">
+                        <!-- Filled by JS -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Tab 4: Chứng chỉ -->
+              <div class="tab-pane" id="pane-chung-chi" style="display: none;">
+                <div class="drawer-section">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Chứng chỉ đã cấp</span>
+                  </div>
+                  <div class="drawer-info-grid" id="drawer-certificates-list">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Tab 5: Số dư & Giao dịch -->
+              <div class="tab-pane" id="pane-so-du" style="display: none;">
+                <div class="drawer-section">
+                  <div class="drawer-section-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="drawer-section-title">Số dư tài khoản</span>
+                    <button class="btn-secondary" id="drawer-reset-balance-btn" style="height: 24px; padding: 0 8px; font-size: 10px; color: var(--color-red); border-color: var(--border-passive);">Reset Số dư</button>
+                  </div>
+                  <div class="detail-list" style="margin-top: 8px;">
+                    <div class="detail-item" style="padding: 8px 0;">
+                      <span class="detail-label">Số dư ví nội bộ</span>
+                      <strong class="detail-value" id="drawer-account-balance" style="font-size: 14px; color: var(--color-green);">500.000đ</strong>
+                    </div>
+                  </div>
+                  
+                  <div class="drawer-section-header" style="margin-top: 16px;">
+                    <span class="drawer-section-title">Lịch sử giao dịch ví</span>
+                  </div>
+                  <div class="table-container" style="max-height: 160px; overflow-y: auto; font-size: 11px; margin-top: 8px; border: 1px solid var(--border-passive); border-radius: 4px;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;" id="drawer-ledger-table">
+                      <thead>
+                        <tr style="background-color: var(--bg-app); border-bottom: 1px solid var(--border-passive); color: var(--text-secondary);">
+                          <th style="padding: 6px 8px; font-weight: 600;">Mã GD</th>
+                          <th style="padding: 6px 8px; font-weight: 600;">Loại</th>
+                          <th style="padding: 6px 8px; font-weight: 600;">Số tiền</th>
+                          <th style="padding: 6px 8px; font-weight: 600;">Nội dung</th>
+                          <th style="padding: 6px 8px; font-weight: 600;">Thời gian</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Filled dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tab 6: Ghi chú -->
+              <div class="tab-pane" id="pane-ghi-chu" style="display: none;">
+                <div class="drawer-section">
+                  <div class="drawer-section-header">
+                    <span class="drawer-section-title">Ghi chú hệ thống</span>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <textarea class="form-control form-textarea" id="drawer-notes-textarea" style="min-height: 120px;" placeholder="Nhập ghi chú quan trọng cho học viên này..."></textarea>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            
+            <!-- Drawer Footer Actions -->
+            <div class="drawer-footer-actions">
+              <button class="btn-secondary" id="drawer-message-btn" style="font-size: 12px; padding: 8px 12px;">
+                <i data-lucide="message-square" style="width: 14px; height: 14px;"></i>
+                <span>Nhắn tin</span>
+              </button>
+              <button class="btn-secondary" id="drawer-save-note-btn" style="font-size: 12px; padding: 8px 12px;">
+                <i data-lucide="save" style="width: 14px; height: 14px;"></i>
+                <span>Lưu ghi chú</span>
+              </button>
+            </div>
+          </div>
+          
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Add Student Modal Backdrop -->
+    <div class="modal-backdrop" id="add-student-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Thêm học viên mới</h3>
+          <button class="btn-icon-only" id="close-modal-btn" title="Đóng"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 12px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block;">Họ và tên <span class="required" style="color: var(--color-red);">*</span></label>
+            <input type="text" class="form-control" id="new-student-name" placeholder="Ví dụ: Nguyễn Văn A" style="padding: 6px 10px; font-size: 12px;">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block;">Email <span class="required" style="color: var(--color-red);">*</span></label>
+            <input type="email" class="form-control" id="new-student-email" placeholder="Ví dụ: name@email.com" style="padding: 6px 10px; font-size: 12px;">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block;">Số điện thoại / Zalo <span class="required" style="color: var(--color-red);">*</span></label>
+            <input type="text" class="form-control" id="new-student-phone" placeholder="Ví dụ: 0912345678" style="padding: 6px 10px; font-size: 12px;">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block;">Khóa học đăng ký</label>
+            <select class="form-control form-select" id="new-student-course" style="padding: 6px 28px 6px 10px; font-size: 12px;">
+              <option value="AI Agent & Vibe Coding Bootcamp">AI Agent & Vibe Coding Bootcamp</option>
+              <option value="Vibe Coding Basics">Vibe Coding Basics</option>
+              <option value="Web Automation with n8n">Web Automation with n8n</option>
+              <option value="None">Chưa đăng ký</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 11px; margin-bottom: 4px; display: block;">Trạng thái tài khoản</label>
+            <select class="form-control form-select" id="new-student-status" style="padding: 6px 28px 6px 10px; font-size: 12px;">
+              <option value="Active">Hoạt động (Active)</option>
+              <option value="Blocked">Bị khóa (Blocked)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 12px;">
+          <button class="btn-secondary" id="cancel-modal-btn" style="font-size: 11.5px; padding: 6px 12px;">Hủy</button>
+          <button class="btn-black" id="save-student-btn" style="font-size: 11.5px; padding: 6px 12px;">Lưu học viên</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Lucide Icons script -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Client-side Interactive Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Data store for all students
+      const studentsData = {
+        "1": {
+          avatar: "PT",
+          name: "Phạm Đức Trí",
+          email: "tri@email.com",
+          phone: "09xxxxxxxx",
+          status: "Active",
+          statusClass: "badge-green",
+          created: "28/05/2026 10:21",
+          updated: "02/06/2026 09:15",
+          needCourse: "AI Agent & Vibe Coding Bootcamp",
+          needLevel: "Đã dùng ChatGPT cơ bản",
+          needGoal: "Tạo website/app bằng AI",
+          needNote: "Muốn học để build sản phẩm cá nhân.",
+          courses: [
+            { name: "AI Agent & Vibe Coding Bootcamp", status: "Active", statusClass: "badge-green", progress: 45, progressClass: "orange", date: "28/05/2026" },
+            { name: "Vibe Coding Basics", status: "Completed", statusClass: "badge-gray", progress: 100, progressClass: "green", date: "15/03/2026" }
+          ],
+          lessons: "12 / 24 bài học",
+          quiz: "8.5 / 10",
+          time: "18 giờ 45 phút",
+          exercises: "4 / 6 bài tập",
+          submissions: [
+            { exercise: "Assignment 1: Prompt Engineering basics", date: "30/05/2026", status: "Đã duyệt", statusClass: "badge-green" },
+            { exercise: "Assignment 2: Vibe Coding setup", date: "02/06/2026", status: "Đang chấm", statusClass: "badge-orange" }
+          ],
+          certificates: [
+            { name: "Chứng chỉ Vibe Coding Basics", code: "CERT-VIBE-77391", date: "15/03/2026" }
+          ],
+          notes: "Cần chú ý hỗ trợ thêm phần cấu hình API keys ở bài 3."
+        },
+        "2": {
+          avatar: "NH",
+          name: "Nguyễn Hoàng Anh",
+          email: "anh.nguyen@email.com",
+          phone: "08xxxxxxxx",
+          status: "Active",
+          statusClass: "badge-green",
+          created: "26/05/2026 09:12",
+          updated: "27/05/2026 14:20",
+          needCourse: "AI Agent & Vibe Coding Bootcamp",
+          needLevel: "Mới học Python cơ bản",
+          needGoal: "Tự động hóa công việc kinh doanh",
+          needNote: "Cần hỗ trợ về phần API integration.",
+          courses: [
+            { name: "AI Agent & Vibe Coding Bootcamp", status: "Active", statusClass: "badge-green", progress: 72, progressClass: "green", date: "26/05/2026" }
+          ],
+          lessons: "18 / 24 bài học",
+          quiz: "9.2 / 10",
+          time: "25 giờ 30 phút",
+          exercises: "5 / 6 bài tập",
+          submissions: [
+            { exercise: "Assignment 2: Automation with n8n", date: "29/05/2026", status: "Đã duyệt", statusClass: "badge-green" }
+          ],
+          certificates: [],
+          notes: "Học nhanh, tự làm được các bài tập tích hợp webhook."
+        },
+        "3": {
+          avatar: "TL",
+          name: "Trần Linh",
+          email: "linh.tran@email.com",
+          phone: "09xxxxxxxx",
+          status: "Active",
+          statusClass: "badge-green",
+          created: "24/05/2026 15:40",
+          updated: "01/06/2026 10:05",
+          needCourse: "Vibe Coding Basics",
+          needLevel: "Non-tech, chưa có kinh nghiệm",
+          needGoal: "Học lập trình cơ bản để giao tiếp với dev",
+          needNote: "Học chậm hơn, cần giải thích kỹ lý thuyết.",
+          courses: [
+            { name: "Vibe Coding Basics", status: "Active", statusClass: "badge-green", progress: 20, progressClass: "orange", date: "24/05/2026" }
+          ],
+          lessons: "2 / 10 bài học",
+          quiz: "7.0 / 10",
+          time: "4 giờ 15 phút",
+          exercises: "1 / 3 bài tập",
+          submissions: [
+            { exercise: "Assignment 1: Terminal Setup", date: "26/05/2026", status: "Đã duyệt", statusClass: "badge-green" }
+          ],
+          certificates: [],
+          notes: "Học viên phản hồi nội dung bài 2 hơi nhanh đối với người non-tech."
+        },
+        "4": {
+          avatar: "ML",
+          name: "Mai Lan",
+          email: "lan.mai@email.com",
+          phone: "07xxxxxxxx",
+          status: "Active",
+          statusClass: "badge-green",
+          created: "18/05/2026 11:20",
+          updated: "18/05/2026 11:20",
+          needCourse: "Chưa xác định",
+          needLevel: "Chưa biết lập trình",
+          needGoal: "Tìm hiểu ngành để chuyển hướng",
+          needNote: "Đăng ký tư vấn lộ trình.",
+          courses: [],
+          lessons: "0 bài học",
+          quiz: "—",
+          time: "—",
+          exercises: "—",
+          submissions: [],
+          certificates: [],
+          notes: "Chưa kích hoạt khóa học nào. Đang xếp lịch gọi tư vấn 1-1."
+        },
+        "5": {
+          avatar: "VQ",
+          name: "Vũ Quang",
+          email: "quangvu@email.com",
+          phone: "09xxxxxxxx",
+          status: "Completed",
+          statusClass: "badge-gray",
+          created: "12/05/2026 08:30",
+          updated: "05/06/2026 16:45",
+          needCourse: "AI Agent & Vibe Coding Bootcamp",
+          needLevel: "Senior Developer",
+          needGoal: "Lên chức Tech Lead",
+          needNote: "Muốn học nâng cao về AI agents orchestration.",
+          courses: [
+            { name: "AI Agent & Vibe Coding Bootcamp", status: "Completed", statusClass: "badge-gray", progress: 100, progressClass: "green", date: "12/05/2026" }
+          ],
+          lessons: "24 / 24 bài học",
+          quiz: "9.8 / 10",
+          time: "36 giờ 00 phút",
+          exercises: "6 / 6 bài tập",
+          submissions: [
+            { exercise: "Capstone Project: AI Orchestrator MVP", date: "02/06/2026", status: "Đã duyệt", statusClass: "badge-green" }
+          ],
+          certificates: [
+            { name: "Chứng chỉ AI Agent Bootcamp", code: "CERT-AI-88192", date: "05/06/2026" }
+          ],
+          notes: "Project capstone đạt điểm tối đa. Rất xuất sắc."
+        },
+        "6": {
+          avatar: "HT",
+          name: "Hoàng Tú",
+          email: "tu.hoang@email.com",
+          phone: "08xxxxxxxx",
+          status: "Blocked",
+          statusClass: "badge-red",
+          created: "10/05/2026 14:10",
+          updated: "20/05/2026 10:30",
+          needCourse: "AI Agent & Vibe Coding Bootcamp",
+          needLevel: "Junior Web Developer",
+          needGoal: "Chuyển ngành sang AI Developer",
+          needNote: "Tập trung vào phần thực hành dự án.",
+          courses: [
+            { name: "AI Agent & Vibe Coding Bootcamp", status: "Blocked", statusClass: "badge-red", progress: 0, progressClass: "gray", date: "10/05/2026" }
+          ],
+          lessons: "0 / 24 bài học",
+          quiz: "—",
+          time: "0 phút",
+          exercises: "0 / 6 bài tập",
+          submissions: [],
+          certificates: [],
+          notes: "Tài khoản bị khóa do hệ thống phát hiện đăng nhập đồng thời từ nhiều địa chỉ IP khác nhau."
+        },
+        "7": {
+          avatar: "QN",
+          name: "Quỳnh Như",
+          email: "nhu.quynh@email.com",
+          phone: "09xxxxxxxx",
+          status: "Active",
+          statusClass: "badge-green",
+          created: "08/05/2026 16:50",
+          updated: "15/05/2026 11:22",
+          needCourse: "Vibe Coding Basics",
+          needLevel: "Product Manager",
+          needGoal: "Tự làm MVP cho startup",
+          needNote: "Tập trung vào phát triển nhanh MVP.",
+          courses: [
+            { name: "Vibe Coding Basics", status: "Active", statusClass: "badge-green", progress: 35, progressClass: "orange", date: "08/05/2026" }
+          ],
+          lessons: "3 / 10 bài học",
+          quiz: "8.0 / 10",
+          time: "6 giờ 30 phút",
+          exercises: "1 / 3 bài tập",
+          submissions: [
+            { exercise: "Assignment 1: PM Workflow with Cursor", date: "12/05/2026", status: "Đã duyệt", statusClass: "badge-green" }
+          ],
+          certificates: [],
+          notes: "Nắm bắt logic nhanh, chủ động trao đổi các mẫu prompt tối ưu."
+        },
+        "8": {
+          avatar: "DT",
+          name: "Đỗ Thành",
+          email: "thanh.do@email.com",
+          phone: "09xxxxxxxx",
+          status: "Active",
+          statusClass: "badge-green",
+          created: "05/05/2026 09:00",
+          updated: "10/05/2026 14:15",
+          needCourse: "AI Agent & Vibe Coding Bootcamp",
+          needLevel: "Đã biết Javascript cơ bản",
+          needGoal: "Trở thành Freelancer AI",
+          needNote: "Muốn học thêm kỹ năng tìm khách hàng.",
+          courses: [
+            { name: "AI Agent & Vibe Coding Bootcamp", status: "Active", statusClass: "badge-green", progress: 60, progressClass: "green", date: "05/05/2026" },
+            { name: "Vibe Coding Basics", status: "Completed", statusClass: "badge-gray", progress: 100, progressClass: "green", date: "15/04/2026" }
+          ],
+          lessons: "14 / 24 bài học",
+          quiz: "8.7 / 10",
+          time: "20 giờ 15 phút",
+          exercises: "4 / 6 bài tập",
+          submissions: [
+            { exercise: "Assignment 3: Web App with Replit Agent", date: "08/05/2026", status: "Đã duyệt", statusClass: "badge-green" }
+          ],
+          certificates: [
+            { name: "Chứng chỉ Vibe Coding Basics", code: "CERT-VIBE-55291", date: "15/04/2026" }
+          ],
+          notes: "Đang định hướng đi làm freelancer, cần hỗ trợ thêm phần đóng gói portfolio."
+        }
+      };
+
+      let activeStudentId = null;
+      let totalStudentsCount = 1248;
+
+      const grid = document.getElementById('student-grid');
+      const closeBtn = document.getElementById('close-drawer-btn');
+      const checkAll = document.getElementById('check-all');
+      const tabHeaders = document.querySelectorAll('#drawer-tab-header .drawer-tab');
+      const tabPanes = document.querySelectorAll('#drawer-tab-panes .tab-pane');
+
+      // Helper selectors
+      const getRowCheckboxes = () => document.querySelectorAll('.student-checkbox');
+      const getTableRows = () => document.querySelectorAll('tbody tr[data-student-id]');
+
+      // Toast Notifications Helper
+      function showToast(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'toast-container';
+          container.className = 'toast-container';
+          document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        
+        let iconName = 'check-circle';
+        if (type === 'error') iconName = 'alert-triangle';
+        else if (type === 'info') iconName = 'info';
+        
+        toast.innerHTML = `
+          <i data-lucide="${iconName}" style="width: 14px; height: 14px;"></i>
+          <span>${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+        
+        // Remove toast after animation ends
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+
+      // Populate student details to drawer
+      function loadStudentData(id) {
+        activeStudentId = id;
+        const student = studentsData[id];
+        if (!student) return;
+
+        // Header info
+        document.getElementById('drawer-avatar').innerText = student.avatar;
+        document.getElementById('drawer-name').innerText = student.name;
+        document.getElementById('drawer-email').innerText = student.email;
+        document.getElementById('drawer-phone').innerText = student.phone;
+        
+        // Status Badge Header
+        const headerBadge = document.getElementById('drawer-status-badge');
+        headerBadge.innerText = student.status;
+        headerBadge.className = `badge ${student.statusClass}`;
+
+        // Personal Information Tab content
+        document.getElementById('drawer-info-name').innerText = student.name;
+        document.getElementById('drawer-info-email').innerText = student.email;
+        document.getElementById('drawer-info-phone').innerText = student.phone;
+        
+        const infoStatus = document.getElementById('drawer-info-status');
+        infoStatus.innerText = student.status;
+        infoStatus.className = `badge ${student.statusClass}`;
+
+        document.getElementById('drawer-info-created').innerText = student.created;
+        document.getElementById('drawer-info-updated').innerText = student.updated;
+
+        // Lock button toggle text & style
+        const lockBtn = document.getElementById('drawer-lock-btn');
+        if (lockBtn) {
+          if (student.status === 'Blocked') {
+            lockBtn.innerHTML = `<i data-lucide="unlock" style="width: 10px; height: 10px;"></i><span>Mở khóa</span>`;
+            lockBtn.style.color = 'var(--color-green)';
+          } else {
+            lockBtn.innerHTML = `<i data-lucide="lock" style="width: 10px; height: 10px;"></i><span>Khóa tài khoản</span>`;
+            lockBtn.style.color = '';
+          }
+        }
+
+        // Learning Needs content
+        document.getElementById('drawer-need-course').innerText = student.needCourse;
+        document.getElementById('drawer-need-level').innerText = student.needLevel;
+        document.getElementById('drawer-need-goal').innerText = student.needGoal;
+        document.getElementById('drawer-need-note').innerText = student.needNote;
+
+        // Registered Courses Table
+        const coursesTbody = document.getElementById('drawer-courses-tbody');
+        coursesTbody.innerHTML = '';
+        if (!student.courses || student.courses.length === 0) {
+          coursesTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 12px 0;">Học viên chưa đăng ký khóa học nào.</td></tr>`;
+        } else {
+          student.courses.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = "1px solid var(--border-passive)";
+            tr.innerHTML = `
+              <td style="padding: 8px 0; font-weight: 500; font-size: 11.5px;">${c.name}</td>
+              <td style="padding: 8px 0;"><span class="badge ${c.statusClass}">${c.status}</span></td>
+              <td style="padding: 8px 0;">
+                <div class="progress-container" style="max-width: 80px;">
+                  <div class="progress-bar-track">
+                    <div class="progress-bar-fill ${c.progressClass}" style="width: ${c.progress}%;"></div>
+                  </div>
+                  <span class="progress-value" style="font-size: 10px; width: 22px;">${c.progress}%</span>
+                </div>
+              </td>
+              <td style="padding: 8px 0; font-size: 11px; color: var(--text-secondary);">${c.date}</td>
+              <td style="padding: 8px 0; text-align: right;"><i data-lucide="more-vertical" style="width: 12px; height: 12px; color: var(--text-secondary); cursor: pointer;"></i></td>
+            `;
+            coursesTbody.appendChild(tr);
+          });
+        }
+
+        // Progress tab contents
+        document.getElementById('drawer-progress-lessons').innerText = student.lessons;
+        document.getElementById('drawer-progress-quiz').innerText = student.quiz;
+        document.getElementById('drawer-progress-time').innerText = student.time;
+        document.getElementById('drawer-progress-exercises').innerText = student.exercises;
+
+        // Submissions tab contents
+        const subsTbody = document.getElementById('drawer-submissions-tbody');
+        subsTbody.innerHTML = '';
+        if (!student.submissions || student.submissions.length === 0) {
+          subsTbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-secondary); padding: 12px 0;">Chưa có bài tập nào được nộp.</td></tr>`;
+        } else {
+          student.submissions.forEach(s => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = "1px solid var(--border-passive)";
+            tr.innerHTML = `
+              <td style="padding: 8px 0; font-weight: 500; font-size: 11.5px;">${s.exercise}</td>
+              <td style="padding: 8px 0; font-size: 11px; color: var(--text-secondary);">${s.date}</td>
+              <td style="padding: 8px 0;"><span class="badge ${s.statusClass}">${s.status}</span></td>
+            `;
+            subsTbody.appendChild(tr);
+          });
+        }
+
+        // Certificates tab contents
+        const certsList = document.getElementById('drawer-certificates-list');
+        certsList.innerHTML = '';
+        if (!student.certificates || student.certificates.length === 0) {
+          certsList.innerHTML = `<div style="text-align: center; color: var(--text-secondary); padding: 12px 0; font-size: 12px;">Học viên chưa được cấp chứng chỉ nào.</div>`;
+        } else {
+          student.certificates.forEach(cert => {
+            const item = document.createElement('div');
+            item.className = 'drawer-info-item';
+            item.style.padding = '8px 0';
+            item.style.borderBottom = '1px dashed var(--border-passive)';
+            item.innerHTML = `
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="font-weight: 600; color: var(--text-primary);">${cert.name}</span>
+                <span style="font-size: 10.5px; color: var(--text-secondary); font-family: var(--font-mono);">${cert.code}</span>
+              </div>
+              <span style="font-size: 11.5px; color: var(--text-secondary); text-align: right;">Cấp ngày: ${cert.date}</span>
+            `;
+            certsList.appendChild(item);
+          });
+        }
+
+        // Notes tab textarea
+        document.getElementById('drawer-notes-textarea').value = student.notes || '';
+
+        // Wallet Balance & Ledger history loading
+        if (student.accountBalance === undefined) {
+          if (student.name.startsWith("Phạm") || student.name.startsWith("Nguyễn") || id === "0001" || id === "0003") {
+            student.accountBalance = 750000;
+          } else {
+            student.accountBalance = 0;
+          }
+        }
+        
+        if (!student.ledgerTransactions) {
+          student.ledgerTransactions = [];
+          if (student.accountBalance > 0) {
+            student.ledgerTransactions.push({
+              id: "TX-998811",
+              type: "Credit (Nạp tiền)",
+              amount: "+1.000.000đ",
+              desc: "Nạp tiền học phí hoàn trả từ đơn MAY-ORD-2026-0004",
+              time: "20/05/2026 10:15"
+            });
+            student.ledgerTransactions.push({
+              id: "TX-998812",
+              type: "Debit (Trừ tiền)",
+              amount: "-250.000đ",
+              desc: "Mua tài liệu khóa học AI Automation",
+              time: "22/05/2026 14:30"
+            });
+          }
+        }
+
+        document.getElementById('drawer-account-balance').innerText = student.accountBalance.toLocaleString('vi-VN') + 'đ';
+        
+        const ledgerTbody = document.querySelector('#drawer-ledger-table tbody');
+        ledgerTbody.innerHTML = '';
+        if (student.ledgerTransactions.length === 0) {
+          ledgerTbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-secondary); padding: 12px 0;">Chưa có giao dịch ví nào.</td></tr>`;
+        } else {
+          student.ledgerTransactions.forEach(tx => {
+            const tr = document.createElement('tr');
+            tr.style.borderBottom = "1px solid var(--border-passive)";
+            const amountColor = tx.amount.startsWith('+') ? 'var(--color-green)' : 'var(--color-red)';
+            tr.innerHTML = `
+              <td style="padding: 6px 8px;" class="cert-id">${tx.id}</td>
+              <td style="padding: 6px 8px;">${tx.type}</td>
+              <td style="padding: 6px 8px; font-weight: 600; color: ${amountColor};">${tx.amount}</td>
+              <td style="padding: 6px 8px;">${tx.desc}</td>
+              <td style="padding: 6px 8px; color: var(--text-secondary);">${tx.time}</td>
+            `;
+            ledgerTbody.appendChild(tr);
+          });
+        }
+
+        // Trigger Lucide on updated table icons inside the drawer
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }
+
+      // Initialize row event listeners
+      function initRowEvents(row) {
+        row.addEventListener('click', (e) => {
+          const cell = e.target.closest('td');
+          if (!cell) return;
+          
+          const cellIndex = cell.cellIndex;
+          const totalCells = row.cells.length;
+          
+          // Ignore clicks on checkbox column (first) and action column (last)
+          if (cellIndex === 0 || cellIndex === totalCells - 1) {
+            return;
+          }
+          
+          // Ignore if clicking a button or checkbox directly inside the row
+          if (e.target.type === 'checkbox' || e.target.closest('button') || e.target.closest('.copy-btn')) {
+            return;
+          }
+
+          const id = row.getAttribute('data-student-id');
+          openDrawer(row, id);
+        });
+
+        // Eye button click to open drawer
+        const eyeBtn = row.querySelector('.view-details-btn');
+        if (eyeBtn) {
+          eyeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = row.getAttribute('data-student-id');
+            openDrawer(row, id);
+          });
+        }
+
+        // Individual checkbox change
+        const cb = row.querySelector('.student-checkbox');
+        if (cb) {
+          cb.addEventListener('change', () => {
+            if (cb.checked) {
+              row.classList.add('row-selected');
+            } else {
+              row.classList.remove('row-selected');
+            }
+            updateHeaderCheckbox();
+          });
+        }
+
+        // More vertical action button click
+        const moreBtn = row.querySelector('button[title="Thao tác"]');
+        if (moreBtn) {
+          moreBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const name = row.querySelector('.student-name').innerText;
+            showToast(`Mở menu thao tác nhanh cho học viên "${name}"`, 'info');
+          });
+        }
+      }
+
+      // Open drawer details panel
+      function openDrawer(row, id) {
+        // Highlight row visually
+        const tableRows = getTableRows();
+        tableRows.forEach(r => {
+          r.classList.remove('highlight-row');
+          const nameSpan = r.querySelector('.student-name');
+          if (nameSpan) nameSpan.style.fontWeight = '500';
+        });
+
+        row.classList.add('highlight-row');
+        const activeName = row.querySelector('.student-name');
+        if (activeName) activeName.style.fontWeight = '600';
+
+        // Load data
+        loadStudentData(id);
+
+        // Slide open details panel
+        grid.classList.remove('drawer-closed');
+
+        // Reset tab back to Overview when loading new student
+        tabHeaders.forEach(t => t.classList.remove('active'));
+        document.querySelector('[data-tab="tong-quan"]').classList.add('active');
+        tabPanes.forEach(pane => pane.style.display = 'none');
+        document.getElementById('pane-tong-quan').style.display = 'block';
+      }
+
+      // Close drawer details panel
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          grid.classList.add('drawer-closed');
+          const tableRows = getTableRows();
+          tableRows.forEach(r => {
+            r.classList.remove('highlight-row');
+            const nameSpan = r.querySelector('.student-name');
+            if (nameSpan) nameSpan.style.fontWeight = '500';
+          });
+        });
+      }
+
+      // Handle tab switching in details drawer
+      tabHeaders.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabHeaders.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          const tabName = tab.getAttribute('data-tab');
+          tabPanes.forEach(pane => pane.style.display = 'none');
+
+          if (tabName === 'tong-quan') {
+            document.getElementById('pane-tong-quan').style.display = 'block';
+          } else if (tabName === 'tien-do') {
+            document.getElementById('pane-tien-do').style.display = 'block';
+          } else if (tabName === 'bai-nop') {
+            document.getElementById('pane-bai-nop').style.display = 'block';
+          } else if (tabName === 'chung-chi') {
+            document.getElementById('pane-chung-chi').style.display = 'block';
+          } else if (tabName === 'so-du') {
+            document.getElementById('pane-so-du').style.display = 'block';
+          } else if (tabName === 'ghi-chu') {
+            document.getElementById('pane-ghi-chu').style.display = 'block';
+          }
+        });
+      });
+
+      // Reset Balance Button Handler
+      const resetBalanceBtn = document.getElementById('drawer-reset-balance-btn');
+      if (resetBalanceBtn) {
+        resetBalanceBtn.addEventListener('click', () => {
+          if (!activeStudentId) return;
+          const student = studentsData[activeStudentId];
+          if (!student) return;
+          if (student.accountBalance === 0) {
+            showToast('Số dư tài khoản đã bằng 0đ.', 'info');
+            return;
+          }
+          
+          if (confirm(`Bạn có chắc chắn muốn reset số dư của học viên ${student.name} về 0đ? Giao dịch tất toán offline này sẽ được ghi nhận lại.`)) {
+            const refundAmount = student.accountBalance;
+            student.accountBalance = 0;
+            student.ledgerTransactions.unshift({
+              id: "TX-RESET-" + Math.floor(Math.random() * 100000),
+              type: "Debit (Tất toán)",
+              amount: `-${refundAmount.toLocaleString('vi-VN')}đ`,
+              desc: "Tất toán số dư offline cho học viên (Admin thực hiện)",
+              time: new Date().toLocaleString('vi-VN')
+            });
+            
+            showToast('Đã thực hiện tất toán số dư và ghi nhận vào lịch sử giao dịch ví.');
+            loadStudentData(activeStudentId);
+          }
+        });
+      }
+
+      // Update the header select-all checkbox state
+      function updateHeaderCheckbox() {
+        const rowCheckboxes = getRowCheckboxes();
+        if (rowCheckboxes.length === 0) {
+          checkAll.checked = false;
+          checkAll.indeterminate = false;
+          return;
+        }
+        const checkedCount = Array.from(rowCheckboxes).filter(cb => cb.checked).length;
+        if (checkedCount === 0) {
+          checkAll.checked = false;
+          checkAll.indeterminate = false;
+        } else if (checkedCount === rowCheckboxes.length) {
+          checkAll.checked = true;
+          checkAll.indeterminate = false;
+        } else {
+          checkAll.checked = false;
+          checkAll.indeterminate = true;
+        }
+      }
+
+      // Bulk checkboxes select all / deselect all
+      if (checkAll) {
+        checkAll.addEventListener('change', () => {
+          const isChecked = checkAll.checked;
+          const rowCheckboxes = getRowCheckboxes();
+          rowCheckboxes.forEach(cb => {
+            cb.checked = isChecked;
+            const tr = cb.closest('tr');
+            if (tr) {
+              if (isChecked) {
+                tr.classList.add('row-selected');
+              } else {
+                tr.classList.remove('row-selected');
+              }
+            }
+          });
+        });
+      }
+
+      // Initialize existing rows
+      getTableRows().forEach(row => {
+        initRowEvents(row);
+      });
+
+      // Real-time table search filter
+      const searchInput = document.querySelector('.search-input-wrapper input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          let visibleCount = 0;
+          const tableRows = getTableRows();
+          
+          tableRows.forEach(row => {
+            const name = row.querySelector('.student-name').innerText.toLowerCase();
+            const email = row.cells[2].innerText.toLowerCase();
+            const phone = row.cells[3].innerText.toLowerCase();
+            
+            if (name.includes(query) || email.includes(query) || phone.includes(query)) {
+              row.style.display = '';
+              visibleCount++;
+            } else {
+              row.style.display = 'none';
+            }
+          });
+          
+          // Handle empty state row
+          let emptyRow = document.getElementById('table-empty-row');
+          if (visibleCount === 0) {
+            if (!emptyRow) {
+              emptyRow = document.createElement('tr');
+              emptyRow.id = 'table-empty-row';
+              emptyRow.innerHTML = `
+                <td colspan="10" style="text-align: center; padding: 32px 0; color: var(--text-secondary);">
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <i data-lucide="search-x" style="width: 24px; height: 24px; color: var(--text-secondary);"></i>
+                    <span>Không tìm thấy học viên nào phù hợp</span>
+                  </div>
+                </td>
+              `;
+              document.querySelector('tbody').appendChild(emptyRow);
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+          } else {
+            if (emptyRow) {
+              emptyRow.remove();
+            }
+          }
+          
+          // Update pagination display info
+          const pagInfo = document.querySelector('.pagination-container > span');
+          if (pagInfo) {
+            pagInfo.innerText = `Hiển thị ${visibleCount} của ${visibleCount} học viên (lọc từ ${totalStudentsCount})`;
+          }
+        });
+      }
+
+      // Clipboard copy button functionality
+      document.addEventListener('click', (e) => {
+        const copyBtn = e.target.closest('.copy-btn');
+        if (copyBtn) {
+          e.stopPropagation();
+          const phoneSpan = document.getElementById('drawer-phone');
+          if (phoneSpan) {
+            const textToCopy = phoneSpan.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+              const originalHTML = copyBtn.innerHTML;
+              copyBtn.innerHTML = '<i data-lucide="check" style="width: 12px; height: 12px; color: #10b981;"></i>';
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+              showToast('Đã sao chép số điện thoại vào clipboard');
+              setTimeout(() => {
+                copyBtn.innerHTML = originalHTML;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+              }, 1500);
+            }).catch(err => {
+              showToast('Không thể sao chép tự động', 'error');
+            });
+          }
+        }
+      });
+
+      // Lock Student account button toggle
+      const lockBtn = document.getElementById('drawer-lock-btn');
+      if (lockBtn) {
+        lockBtn.addEventListener('click', () => {
+          const student = studentsData[activeStudentId];
+          if (!student) return;
+          
+          if (student.status === 'Blocked') {
+            student.status = 'Active';
+            student.statusClass = 'badge-green';
+            showToast(`Đã mở khóa tài khoản cho ${student.name}`);
+          } else {
+            student.status = 'Blocked';
+            student.statusClass = 'badge-red';
+            showToast(`Đã khóa tài khoản của ${student.name}`, 'error');
+          }
+          
+          // Update drawer views
+          loadStudentData(activeStudentId);
+          
+          // Update corresponding table row status badge
+          const row = document.querySelector(`tbody tr[data-student-id="${activeStudentId}"]`);
+          if (row) {
+            const statusCell = row.cells[7];
+            if (statusCell) {
+              statusCell.innerHTML = `<span class="badge ${student.statusClass}">${student.status}</span>`;
+            }
+          }
+        });
+      }
+
+      // Bottom actions: message and note
+      const msgBtn = document.getElementById('drawer-message-btn');
+      if (msgBtn) {
+        msgBtn.addEventListener('click', () => {
+          const student = studentsData[activeStudentId];
+          if (student) {
+            showToast(`Đang mở cổng kết nối chat với học viên "${student.name}"...`, 'info');
+          }
+        });
+      }
+
+      const saveNoteBtn = document.getElementById('drawer-save-note-btn');
+      if (saveNoteBtn) {
+        saveNoteBtn.addEventListener('click', () => {
+          const student = studentsData[activeStudentId];
+          const noteText = document.getElementById('drawer-notes-textarea').value;
+          if (student) {
+            student.notes = noteText;
+            showToast(`Đã lưu ghi chú cho học viên "${student.name}"`);
+          }
+        });
+      }
+
+      // Date selector export and edit info placeholders
+      const exportBtn = document.getElementById('export-btn');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          showToast('Bắt đầu tải tệp báo cáo danh sách học viên...', 'info');
+        });
+      }
+
+      document.querySelectorAll('.drawer-section-header button.btn-secondary').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const title = btn.previousElementSibling ? btn.previousElementSibling.innerText : 'thông tin';
+          showToast(`Tính năng chỉnh sửa [${title}] đang được phát triển`, 'info');
+        });
+      });
+
+      // Add Student Modal Logic
+      const addStudentBtn = document.querySelector('.btn-black');
+      const addModal = document.getElementById('add-student-modal');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const cancelModalBtn = document.getElementById('cancel-modal-btn');
+      const saveStudentBtn = document.getElementById('save-student-btn');
+
+      if (addStudentBtn && addModal) {
+        addStudentBtn.addEventListener('click', () => {
+          // Reset form fields
+          document.getElementById('new-student-name').value = '';
+          document.getElementById('new-student-email').value = '';
+          document.getElementById('new-student-phone').value = '';
+          document.getElementById('new-student-course').value = 'AI Agent & Vibe Coding Bootcamp';
+          document.getElementById('new-student-status').value = 'Active';
+          
+          // Show modal
+          addModal.classList.add('open');
+        });
+      }
+
+      function closeModal() {
+        if (addModal) addModal.classList.remove('open');
+      }
+
+      if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+      if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
+
+      // Close modal on escape press or clicking backdrop
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+      });
+      if (addModal) {
+        addModal.addEventListener('click', (e) => {
+          if (e.target === addModal) closeModal();
+        });
+      }
+
+      // Helper to generate initials
+      function getInitials(name) {
+        const words = name.trim().split(/\s+/);
+        if (words.length >= 2) {
+          return (words[words.length - 2][0] + words[words.length - 1][0]).toUpperCase();
+        }
+        return name.substring(0, 2).toUpperCase();
+      }
+
+      // Helper to format date
+      function getCurrentDate() {
+        const d = new Date();
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
+
+      // Save Student handler
+      if (saveStudentBtn) {
+        saveStudentBtn.addEventListener('click', () => {
+          const name = document.getElementById('new-student-name').value.trim();
+          const email = document.getElementById('new-student-email').value.trim();
+          const phone = document.getElementById('new-student-phone').value.trim();
+          const courseName = document.getElementById('new-student-course').value;
+          const status = document.getElementById('new-student-status').value;
+
+          if (!name || !email || !phone) {
+            showToast('Vui lòng điền đầy đủ các thông tin bắt buộc (*)', 'error');
+            return;
+          }
+
+          // Generate new ID
+          const newId = String(Object.keys(studentsData).length + 1);
+          const initials = getInitials(name);
+          const statusClass = status === 'Active' ? 'badge-green' : 'badge-red';
+
+          // Add to Mock Data store
+          studentsData[newId] = {
+            avatar: initials,
+            name: name,
+            email: email,
+            phone: phone,
+            status: status,
+            statusClass: statusClass,
+            created: getCurrentDate() + " " + new Date().toTimeString().split(' ')[0].substring(0, 5),
+            updated: getCurrentDate() + " " + new Date().toTimeString().split(' ')[0].substring(0, 5),
+            needCourse: courseName !== 'None' ? courseName : 'Chưa xác định',
+            needLevel: 'Chưa xác định',
+            needGoal: 'Học lập trình cơ bản',
+            needNote: 'Đăng ký mới từ dashboard.',
+            courses: courseName !== 'None' ? [
+              { name: courseName, status: status, statusClass: statusClass, progress: 0, progressClass: 'gray', date: getCurrentDate() }
+            ] : [],
+            lessons: '0 bài học',
+            quiz: '—',
+            time: '0 phút',
+            exercises: '0 bài tập',
+            submissions: [],
+            certificates: [],
+            notes: ''
+          };
+
+          // Create new table row element
+          const tbody = document.querySelector('tbody');
+          const tr = document.createElement('tr');
+          tr.setAttribute('data-student-id', newId);
+          tr.style.cursor = 'pointer';
+
+          const avatarClass = `avatar-${initials.toLowerCase()}`;
+          let progressHTML = `
+            <div class="progress-container">
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill gray" style="width: 0%;"></div>
+              </div>
+              <span class="progress-value">0%</span>
+            </div>
+          `;
+          let courseText = courseName;
+          let courseCount = '1';
+          if (courseName === 'None') {
+            courseText = '—';
+            courseCount = '0';
+            progressHTML = `
+              <div class="progress-container">
+                <span style="color: var(--text-secondary); font-size: 11.5px; padding-left: 6px;">—</span>
+              </div>
+            `;
+          }
+
+          tr.innerHTML = `
+            <td><input type="checkbox" class="student-checkbox"></td>
+            <td>
+              <div class="student-cell">
+                <div class="avatar ${avatarClass}" style="background-color: #f1f5f9; color: #475569;">${initials}</div>
+                <span class="student-name" style="font-weight: 500;">${name}</span>
+              </div>
+            </td>
+            <td>${email}</td>
+            <td style="color: var(--text-secondary);">${phone}</td>
+            <td style="text-align: center; color: var(--text-secondary);">${courseCount}</td>
+            <td>${courseText}</td>
+            <td>${progressHTML}</td>
+            <td><span class="badge ${statusClass}">${status}</span></td>
+            <td style="color: var(--text-secondary);">${getCurrentDate()}</td>
+            <td style="text-align: right;">
+              <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+              </div>
+            </td>
+          `;
+
+          // Append to table
+          tbody.appendChild(tr);
+
+          // Wire up dynamic events
+          initRowEvents(tr);
+
+          // Increment counter KPIs
+          totalStudentsCount++;
+          const totalKpiEl = document.querySelector('.kpi-card:first-child .kpi-value');
+          if (totalKpiEl) totalKpiEl.innerText = totalStudentsCount.toLocaleString();
+
+          // Update pagination text
+          const pagInfo = document.querySelector('.pagination-container > span');
+          if (pagInfo) {
+            pagInfo.innerText = `Hiển thị 1 đến ${getTableRows().length} của ${totalStudentsCount.toLocaleString()} học viên`;
+          }
+
+          // Trigger Lucide to render icons on the new row
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+
+          // Close modal and notify
+          closeModal();
+          showToast(`Đã thêm thành công học viên ${name}`);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

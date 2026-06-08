@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Vai trò của trang
@@ -84,7 +85,6 @@ Bottom navigation / hamburger menu
 | Greeting   | “Chào mừng trở lại, [Tên] 👋”     |
 | Subtitle   | Một câu ngắn nhắc học tiếp        |
 | CTA chính  | `Tiếp tục học`                    |
-| Visual     | Mascot nhỏ hoặc icon AI/Rubik nhẹ |
 
 Ví dụ nội dung:
 
@@ -114,7 +114,7 @@ video / resource / quiz / assignment / final_project
 | Thành phần | Yêu cầu |
 | ---------- | ------- |
 | Unread count | Số notification chưa đọc. |
-| Latest items | 3-5 thông báo mới nhất: order paid, submission reviewed, [[web/page/website/certificate|certificate]] issued, announcement, question answered. |
+| Latest items | 3-5 thông báo mới nhất: order paid, submission reviewed, [[web/page/website/certificate|certificate]] issued, announcement. |
 | CTA | `Xem tất cả thông báo` dẫn `/notifications`. |
 | Empty state | “Chưa có thông báo mới.” |
 
@@ -316,7 +316,7 @@ Dẫn đến:
 ```text
 Bạn chưa có khóa học nào.
 
-Khám phá các khóa học AI tại CORTEX để bắt đầu lộ trình học của bạn.
+Khám phá các khóa học AI tại Blueprint để bắt đầu lộ trình học của bạn.
 [Xem khóa học]
 ```
 
@@ -465,20 +465,6 @@ Trong đó:
 
 ---
 
-# 8. UI style đề xuất
-
-| Phần          | Style                                                |
-| ------------- | ---------------------------------------------------- |
-| Nền dashboard | Xám rất nhạt hoặc trắng                              |
-| Card          | Bo góc lớn, shadow nhẹ                               |
-| CTA chính     | Gradient xanh/cyan/tím theo brand                    |
-| Status badge  | Màu nhẹ, dễ phân biệt                                |
-| Progress bar  | Rõ, không quá nhỏ                                    |
-| Icon          | Dùng icon đơn giản: book, check, [[web/page/website/certificate|certificate]], rocket |
-| Mascot        | Chỉ dùng nhẹ ở welcome/empty state, không làm rối    |
-
----
-
 # 9. Thứ tự ưu tiên hiển thị
 
 Trên màn hình đầu tiên, học viên phải thấy ngay:
@@ -530,20 +516,20 @@ Trang `/dashboard` đạt nếu:
 9. Empty state
 ```
 
-Nói ngắn gọn: **dashboard là trang “hôm nay tôi cần học gì tiếp?”. Vì vậy thiết kế phải ưu tiên current course, progress và next lesson. Assignment/final project chỉ là trạng thái theo dõi và sẽ dẫn thẳng vào lesson tương ứng trong khóa học.**
+Nói ngắn gọn: **dashboard là trang “hôm nay tôi cần học gì tiếp?”. Vì vậy nội dung phải ưu tiên current course, progress và next lesson. Assignment/final project chỉ là trạng thái theo dõi và sẽ dẫn thẳng vào lesson tương ứng trong khóa học.**
 
 ---
 
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[analysis/AI_AGENT_ROADMAP|🤖 AI Agent Mastery Roadmap: From No-Code to Engineer]], [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/hard_notes|Hard Notes]], [[web/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-system-users-new|/admin/system/users/new — Hidden Staff Account Creation]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Incoming Links (Backlinks):** [[analysis/AI_AGENT_ROADMAP|🤖 AI Agent Mastery Roadmap: From No-Code to Engineer]], [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/hard_notes|Hard Notes]], [[web/infrastructure|Infrastructure — Hạ tầng triển khai Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-system-users|/admin/system/users — System Users]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

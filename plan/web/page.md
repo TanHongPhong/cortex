@@ -716,7 +716,7 @@ status: "[[Planned]]"
 - **Admin** quản lý vận hành hệ thống: học viên, gán khóa, announcement, tài chính, phân quyền và audit.
 - **Course editor** chỉ chỉnh nội dung khóa học trong `/admin/courses*` và `/admin/lessons*`, gồm course content, module, lesson, resource, quiz và video asset.
 - **Instructor** chỉ chấm bài (duyệt [[web/page/instructor/submissions|submissions]]) và hỗ trợ học viên (trả lời Q&A) trong khóa được phân công.
-- Instructor KHÔNG được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement.
+- Instructor KHÔNG được upload video, sửa lesson content, quản lý khóa/học viên. Instructor chỉ được phép tạo thông báo giới hạn trong phạm vi các khóa học được phân công giảng dạy.
 
 ## `/instructor` Instructor Overview
 
@@ -740,7 +740,7 @@ status: "[[Planned]]"
 | Course list | Các khóa instructor được phân công. |
 | Curriculum | Module/lesson **read-only**; instructor KHÔNG được sửa lesson content, upload video, hay quản lý khóa. |
 | Student progress | Xem tiến độ học viên nếu `can_view_student_progress = true`. |
-| Permission | Không xem commerce/revenue của khóa. Không tạo/sửa announcement. |
+| Permission | Không xem commerce/revenue của khóa. Được tạo/sửa/xóa/lưu trữ announcement cho các khóa học phụ trách giảng dạy. |
 
 ---
 
@@ -771,7 +771,7 @@ status: "[[Planned]]"
 | Permission | Chỉ xử lý nếu `can_answer_questions = true`. |
 
 **Rule tổng thể:**
-- Instructor chỉ chấm bài và trả lời Q&A — không quản lý khóa học, video, học viên hay announcement.
+- Instructor chỉ chấm bài, trả lời Q&A và tạo thông báo (announcements) cho khóa được phân công — không quản lý khóa học, video hay học viên nói chung.
 - Instructor không có quyền vào order/payment/coupon/invoice/referral/revenue.
 - Quản lý nội dung khóa (video, lesson, module) là quyền của [[web/page/admin/admin|admin]] hoặc `course_editor` trong `/admin/courses*` và `/admin/lessons*`; quản lý học viên vẫn là quyền của [[web/page/admin/admin|admin]].
 

@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý đơn hàng - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Specific styles for orders dashboard */
+    .filter-box-panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-passive);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) auto;
+      gap: 16px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+    
+    .filter-box-panel .form-group {
+      margin-bottom: 0;
+    }
+    
+    .filter-box-panel .btn-secondary {
+      height: 33px;
+      padding: 0 14px;
+    }
+    
+    .student-info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    
+    .student-info-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    
+    .student-info-avatar:not([class*="avatar-"]) {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+    
+    .drawer-section {
+      background-color: #faf9f6;
+      border: 1px solid var(--border-passive);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .drawer-section-title {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 6px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+    }
+    
+    .course-detail-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      align-items: flex-start;
+    }
+    
+    .course-detail-thumbnail {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border-passive);
+    }
+    
+    .billing-summary-box {
+      border-top: 1px solid var(--border-passive);
+      border-bottom: 1px solid var(--border-passive);
+      padding: 10px 0;
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .billing-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    
+    .btn-red-outline {
+      background-color: var(--bg-card);
+      color: var(--color-red);
+      border: 1px solid var(--color-red);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .btn-red-outline:hover {
+      background-color: #fef2f2;
+    }
+    
+    .export-btn-full {
+      width: 100%;
+      background-color: #f7f4ed;
+      color: var(--text-primary);
+      border: 1px solid var(--border-passive);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+      margin-top: 10px;
+    }
+    
+    .export-btn-full:hover {
+      background-color: var(--sidebar-active-bg);
+      border-color: var(--border-interactive);
+    }
+    
+    button:disabled {
+      opacity: 0.4 !important;
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link active" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">
+            <i data-lucide="user"></i>
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý đơn hàng</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Theo dõi và quản lý tất cả đơn hàng, giao dịch và doanh thu.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-secondary" id="export-btn">
+            <i data-lucide="download"></i>
+            <span>Export CSV</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (6 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-6" style="margin-bottom: 20px;">
+        <!-- Card 1: Total Revenue -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="wallet"></i></div>
+            <span class="kpi-label">Total Revenue</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 6px;">
+            <span class="kpi-value" style="font-size: 18px;">$128,540</span>
+            <span class="kpi-trend trend-up" style="font-size: 10.5px;">+10%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <!-- Card 2: Revenue This Month -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="bar-chart-2"></i></div>
+            <span class="kpi-label">Revenue This Month</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 6px;">
+            <span class="kpi-value" style="font-size: 18px;">$32,450</span>
+            <span class="kpi-trend trend-up" style="font-size: 10.5px;">+12%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với tháng trước</span>
+        </div>
+
+        <!-- Card 3: Paid Orders -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="check-circle"></i></div>
+            <span class="kpi-label">Paid Orders</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 6px;">
+            <span class="kpi-value" style="font-size: 18px;">732</span>
+            <span class="kpi-trend trend-up" style="font-size: 10.5px;">+11%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <!-- Card 4: Pending Orders -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="clock"></i></div>
+            <span class="kpi-label">Pending Orders</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 6px;">
+            <span class="kpi-value" style="font-size: 18px;">41</span>
+            <span class="kpi-trend trend-down" style="font-size: 10.5px;">-6%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <!-- Card 5: Refunded Orders -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="rotate-ccw"></i></div>
+            <span class="kpi-label">Refunded Orders</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 6px;">
+            <span class="kpi-value" style="font-size: 18px;">21</span>
+            <span class="kpi-trend trend-down" style="font-size: 10.5px;">-3%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <!-- Card 6: Average Order Value -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="sliders"></i></div>
+            <span class="kpi-label">Average Order Value</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 6px;">
+            <span class="kpi-value" style="font-size: 18px;">$175.53</span>
+            <span class="kpi-trend trend-up" style="font-size: 10.5px;">+4%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           FILTER BOX ROW
+           ========================================================================== -->
+      <section class="filter-box-panel">
+        <div class="form-group">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">From date</label>
+          <input type="date" class="form-control" id="filter-from-date" value="2026-05-02" style="padding: 4px 8px;">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">To date</label>
+          <input type="date" class="form-control" id="filter-to-date" value="2026-06-02" style="padding: 4px 8px;">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">Payment status</label>
+          <select class="form-control form-select" id="filter-status" style="padding: 4px 28px 4px 8px;">
+            <option value="All">Tất cả trạng thái</option>
+            <option value="Paid">Paid</option>
+            <option value="Pending">Pending</option>
+            <option value="Refunded">Refunded</option>
+            <option value="Failed">Failed</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label" style="font-size: 11px; margin-bottom: 2px;">Course</label>
+          <select class="form-control form-select" id="filter-course" style="padding: 4px 28px 4px 8px;">
+            <option value="All">Tất cả khóa học</option>
+            <option value="AI Agent & Vibe Coding Bootcamp">AI Agent & Vibe Coding Bootcamp</option>
+            <option value="Web Automation with n8n">Web Automation with n8n</option>
+            <option value="UI/UX Design System Mastery">UI/UX Design System Mastery</option>
+            <option value="Python for Data Analysis">Python for Data Analysis</option>
+            <option value="Business Automation for SMEs">Business Automation for SMEs</option>
+          </select>
+        </div>
+        
+        <div>
+          <button class="btn-secondary" id="filter-reset-btn" style="font-size: 11.5px; padding: 0 10px; display: inline-flex; align-items: center; gap: 4px;">
+            <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+            <span>Reset</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="order-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Orders Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel">
+            <div class="panel-header" style="margin-bottom: 12px;">
+              <h2 class="panel-title">Danh sách đơn hàng <span class="panel-subtitle" style="font-weight: normal; margin-left: 2px;">(814)</span></h2>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="col-secondary">Order ID</th>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Final amount</th>
+                    <th>Status</th>
+                    <th class="col-secondary">Paid at</th>
+                    <th class="col-secondary">Created at</th>
+                    <th style="width: 80px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px; font-weight: 600;">MAY-ORD-2026-0001</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-pt">PT</div>
+                        <div>
+                          <div class="student-name" style="font-weight: 600;">Phạm Đức Trí</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">tri@email.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td><span style="font-weight: 500;">2.690.000đ</span></td>
+                    <td><span class="badge badge-green">Paid</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">21/05/2026 14:32</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">21/05/2026 14:20</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Row 2 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0002</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-nh">NH</div>
+                        <div>
+                          <div class="student-name">Nguyễn Thu Hà</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">ha.nguyen@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Web Automation with n8n</td>
+                    <td><span>1.290.000đ</span></td>
+                    <td><span class="badge badge-green">Paid</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">21/05/2026 10:11</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">21/05/2026 09:58</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 3 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0003</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-lm">LC</div>
+                        <div>
+                          <div class="student-name">Lê Minh Châu</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">chau.le@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>UI/UX Design System Mastery</td>
+                    <td><span>1.990.000đ</span></td>
+                    <td><span class="badge badge-orange">Pending</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px; text-align: center;">—</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">21/05/2026 09:45</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 4 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0004</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-ml">TN</div>
+                        <div>
+                          <div class="student-name">Trần Văn Nam</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">nam.tran@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td><span>2.990.000đ</span></td>
+                    <td><span class="badge badge-green">Paid</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">20/05/2026 22:18</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">20/05/2026 21:59</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 5 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0005</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-vq">HA</div>
+                        <div>
+                          <div class="student-name">Đỗ Hoàng Anh</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">anhdo@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Python for Data Analysis</td>
+                    <td><span>990.000đ</span></td>
+                    <td><span class="badge badge-red">Refunded</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">18/05/2026 16:30</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">18/05/2026 15:40</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 6 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0006</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-ht">VK</div>
+                        <div>
+                          <div class="student-name">Vũ Thị Khánh</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">khanh.vu@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Web Automation with n8n</td>
+                    <td><span>1.290.000đ</span></td>
+                    <td><span class="badge badge-orange">Pending</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px; text-align: center;">—</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">18/05/2026 10:22</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 7 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0007</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-qn">QB</div>
+                        <div>
+                          <div class="student-name">Ngô Quốc Bảo</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">bao.ngo@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Business Automation for SMEs</td>
+                    <td><span>4.990.000đ</span></td>
+                    <td><span class="badge badge-green">Paid</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">17/05/2026 19:05</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">17/05/2026 18:50</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 8 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0008</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-dt">NL</div>
+                        <div>
+                          <div class="student-name">Phan Nhật Linh</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">linh.phan@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>UI/UX Design System Mastery</td>
+                    <td><span>1.990.000đ</span></td>
+                    <td><span class="badge badge-red">Failed</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px; text-align: center;">—</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">17/05/2026 14:16</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 9 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0009</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-nv">TT</div>
+                        <div>
+                          <div class="student-name">Bùi Thanh Tùng</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">tung.bui@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>AI Agent & Vibe Coding Bootcamp</td>
+                    <td><span>2.690.000đ</span></td>
+                    <td><span class="badge badge-green">Paid</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">16/05/2026 21:41</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">16/05/2026 21:18</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+ 
+                  <!-- Row 10 -->
+                  <tr>
+                    <td class="col-secondary"><span style="font-family: var(--font-mono); font-size: 11.5px;">MAY-ORD-2026-0010</span></td>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar avatar-tt">MP</div>
+                        <div>
+                          <div class="student-name">Nguyễn Mai Phương</div>
+                          <div style="font-size: 10px; color: var(--text-secondary);">phuong.nm@gmail.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Python for Data Analysis</td>
+                    <td><span>990.000đ</span></td>
+                    <td><span class="badge badge-orange">Pending</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px; text-align: center;">—</td>
+                    <td class="col-secondary" style="color: var(--text-secondary); font-size: 11.5px;">16/05/2026 09:33</td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 4px; justify-content: flex-end;">
+                        <button class="btn-icon-only" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                        <button class="btn-icon-only" title="Thao tác"><i data-lucide="more-vertical"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination-container">
+              <span>Hiển thị 1 - 10 trong 814 đơn hàng</span>
+              <div class="pagination-pages">
+                <div class="page-btn"><i data-lucide="chevron-left"></i></div>
+                <div class="page-btn active">1</div>
+                <div class="page-btn">2</div>
+                <div class="page-btn">3</div>
+                <span style="color: var(--text-secondary); margin: 0 4px;">...</span>
+                <div class="page-btn">82</div>
+                <div class="page-btn"><i data-lucide="chevron-right"></i></div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <select class="page-select-dropdown">
+                  <option>10 / trang</option>
+                  <option>25 / trang</option>
+                  <option>50 / trang</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- RIGHT COLUMN: Order Detail -->
+        <div class="grid-col-right">
+          
+          <div class="panel">
+            <div class="panel-header" style="border-bottom: none; padding-bottom: 0; margin-bottom: 12px;">
+              <div>
+                <h2 class="panel-title">Chi tiết đơn hàng</h2>
+                <span style="font-family: var(--font-mono); font-size: 11.5px; color: var(--text-secondary);" id="drawer-order-id">MAY-ORD-2026-0001</span>
+              </div>
+              <button class="btn-icon-only" title="Đóng" id="close-drawer-btn"><i data-lucide="x"></i></button>
+            </div>
+            
+            <!-- Status Badge Header -->
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+              <span class="badge badge-green" id="drawer-status-badge">Paid</span>
+              <span style="font-size: 12px; font-weight: 500; color: var(--text-secondary);" id="drawer-status-text">Thanh toán thành công</span>
+            </div>
+            
+            <!-- Timing Details -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; font-size: 11px;">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="color: var(--text-secondary);">Created at</span>
+                <span style="font-weight: 500; color: var(--text-primary);" id="drawer-created-at">21/05/2026 14:20</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="color: var(--text-secondary);">Paid at</span>
+                <span style="font-weight: 500; color: var(--text-primary);" id="drawer-paid-at">21/05/2026 14:32</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="color: var(--text-secondary);">Updated at</span>
+                <span style="font-weight: 500; color: var(--text-primary);" id="drawer-updated-at">21/05/2026 14:32</span>
+              </div>
+            </div>
+
+            <!-- Student Information Section -->
+            <div class="drawer-section" style="margin-bottom: 14px;">
+              <div class="drawer-section-header">
+                <span class="drawer-section-title" style="display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="user" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+                  <span>Thông tin học viên</span>
+                </span>
+              </div>
+              <div class="student-info-row">
+                <div class="student-info-avatar" id="drawer-student-avatar">PT</div>
+                <div style="display: flex; flex-direction: column; flex: 1;">
+                  <span class="student-name" style="font-size: 13px; font-weight: 600;" id="drawer-student-name">Phạm Đức Trí</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary);" id="drawer-student-email">tri@email.com</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary); display: inline-flex; align-items: center; gap: 4px; margin-top: 1px;">
+                    <span id="drawer-student-phone">09xxxxxxxx</span>
+                    <button class="copy-btn" id="drawer-copy-phone-btn"><i data-lucide="copy" style="width: 11px; height: 11px;"></i></button>
+                  </span>
+                  <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-secondary); margin-top: 2px;">User ID: <span id="drawer-student-id">USR-2026-0001</span></span>
+                </div>
+                <a class="btn-secondary" href="students.html" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px;">
+                  <span>Xem hồ sơ</span>
+                  <i data-lucide="arrow-right" style="width: 11px; height: 11px;"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Course Section -->
+            <div class="drawer-section" style="margin-bottom: 14px;">
+              <div class="drawer-section-header">
+                <span class="drawer-section-title" style="display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="book" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+                  <span>Khóa học đăng ký</span>
+                </span>
+              </div>
+              <div class="course-detail-row">
+                <img src="course_thumbnail.png" alt="Ảnh khóa học" class="course-detail-thumbnail" id="drawer-course-thumbnail">
+                <div style="display: flex; flex-direction: column; flex: 1;">
+                  <span class="student-name" style="font-size: 13px; font-weight: 600;" id="drawer-course-name">AI Agent & Vibe Coding Bootcamp</span>
+                  <span style="font-size: 11.5px; color: var(--text-secondary); font-family: var(--font-mono); margin-top: 1px;">ID: <span id="drawer-course-id">course_ai_agent_bootcamp</span></span>
+                  <span style="font-size: 11px; color: var(--text-secondary); margin-top: 1px;" id="drawer-course-tag">Core • Main product</span>
+                  <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+                    <span style="font-size: 11px; color: var(--text-secondary);">Quyền học:</span>
+                    <span class="badge badge-green" id="drawer-enrollment-status" style="font-size: 9.5px; padding: 1px 4px;">Active</span>
+                  </div>
+                  <a class="btn-secondary" href="courses.html" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; margin-top: 6px;">
+                    <span>Xem khóa học</span>
+                    <i data-lucide="arrow-right" style="width: 11px; height: 11px;"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Billing Information Section -->
+            <div class="drawer-section" style="margin-bottom: 14px;">
+              <div class="drawer-section-header">
+                <span class="drawer-section-title" style="display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="file-text" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+                  <span>Chi tiết thanh toán & Hóa đơn</span>
+                </span>
+              </div>
+              <div class="billing-summary-box" style="margin: 0; border: none; padding: 0;">
+                <div class="billing-row">
+                  <span style="color: var(--text-secondary);">Giá gốc</span>
+                  <span style="font-weight: 500;" id="drawer-subtotal">2.990.000đ</span>
+                </div>
+                <div class="billing-row">
+                  <span style="color: var(--text-secondary);">Giảm giá</span>
+                  <span style="font-weight: 500; color: var(--color-red);" id="drawer-discount">-300.000đ</span>
+                </div>
+                <div class="billing-row">
+                  <span style="color: var(--text-secondary);">Mã giảm giá</span>
+                  <span style="font-weight: 500; font-family: var(--font-mono); font-size: 11px;" id="drawer-coupon">EARLY100</span>
+                </div>
+                <div class="billing-row">
+                  <span style="color: var(--text-secondary);">Mã giới thiệu (Referral)</span>
+                  <span style="font-weight: 500; font-family: var(--font-mono); font-size: 11px;" id="drawer-referral">—</span>
+                </div>
+                <div class="billing-row" style="border-top: 1px solid var(--border-passive); padding-top: 8px; margin-top: 4px;">
+                  <span style="font-weight: 600; color: var(--text-primary);">Tổng thanh toán</span>
+                  <span style="font-size: 15px; font-weight: 700; color: var(--text-primary);" id="drawer-final-amount">2.690.000đ</span>
+                </div>
+              </div>
+              
+              <!-- Billing Details Snapshot -->
+              <div style="margin-top: 12px; border-top: 1px dashed var(--border-passive); padding-top: 10px; font-size: 11.5px; display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-secondary);">Họ tên người mua:</span>
+                  <span style="font-weight: 500;" id="drawer-billing-name">Phạm Đức Trí</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-secondary);">Email/SĐT:</span>
+                  <span id="drawer-billing-contact">tri@email.com • 0912345678</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <span style="color: var(--text-secondary); white-space: nowrap;">Địa chỉ:</span>
+                  <span style="text-align: right; line-height: 1.3; max-width: 200px;" id="drawer-billing-address">123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-secondary);">Yêu cầu hóa đơn:</span>
+                  <span class="badge badge-gray" id="drawer-invoice-requested">Không</span>
+                </div>
+                <div id="drawer-company-info-row" style="display: none; flex-direction: column; gap: 4px; background-color: var(--bg-app); padding: 8px; border-radius: 4px; margin-top: 4px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary);">Công ty:</span>
+                    <span style="font-weight: 500; text-align: right;" id="drawer-company-name">Công ty TNHH AI Việt Nam</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-secondary);">Mã số thuế:</span>
+                    <span style="font-family: var(--font-mono); font-weight: 500;" id="drawer-tax-code">0109281928</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Information Section -->
+            <div class="drawer-section" style="margin-bottom: 14px;">
+              <div class="drawer-section-header">
+                <span class="drawer-section-title" style="display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="credit-card" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+                  <span>Thông tin giao dịch</span>
+                </span>
+              </div>
+              <div class="drawer-info-grid">
+                <div class="drawer-info-item">
+                  <span class="drawer-info-label">Phương thức</span>
+                  <span class="drawer-info-value" id="drawer-pay-method">VNPay</span>
+                </div>
+                <div class="drawer-info-item">
+                  <span class="drawer-info-label">Mã giao dịch</span>
+                  <span class="drawer-info-value" style="font-family: var(--font-mono); font-size: 11px;" id="drawer-pay-txid">241234124124123</span>
+                </div>
+                <div class="drawer-info-item" style="grid-column: span 2;">
+                  <span class="drawer-info-label">Link thanh toán</span>
+                  <span class="drawer-info-value" style="display: inline-flex; align-items: center; gap: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;">
+                    <span style="font-size: 10.5px; color: var(--text-secondary); text-decoration: underline; overflow: hidden; text-overflow: ellipsis;" id="drawer-pay-url">https://sandbox.vnpayment.vn/payment/2412341241</span>
+                    <button class="copy-btn" title="Copy" id="drawer-copy-url-btn"><i data-lucide="copy" style="width: 11px; height: 11px;"></i></button>
+                  </span>
+                </div>
+                <div class="drawer-info-item">
+                  <span class="drawer-info-label">Ngày giao dịch</span>
+                  <span class="drawer-info-value" id="drawer-pay-date">21/05/2026 14:32</span>
+                </div>
+                <div class="drawer-info-item">
+                  <span class="drawer-info-label">Người tạo đơn</span>
+                  <span class="drawer-info-value" id="drawer-created-by">System</span>
+                </div>
+                <div class="drawer-info-item" id="drawer-refunded-time-row" style="display: none;">
+                  <span class="drawer-info-label">Ngày hoàn tiền</span>
+                  <span class="drawer-info-value" id="drawer-refunded-at">—</span>
+                </div>
+                <div class="drawer-info-item" id="drawer-refunded-reason-row" style="display: none; grid-column: span 2;">
+                  <span class="drawer-info-label">Lý do hoàn tiền</span>
+                  <span class="drawer-info-value" id="drawer-refund-reason" style="font-style: italic;">—</span>
+                </div>
+                <div class="drawer-info-item" style="grid-column: span 2;">
+                  <span class="drawer-info-label">Ghi chú thanh toán</span>
+                  <span class="drawer-info-value" id="drawer-pay-note" style="font-style: italic;">—</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Transactions list -->
+            <div class="drawer-section" style="margin-bottom: 14px;">
+              <div class="drawer-section-header">
+                <span class="drawer-section-title" style="display: flex; align-items: center; gap: 6px;">
+                  <i data-lucide="history" style="width: 14px; height: 14px; color: var(--text-secondary);"></i>
+                  <span>Lịch sử giao dịch (Attempts)</span>
+                </span>
+              </div>
+              <div class="table-container" style="border: none; padding: 0; max-height: 120px; overflow-y: auto;">
+                <table style="border: none; font-size: 11px; width: 100%;">
+                  <thead>
+                    <tr style="border-bottom: 1px solid var(--border-passive);">
+                      <th style="padding: 4px 0; text-align: left;">Cổng</th>
+                      <th style="padding: 4px 0; text-align: left;">Mã giao dịch</th>
+                      <th style="padding: 4px 0; text-align: left;">Số tiền</th>
+                      <th style="padding: 4px 0; text-align: right;">Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody id="drawer-attempts-tbody">
+                    <!-- Dynamic -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="border-top: 1px solid var(--border-passive); padding-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button class="btn-secondary" id="drawer-copy-checkout-btn" style="flex: 1; font-size: 11.5px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; justify-content: center;">
+                  <i data-lucide="link" style="width: 13px; height: 13px;"></i>
+                  <span>Copy link thanh toán</span>
+                </button>
+                <button class="btn-red-outline" id="drawer-refund-btn" style="flex: 1; font-size: 11.5px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 6px; justify-content: center;">
+                  <i data-lucide="shield-alert" style="width: 13px; height: 13px;"></i>
+                  <span>Hoàn tiền (Refund)</span>
+                </button>
+                <button class="btn-secondary" id="drawer-more-btn" style="padding: 6px; display: flex; align-items: center; justify-content: center;"><i data-lucide="more-horizontal" style="width: 14px; height: 14px;"></i></button>
+              </div>
+              <button class="export-btn-full" id="drawer-export-btn">
+                <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+                <span>Xuất đơn hàng này</span>
+              </button>
+            </div>
+            
+          </div>
+          
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons script -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+
+  <!-- Client-side Interactive Logic for Orders Page -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock database of the 10 orders matching the table
+      const ordersData = {
+        "MAY-ORD-2026-0001": {
+          id: "MAY-ORD-2026-0001",
+          avatar: "PT",
+          avatarClass: "avatar-pt",
+          studentName: "Phạm Đức Trí",
+          studentEmail: "tri@email.com",
+          studentPhone: "0912345678",
+          courseName: "AI Agent & Vibe Coding Bootcamp",
+          courseId: "course_ai_agent_bootcamp",
+          courseTag: "Core • Main product",
+          subtotal: "2.990.000đ",
+          discount: "-300.000đ",
+          coupon: "EARLY100",
+          finalAmount: "2.690.000đ",
+          status: "Paid",
+          statusClass: "badge-green",
+          statusText: "Thanh toán thành công",
+          created: "21/05/2026 14:20",
+          paid: "21/05/2026 14:32",
+          updated: "21/05/2026 14:32",
+          method: "VNPay",
+          txid: "241234124124123",
+          payUrl: "https://sandbox.vnpayment.vn/payment/2412341241"
+        },
+        "MAY-ORD-2026-0002": {
+          id: "MAY-ORD-2026-0002",
+          avatar: "NH",
+          avatarClass: "avatar-nh",
+          studentName: "Nguyễn Thu Hà",
+          studentEmail: "ha.nguyen@gmail.com",
+          studentPhone: "0833221199",
+          courseName: "Web Automation with n8n",
+          courseId: "course_n8n_web_automation",
+          courseTag: "Elective • Tool stack",
+          subtotal: "1.290.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "1.290.000đ",
+          status: "Paid",
+          statusClass: "badge-green",
+          statusText: "Thanh toán thành công",
+          created: "21/05/2026 09:58",
+          paid: "21/05/2026 10:11",
+          updated: "21/05/2026 10:11",
+          method: "Momo Wallet",
+          txid: "MM-998234112",
+          payUrl: "https://momo.vn/pay/MM-998234112"
+        },
+        "MAY-ORD-2026-0003": {
+          id: "MAY-ORD-2026-0003",
+          avatar: "LC",
+          avatarClass: "avatar-lm",
+          studentName: "Lê Minh Châu",
+          studentEmail: "chau.le@gmail.com",
+          studentPhone: "0909090909",
+          courseName: "UI/UX Design System Mastery",
+          courseId: "course_uiux_design_system_mastery",
+          courseTag: "Specialized • UI/UX",
+          subtotal: "1.990.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "1.990.000đ",
+          status: "Pending",
+          statusClass: "badge-orange",
+          statusText: "Chờ thanh toán",
+          created: "21/05/2026 09:45",
+          paid: "—",
+          updated: "21/05/2026 09:45",
+          method: "Bank Transfer",
+          txid: "—",
+          payUrl: "https://pay.blueprint.edu.vn/checkout/MAY-ORD-0003"
+        },
+        "MAY-ORD-2026-0004": {
+          id: "MAY-ORD-2026-0004",
+          avatar: "TN",
+          avatarClass: "avatar-ml",
+          studentName: "Trần Văn Nam",
+          studentEmail: "nam.tran@gmail.com",
+          studentPhone: "0977665544",
+          courseName: "AI Agent & Vibe Coding Bootcamp",
+          courseId: "course_ai_agent_bootcamp",
+          courseTag: "Core • Main product",
+          subtotal: "2.990.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "2.990.000đ",
+          status: "Paid",
+          statusClass: "badge-green",
+          statusText: "Thanh toán thành công",
+          created: "20/05/2026 21:59",
+          paid: "20/05/2026 22:18",
+          updated: "20/05/2026 22:18",
+          method: "VNPay",
+          txid: "241234124124119",
+          payUrl: "https://sandbox.vnpayment.vn/payment/241234124119"
+        },
+        "MAY-ORD-2026-0005": {
+          id: "MAY-ORD-2026-0005",
+          avatar: "HA",
+          avatarClass: "avatar-vq",
+          studentName: "Đỗ Hoàng Anh",
+          studentEmail: "anhdo@gmail.com",
+          studentPhone: "0918273645",
+          courseName: "Python for Data Analysis",
+          courseId: "course_python_data_analysis",
+          courseTag: "Elective • Python",
+          subtotal: "990.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "990.000đ",
+          status: "Refunded",
+          statusClass: "badge-red",
+          statusText: "Đã hoàn tiền",
+          created: "18/05/2026 15:40",
+          paid: "18/05/2026 16:30",
+          updated: "20/05/2026 11:15",
+          method: "Momo Wallet",
+          txid: "MM-998234005",
+          payUrl: "https://momo.vn/pay/MM-998234005"
+        },
+        "MAY-ORD-2026-0006": {
+          id: "MAY-ORD-2026-0006",
+          avatar: "VK",
+          avatarClass: "avatar-ht",
+          studentName: "Vũ Thị Khánh",
+          studentEmail: "khanh.vu@gmail.com",
+          studentPhone: "0911223344",
+          courseName: "Web Automation with n8n",
+          courseId: "course_n8n_web_automation",
+          courseTag: "Elective • Tool stack",
+          subtotal: "1.290.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "1.290.000đ",
+          status: "Pending",
+          statusClass: "badge-orange",
+          statusText: "Chờ thanh toán",
+          created: "18/05/2026 10:22",
+          paid: "—",
+          updated: "18/05/2026 10:22",
+          method: "VNPay",
+          txid: "—",
+          payUrl: "https://sandbox.vnpayment.vn/payment/241234124112"
+        },
+        "MAY-ORD-2026-0007": {
+          id: "MAY-ORD-2026-0007",
+          avatar: "QB",
+          avatarClass: "avatar-qn",
+          studentName: "Ngô Quốc Bảo",
+          studentEmail: "bao.ngo@gmail.com",
+          studentPhone: "0901234567",
+          courseName: "Business Automation for SMEs",
+          courseId: "course_business_automation_smes",
+          courseTag: "Core • Business",
+          subtotal: "4.990.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "4.990.000đ",
+          status: "Paid",
+          statusClass: "badge-green",
+          statusText: "Thanh toán thành công",
+          created: "17/05/2026 18:50",
+          paid: "17/05/2026 19:05",
+          updated: "17/05/2026 19:05",
+          method: "Bank Transfer",
+          txid: "TX-BANK-88321",
+          payUrl: "https://pay.blueprint.edu.vn/checkout/MAY-ORD-0007"
+        },
+        "MAY-ORD-2026-0008": {
+          id: "MAY-ORD-2026-0008",
+          avatar: "NL",
+          avatarClass: "avatar-dt",
+          studentName: "Phan Nhật Linh",
+          studentEmail: "linh.phan@gmail.com",
+          studentPhone: "0966554433",
+          courseName: "UI/UX Design System Mastery",
+          courseId: "course_uiux_design_system_mastery",
+          courseTag: "Specialized • UI/UX",
+          subtotal: "1.990.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "1.990.000đ",
+          status: "Failed",
+          statusClass: "badge-red",
+          statusText: "Thanh toán thất bại",
+          created: "17/05/2026 14:16",
+          paid: "—",
+          updated: "17/05/2026 14:30",
+          method: "VNPay",
+          txid: "—",
+          payUrl: "https://sandbox.vnpayment.vn/payment/241234124008"
+        },
+        "MAY-ORD-2026-0009": {
+          id: "MAY-ORD-2026-0009",
+          avatar: "TT",
+          avatarClass: "avatar-nv",
+          studentName: "Bùi Thanh Tùng",
+          studentEmail: "tung.bui@gmail.com",
+          studentPhone: "0988776655",
+          courseName: "AI Agent & Vibe Coding Bootcamp",
+          courseId: "course_ai_agent_bootcamp",
+          courseTag: "Core • Main product",
+          subtotal: "2.990.000đ",
+          discount: "-300.000đ",
+          coupon: "EARLY100",
+          finalAmount: "2.690.000đ",
+          status: "Paid",
+          statusClass: "badge-green",
+          statusText: "Thanh toán thành công",
+          created: "16/05/2026 21:18",
+          paid: "16/05/2026 21:41",
+          updated: "16/05/2026 21:41",
+          method: "Momo Wallet",
+          txid: "MM-998234009",
+          payUrl: "https://momo.vn/pay/MM-998234009"
+        },
+        "MAY-ORD-2026-0010": {
+          id: "MAY-ORD-2026-0010",
+          avatar: "MP",
+          avatarClass: "avatar-tt",
+          studentName: "Nguyễn Mai Phương",
+          studentEmail: "phuong.nm@gmail.com",
+          studentPhone: "0934567890",
+          courseName: "Python for Data Analysis",
+          courseId: "course_python_data_analysis",
+          courseTag: "Elective • Python",
+          subtotal: "990.000đ",
+          discount: "0đ",
+          coupon: "—",
+          finalAmount: "990.000đ",
+          status: "Pending",
+          statusClass: "badge-orange",
+          statusText: "Chờ thanh toán",
+          created: "16/05/2026 09:33",
+          paid: "—",
+          updated: "16/05/2026 09:33",
+          method: "Bank Transfer",
+          txid: "—",
+          payUrl: "https://pay.blueprint.edu.vn/checkout/MAY-ORD-0010"
+        }
+      };
+
+      let activeOrderId = null;
+      const grid = document.getElementById('order-grid');
+      const closeBtn = document.getElementById('close-drawer-btn');
+      
+      const getTableRows = () => document.querySelectorAll('tbody tr');
+
+      // Toast Notification Helper
+      function showToast(message, type = 'success') {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'toast-container';
+          container.className = 'toast-container';
+          document.body.appendChild(container);
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = 'toast-message';
+        
+        let iconName = 'check-circle';
+        if (type === 'error') iconName = 'alert-triangle';
+        else if (type === 'info') iconName = 'info';
+        
+        toast.innerHTML = `
+          <i data-lucide="${iconName}" style="width: 14px; height: 14px;"></i>
+          <span>${message}</span>
+        `;
+        
+        container.appendChild(toast);
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+        
+        setTimeout(() => {
+          toast.remove();
+        }, 3000);
+      }
+
+      // Initialize row tags and click handlers
+      getTableRows().forEach(row => {
+        const orderIdCell = row.cells[0];
+        if (!orderIdCell) return;
+        const orderId = orderIdCell.innerText.trim();
+        row.setAttribute('data-order-id', orderId);
+        row.style.cursor = 'pointer';
+
+        row.addEventListener('click', (e) => {
+          const cell = e.target.closest('td');
+          if (!cell) return;
+          const cellIndex = cell.cellIndex;
+          const totalCells = row.cells.length;
+
+          // Ignore clicks on actions column (last)
+          if (cellIndex === totalCells - 1) return;
+
+          // Ignore clicks on buttons inside cells
+          if (e.target.closest('button')) return;
+
+          openDrawer(row, orderId);
+        });
+
+        // Eye button click handler
+        const eyeBtn = row.querySelector('.btn-icon-only[title="Xem chi tiết"]');
+        if (eyeBtn) {
+          eyeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openDrawer(row, orderId);
+          });
+        }
+
+        // More vertical action handler
+        const moreBtn = row.querySelector('.btn-icon-only[title="Thao tác"]');
+        if (moreBtn) {
+          moreBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showToast(`Mở menu hành động cho đơn hàng "${orderId}"`, 'info');
+          });
+        }
+      });
+
+      function openDrawer(row, id) {
+        getTableRows().forEach(r => r.classList.remove('highlight-row'));
+        row.classList.add('highlight-row');
+
+        loadOrderData(id);
+        grid.classList.remove('drawer-closed');
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          grid.classList.add('drawer-closed');
+          getTableRows().forEach(r => r.classList.remove('highlight-row'));
+        });
+      }
+
+      // Load order details into drawer
+      function loadOrderData(id) {
+        activeOrderId = id;
+        const order = ordersData[id];
+        if (!order) return;
+
+        document.getElementById('drawer-order-id').innerText = order.id;
+        
+        const badge = document.getElementById('drawer-status-badge');
+        badge.innerText = order.status;
+        badge.className = `badge ${order.statusClass}`;
+
+        document.getElementById('drawer-status-text').innerText = order.statusText;
+        document.getElementById('drawer-created-at').innerText = order.created;
+        document.getElementById('drawer-paid-at').innerText = order.paid;
+        document.getElementById('drawer-updated-at').innerText = order.updated;
+
+        // Dynamic student avatar text and background class
+        const drawerAvatar = document.getElementById('drawer-student-avatar');
+        drawerAvatar.innerText = order.avatar;
+        drawerAvatar.className = 'student-info-avatar';
+        if (order.avatarClass) {
+          drawerAvatar.classList.add(order.avatarClass);
+        }
+
+        document.getElementById('drawer-student-name').innerText = order.studentName;
+        document.getElementById('drawer-student-email').innerText = order.studentEmail;
+        document.getElementById('drawer-student-phone').innerText = order.studentPhone;
+        document.getElementById('drawer-student-id').innerText = "USR-2026-" + id.split('-').pop();
+
+        document.getElementById('drawer-course-name').innerText = order.courseName;
+        document.getElementById('drawer-course-tag').innerText = order.courseTag;
+        document.getElementById('drawer-course-id').innerText = order.courseId;
+
+        // Dynamic course thumbnail alt text
+        const courseThumb = document.getElementById('drawer-course-thumbnail');
+        if (courseThumb) {
+          courseThumb.alt = order.courseName;
+        }
+        
+        const enrolStatus = order.status === 'Paid' ? 'Active' : (order.status === 'Pending' ? 'Pending' : 'Cancelled');
+        const enrolBadge = document.getElementById('drawer-enrollment-status');
+        enrolBadge.innerText = enrolStatus;
+        enrolBadge.className = `badge ${enrolStatus === 'Active' ? 'badge-green' : (enrolStatus === 'Cancelled' ? 'badge-red' : (enrolStatus === 'Pending' ? 'badge-orange' : 'badge-gray'))}`;
+
+        document.getElementById('drawer-subtotal').innerText = order.subtotal;
+        document.getElementById('drawer-discount').innerText = order.discount;
+        document.getElementById('drawer-coupon').innerText = order.coupon;
+        document.getElementById('drawer-final-amount').innerText = order.finalAmount;
+
+        // Billing details
+        document.getElementById('drawer-billing-name').innerText = order.studentName;
+        document.getElementById('drawer-billing-contact').innerText = `${order.studentEmail} • ${order.studentPhone}`;
+        document.getElementById('drawer-billing-address').innerText = "123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh";
+        
+        const reqInvoice = id.includes('0001') || id.includes('0004');
+        const invoiceBadge = document.getElementById('drawer-invoice-requested');
+        invoiceBadge.innerText = reqInvoice ? 'Có' : 'Không';
+        invoiceBadge.className = `badge ${reqInvoice ? 'badge-green' : 'badge-gray'}`;
+        
+        const compRow = document.getElementById('drawer-company-info-row');
+        if (reqInvoice) {
+          compRow.style.display = 'flex';
+          document.getElementById('drawer-company-name').innerText = "Công ty TNHH Công nghệ AI Việt Nam";
+          document.getElementById('drawer-tax-code').innerText = "0109827364";
+        } else {
+          compRow.style.display = 'none';
+        }
+
+        const refCode = id.includes('0009') ? 'AN10 (Nguyễn Văn An)' : '—';
+        document.getElementById('drawer-referral').innerText = refCode;
+
+        document.getElementById('drawer-pay-method').innerText = order.method;
+        document.getElementById('drawer-pay-txid').innerText = order.txid;
+        document.getElementById('drawer-pay-url').innerText = order.payUrl;
+        document.getElementById('drawer-pay-date').innerText = order.paid;
+
+        // Additional transaction metadata
+        document.getElementById('drawer-created-by').innerText = id.includes('0007') ? 'Admin User' : 'System';
+        
+        const isRefunded = order.status === 'Refunded';
+        const refundTimeRow = document.getElementById('drawer-refunded-time-row');
+        const refundReasonRow = document.getElementById('drawer-refunded-reason-row');
+        if (isRefunded) {
+          refundTimeRow.style.display = 'flex';
+          refundReasonRow.style.display = 'flex';
+          document.getElementById('drawer-refunded-at').innerText = order.updated;
+          document.getElementById('drawer-refund-reason').innerText = 'Học viên yêu cầu hoàn tiền do bận lịch công tác đột xuất.';
+        } else {
+          refundTimeRow.style.display = 'none';
+          refundReasonRow.style.display = 'none';
+        }
+        
+        document.getElementById('drawer-pay-note').innerText = order.status === 'Failed' ? 'Thanh toán bị lỗi từ chối thẻ nội địa.' : 'Giao dịch qua cổng online tự động.';
+
+        // Attempts list
+        const attemptsBody = document.getElementById('drawer-attempts-tbody');
+        attemptsBody.innerHTML = '';
+        
+        const attempts = [];
+        if (order.status === 'Paid') {
+          attempts.push({ provider: order.method, txid: order.txid, amount: order.finalAmount, status: 'Success', statusClass: 'badge-green' });
+        } else if (order.status === 'Pending') {
+          attempts.push({ provider: order.method, txid: '—', amount: order.finalAmount, status: 'Pending', statusClass: 'badge-orange' });
+        } else if (order.status === 'Failed') {
+          attempts.push({ provider: order.method, txid: 'ERR_VNP_99', amount: order.finalAmount, status: 'Failed', statusClass: 'badge-red' });
+        } else if (order.status === 'Refunded') {
+          attempts.push({ provider: order.method, txid: order.txid, amount: order.finalAmount, status: 'Refunded', statusClass: 'badge-red' });
+          attempts.push({ provider: order.method, txid: order.txid, amount: order.finalAmount, status: 'Success', statusClass: 'badge-green' });
+        }
+        
+        attempts.forEach(att => {
+          const tr = document.createElement('tr');
+          tr.style.borderBottom = '1px solid var(--border-passive)';
+          tr.innerHTML = `
+            <td style="padding: 4px 0;">${att.provider}</td>
+            <td style="padding: 4px 0; font-family: var(--font-mono);">${att.txid}</td>
+            <td style="padding: 4px 0;">${att.amount}</td>
+            <td style="padding: 4px 0; text-align: right;"><span class="badge ${att.statusClass}" style="font-size: 9px; padding: 1px 4px;">${att.status}</span></td>
+          `;
+          attemptsBody.appendChild(tr);
+        });
+
+        // Refund button style and label
+        const refundBtn = document.getElementById('drawer-refund-btn');
+        if (refundBtn) {
+          if (order.status === 'Refunded') {
+            refundBtn.innerHTML = `<i data-lucide="rotate-ccw" style="width: 13px; height: 13px;"></i><span>Đã hoàn tiền</span>`;
+            refundBtn.disabled = true;
+          } else if (order.status === 'Paid') {
+            refundBtn.innerHTML = `<i data-lucide="shield-alert" style="width: 13px; height: 13px;"></i><span>Hoàn tiền (Refund)</span>`;
+            refundBtn.disabled = false;
+          } else {
+            refundBtn.innerHTML = `<i data-lucide="shield-alert" style="width: 13px; height: 13px;"></i><span>Hoàn tiền (Refund)</span>`;
+            refundBtn.disabled = true;
+          }
+        }
+
+        // Copy Checkout link status logic
+        const copyCheckoutBtn = document.getElementById('drawer-copy-checkout-btn');
+        if (copyCheckoutBtn) {
+          if (order.status === 'Paid' || order.status === 'Refunded') {
+            copyCheckoutBtn.disabled = true;
+          } else {
+            copyCheckoutBtn.disabled = false;
+          }
+        }
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      // Copy buttons functionalities
+      const copyPhoneBtn = document.getElementById('drawer-copy-phone-btn');
+      if (copyPhoneBtn) {
+        copyPhoneBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const phone = document.getElementById('drawer-student-phone').innerText;
+          navigator.clipboard.writeText(phone).then(() => {
+            const originalHTML = copyPhoneBtn.innerHTML;
+            copyPhoneBtn.innerHTML = '<i data-lucide="check" style="width: 11px; height: 11px; color: #10b981;"></i>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            showToast('Đã sao chép số điện thoại học viên');
+            setTimeout(() => {
+              copyPhoneBtn.innerHTML = originalHTML;
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+            }, 1500);
+          });
+        });
+      }
+
+      const copyUrlBtn = document.getElementById('drawer-copy-url-btn');
+      if (copyUrlBtn) {
+        copyUrlBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const url = document.getElementById('drawer-pay-url').innerText;
+          navigator.clipboard.writeText(url).then(() => {
+            const originalHTML = copyUrlBtn.innerHTML;
+            copyUrlBtn.innerHTML = '<i data-lucide="check" style="width: 12px; height: 12px; color: #10b981;"></i>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            showToast('Đã sao chép link thanh toán giao dịch');
+            setTimeout(() => {
+              copyUrlBtn.innerHTML = originalHTML;
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+            }, 1500);
+          });
+        });
+      }
+
+      const copyCheckoutBtn = document.getElementById('drawer-copy-checkout-btn');
+      if (copyCheckoutBtn) {
+        copyCheckoutBtn.addEventListener('click', () => {
+          const url = document.getElementById('drawer-pay-url').innerText;
+          navigator.clipboard.writeText(url).then(() => {
+            showToast('Đã sao chép link checkout gửi cho học viên');
+          });
+        });
+      }
+
+      // Refund handler
+      const refundBtn = document.getElementById('drawer-refund-btn');
+      if (refundBtn) {
+        refundBtn.addEventListener('click', () => {
+          const order = ordersData[activeOrderId];
+          if (!order || order.status === 'Refunded') return;
+
+          if (confirm(`Bạn có chắc chắn muốn hoàn tiền cho đơn hàng ${order.id} của ${order.studentName}?`)) {
+            order.status = 'Refunded';
+            order.statusClass = 'badge-red';
+            order.statusText = 'Đã hoàn tiền';
+            order.paid = '—';
+            order.updated = new Date().toLocaleString('vi-VN');
+
+            // Reload drawer
+            loadOrderData(activeOrderId);
+
+            // Update row status
+            const row = document.querySelector(`tbody tr[data-order-id="${activeOrderId}"]`);
+            if (row) {
+              row.cells[4].innerHTML = `<span class="badge ${order.statusClass}">${order.status}</span>`;
+              row.cells[5].innerText = '—';
+            }
+
+            showToast(`Đã hoàn thành thủ tục hoàn tiền đơn hàng ${order.id}`);
+          }
+        });
+      }
+
+      const moreActionBtn = document.getElementById('drawer-more-btn');
+      if (moreActionBtn) {
+        moreActionBtn.addEventListener('click', () => {
+          showToast(`Đang hiển thị thêm tùy chọn cho đơn hàng ${activeOrderId}`, 'info');
+        });
+      }
+
+      const exportOrderBtn = document.getElementById('drawer-export-btn');
+      if (exportOrderBtn) {
+        exportOrderBtn.addEventListener('click', () => {
+          showToast(`Bắt đầu xuất hóa đơn PDF đơn hàng ${activeOrderId}...`, 'info');
+        });
+      }
+
+      // Multi-input filtering logic
+      const fromDateInput = document.getElementById('filter-from-date');
+      const toDateInput = document.getElementById('filter-to-date');
+      const statusSelect = document.getElementById('filter-status');
+      const courseSelect = document.getElementById('filter-course');
+      const resetBtn = document.getElementById('filter-reset-btn');
+
+      function filterTable() {
+        const fromDateStr = fromDateInput.value; // YYYY-MM-DD
+        const toDateStr = toDateInput.value;
+        const statusFilter = statusSelect.value;
+        const courseFilter = courseSelect.value;
+
+        const parseDate = (dStr) => {
+          const parts = dStr.split(' ')[0].split('/');
+          if (parts.length === 3) {
+            return new Date(parts[2], parts[1] - 1, parts[0]);
+          }
+          return null;
+        };
+
+        const fromDate = fromDateStr ? new Date(fromDateStr) : null;
+        if (fromDate) fromDate.setHours(0, 0, 0, 0);
+        
+        const toDate = toDateStr ? new Date(toDateStr) : null;
+        if (toDate) toDate.setHours(23, 59, 59, 999);
+
+        let visibleCount = 0;
+
+        getTableRows().forEach(row => {
+          const orderId = row.getAttribute('data-order-id');
+          const order = ordersData[orderId];
+          if (!order) return;
+
+          // Check Date range
+          const createdDate = parseDate(order.created);
+          let dateMatch = true;
+          if (createdDate) {
+            if (fromDate && createdDate < fromDate) dateMatch = false;
+            if (toDate && createdDate > toDate) dateMatch = false;
+          }
+
+          // Check Status
+          let statusMatch = true;
+          if (statusFilter !== 'All' && order.status !== statusFilter) {
+            statusMatch = false;
+          }
+
+          // Check Course
+          let courseMatch = true;
+          if (courseFilter !== 'All' && order.courseName !== courseFilter) {
+            courseMatch = false;
+          }
+
+          if (dateMatch && statusMatch && courseMatch) {
+            row.style.display = '';
+            visibleCount++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        // Dynamic empty state
+        let emptyRow = document.getElementById('table-empty-row');
+        if (visibleCount === 0) {
+          if (!emptyRow) {
+            emptyRow = document.createElement('tr');
+            emptyRow.id = 'table-empty-row';
+            emptyRow.innerHTML = `
+              <td colspan="10" style="text-align: center; padding: 32px 0; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px; color: var(--text-secondary);"></i>
+                  <span>Không tìm thấy đơn hàng nào phù hợp bộ lọc</span>
+                </div>
+              </td>
+            `;
+            document.querySelector('tbody').appendChild(emptyRow);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          }
+        } else {
+          if (emptyRow) emptyRow.remove();
+        }
+
+        // Update counts
+        const paginationInfo = document.querySelector('.pagination-container > span');
+        if (paginationInfo) {
+          paginationInfo.innerText = `Hiển thị ${visibleCount} trong ${visibleCount} đơn hàng (lọc từ 814)`;
+        }
+      }
+
+      // Add filter event listeners
+      if (fromDateInput) fromDateInput.addEventListener('change', filterTable);
+      if (toDateInput) toDateInput.addEventListener('change', filterTable);
+      if (statusSelect) statusSelect.addEventListener('change', filterTable);
+      if (courseSelect) courseSelect.addEventListener('change', filterTable);
+
+      // Reset button handler
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          fromDateInput.value = '2026-05-02';
+          toDateInput.value = '2026-06-02';
+          statusSelect.value = 'All';
+          courseSelect.value = 'All';
+          filterTable();
+          showToast('Đã khôi phục bộ lọc mặc định');
+        });
+      }
+
+      // Auto-open drawer if hash matches an order ID
+      const hash = window.location.hash.substring(1);
+      if (hash && ordersData[hash]) {
+        const targetRow = document.querySelector(`tr[data-order-id="${hash}"]`);
+        if (targetRow) {
+          openDrawer(targetRow, hash);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

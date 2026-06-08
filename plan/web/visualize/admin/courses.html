@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Management - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Inline additions for specific course level badges */
+    .badge-free { background-color: #eff6ff; color: #1e40af; }
+    .badge-starter { background-color: #fff7ed; color: #c2410c; }
+    .badge-core { background-color: #f5f3ff; color: #6d28d9; }
+    .badge-advanced { background-color: #fef2f2; color: #b91c1c; }
+    .badge-premium { background-color: #fdf2f8; color: #be185d; }
+    .badge-b2b { background-color: #ecfdf5; color: #047857; }
+    .badge-gray { background-color: #f3f4f6; color: #4b5563; }
+    
+    .actions-cell {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      max-width: 250px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link active" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">
+            <i data-lucide="user"></i>
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & date range picker -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Course Management</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Create and manage Blueprint courses.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-black">
+            <i data-lucide="plus"></i>
+            <span>Create Course</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-6" style="margin-bottom: 24px;">
+        <!-- Card 1: Total Courses -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Total Courses</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">6</span>
+            <span class="kpi-trend" style="color: var(--text-secondary);">—</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Published -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Published</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">3</span>
+            <span class="kpi-trend trend-up">+1</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Draft -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Draft</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">2</span>
+            <span class="kpi-trend trend-down">-1</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Archived -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Archived</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1</span>
+            <span class="kpi-trend" style="color: var(--text-secondary);">—</span>
+          </div>
+        </div>
+
+        <!-- Card 5: Total Students -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Total Students</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,284</span>
+            <span class="kpi-trend trend-up">+8%</span>
+          </div>
+        </div>
+
+        <!-- Card 6: Certificates On -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Certificates On</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">4</span>
+            <span class="kpi-trend trend-up">+2</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           COURSE LIST PANEL
+           ========================================================================== -->
+      <!-- Panel: Course List -->
+      <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Course List</h2>
+                <span class="panel-subtitle">6 courses</span>
+              </div>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Course</th>
+                    <th class="col-secondary">Level</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th class="col-secondary">Lessons</th>
+                    <th>Students</th>
+                    <th class="col-secondary">Certificate</th>
+                    <th class="col-secondary">Updated</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <img src="course_thumbnail.png" alt="Free Workshop" class="course-thumbnail">
+                        <span class="student-name">Free Workshop</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="badge badge-free">Free</span></td>
+                    <td><span>Free</span></td>
+                    <td><span class="badge badge-green">Published</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">4 lessons</td>
+                    <td style="color: var(--text-secondary);">512 students</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">No</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Jun 2, 2006</td>
+                    <td>
+                      <div class="actions-cell">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Manage Lessons</button>
+                        <button class="btn-small">Preview</button>
+                        <button class="btn-icon-only" title="More options"><i data-lucide="more-horizontal"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <img src="course_thumbnail.png" alt="Starter Mini Course" class="course-thumbnail">
+                        <span class="student-name">Starter Mini Course</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="badge badge-starter">Starter</span></td>
+                    <td><span>590.000đ</span></td>
+                    <td><span class="badge badge-green">Published</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">8 lessons</td>
+                    <td style="color: var(--text-secondary);">286 students</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Yes</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Jun 2, 2006</td>
+                    <td>
+                      <div class="actions-cell">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Manage Lessons</button>
+                        <button class="btn-small">Preview</button>
+                        <button class="btn-icon-only" title="More options"><i data-lucide="more-horizontal"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr class="highlight-row">
+                    <td>
+                      <div class="col-student">
+                        <img src="course_thumbnail.png" alt="AI Agent & Vibe Coding Bootcamp" class="course-thumbnail">
+                        <span class="student-name" style="font-weight: 600;">AI Agent & Vibe Coding Bootcamp</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="badge badge-core">Core</span></td>
+                    <td><span>2.990.000đ</span></td>
+                    <td><span class="badge badge-green">Published</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">24 lessons</td>
+                    <td style="color: var(--text-secondary);">38 students</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Yes</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Jun 1, 2006</td>
+                    <td>
+                      <div class="actions-cell">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Manage Lessons</button>
+                        <button class="btn-small">Preview</button>
+                        <button class="btn-icon-only" title="More options"><i data-lucide="more-horizontal"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 4 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <img src="course_thumbnail.png" alt="Advanced Automation" class="course-thumbnail">
+                        <span class="student-name">Advanced Automation</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="badge badge-advanced">Advanced</span></td>
+                    <td><span>5.990.000đ</span></td>
+                    <td><span class="badge badge-orange">Draft</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">18 lessons</td>
+                    <td style="color: var(--text-secondary);">12 students</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Yes</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Jun 1, 2006</td>
+                    <td>
+                      <div class="actions-cell">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Manage Lessons</button>
+                        <button class="btn-small">Preview</button>
+                        <button class="btn-icon-only" title="More options"><i data-lucide="more-horizontal"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 5 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <img src="course_thumbnail.png" alt="Premium Mentoring" class="course-thumbnail">
+                        <span class="student-name">Premium Mentoring</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="badge badge-premium">Premium</span></td>
+                    <td><span>12.000.000đ</span></td>
+                    <td><span class="badge badge-orange">Draft</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">10 lessons</td>
+                    <td style="color: var(--text-secondary);">4 students</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">Yes</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">May 31, 2006</td>
+                    <td>
+                      <div class="actions-cell">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Manage Lessons</button>
+                        <button class="btn-small">Preview</button>
+                        <button class="btn-icon-only" title="More options"><i data-lucide="more-horizontal"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 6 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <img src="course_thumbnail.png" alt="B2B Training" class="course-thumbnail">
+                        <span class="student-name">B2B Training</span>
+                      </div>
+                    </td>
+                    <td class="col-secondary"><span class="badge badge-b2b">B2B</span></td>
+                    <td><span>Custom</span></td>
+                    <td><span class="badge badge-gray">Archived</span></td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">6 lessons</td>
+                    <td style="color: var(--text-secondary);">0 students</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">No</td>
+                    <td class="col-secondary" style="color: var(--text-secondary);">May 29, 2006</td>
+                    <td>
+                      <div class="actions-cell">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Manage Lessons</button>
+                        <button class="btn-small">Preview</button>
+                        <button class="btn-icon-only" title="More options"><i data-lucide="more-horizontal"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Panel: Quick FAQ Management -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Quick FAQ Management</h2>
+                <span class="panel-subtitle">3 FAQs for AI Agent & Vibe Coding Bootcamp</span>
+              </div>
+              <a href="#" class="panel-header-link">
+                <span>View all FAQs</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Question</th>
+                    <th class="col-secondary">Status</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td style="width: 55%;"><span class="student-name">What programming languages are covered in this bootcamp?</span></td>
+                    <td class="col-secondary"><span class="badge badge-green">Published</span></td>
+                    <td>
+                      <input type="text" class="form-control" value="1" style="width: 40px; text-align: center; padding: 4px 0;">
+                    </td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Hide</button>
+                        <span class="drag-handle"><i data-lucide="grip-vertical"></i></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr>
+                    <td><span class="student-name">Do I need prior coding experience to take this course?</span></td>
+                    <td class="col-secondary"><span class="badge badge-green">Published</span></td>
+                    <td>
+                      <input type="text" class="form-control" value="2" style="width: 40px; text-align: center; padding: 4px 0;">
+                    </td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Hide</button>
+                        <span class="drag-handle"><i data-lucide="grip-vertical"></i></span>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr>
+                    <td><span class="student-name">Will I get a certificate after completing the bootcamp?</span></td>
+                    <td class="col-secondary"><span class="badge badge-orange">Draft</span></td>
+                    <td>
+                      <input type="text" class="form-control" value="3" style="width: 40px; text-align: center; padding: 4px 0;">
+                    </td>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Publish</button>
+                        <span class="drag-handle"><i data-lucide="grip-vertical"></i></span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons script -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

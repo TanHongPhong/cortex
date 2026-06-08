@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: ["[[MVP]]", "[[P1]]"]
 ---
 
@@ -18,6 +18,7 @@ status: ["[[MVP]]", "[[P1]]"]
 **Status:** MVP + P1
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 
 ## 1. Mục tiêu trang
@@ -83,7 +84,7 @@ Ví dụ:
 
 ```text
 Welcome back, Admin 👋
-Here is what is happening in CORTEX today.
+Here is what is happening in Blueprint today.
 ```
 
 ---
@@ -103,7 +104,6 @@ Here is what is happening in CORTEX today.
 | Pending Orders       | Đơn đang chờ thanh toán       | `/admin/orders?status=pending`      |
 | Pending Submissions | Bài nộp đang chờ duyệt        | `/admin/submissions?status=pending` |
 | Certificates Issued | Chứng chỉ đã cấp              | `/admin/certificates`               |
-| Open Questions      | Câu hỏi lesson chưa xử lý     | `/instructor/questions` |
 | Pending Reviews     | Review chờ duyệt              | `/admin/reviews?status=pending`     |
 | Failed Notifications | Notification gửi lỗi         | `/admin/announcements`              |
 
@@ -119,9 +119,8 @@ Here is what is happening in CORTEX today.
 7. Pending Orders
 8. Pending Submissions
 9. Certificates Issued
-10. Open Questions
-11. Pending Reviews
-12. Failed Notifications
+10. Pending Reviews
+11. Failed Notifications
 ```
 
 ---
@@ -135,11 +134,11 @@ Here is what is happening in CORTEX today.
 | `Tạo khóa học`    | `/admin/courses?action=create`      |
 | `Thêm lesson`     | `/admin/lessons`                    |
 | `Xem đơn hàng`    | `/admin/orders`                     |
-| `Tạo [[web/page/student/coupon|coupon]]`      | `/admin/coupons?action=create`      |
+| `Tạo coupon`      | `/admin/coupons?action=create`      |
 | `Duyệt bài nộp`   | `/admin/submissions?status=pending` |
 | `Cấp [[web/page/website/certificate|certificate]]` | `/admin/certificates`               |
 
-UI nên là các button/card nhỏ, không cần quá màu mè.
+Quick actions chỉ cần hiển thị các lối tắt vận hành chính.
 
 ---
 
@@ -179,7 +178,7 @@ Dẫn tới:
 | Alert              | Dẫn tới                         |
 | ------------------ | ------------------------------- |
 | Pending orders > 0 | `/admin/orders?status=pending`  |
-| Gateway pending    | `/admin/payments?status=pending` |
+| QR payment pending | `/admin/payments?status=pending` |
 | Failed payments    | `/admin/payments?status=failed` |
 | Invoice requested  | `/admin/invoices?status=draft`  |
 
@@ -239,7 +238,7 @@ Trang [[web/page/instructor/overview|overview]] nên ưu tiên hiển thị các
 | KPI data             | Tính số liệu từ database                           |
 | Quick action         | Các nút dẫn đúng trang quản lý                     |
 | Commerce alerts      | Hiển thị pending orders, failed payments, invoices |
-| P1 learning alerts   | Hiển thị open [[web/page/instructor/questions|questions]], pending reviews, failed [[web/page/student/notifications|notifications]] |
+| P1 learning alerts   | Hiển thị pending reviews và failed [[web/page/student/notifications|notifications]] |
 | Pending [[web/page/instructor/submissions|submissions]]  | Hiển thị bài nộp đang chờ duyệt                    |
 | Certificate activity | Hiển thị [[web/page/website/certificate|certificate]] mới cấp hoặc pending          |
 | Responsive           | Desktop ưu tiên, mobile vẫn xem được               |
@@ -260,7 +259,6 @@ Trang [[web/page/instructor/overview|overview]] nên ưu tiên hiển thị các
 | [[web/page/instructor/submissions|`submissions`]]  | Pending [[web/page/instructor/submissions|submissions]]              |
 | `certificates` | Certificates issued              |
 | `leads`        | New leads (nếu cần hiển thị KPI) |
-| `lesson_questions` | Open [[web/page/instructor/questions|questions]]               |
 | `course_reviews` | Pending/low reviews            |
 | [[web/page/student/notifications|`notifications`]] | Failed delivery/unread count    |
 | `announcements` | Published/draft announcements   |
@@ -358,20 +356,6 @@ Chưa có chứng chỉ nào được cấp.
 
 ---
 
-# 10. UI style đề xuất
-
-| Phần      | Style                                 |
-| --------- | ------------------------------------- |
-| Tổng thể  | Dashboard app, sạch, rõ, ít hiệu ứng  |
-| KPI cards | Bo góc, số lớn, label ngắn            |
-| Alert     | Dùng màu nhẹ để nhắc việc cần xử lý   |
-| Tables    | Gọn, chỉ 5 dòng gần nhất              |
-| CTA       | Text link hoặc button nhỏ             |
-| Desktop   | Ưu tiên 2 cột bên dưới KPI            |
-| Mobile    | Card xếp dọc, table có thể thành list |
-
----
-
 # 11. Acceptance Criteria
 
 Trang `/admin` đạt nếu:
@@ -412,13 +396,13 @@ Nói ngắn gọn: **`/admin` là trang tổng quan vận hành. Admin không ch
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/overview|/instructor — Instructor Overview]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/overview|/instructor — Instructor Overview]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
 - **Incoming Links (Backlinks):** *None*

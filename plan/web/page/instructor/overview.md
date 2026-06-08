@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Instructor Workspace]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[P1]]"
 ---
 
@@ -18,13 +18,14 @@ status: "[[P1]]"
 **Status:** P1
 **Owner area:** Instructor
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/instructor/design|Instructor Workspace Design — Focused Review Console]]
 **Build decision:** Build
 
 ## 1. Mục tiêu trang
 
-Instructor xem nhanh các khóa được phân công và các queue cần xử lý: bài nộp pending, câu hỏi chưa trả lời, notification mới.
+Instructor xem nhanh các khóa được phân công và các queue cần xử lý: bài nộp pending, notification mới.
 
-**Nguyên tắc:** Instructor chỉ chấm bài và hỗ trợ học viên — không quản lý khóa học, video, học viên hay announcement.
+**Nguyên tắc:** Instructor chỉ chấm bài, hỗ trợ học viên và tạo thông báo cho khóa phụ trách — không quản lý khóa học tổng thể, video hay học viên.
 
 ---
 
@@ -33,10 +34,9 @@ Instructor xem nhanh các khóa được phân công và các queue cần xử l
 | Khu vực | Yêu cầu |
 | ------- | ------- |
 | Header | Chào instructor, tổng số khóa được phân công. |
-| KPI cards | Assigned courses, pending [[web/page/instructor/submissions|submissions]], open [[web/page/instructor/questions|questions]], unread [[web/page/student/notifications|notifications]]. |
+| KPI cards | Assigned courses, pending [[web/page/instructor/submissions|submissions]], unread [[web/page/student/notifications|notifications]]. |
 | Pending [[web/page/instructor/submissions|submissions]] | 5-10 bài mới nhất cần duyệt. |
-| Open [[web/page/instructor/questions|questions]] | Câu hỏi lesson chưa trả lời/resolved. |
-| Quick links | `/instructor/courses`, `/instructor/submissions`, `/instructor/questions`. |
+| Quick links | `/instructor/courses`, `/instructor/submissions`. |
 
 ---
 
@@ -48,7 +48,6 @@ Instructor xem nhanh các khóa được phân công và các queue cần xử l
 | `course_instructors` | Phân công instructor theo khóa |
 | `courses` | Khóa được phân công |
 | [[web/page/instructor/submissions|`submissions`]] | Queue bài nộp |
-| `lesson_questions` | Queue Q&A |
 | [[web/page/student/notifications|`notifications`]] | Notification cá nhân |
 
 ---
@@ -57,9 +56,10 @@ Instructor xem nhanh các khóa được phân công và các queue cần xử l
 
 - Chỉ role `instructor` hoặc [[web/page/admin/admin|`admin`]] được vào.
 - Instructor chỉ thấy khóa được phân công.
-- Queue chỉ hiện theo permission flags: [[web/page/instructor/submissions|submissions]] khi `can_review_submissions = true`, [[web/page/instructor/questions|questions]] khi `can_answer_questions = true`.
+- Queue chỉ hiện theo permission flags: [[web/page/instructor/submissions|submissions]] khi `can_review_submissions = true`.
+- Content edit chỉ hiện khi `course_instructors.can_edit_course_content = true`.
 - Không hiển thị commerce: orders, payments, coupons, invoices, referrals, revenue.
-- **KHÔNG có quyền:** upload video, sửa lesson, quản lý khóa/học viên, tạo announcement.
+- **KHÔNG có quyền:** quản lý học viên, tạo thông báo toàn hệ thống (Global), xử lý tài chính, cấp chứng chỉ hoặc phân quyền. (Được tạo thông báo cho khóa học phụ trách).
 
 ---
 
@@ -78,13 +78,13 @@ Instructor xem nhanh các khóa được phân công và các queue cần xử l
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/instructor
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/instructor
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/instructor/overview|Instructor Workspace]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/instructor/overview|Instructor Workspace]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]]
+- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]]
 - **Incoming Links (Backlinks):** [[web/page/admin/admin-overview|/admin — Admin Overview]]

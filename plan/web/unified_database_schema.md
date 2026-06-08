@@ -1,18 +1,18 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
 type: ["[[Technical Specification]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: ["[[Single Source of Truth - Learning]]", "[[Commerce]]", "[[Data Integrity]]", "[[Video Streaming]]", "[[P1 Learning Operations]]", "[[Balance Refund]]"]
 ---
 
-# 💎 Unified Database Schema - CORTEX Project
+# 💎 Unified Database Schema - Blueprint Project
 
 **Version:** 1.6 (Balance Refund + Permission Hardening + Policy Pages)
 **Last Updated:** 2026-06-01
@@ -48,7 +48,7 @@ status: ["[[Single Source of Truth - Learning]]", "[[Commerce]]", "[[Data Integr
 - **CertificateTemplate** (1) $\rightarrow$ (N) **Certificate**
 - **Lead (Type B)**: Independent entity (Contact point only)
 - **Project**: Independent showcase entity (manual promotion from [[web/page/instructor/submissions|submissions]])
-- **AuditLog**: Append-only system/admin/instructor/course_editor activity log
+- **AuditLog**: Append-only system/admin/instructor activity log
 
 ---
 
@@ -64,7 +64,7 @@ status: ["[[Single Source of Truth - Learning]]", "[[Commerce]]", "[[Data Integr
 | `password_hash`     | String    | Not Null         | Mật khẩu mã hóa                    |
 | `phone`             | String    | -                | Số điện thoại/Zalo                 |
 | `avatar_url`        | String    | -                | Ảnh đại diện (Tùy chọn)            |
-| `role`              | Enum      | Not Null         | `student`, `instructor`, `course_editor`, [[web/page/admin/admin|`admin`]] |
+| `role`              | Enum      | Not Null         | `student`, `instructor`, [[web/page/admin/admin|`admin`]] |
 | `status`            | Enum      | Not Null         | `active`, `blocked`                |
 | `learning_interest` | Text      | -                | Nhu cầu học tập                    |
 | `current_level`     | Text      | -                | Trình độ hiện tại                  |
@@ -359,7 +359,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | Field              | Type      | Constraint                                        | Description                          |
 | :----------------- | :-------- | :------------------------------------------------ | :----------------------------------- |
 | `id`               | UUID      | PK                                                | Định danh duy nhất                   |
-| `certificate_code` | String    | Unique, Not Null                                  | Format: `CERT-{YYYY}{RRRR}-{NNNNNN}` |
+| `certificate_code` | String    | Unique, Not Null                                  | Format: `CERT-{YYYYRRRR}-{NNNNNN}` |
 | `user_id`          | UUID      | **Not Null**, FK → `users.id` ON DELETE RESTRICT  | Học viên nhận chứng chỉ              |
 | `course_id`        | UUID      | **Not Null**, FK → `courses.id` ON DELETE RESTRICT | Khóa học liên quan                   |
 | `template_id`      | UUID      | FK → `certificate_templates.id` ON DELETE SET NULL | Template dùng khi cấp chứng chỉ      |
@@ -395,7 +395,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `status`                | Enum      | Not Null                                                                       | `pending`, `paid`, `failed`, `refunded`, `cancelled`         |
 | `payment_status`        | Enum      | Not Null                                                                       | `unpaid`, `paid`, `refunded`, `partially_refunded`           |
 | `payment_method`        | String    | -                                                                              | `momo`, `vnpay`                                               |
-| `transaction_id`        | String    | -                                                                              | Mã giao dịch gateway chính để tra cứu nhanh. Lịch sử chuẩn nằm ở `payment_transactions` |
+| `transaction_id`        | String    | -                                                                              | Mã giao dịch provider chính để tra cứu nhanh. Lịch sử chuẩn nằm ở `payment_transactions` |
 | `billing_name`          | String    | -                                                                              | Tên người mua/người nhận biên nhận                           |
 | `billing_email`         | String    | -                                                                              | Email nhận biên nhận/hóa đơn                                 |
 | `billing_phone`         | String    | -                                                                              | Số điện thoại/Zalo thanh toán                                |
@@ -406,7 +406,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `course_title_snapshot` | String    | Not Null                                                                       | Tên khóa tại thời điểm mua                                   |
 | `course_price_snapshot` | Decimal   | Not Null, CHECK(course_price_snapshot >= 0)                                    | Giá khóa tại thời điểm mua                                   |
 | `coupon_id`             | UUID      | FK → `coupons.id` ON DELETE SET NULL                                           | Coupon được áp dụng nếu có                                   |
-| `coupon_code_snapshot`  | String    | -                                                                              | Mã [[web/page/student/coupon|coupon]] tại thời điểm mua                                  |
+| `coupon_code_snapshot`  | String    | -                                                                              | Mã coupon tại thời điểm mua                                  |
 | `referral_code_id`      | UUID      | FK → `referral_codes.id` ON DELETE SET NULL                                    | Mã giới thiệu nếu có                                         |
 | `created_by`            | UUID      | FK → `users.id`                                                                | Người tạo đơn nếu không phải checkout tự động                |
 | `updated_by`            | UUID      | FK → `users.id`                                                                | Người cập nhật cuối                                          |
@@ -425,8 +425,8 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 - `orders.lead_id` chỉ dùng cho analytics (theo dõi conversion từ lead).
 - `final_amount` luôn bằng `amount - discount_amount`.
 - `course_title_snapshot`, `course_price_snapshot`, `coupon_code_snapshot` không được cập nhật sau khi order tạo, trừ khi [[web/page/admin/admin|admin]] hủy order và tạo lại.
-- MVP/P1 thanh toán online qua Momo/VNPay. Offline payment không nằm trong payment flow và không được dùng để mở quyền học.
-- `orders.status = paid` chỉ được set khi callback/webhook gateway hợp lệ và transaction success đã được ghi nhận idempotently.
+- MVP/P1 chỉ dùng thanh toán QR qua Momo/VNPay. Không có self-confirm, không upload biên lai, không có action admin đổi order sang paid.
+- `orders.status = paid` chỉ được set khi provider webhook hợp lệ và transaction success đã được ghi nhận idempotently.
 - Refund trong MVP/P1 không hoàn tiền tự động qua gateway. Khi [[web/page/admin/admin|admin]] mark refunded, hệ thống cộng `orders.final_amount` vào `users.account_balance`, tạo `account_balance_transactions.type = refund_credit`, chuyển enrollment liên quan sang `cancelled`, và ghi `audit_logs`.
 - Không hard delete orders. Nếu cần ẩn, dùng `deleted_at`, nhưng báo cáo tài chính mặc định vẫn phải có tùy chọn xem lịch sử.
 
@@ -450,7 +450,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `level`                | Enum      | -                                               | Nếu áp dụng cho level: `starter`, `core`, ...    |
 | `starts_at`            | Timestamp | -                                               | Thời điểm bắt đầu                                |
 | `expires_at`           | Timestamp | -                                               | Thời điểm hết hạn                                |
-| `is_stackable`         | Boolean   | Default: false                                  | Có được stack với [[web/page/student/referral|referral]] không                 |
+| `is_stackable`         | Boolean   | Default: false                                  | Có được stack với referral không                 |
 | `status`               | Enum      | Not Null                                        | `active`, `paused`, `expired`, `archived`        |
 | `created_by`           | UUID      | FK → `users.id`                                 | Admin tạo mã                                     |
 | `updated_by`           | UUID      | FK → `users.id`                                 | Người cập nhật cuối                              |
@@ -458,19 +458,19 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`           | Timestamp | Default: now()                                  | Ngày tạo                                         |
 | `updated_at`           | Timestamp | -                                               | Ngày cập nhật                                    |
 
-### 2.10.2. `coupon_redemptions` (Lịch sử dùng [[web/page/student/coupon|coupon]])
+### 2.10.2. `coupon_redemptions` (Lịch sử dùng coupon)
 
 | Field             | Type      | Constraint                                | Description                                   |
 | :---------------- | :-------- | :---------------------------------------- | :-------------------------------------------- |
 | `id`              | UUID      | PK                                        | Định danh duy nhất                            |
 | `coupon_id`       | UUID      | Not Null, FK → `coupons.id`               | Coupon được dùng                              |
 | `order_id`        | UUID      | Not Null, FK → `orders.id`                | Đơn hàng áp dụng                              |
-| `user_id`         | UUID      | Not Null, FK → `users.id`                 | User dùng [[web/page/student/coupon|coupon]]                              |
+| `user_id`         | UUID      | Not Null, FK → `users.id`                 | User dùng coupon                              |
 | `course_id`       | UUID      | Not Null, FK → `courses.id`               | Khóa học áp dụng                              |
 | `redeemed_amount` | Decimal   | Not Null, CHECK(redeemed_amount >= 0)     | Số tiền giảm thực tế                          |
 | `status`          | Enum      | Not Null                                  | `reserved`, `applied`, `cancelled`, `refunded` |
-| `reserved_expires_at` | Timestamp | -                                      | Hạn giữ [[web/page/student/coupon|coupon]] khi order còn pending          |
-| `redeemed_at`     | Timestamp | -                                         | Thời điểm [[web/page/student/coupon|coupon]] được applied                 |
+| `reserved_expires_at` | Timestamp | -                                      | Hạn giữ coupon khi order còn pending          |
+| `redeemed_at`     | Timestamp | -                                         | Thời điểm coupon được applied                 |
 | `created_at`      | Timestamp | Default: now()                            | Ngày tạo                                      |
 
 **Business Rule:** `reserved` quá `reserved_expires_at` không được tính là giữ chỗ khi check usage limit; cleanup job có thể chuyển sang `cancelled`.
@@ -483,7 +483,9 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `order_id`                | UUID      | Not Null, FK → `orders.id`            | Đơn hàng liên quan                               |
 | `provider`                | Enum      | Not Null                              | `momo`, `vnpay` |
 | `provider_transaction_id` | String    | -                                     | Mã giao dịch từ provider                         |
-| `idempotency_key`         | String    | -                                     | Key chống duplicate khi webhook/gateway retry    |
+| `idempotency_key`         | String    | -                                     | Key chống duplicate khi provider webhook retry   |
+| `qr_payload`              | Text      | -                                     | Payload/URL dùng render QR thanh toán            |
+| `qr_expires_at`           | Timestamp | -                                     | Thời điểm QR hết hạn                             |
 | `amount`                  | Decimal   | Not Null, CHECK(amount >= 0)          | Số tiền giao dịch                                |
 | `currency`                | String    | Default: 'VND'                        | Đơn vị tiền                                      |
 | `status`                  | Enum      | Not Null                              | `pending`, `success`, `failed`, `refunded`       |
@@ -492,7 +494,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`              | Timestamp | Default: now()                        | Ngày tạo                                         |
 | `updated_at`              | Timestamp | -                                     | Ngày cập nhật                                    |
 
-**Business Rule:** Webhook/gateway retry không được tạo duplicate transaction nếu trùng `provider + idempotency_key` hoặc trùng `provider + provider_transaction_id`.
+**Business Rule:** Provider webhook retry không được tạo duplicate transaction nếu trùng `provider + idempotency_key` hoặc trùng `provider + provider_transaction_id`.
 
 ### 2.10.4. `payment_webhook_logs` (Log webhook thanh toán)
 
@@ -545,7 +547,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `code`                   | String    | Unique, Not Null                    | Mã giới thiệu                                |
 | `referred_discount_type` | Enum      | -                                   | `percentage`, `fixed_amount`                 |
 | `referred_discount_value`| Decimal   | CHECK(referred_discount_value >= 0) | Giá trị giảm cho người được giới thiệu       |
-| `reward_type`            | Enum      | Not Null                            | [[web/page/student/coupon|`coupon`]], `credit`, `offline_cash_reward_manual`, `project_review`, `mentoring` |
+| `reward_type`            | Enum      | Not Null                            | `coupon`, `credit`, `offline_cash_reward_manual`, `project_review`, `mentoring` |
 | `reward_value`           | String    | -                                   | Giá trị/thông tin phần thưởng                |
 | `usage_limit_total`      | Integer   | CHECK(usage_limit_total >= 0)       | Tổng lượt dùng tối đa                        |
 | `used_count`             | Integer   | Default: 0                          | Số conversion đã paid                        |
@@ -553,7 +555,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`             | Timestamp | Default: now()                      | Ngày tạo                                     |
 | `updated_at`             | Timestamp | -                                   | Ngày cập nhật                                |
 
-### 2.10.7. `referral_conversions` (Chuyển đổi [[web/page/student/referral|referral]])
+### 2.10.7. `referral_conversions` (Chuyển đổi referral)
 
 | Field              | Type      | Constraint                          | Description                              |
 | :----------------- | :-------- | :---------------------------------- | :--------------------------------------- |
@@ -705,9 +707,9 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `instructor_id` | UUID      | Not Null, FK → `users.id`         | User role instructor/admin                   |
 | `status`        | Enum      | Not Null                          | `active`, `inactive`                         |
 | `can_view_course` | Boolean | Default: true                     | Được xem analysis/curriculum được phân công    |
-| `can_answer_questions` | Boolean | Default: true                | Được trả lời Q&A lesson                      |
 | `can_review_submissions` | Boolean | Default: true              | Được duyệt assignment/final_project          |
 | `can_view_student_progress` | Boolean | Default: true            | Được xem tiến độ học viên trong course       |
+| `can_edit_course_content` | Boolean | Default: false            | Được chỉnh content course/module/lesson/resource/quiz/video asset của khóa được phân công |
 | `assigned_by`   | UUID      | FK → `users.id`                   | Admin phân công                              |
 | `assigned_at`   | Timestamp | Default: now()                    | Ngày phân công                               |
 | `created_at`    | Timestamp | Default: now()                    | Ngày tạo                                     |
@@ -715,7 +717,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 
 **Unique Index**: `UNIQUE(course_id, instructor_id)` - Một instructor không được phân công trùng cùng khóa.
 
-**Permission Rule:** Default: instructor được xem course (read-only), trả lời Q&A, duyệt [[web/page/instructor/submissions|submissions]] và xem progress của course được phân công. Instructor không được upload video, sửa lesson content, quản lý khóa/học viên, tạo announcement, xử lý order/payment/coupon/invoice/referral/revenue, hoặc cấp/revoke [[web/page/website/certificate|certificate]]. Quản lý nội dung course/lesson thuộc quyền [[web/page/admin/admin|admin]] và `course_editor`; các phần vận hành còn lại vẫn là quyền [[web/page/admin/admin|admin]].
+**Permission Rule:** Default: instructor được xem course (read-only), duyệt [[web/page/instructor/submissions|submissions]] và xem progress của course được phân công. Instructor chỉ được upload/chọn video, sửa course content, module, lesson, resource và quiz khi assignment có `can_edit_course_content = true`. Instructor không được quản lý học viên, tạo announcement, xử lý order/payment/coupon/invoice/referral/revenue, hoặc cấp/revoke [[web/page/website/certificate|certificate]]. Các phần vận hành còn lại vẫn là quyền [[web/page/admin/admin|admin]].
 
 ### 2.18. [[web/page/student/notifications|`notifications`]] (Thông báo cá nhân in-app)
 
@@ -724,10 +726,10 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `id`             | UUID      | PK                                 | Định danh duy nhất                               |
 | `user_id`        | UUID      | Not Null, FK → `users.id`          | Người nhận                                       |
 | `announcement_id` | UUID     | FK → `announcements.id`            | Nguồn announcement nếu có                        |
-| `type`           | Enum      | Not Null                           | `order_paid`, `submission_reviewed`, `certificate_issued`, `announcement`, `question_answered`, `system` |
+| `type`           | Enum      | Not Null                           | `order_paid`, `submission_reviewed`, `certificate_issued`, `announcement`, `system` |
 | `title`          | String    | Not Null                           | Tiêu đề hiển thị                                 |
 | `body`           | Text      | -                                  | Nội dung ngắn                                    |
-| `target_type`    | String    | -                                  | Entity đích: `course`, `lesson`, `order`, [[web/page/website/certificate|`certificate`]], `question`, `announcement` |
+| `target_type`    | String    | -                                  | Entity đích: `course`, `lesson`, `order`, [[web/page/website/certificate|`certificate`]], `announcement` |
 | `target_id`      | UUID      | -                                  | ID entity đích                                  |
 | `target_url`     | String    | -                                  | Link điều hướng                                  |
 | `read_at`        | Timestamp | -                                  | Đã đọc lúc nào                                   |
@@ -736,24 +738,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 
 **Business Rule:** App ưu tiên điều hướng bằng `target_type + target_id`; `target_url` là fallback khi route cần deep link cụ thể.
 
-### 2.19. `lesson_questions` (Q&A / Comment trong lesson)
-
-| Field        | Type      | Constraint                          | Description                                  |
-| :----------- | :-------- | :---------------------------------- | :------------------------------------------- |
-| `id`         | UUID      | PK                                  | Định danh duy nhất                           |
-| `lesson_id`  | UUID      | Not Null, FK → `lessons.id`         | Lesson liên quan                             |
-| `course_id`  | UUID      | Not Null, FK → `courses.id`         | Denormalized để filter theo khóa             |
-| `user_id`    | UUID      | Not Null, FK → `users.id`           | Người hỏi/trả lời                            |
-| `parent_id`  | UUID      | FK → `lesson_questions.id`          | Reply cho question/comment khác              |
-| `content`    | Text      | Not Null                            | Nội dung câu hỏi/trả lời                     |
-| `status`     | Enum      | Not Null                            | `open`, `answered`, `resolved`, `hidden`     |
-| `is_instructor_answer` | Boolean | Default: false              | Đánh dấu câu trả lời từ instructor/admin     |
-| `resolved_at` | Timestamp | -                                  | Thời điểm giải quyết                         |
-| `resolved_by` | UUID     | FK → `users.id`                     | Admin/instructor mark resolved               |
-| `created_at` | Timestamp | Default: now()                      | Ngày tạo                                     |
-| `updated_at` | Timestamp | -                                   | Ngày cập nhật                                |
-
-### 2.20. `quizzes` (Quiz gắn với lesson)
+### 2.19. `quizzes` (Quiz gắn với lesson)
 
 | Field                  | Type      | Constraint                         | Description                                  |
 | :--------------------- | :-------- | :--------------------------------- | :------------------------------------------- |
@@ -770,7 +755,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`           | Timestamp | Default: now()                     | Ngày tạo                                     |
 | `updated_at`           | Timestamp | -                                  | Ngày cập nhật                                |
 
-### 2.21. `quiz_questions` (Câu hỏi quiz)
+### 2.20. `quiz_questions` (Câu hỏi quiz)
 
 | Field             | Type      | Constraint                  | Description                                  |
 | :---------------- | :-------- | :-------------------------- | :------------------------------------------- |
@@ -786,7 +771,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at`      | Timestamp | Default: now()              | Ngày tạo                                     |
 | `updated_at`      | Timestamp | -                           | Ngày cập nhật                                |
 
-### 2.22. `quiz_attempts` (Lần làm quiz)
+### 2.21. `quiz_attempts` (Lần làm quiz)
 
 | Field          | Type      | Constraint                         | Description                                  |
 | :------------- | :-------- | :--------------------------------- | :------------------------------------------- |
@@ -801,7 +786,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `attempt_no`   | Integer   | Not Null                           | Lần làm thứ mấy                              |
 | `submitted_at` | Timestamp | Default: now()                     | Ngày nộp                                     |
 
-### 2.23. `course_reviews` (Review/rating khóa học)
+### 2.22. `course_reviews` (Review/rating khóa học)
 
 | Field        | Type      | Constraint                         | Description                                  |
 | :----------- | :-------- | :--------------------------------- | :------------------------------------------- |
@@ -821,7 +806,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 
 **Partial Unique Index**: `UNIQUE (course_id, user_id) WHERE status != 'rejected'` - Một học viên chỉ có một review active cho mỗi khóa.
 
-### 2.24. `certificate_templates` (Template chứng chỉ)
+### 2.23. `certificate_templates` (Template chứng chỉ)
 
 | Field        | Type      | Constraint                         | Description                                  |
 | :----------- | :-------- | :--------------------------------- | :------------------------------------------- |
@@ -837,14 +822,14 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 | `created_at` | Timestamp | Default: now()                     | Ngày tạo                                     |
 | `updated_at` | Timestamp | -                                  | Ngày cập nhật                                |
 
-### 2.25. `audit_logs` (Lịch sử thao tác quan trọng)
+### 2.24. `audit_logs` (Lịch sử thao tác quan trọng)
 
 | Field         | Type      | Constraint                 | Description                                  |
 | :------------ | :-------- | :------------------------- | :------------------------------------------- |
 | `id`          | UUID      | PK                         | Định danh duy nhất                           |
 | `actor_id`    | UUID      | FK → `users.id`            | Người thực hiện                              |
 | `actor_role`  | String    | Not Null                   | Role tại thời điểm thao tác                  |
-| `action`      | String    | Not Null                   | Ví dụ: `order.mark_paid_from_gateway`, `[[web/page/website/certificate|certificate]].revoke` |
+| `action`      | String    | Not Null                   | Ví dụ: `order.mark_paid_from_qr_webhook`, `[[web/page/website/certificate|certificate]].revoke` |
 | `entity_type` | String    | Not Null                   | Bảng/loại entity bị tác động                 |
 | `entity_id`   | UUID      | -                          | ID entity                                    |
 | `metadata`    | JSONB     | -                          | Snapshot thay đổi/lý do                      |
@@ -860,7 +845,7 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 - **Trigger**: Khi `orders.status` chuyển sang `paid`.
 - **Action**: Hệ thống tự động tạo bản ghi trong `enrollments` với `status = active`.
 - **Exception**: Admin có thể gán `enrollment` thủ công cho học viên (cho mục đích scholarship hoặc trial).
-- **Idempotency**: Trước khi tạo enrollment phải check partial unique index `(user_id, course_id) WHERE deleted_at IS NULL` để không tạo trùng khi webhook/gateway retry.
+- **Idempotency**: Trước khi tạo enrollment phải check partial unique index `(user_id, course_id) WHERE deleted_at IS NULL` để không tạo trùng khi provider webhook retry.
 - **Source of truth**: `orders.status` quyết định quyền học tổng thể; `payment_transactions.status` chỉ ghi nhận từng lần thanh toán cụ thể.
 
 ### 3.1.1. Checkout / Payment / Coupon / Referral Flow
@@ -872,39 +857,41 @@ WHERE user_id = ? AND course_id = ? AND deleted_at IS NULL;
 2. User chọn course và mở /checkout/:courseSlug
 3. Backend tạo order pending, payment_status = unpaid
 4. Snapshot course_title_snapshot và course_price_snapshot vào order
-5. Nếu có [[web/page/student/coupon|coupon]]/referral, validate trước rồi ghi snapshot vào order
+5. Nếu có coupon/referral, validate trước rồi ghi snapshot vào order
 6. User chọn provider `momo` hoặc `vnpay`
-7. Backend tạo `payment_transactions.status = pending` với `provider`, `idempotency_key`, amount/currency và redirect user sang gateway
-8. Gateway callback/webhook được ghi vào `payment_webhook_logs`
-9. Backend verify chữ ký/hash, amount, currency, order_id và idempotency
-10. Khi gateway xác nhận thanh toán thành công:
+7. Backend tạo `payment_transactions.status = pending` với `provider`, `idempotency_key`, amount/currency, `qr_payload`, `qr_expires_at`
+8. UI hiển thị QR payment panel; user quét QR bằng app Momo/VNPay/ngân hàng và xác nhận trên app provider
+9. Provider gửi webhook, backend ghi vào `payment_webhook_logs`
+10. Backend verify chữ ký/hash, amount, currency, order_id, provider_transaction_id và idempotency
+11. UI poll/subscribe trạng thái order/transaction; client không có quyền tự xác nhận đã thanh toán
+12. Khi webhook xác nhận thanh toán thành công:
    - payment_transactions.status = success
    - orders.status = paid
    - orders.payment_status = paid
    - orders.paid_at = now()
-   - coupon_redemptions.status = applied nếu có [[web/page/student/coupon|coupon]]
-   - referral_conversions.reward_status = approved nếu có [[web/page/student/referral|referral]]
+   - coupon_redemptions.status = applied nếu có coupon
+   - referral_conversions.reward_status = approved nếu có referral
    - tạo enrollment active nếu chưa tồn tại
-11. Nếu gateway báo fail/cancel/timeout:
+13. Nếu QR hết hạn hoặc provider báo fail/cancel/timeout:
    - payment_transactions.status = failed nếu có kết quả chắc chắn
    - orders.status giữ `pending` hoặc chuyển `failed` theo event cuối cùng
    - không tạo enrollment
 ```
 
-**Online payment rule:** MVP/P1 chỉ dùng thanh toán online qua Momo/VNPay. Admin không có action đổi order sang `paid`; `orders.status = paid` chỉ sinh từ transaction success hợp lệ của gateway.
+**QR payment rule:** MVP/P1 chỉ dùng thanh toán QR qua Momo/VNPay. Admin không có action đổi order sang `paid`; `orders.status = paid` chỉ sinh từ transaction success hợp lệ qua provider webhook.
 
 **Coupon usage rule:**
 
-- Khi user nhập [[web/page/student/coupon|coupon]] vào order pending, có thể tạo `coupon_redemptions.status = reserved`.
+- Khi user nhập coupon vào order pending, có thể tạo `coupon_redemptions.status = reserved`.
 - `reserved` phải có `reserved_expires_at`; reservation hết hạn không được tính vào usage limit.
-- Khi apply [[web/page/student/coupon|coupon]] thành paid, validate usage limit trong transaction và lock [[web/page/student/coupon|coupon]] row để tránh vượt limit do race condition.
+- Khi apply coupon thành paid, validate usage limit trong transaction và lock coupon row để tránh vượt limit do race condition.
 - Chỉ tăng `coupons.used_count` khi order chuyển sang `paid` và redemption chuyển sang `applied`.
 - Nếu order `cancelled` hoặc `failed`, redemption chuyển `cancelled` và không tăng `used_count`.
 - Nếu order `refunded`, redemption chuyển `refunded`; `coupons.used_count` giữ nguyên để audit, không trừ lại.
 
 **Referral anti-abuse rule:**
 
-- User không được dùng [[web/page/student/referral|referral]] code của chính mình.
+- User không được dùng referral code của chính mình.
 - Một `referred_user_id` chỉ được tính một conversion đầu tiên đã paid.
 - Chỉ tạo/phê duyệt reward khi `orders.status = paid`.
 - Nếu order refunded thì `referral_conversions.reward_status = cancelled`.
@@ -1058,13 +1045,6 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - [[web/page/student/notifications|`notifications`]] là delivery cá nhân; không thay thế `announcements` là nội dung nguồn.
 - MVP chỉ hỗ trợ in-app notification. Email/push là future.
 
-**Lesson Q&A:**
-
-- Student phải có enrollment active mới được xem/tạo `lesson_questions`.
-- Instructor/admin được trả lời, ẩn nội dung vi phạm, và mark `resolved`.
-- Q&A chỉ là thread theo lesson. Không build forum/community trong P1.
-- Khi instructor/admin trả lời, tạo notification `question_answered` cho người hỏi.
-
 **Quiz:**
 
 - Quiz gắn với `lesson_type = quiz`; mỗi quiz lesson có một `quizzes` record.
@@ -1076,7 +1056,7 @@ WHERE status = 'published' AND deleted_at IS NULL;
 **Video Streaming:**
 
 - Video bài học dùng `video_assets` làm source chính; `lessons.video_url` chỉ là legacy/fallback.
-- Admin hoặc `course_editor` upload/chọn video asset trong `/admin/lessons`; provider xử lý encode/thumbnail/duration ngoài app.
+- Admin hoặc instructor có `can_edit_course_content = true` upload/chọn video asset trong `/admin/lessons`; provider xử lý encode/thumbnail/duration ngoài app.
 - Lesson video chỉ publish khi `video_assets.processing_status = ready`.
 - Student playback phải check [[web/page/student/login|login]], enrollment active, analysis/lesson published trước khi trả `embed_url` hoặc playback token.
 - Không expose raw private video file cho client. Nếu provider cần signed token, backend phát token sau khi kiểm tra quyền.
@@ -1097,44 +1077,39 @@ WHERE status = 'published' AND deleted_at IS NULL;
 
 - `audit_logs` là append-only, không sửa/xóa qua UI thường.
 - Bắt buộc ghi log cho các action canonical:
-  - Commerce: `payment.webhook_processed`, `payment.webhook_ignored`, `payment.gateway_callback_verified`, `order.mark_paid_from_gateway`, `order.refund_to_balance`, `invoice.issue`, `coupon.create`, `coupon.update`, `coupon.archive`.
+  - Commerce: `payment.webhook_processed`, `payment.webhook_ignored`, `payment.qr_webhook_verified`, `order.mark_paid_from_qr_webhook`, `order.refund_to_balance`, `invoice.issue`, `coupon.create`, `coupon.update`, `coupon.archive`.
   - Learning access: `enrollment.create`, `enrollment.cancel`, `enrollment.override_after_refund`, `balance.reset_after_withdrawal`.
   - Certificate: `certificate.issue`, `certificate.revoke`, `certificate_template.create`, `certificate_template.update`, `certificate_template.activate`, `certificate_template.archive`.
   - Course/content: `course.create`, `course.update`, `course.publish`, `course.archive`, `course.delete`, `module.create`, `module.update`, `module.reorder`, `module.archive`, `module.delete`, `lesson.create`, `lesson.update`, `lesson.type_change`, `lesson.reorder`, `lesson.publish`, `lesson.archive`, `lesson.delete`, `quiz.create`, `quiz.update`, `quiz.archive`, `resource.publish`, `resource.archive`, `resource.delete`.
   - Video: `video_asset.retry`, `video_asset.fail`, `video_asset.archive`.
-  - People/roles: `user.create_admin`, `user.create_instructor`, `user.create_course_editor`, `user.role_change`, `user.block`, `user.unblock`, `instructor_assignment.create`, `instructor_assignment.update`, `instructor_assignment.archive`.
-  - P1 ops/moderation: `submission.review`, `review.publish`, `review.hide`, `review.reject`, `announcement.publish`, `announcement.archive`, `lesson_question.answer`, `lesson_question.hide`, `notification.delivery_failed`.
+  - People/roles: `user.create_admin`, `user.create_instructor`, `user.role_change`, `user.block`, `user.unblock`, `instructor_assignment.create`, `instructor_assignment.update`, `instructor_assignment.archive`.
+  - P1 ops/moderation: `submission.review`, `review.publish`, `review.hide`, `review.reject`, `announcement.publish`, `announcement.archive`, `notification.delivery_failed`.
 
-**Instructor Role (Chuyên trách chấm bài & hỗ trợ học viên):**
+**Instructor Role (Chuyên trách khóa được phân công):**
 
-- `instructor` chỉ xử lý các công việc liên quan đến **chấm bài và hỗ trợ học viên** trong khóa được phân công.
+- `instructor` xử lý các công việc liên quan đến **khóa được phân công**: xem curriculum, duyệt bài, xem tiến độ và chỉnh nội dung nếu được bật quyền content edit.
 - Phân công instructor hợp lệ khi `course_instructors.status = active` và permission flag tương ứng là `true`.
-- Default flags: `can_view_course = true`, `can_answer_questions = true`, `can_review_submissions = true`, `can_view_student_progress = true`.
+- Default flags: `can_view_course = true`, `can_review_submissions = true`, `can_view_student_progress = true`, `can_edit_course_content = false`.
 - **KHÔNG có flag `can_manage_announcements`** — tất cả announcement do [[web/page/admin/admin|admin]] quản lý.
 
 **Instructor KHÔNG có quyền:**
 
-- Upload/sửa video lesson hoặc quản lý nội dung khóa học (đây là quyền của [[web/page/admin/admin|admin]]).
 - Quản lý học viên, gán khóa, block/unblock (đây là quyền của [[web/page/admin/admin|admin]]).
-- Tạo/sửa/xóa course, module, lesson (đây là quyền của [[web/page/admin/admin|admin]]).
+- Tạo khóa mới, assign instructor/staff hoặc đổi quyền instructor.
+- Publish/unpublish/archive/delete course, module hoặc lesson.
 - Xử lý order/payment/coupon/invoice/referral/revenue.
 - Cấp/revoke [[web/page/website/certificate|certificate]].
 - Quản lý announcement.
+- Review moderation hoặc xem/export audit logs.
 
-**Instructor CHỈ có quyền:**
+**Instructor có quyền theo flag:**
 
 - Xem curriculum (module/lesson) của khóa được phân công (read-only).
 - Duyệt assignment/final project: approve, reject, mark `revision_requested`.
-- Trả lời Q&A lesson: reply, mark resolved, hide nếu vi phạm.
 - Xem tiến độ học viên trong khóa (nếu `can_view_student_progress = true`).
+- Chỉnh content course/module/lesson/resource/quiz/video asset của khóa được phân công nếu `can_edit_course_content = true`.
 
-**Course Editor Role (Editor khóa học):**
-
-- `course_editor` là role content-only, chỉ được vào `/admin/courses*` và `/admin/lessons*`.
-- `course_editor` không kế thừa instructor, không được vào `/instructor/*`, không duyệt [[web/page/instructor/submissions|submissions]] và không trả lời Q&A.
-- `course_editor` dùng admin layout đã filter sidebar, chỉ hiện Courses và Lessons.
-- `course_editor` được tạo/sửa course draft, chỉnh thông tin khóa học, module, lesson, resource, quiz và video asset trong hai trang content.
-- `course_editor` không được xử lý order/payment/coupon/invoice/referral/revenue, không quản lý học viên, không đổi role/user status, không xem/export audit logs, không cấp/revoke [[web/page/website/certificate|certificate]], không tạo announcement/review moderation.
+**Migration Rule:** Nếu có user dùng role content editor cũ, đổi `users.role` sang `instructor` bằng `user.role_change`, rồi tạo `course_instructors` assignment tương ứng với `can_edit_course_content = true`.
 
 ### 3.11. Submission $\rightarrow$ Project Promotion
 
@@ -1171,7 +1146,7 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - `orders(coupon_id)`: Index (Coupon analytics)
 - `orders(referral_code_id)`: Index (Referral analytics)
 - `coupons(code)`: Unique Index (Coupon lookup)
-- `coupons(status, starts_at, expires_at)`: Composite Index (Active [[web/page/student/coupon|coupon]] validation)
+- `coupons(status, starts_at, expires_at)`: Composite Index (Active coupon validation)
 - `coupon_redemptions(coupon_id, status)`: Composite Index (Coupon usage count)
 - `coupon_redemptions(user_id, coupon_id, status)`: Composite Index (Per-user limit check)
 - `coupon_redemptions(status, reserved_expires_at)`: Composite Index (Expired reservation cleanup)
@@ -1190,8 +1165,6 @@ WHERE status = 'published' AND deleted_at IS NULL;
 - `course_instructors(course_id, status)`: Composite Index (Course instructor lookup)
 - `[[web/page/student/notifications|notifications]](user_id, read_at, created_at)`: Composite Index (Student notification inbox)
 - `[[web/page/student/notifications|notifications]](user_id, delivery_status)`: Composite Index (Failed/pending delivery debug)
-- `lesson_questions(lesson_id, status, created_at)`: Composite Index (Lesson Q&A thread)
-- `lesson_questions(course_id, status)`: Composite Index (Instructor question queue)
 - `quizzes(lesson_id)`: Unique Index (One quiz per quiz lesson)
 - `quiz_questions(quiz_id, order_index)`: Unique Index (Quiz question ordering)
 - `quiz_attempts(user_id, quiz_id, attempt_no)`: Composite Index (Attempt history)
@@ -1286,11 +1259,6 @@ All foreign keys automatically indexed in PostgreSQL:
 - `course_instructors(assigned_by)` → `users(id)`
 - `[[web/page/student/notifications|notifications]](user_id)` → `users(id)`
 - `[[web/page/student/notifications|notifications]](announcement_id)` → `announcements(id)`
-- `lesson_questions(lesson_id)` → `lessons(id)`
-- `lesson_questions(course_id)` → `courses(id)`
-- `lesson_questions(user_id)` → `users(id)`
-- `lesson_questions(parent_id)` → `lesson_questions(id)`
-- `lesson_questions(resolved_by)` → `users(id)`
 - `quizzes(lesson_id)` → `lessons(id)`
 - `quizzes(course_id)` → `courses(id)`
 - `quizzes(created_by)` → `users(id)`
@@ -1448,12 +1416,12 @@ $$ LANGUAGE plpgsql;
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
 
 ### Relations
-- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/referral|/referral — Mã giới thiệu]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/projects|/projects — Trang dự án học viên]]
+- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/projects|/projects — Trang dự án học viên]]
 - **Incoming Links (Backlinks):** [[web/hard_notes|Hard Notes]], [[web/page/admin/admin|Admin Dashboard — Requirement]]

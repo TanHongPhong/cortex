@@ -1,18 +1,18 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
 type: ["[[Technical Specification]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[Security Requirements & Implementation Guide]]"
 ---
 
-# Security — Bảo mật hệ thống CORTEX
+# Security — Bảo mật hệ thống Blueprint
 
 **Version:** 1.0
 **Last Updated:** 2026-06-01
@@ -74,23 +74,25 @@ status: "[[Security Requirements & Implementation Guide]]"
 
 ### 2.1. Role-based Access Control (RBAC)
 
-| Route Pattern | student | instructor | course_editor | [[web/page/admin/admin|admin]] |
-|---------------|:-------:|:----------:|:-------------:|:-----:|
-| `/(public)/*` | ✅ | ✅ | ✅ | ✅ |
-| `/(auth)/*` | ✅ | ✅ | ✅ | ✅ |
-| `/(student)/*` | ✅ | ❌ | ❌ | ✅ |
-| `/(instructor)/*` | ❌ | ✅ | ❌ | ✅ |
-| `/admin/courses*` | ❌ | ❌ | ✅ | ✅ |
-| `/admin/lessons*` | ❌ | ❌ | ✅ | ✅ |
-| `/admin/*` còn lại | ❌ | ❌ | ❌ | ✅ |
-| `/api/admin/courses*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/lessons*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/modules*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/lesson-resources*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/quizzes*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/quiz-questions*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/video-assets*` | ❌ | ❌ | ✅ | ✅ |
-| `/api/admin/*` còn lại | ❌ | ❌ | ❌ | ✅ |
+| Route Pattern | student | instructor | [[web/page/admin/admin|admin]] |
+|---------------|:-------:|:----------:|:-----:|
+| `/(public)/*` | ✅ | ✅ | ✅ |
+| `/(auth)/*` | ✅ | ✅ | ✅ |
+| `/(student)/*` | ✅ | ❌ | ✅ |
+| `/(instructor)/*` | ❌ | ✅ | ✅ |
+| `/admin/courses*` | ❌ | ✅* | ✅ |
+| `/admin/lessons*` | ❌ | ✅* | ✅ |
+| `/admin/*` còn lại | ❌ | ❌ | ✅ |
+| `/api/admin/courses*` | ❌ | ✅* | ✅ |
+| `/api/admin/lessons*` | ❌ | ✅* | ✅ |
+| `/api/admin/modules*` | ❌ | ✅* | ✅ |
+| `/api/admin/lesson-resources*` | ❌ | ✅* | ✅ |
+| `/api/admin/quizzes*` | ❌ | ✅* | ✅ |
+| `/api/admin/quiz-questions*` | ❌ | ✅* | ✅ |
+| `/api/admin/video-assets*` | ❌ | ✅* | ✅ |
+| `/api/admin/*` còn lại | ❌ | ❌ | ✅ |
+
+`✅*` = instructor chỉ được truy cập khi có `course_instructors.status = active` và `can_edit_course_content = true` cho course mục tiêu.
 
 ### 2.2. Resource-level Authorization
 
@@ -116,18 +118,18 @@ async function authorize(request, allowedRoles) {
 
 ### 2.3. Data Access Rules
 
-| Entity | Student | Instructor | Course Editor | Admin |
-|--------|---------|-----------|---------------|-------|
-| Own [[web/page/student/profile|profile]] | Read/Write | Read/Write | Read/Write | Read/Write |
-| Other users | ❌ | ❌ | ❌ | Read/Write |
-| Own enrollments | Read | ❌ | ❌ | Read/Write |
-| Course curriculum | Read (enrolled) | Read (assigned) | Read/Write via `/admin/courses` + `/admin/lessons` | Read/Write |
-| Own [[web/page/instructor/submissions|submissions]] | Read/Write | Read/Write (assigned) | ❌ | Read/Write |
-| Own certificates | Read | ❌ | ❌ | Read/Write |
-| Own orders | Read | ❌ | ❌ | Read/Write |
-| All orders | ❌ | ❌ | ❌ | Read/Write |
+| Entity | Student | Instructor | Admin |
+|--------|---------|-----------|-------|
+| Own [[web/page/student/profile|profile]] | Read/Write | Read/Write | Read/Write |
+| Other users | ❌ | ❌ | Read/Write |
+| Own enrollments | Read | ❌ | Read/Write |
+| Course curriculum | Read (enrolled) | Read assigned; write assigned content only if `can_edit_course_content = true` | Read/Write |
+| Own [[web/page/instructor/submissions|submissions]] | Read/Write | Read/Write (assigned) | Read/Write |
+| Own certificates | Read | ❌ | Read/Write |
+| Own orders | Read | ❌ | Read/Write |
+| All orders | ❌ | ❌ | Read/Write |
 
-**Course editor guard:** `course_editor` không được vào `/instructor/*`; không được gọi API finance, user/role management, audit logs, students, certificates, announcements, reviews, coupons, invoices, payments, orders, referrals hoặc revenue.
+**Instructor content-edit guard:** instructor có `can_edit_course_content = true` không được gọi API finance, user/role management, audit logs, students, certificates, announcements, reviews, coupons, invoices, payments, orders, referrals hoặc revenue.
 
 ---
 
@@ -205,8 +207,8 @@ export function validateCsrfToken(token: string, sessionToken: string): boolean 
 ```typescript
 // middleware.ts
 const allowedOrigins = [
-  'https://cortex.vn',
-  'https://www.cortex.vn'
+  'https://blueprint.vn',
+  'https://www.blueprint.vn'
 ]
 
 function checkOrigin(request: Request): boolean {
@@ -441,11 +443,11 @@ const securityHeaders = {
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]

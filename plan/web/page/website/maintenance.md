@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Public Website]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -90,7 +90,7 @@ export function middleware(request: NextRequest) {
 │                                             │
 │          🔧 Bảo trì hệ thống 🔧            │
 │                                             │
-│   CORTEX đang được nâng cấp để mang đến     │
+│   Blueprint đang được nâng cấp để mang đến     │
 │   trải nghiệm tốt hơn cho bạn.              │
 │                                             │
 │   Thời gian dự kiến:                        │
@@ -104,7 +104,7 @@ export function middleware(request: NextRequest) {
 │   [Thông tin về quá trình bảo trì]         │
 │                                             │
 │   Liên hệ khẩn cấp:                        │
-│   📧 support@cortex.vn                      │
+│   📧 support@blueprint.vn                      │
 │                                             │
 └─────────────────────────────────────────────┘
 ```
@@ -117,10 +117,10 @@ export function middleware(request: NextRequest) {
 |-----------|---------|:--------:|
 | Visual | Mascot đang sửa chữa hoặc illustration maintenance | ❌ |
 | Tiêu đề | `Bảo trì hệ thống` | ❌ |
-| Mô tả | `CORTEX đang được nâng cấp để mang đến trải nghiệm tốt hơn cho bạn.` | ❌ |
+| Mô tả | `Blueprint đang được nâng cấp để mang đến trải nghiệm tốt hơn cho bạn.` | ❌ |
 | Thời gian | `📅 [Ngày] từ [Giờ] đến [Giờ]` | ✅ |
 | Cập nhật | Thông tin về quá trình bảo trì | ✅ |
-| Contact | `📧 support@cortex.vn` | ❌ |
+| Contact | `📧 support@blueprint.vn` | ❌ |
 | Social | Link Facebook/Zalo để cập nhật | ❌ |
 
 ---
@@ -147,11 +147,11 @@ Fields:
 // GET /api/maintenance-status
 {
   "is_maintenance": true,
-  "message": "CORTEX đang được nâng cấp...",
+  "message": "Blueprint đang được nâng cấp...",
   "estimated_start": "2026-06-01T02:00:00Z",
   "estimated_end": "2026-06-01T06:00:00Z",
   "update": "Đang cập nhật database, hoàn thành 60%",
-  "contact_email": "support@cortex.vn"
+  "contact_email": "support@blueprint.vn"
 }
 ```
 
@@ -189,8 +189,8 @@ Nếu không có estimated_end:
 | Field | Value |
 |-------|-------|
 | Status code | 503 (Service Unavailable) |
-| Title | `Bảo trì hệ thống - CORTEX` |
-| Description | `CORTEX đang được bảo trì. Vui lòng quay lại sau.` |
+| Title | `Bảo trì hệ thống - Blueprint` |
+| Description | `Blueprint đang được bảo trì. Vui lòng quay lại sau.` |
 | Retry-After | 3600 (1 hour) |
 | noindex | Có (không index trang maintenance) |
 
@@ -225,9 +225,9 @@ Sau khi bảo trì:
 |------|-------|
 | Layout | Center aligned, đơn giản |
 | Visual | Mascot đang sửa chữa hoặc illustration |
-| Màu | Nhẹ nhàng, professional |
+| Màu | Theo [[web/page/website/design|Blueprint Mono / Dark Mono]]: nền `--bg`, panel `--surface`, text phụ `--muted` |
 | Typography | Tiêu đề lớn, text nhỏ hơn |
-| Countdown | Timer nổi bật |
+| Countdown | Timer nổi bật bằng `--primary` hoặc `--secondary`, không dùng màu nóng |
 | Mobile | Full width, responsive |
 
 ---
@@ -266,13 +266,13 @@ Sau khi bảo trì:
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/website
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/website
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]]
-- **Incoming Links (Backlinks):** [[web/infrastructure|Infrastructure — Hạ tầng triển khai CORTEX]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]]
+- **Incoming Links (Backlinks):** [[web/infrastructure|Infrastructure — Hạ tầng triển khai Blueprint]]

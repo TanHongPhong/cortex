@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Doanh Thu - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .analytics-progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    
+    .analytics-progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 500;
+    }
+    
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background-color: var(--border-passive);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-bar-fill {
+      height: 100%;
+      background-color: var(--text-primary);
+      border-radius: 4px;
+      transition: width var(--transition-normal);
+    }
+    
+    .progress-bar-fill.indigo { background-color: var(--color-indigo); }
+    .progress-bar-fill.green { background-color: var(--color-green); }
+    .progress-bar-fill.orange { background-color: var(--color-orange); }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link active" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Header -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Báo cáo doanh thu (Revenue)</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Thống kê số liệu doanh số bán khóa học, chiết khấu và hiệu quả kênh marketing.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-black" id="export-report-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="download"></i>
+            <span>Xuất Excel</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- KPI Row (5 Cards) -->
+      <section class="kpi-row-1 kpi-row-cols-5" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Tổng doanh thu (Gross)</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" id="kpi-gross" style="font-size: 20px;">125,000,000đ</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Tổng giá trị hóa đơn gốc</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Chiết khấu (Discounts)</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" id="kpi-discounts" style="font-size: 20px; color: var(--color-orange);">15,000,000đ</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Từ mã giảm giá / giới thiệu</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Doanh thu thuần (Net)</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" id="kpi-net" style="font-size: 20px; color: var(--color-green);">110,000,000đ</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Doanh thu thực nhận sau giảm giá</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Đơn hàng thành công</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" id="kpi-orders" style="font-size: 20px;">220 đơn</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Số giao dịch đã hoàn tất</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header"><span class="kpi-label">Tổng số tiền hoàn (Refund)</span></div>
+          <div class="kpi-value-container" style="margin-top: 2px;"><span class="kpi-value" id="kpi-refund" style="font-size: 20px; color: var(--color-red);">5,000,000đ</span></div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Giao dịch hủy và hoàn tiền</span>
+        </div>
+      </section>
+
+      <!-- Layout Grid (2 Columns: Left for visual bars, Right for tables) -->
+      <section class="dashboard-grid" id="revenue-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+        
+        <!-- LEFT COLUMN: Charts & Progress Breakdown -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <!-- Card 1: Revenue by Course -->
+          <div class="panel">
+            <div class="panel-header" style="border-bottom: 1px solid var(--border-passive); padding-bottom: 8px;">
+              <h2 class="panel-title" style="font-size: 13.5px;">Doanh thu theo khóa học (Contribution)</h2>
+            </div>
+            
+            <div class="analytics-progress-container" id="course-progress-block">
+              <!-- JS rendered progress bars -->
+            </div>
+          </div>
+
+          <!-- Card 2: Revenue by Payment Method -->
+          <div class="panel">
+            <div class="panel-header" style="border-bottom: 1px solid var(--border-passive); padding-bottom: 8px;">
+              <h2 class="panel-title" style="font-size: 13.5px;">Doanh thu theo phương thức thanh toán</h2>
+            </div>
+            
+            <div class="analytics-progress-container" id="method-progress-block">
+              <!-- JS rendered progress bars -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Marketing Channel Breakdown -->
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          
+          <!-- Card 3: Coupon contribution -->
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title" style="font-size: 13.5px;">Doanh thu từ mã giảm giá (Coupon Sales)</h2>
+            </div>
+            <div class="table-container">
+              <table id="coupon-sales-table">
+                <thead>
+                  <tr>
+                    <th>Mã coupon</th>
+                    <th>Số lượt dùng</th>
+                    <th>Tổng chiết khấu</th>
+                    <th>Doanh thu thuần</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card 4: Referral contribution -->
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title" style="font-size: 13.5px;">Doanh thu từ giới thiệu (Referral Sales)</h2>
+            </div>
+            <div class="table-container">
+              <table id="referral-sales-table">
+                <thead>
+                  <tr>
+                    <th>Mã giới thiệu</th>
+                    <th>Conversions</th>
+                    <th>Hoa hồng đã trả</th>
+                    <th>Doanh thu thuần</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Analytics Data
+      const courseStats = [
+        { name: "AI Agent & Vibe Coding Bootcamp", revenue: "77,000,000đ", percentage: 70, fillClass: "indigo" },
+        { name: "Web Automation n8n nâng cao", revenue: "33,000,000đ", percentage: 30, fillClass: "orange" }
+      ];
+
+      const methodStats = [
+        { name: "QR MoMo Pay", revenue: "52,800,000đ", percentage: 48, fillClass: "indigo" },
+        { name: "QR VNPay", revenue: "35,200,000đ", percentage: 32, fillClass: "green" },
+        { name: "Chuyển khoản trực tiếp", revenue: "22,000,000đ", percentage: 20, fillClass: "orange" }
+      ];
+
+      const couponSales = [
+        { code: "KHAIGIANGAI", usage: 18, discount: "6,300,000đ", net: "56,700,000đ" },
+        { code: "N8NVOL26", usage: 10, discount: "3,000,000đ", net: "17,000,000đ" },
+        { code: "WELCOMEBLUE", usage: 12, discount: "1,200,000đ", net: "22,800,000đ" }
+      ];
+
+      const referralSales = [
+        { code: "BINH15", usage: 14, reward: "8,400,000đ", net: "47,600,000đ" },
+        { code: "AN10", usage: 8, reward: "2,800,000đ", net: "25,200,000đ" },
+        { code: "CHAU20", usage: 3, reward: "1,800,000đ", net: "7,200,000đ" }
+      ];
+
+      const courseBlock = document.getElementById('course-progress-block');
+      const methodBlock = document.getElementById('method-progress-block');
+      const couponTableBody = document.querySelector('#coupon-sales-table tbody');
+      const referralTableBody = document.querySelector('#referral-sales-table tbody');
+
+      // Render Progress Bars
+      function renderProgressBars(data, container) {
+        container.innerHTML = '';
+        data.forEach(item => {
+          const barItem = document.createElement('div');
+          barItem.className = 'analytics-progress-item';
+          barItem.innerHTML = `
+            <div class="progress-meta">
+              <span>${item.name}</span>
+              <strong>${item.revenue} (${item.percentage}%)</strong>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill ${item.fillClass}" style="width: ${item.percentage}%"></div>
+            </div>
+          `;
+          container.appendChild(barItem);
+        });
+      }
+
+      // Render Tables
+      function renderSalesTables() {
+        // Coupon table
+        couponTableBody.innerHTML = '';
+        couponSales.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><span class="cert-id" style="font-size: 11.5px;">${item.code}</span></td>
+            <td style="font-weight: 600; text-align: center;">${item.usage}</td>
+            <td style="color: var(--color-orange); font-size:11.5px;">-${item.discount}</td>
+            <td style="font-size:11.5px; font-weight: 600; color: var(--color-green);">${item.net}</td>
+          `;
+          couponTableBody.appendChild(row);
+        });
+
+        // Referral table
+        referralTableBody.innerHTML = '';
+        referralSales.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><span class="cert-id" style="font-size: 11.5px;">${item.code}</span></td>
+            <td style="font-weight: 600; text-align: center;">${item.usage}</td>
+            <td style="color: var(--color-indigo); font-size:11.5px;">${item.reward}</td>
+            <td style="font-size:11.5px; font-weight: 600; color: var(--color-green);">${item.net}</td>
+          `;
+          referralTableBody.appendChild(row);
+        });
+      }
+
+      // Export handler
+      document.getElementById('export-report-btn').addEventListener('click', () => {
+        if (window.showToast) window.showToast('Đang tạo báo cáo doanh số Excel...');
+      });
+
+      // Date selector callback simulator
+      const dateSelector = document.getElementById('date-selector-btn');
+      if (dateSelector) {
+        dateSelector.addEventListener('click', () => {
+          // Toggle dashboard numbers
+          document.getElementById('kpi-gross').innerText = "142,500,000đ";
+          document.getElementById('kpi-net').innerText = "126,800,000đ";
+          document.getElementById('kpi-orders').innerText = "251 đơn";
+          if (window.showToast) window.showToast('Đã lọc dữ liệu theo khoảng thời gian chọn.');
+        });
+      }
+
+      // Initial Render
+      renderProgressBars(courseStats, courseBlock);
+      renderProgressBars(methodStats, methodBlock);
+      renderSalesTables();
+    });
+  </script>
+</body>
+</html>

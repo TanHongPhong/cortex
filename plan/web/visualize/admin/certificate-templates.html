@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý mẫu chứng chỉ - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .template-card-preview {
+      aspect-ratio: 1.414;
+      width: 100%;
+      border: 1px solid var(--border-passive);
+      border-radius: 6px;
+      margin-top: 10px;
+      position: relative;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    
+    .cert-mock-border {
+      position: absolute;
+      top: 10px; bottom: 10px; left: 10px; right: 10px;
+      border: 2px double #d4af37;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+    
+    .cert-mock-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    
+    .cert-mock-sub {
+      font-size: 8px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    
+    .cert-mock-recipient {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 4px;
+      min-width: 150px;
+      text-align: center;
+    }
+    
+    .cert-mock-course {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-indigo);
+      margin-bottom: 16px;
+    }
+    
+    .cert-mock-meta {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      font-size: 7px;
+      color: var(--text-secondary);
+      margin-top: auto;
+      padding: 0 10px;
+    }
+
+    .theme-dark-cert {
+      background-color: #1c1c1c !important;
+      color: #fff !important;
+    }
+    .theme-dark-cert .cert-mock-title { color: #d4af37 !important; }
+    .theme-dark-cert .cert-mock-recipient { color: #fff !important; border-color: rgba(255,255,255,0.1) !important; }
+    .theme-dark-cert .cert-mock-course { color: #a5b4fc !important; }
+    .theme-dark-cert .cert-mock-sub { color: #a3a3a3 !important; }
+
+    .json-box {
+      background-color: #fcfcfb;
+      border: 1px dashed var(--border-passive);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      max-height: 120px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    /* Custom Grid Layout override for certificate-templates */
+    #templates-grid.dashboard-grid {
+      grid-template-columns: 1fr !important;
+      gap: 24px;
+    }
+    
+    #templates-grid.editor-closed .grid-col-right {
+      display: none !important;
+    }
+
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 32px;
+      margin-top: 12px;
+    }
+    
+    .editor-inputs-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .form-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    .editor-preview-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    /* Override mockup max width for center layout */
+    .template-card-preview {
+      max-width: 480px;
+      margin: 10px auto 0 auto;
+    }
+
+    /* Mono Blue Theme styling for certificate preview */
+    .theme-mono-blue-cert {
+      background-color: #f0f4f8 !important;
+      color: #0f2d59 !important;
+      border: 1px solid #c9d6e4 !important;
+    }
+    .theme-mono-blue-cert .cert-mock-border {
+      border: 2px solid #2b6cb0 !important;
+    }
+    .theme-mono-blue-cert .cert-mock-title {
+      color: #2b6cb0 !important;
+    }
+    .theme-mono-blue-cert .cert-mock-recipient {
+      color: #0f2d59 !important;
+      border-color: #cbd5e0 !important;
+    }
+    .theme-mono-blue-cert .cert-mock-course {
+      color: #3182ce !important;
+    }
+    .theme-mono-blue-cert .cert-mock-sub {
+      color: #4a5568 !important;
+    }
+    .theme-mono-blue-cert .cert-mock-meta {
+      color: #718096 !important;
+    }
+
+    /* Deep Ocean Theme styling for certificate preview */
+    .theme-deep-ocean-cert {
+      background-color: #0f172a !important; /* Very dark slate blue */
+      color: #e2e8f0 !important;
+      border: 1px solid #1e293b !important;
+    }
+    .theme-deep-ocean-cert .cert-mock-border {
+      border: 2px double #38bdf8 !important; /* Glowing cyan */
+    }
+    .theme-deep-ocean-cert .cert-mock-title {
+      color: #38bdf8 !important;
+    }
+    .theme-deep-ocean-cert .cert-mock-recipient {
+      color: #ffffff !important;
+      border-color: rgba(56, 189, 248, 0.2) !important;
+    }
+    .theme-deep-ocean-cert .cert-mock-course {
+      color: #0ea5e9 !important;
+    }
+    .theme-deep-ocean-cert .cert-mock-sub {
+      color: #94a3b8 !important;
+    }
+    /* Force secondary table columns to display since this grid stacks vertically */
+    #templates-grid table th.col-secondary,
+    #templates-grid table td.col-secondary {
+      display: table-cell !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link active" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard header -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý mẫu chứng chỉ</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Thiết kế, preview và cấu hình template cấp phát chứng nhận Blueprint.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="btn-black" id="create-template-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="plus"></i>
+            <span>Tạo template</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- KPI Row (4 Cards) -->
+      <section class="kpi-row-1 kpi-row-cols-4" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Tổng số mẫu</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">5</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">thiết kế được lưu</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đang sử dụng (Active)</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px; color: var(--color-green);">2</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">mẫu tự động cấp phát</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Bản nháp (Draft)</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px; color: var(--color-orange);">2</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">đang thiết kế dở</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Lịch sử cấp phát</span>
+          </div>
+          <div class="kpi-value-container" style="margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">1,248</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">chứng chỉ đã ký số</span>
+        </div>
+      </section>
+
+      <!-- Main Layout -->
+      <section class="dashboard-grid editor-closed" id="templates-grid">
+        
+        <!-- LEFT COLUMN: Templates Table -->
+        <div class="grid-col-left">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Mẫu thiết kế chứng chỉ</h2>
+                <span class="panel-subtitle" id="templates-count-label">4 mẫu</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="templates-table">
+                <thead>
+                  <tr>
+                    <th>Tên template</th>
+                    <th class="col-secondary">Khóa áp dụng</th>
+                    <th class="col-secondary">Phiên bản</th>
+                    <th class="col-secondary">Giờ chỉnh sửa</th>
+                    <th class="col-secondary">Người tạo</th>
+                    <th>Trạng thái</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 - 4 trong 4 mẫu</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>10 / trang</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Detail Drawer / Previewer -->
+        <div class="grid-col-right">
+          
+          <!-- Detail panel (static side form matching certificates sidebar layout) -->
+          <div class="panel" id="template-editor-panel">
+            <div class="panel-header" style="margin-bottom: 12px; border-bottom: 1px solid var(--border-passive); padding-bottom: 8px; position: relative;">
+              <h2 class="panel-title" id="editor-title" style="font-size: 13.5px;">Tạo/Sửa mẫu thiết kế</h2>
+              <button type="button" class="btn-icon-only" id="close-editor-btn" style="position: absolute; right: 0; top: 0;" title="Đóng panel">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+            
+            <form id="template-form">
+              <input type="hidden" id="template-id">
+              
+              <div class="editor-layout">
+                <!-- Left Column: Inputs & Actions -->
+                <div class="editor-inputs-col">
+                  
+                  <div class="form-row-2col">
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label class="form-label" for="template-name">Tên template</label>
+                      <input type="text" class="form-control" id="template-name" required placeholder="Ví dụ: Minimalist White Theme">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label class="form-label" for="template-scope">Áp dụng cho khóa học</label>
+                      <select class="form-control form-select" id="template-scope">
+                        <option value="global">Toàn bộ khóa học (Global)</option>
+                        <option value="ai">AI Agent & Vibe Coding Bootcamp</option>
+                        <option value="n8n">Web Automation n8n nâng cao</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row-2col">
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label class="form-label" for="template-version">Phiên bản</label>
+                      <input type="text" class="form-control" id="template-version" placeholder="v1.0">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                      <label class="form-label" for="template-theme">Theme visual style</label>
+                      <select class="form-control form-select" id="template-theme">
+                        <option value="light">Light Theme (Warm White)</option>
+                        <option value="dark">Dark Theme (Deep Slate)</option>
+                        <option value="mono-blue">Mono Blue (Minimalist Slate Blue)</option>
+                        <option value="deep-ocean">Deep Ocean (Modern dark-blue neon)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label" for="template-layout">Cấu hình Layout JSON</label>
+                    <textarea class="form-control" id="template-layout" style="height: 120px; font-family: var(--font-mono); font-size: 11px;" placeholder='{ "border": "double", "signature": "SHA256" }'></textarea>
+                  </div>
+
+                  <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-bottom: 0;">
+                    <input type="checkbox" id="template-active">
+                    <label for="template-active" style="font-size: 12.5px; font-weight: 500; cursor: pointer; user-select: none;">Đặt làm template hoạt động</label>
+                  </div>
+
+                  <div style="display: flex; gap: 12px; margin-top: 12px;">
+                    <button type="button" class="btn-secondary" id="cancel-form-btn" style="flex: 1; height: 36px; font-size: 13px;">Hủy</button>
+                    <button type="submit" class="btn-black" style="flex: 1; height: 36px; font-size: 13px;">Lưu mẫu</button>
+                  </div>
+                </div>
+
+                <!-- Right Column: Live Preview -->
+                <div class="editor-preview-col">
+                  <span class="form-label" style="align-self: flex-start; margin-bottom: 4px;">Xem trước mẫu (Preview Mockup)</span>
+                  <div class="template-card-preview" id="preview-box">
+                    <div class="cert-mock-border"></div>
+                    <div class="cert-mock-title" id="mock-title">CERTIFICATE</div>
+                    <div class="cert-mock-sub">OF COMPLETION</div>
+                    <div class="cert-mock-recipient">NGUYỄN VĂN AN</div>
+                    <div class="cert-mock-sub" style="margin-bottom: 2px;">has successfully completed</div>
+                    <div class="cert-mock-course" id="mock-course">AI Agent & Vibe Coding Bootcamp</div>
+                    <div class="cert-mock-meta">
+                      <div>Issued: 07 Jun 2026</div>
+                      <div>Signature ID: SHA256-HASH-SECURE</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Templates Data
+      const templatesData = [
+        {
+          id: "1",
+          name: "Mono Blue Classic",
+          scope: "global",
+          scopeName: "Global",
+          version: "v1.0",
+          author: "Admin User",
+          theme: "mono-blue",
+          layout: '{\n  "border": "solid",\n  "color": "#2b6cb0",\n  "signature": "SHA256"\n}',
+          status: "active",
+          statusName: "Hoạt động",
+          updatedAt: "07/06/2026 15:30"
+        },
+        {
+          id: "2",
+          name: "Ocean Deep Tech",
+          scope: "ai",
+          scopeName: "AI Agent Bootcamp",
+          version: "v1.1",
+          author: "Admin User",
+          theme: "deep-ocean",
+          layout: '{\n  "border": "double",\n  "color": "#38bdf8",\n  "signature": "ECDSA"\n}',
+          status: "active",
+          statusName: "Hoạt động",
+          updatedAt: "07/06/2026 15:35"
+        },
+        {
+          id: "3",
+          name: "Cyan Minimalist Slate",
+          scope: "n8n",
+          scopeName: "Web Automation n8n",
+          version: "v2.0-beta",
+          author: "Admin User",
+          theme: "mono-blue",
+          layout: '{\n  "border": "none",\n  "color": "#1e3a8a",\n  "signature": "SHA256"\n}',
+          status: "draft",
+          statusName: "Bản nháp",
+          updatedAt: "07/06/2026 15:40"
+        }
+      ];
+
+      const tableBody = document.querySelector('#templates-table tbody');
+      const form = document.getElementById('template-form');
+      const editorTitle = document.getElementById('editor-title');
+      const cancelBtn = document.getElementById('cancel-form-btn');
+      const createBtn = document.getElementById('create-template-btn');
+
+      // Form inputs
+      const inputId = document.getElementById('template-id');
+      const inputName = document.getElementById('template-name');
+      const inputScope = document.getElementById('template-scope');
+      const inputVersion = document.getElementById('template-version');
+      const inputTheme = document.getElementById('template-theme');
+      const inputLayout = document.getElementById('template-layout');
+      const inputActive = document.getElementById('template-active');
+
+      // Preview components
+      const previewBox = document.getElementById('preview-box');
+      const mockCourse = document.getElementById('mock-course');
+
+      // Update Preview visually when inputs change
+      function updateLivePreview() {
+        previewBox.classList.remove('theme-dark-cert', 'theme-mono-blue-cert', 'theme-deep-ocean-cert');
+        
+        if (inputTheme.value === 'dark') {
+          previewBox.classList.add('theme-dark-cert');
+        } else if (inputTheme.value === 'mono-blue') {
+          previewBox.classList.add('theme-mono-blue-cert');
+        } else if (inputTheme.value === 'deep-ocean') {
+          previewBox.classList.add('theme-deep-ocean-cert');
+        }
+
+        const selectedScope = inputScope.options[inputScope.selectedIndex].text;
+        mockCourse.innerText = inputScope.value === 'global' ? 'Tên khóa học hoàn thành' : selectedScope;
+      }
+
+      inputTheme.addEventListener('change', updateLivePreview);
+      inputScope.addEventListener('change', updateLivePreview);
+
+      // Render Templates Table
+      function renderTable() {
+        tableBody.innerHTML = '';
+        templatesData.forEach(item => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          
+          let statusClass = 'badge-gray';
+          if (item.status === 'active') statusClass = 'badge-green';
+          if (item.status === 'draft') statusClass = 'badge-orange';
+          if (item.status === 'archived') statusClass = 'badge-red';
+
+          row.innerHTML = `
+            <td><strong>${item.name}</strong></td>
+            <td class="col-secondary"><span style="font-size: 11.5px; color: var(--text-secondary);">${item.scopeName}</span></td>
+            <td class="col-secondary"><span class="cert-id" style="font-size: 11.5px;">${item.version}</span></td>
+            <td class="col-secondary"><span style="font-size: 11.5px; color: var(--text-secondary);">${item.updatedAt || '—'}</span></td>
+            <td class="col-secondary"><span style="font-size: 11.5px; color: var(--text-secondary);">${item.author}</span></td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <button class="btn-small edit-btn" style="padding: 2px 6px;">Sửa</button>
+                <button class="btn-small archive-btn" style="padding: 2px 6px; color: var(--color-red);">${item.status === 'archived' ? 'Mở lại' : 'Lưu trữ'}</button>
+              </div>
+            </td>
+          `;
+
+          // Row click to inspect
+          row.addEventListener('click', () => {
+            loadTemplateToForm(item);
+          });
+
+          // Edit button click
+          row.querySelector('.edit-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            loadTemplateToForm(item);
+          });
+
+          // Archive button click
+          row.querySelector('.archive-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (item.status === 'archived') {
+              item.status = 'draft';
+              item.statusName = 'Bản nháp';
+              if (window.showToast) window.showToast('Đã khôi phục mẫu thiết kế.', 'info');
+            } else {
+              item.status = 'archived';
+              item.statusName = 'Đã lưu trữ';
+              if (window.showToast) window.showToast('Đã lưu trữ mẫu thiết kế.', 'error');
+            }
+            renderTable();
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        document.getElementById('templates-count-label').innerText = `${templatesData.length} mẫu`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 - ${templatesData.length} trong ${templatesData.length} mẫu`;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      // Form panels toggling
+      const gridContainer = document.getElementById('templates-grid');
+      const closeEditorBtn = document.getElementById('close-editor-btn');
+
+      function showEditor() {
+        gridContainer.classList.remove('editor-closed');
+        setTimeout(() => {
+          document.getElementById('template-editor-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+
+      function hideEditor() {
+        gridContainer.classList.add('editor-closed');
+        document.querySelector('.dashboard-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function loadTemplateToForm(item) {
+        editorTitle.innerText = `Chỉnh sửa: ${item.name}`;
+        inputId.value = item.id;
+        inputName.value = item.name;
+        inputScope.value = item.scope;
+        inputVersion.value = item.version;
+        inputTheme.value = item.theme;
+        inputLayout.value = item.layout;
+        inputActive.checked = item.status === 'active';
+        updateLivePreview();
+        showEditor();
+      }
+
+      function resetForm() {
+        editorTitle.innerText = "Tạo mẫu thiết kế mới";
+        inputId.value = '';
+        inputName.value = '';
+        inputScope.value = 'global';
+        inputVersion.value = 'v1.0';
+        inputTheme.value = 'light';
+        inputLayout.value = '{\n  "border": "double",\n  "color": "#1c1c1c",\n  "signature": "SHA256"\n}';
+        inputActive.checked = false;
+        updateLivePreview();
+      }
+
+      createBtn.addEventListener('click', () => {
+        resetForm();
+        showEditor();
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        resetForm();
+        hideEditor();
+      });
+
+      if (closeEditorBtn) {
+        closeEditorBtn.addEventListener('click', () => {
+          resetForm();
+          hideEditor();
+        });
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const id = inputId.value;
+        const name = inputName.value;
+        const scope = inputScope.value;
+        const version = inputVersion.value;
+        const theme = inputTheme.value;
+        const layout = inputLayout.value;
+        const status = inputActive.checked ? 'active' : 'draft';
+        const statusName = status === 'active' ? 'Hoạt động' : 'Bản nháp';
+        
+        const scopeName = inputScope.options[inputScope.selectedIndex].text;
+
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('vi-VN', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }) + ' ' + now.toLocaleTimeString('vi-VN', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        // If editing active, deactivate others with same scope
+        if (status === 'active') {
+          templatesData.forEach(t => {
+            if (t.scope === scope && t.id !== id) {
+              t.status = 'draft';
+              t.statusName = 'Bản nháp';
+            }
+          });
+        }
+
+        if (id) {
+          // Edit existing
+          const index = templatesData.findIndex(t => t.id === id);
+          if (index !== -1) {
+            templatesData[index] = {
+              ...templatesData[index],
+              name, scope, scopeName, version, theme, layout, status, statusName,
+              updatedAt: formattedDate
+            };
+            if (window.showToast) window.showToast('Đã lưu thay đổi mẫu thiết kế.');
+          }
+        } else {
+          // Create new
+          const newId = String(templatesData.length + 1);
+          templatesData.push({
+            id: newId,
+            name, scope, scopeName, version, theme, layout, status, statusName,
+            author: "Admin User",
+            updatedAt: formattedDate
+          });
+          if (window.showToast) window.showToast('Đã tạo mẫu thiết kế mới thành công.');
+        }
+
+        renderTable();
+        resetForm();
+        hideEditor();
+      });
+
+      // Initial render
+      renderTable();
+      updateLivePreview();
+    });
+  </script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Mục tiêu
@@ -115,7 +116,7 @@ Avatar
 
 ## C. Learning Profile
 
-**Mục đích:** giúp CORTEX hiểu nhu cầu học của học viên.
+**Mục đích:** giúp Blueprint hiểu nhu cầu học của học viên.
 
 | Field             | Loại input                 |
 | ----------------- | -------------------------- |
@@ -256,7 +257,7 @@ Nếu dùng một bảng `users`:
 | `email`             | Email              |
 | `phone`             | Số điện thoại/Zalo |
 | `avatar_url`        | Ảnh đại diện       |
-| `role`              | student/instructor/course_editor/admin |
+| `role`              | student/instructor/admin |
 | `learning_interest` | Nhu cầu học        |
 | `current_level`     | Mức độ hiện tại    |
 | `learning_goal`     | Mục tiêu học       |
@@ -324,13 +325,13 @@ Nói ngắn gọn: **`/profile` là nơi học viên quản lý thông tin cá n
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/security|Security — Bảo mật hệ thống CORTEX]]
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-referrals|/admin/referrals — Quản lý referral]], [[web/page/admin/admin-students|/admin/students — Quản lý học viên]], [[web/page/instructor/overview|/instructor — Instructor Overview]], [[web/page/student/register|/register — Đăng ký tài khoản]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/security|Security — Bảo mật hệ thống CORTEX]]
+- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/security|Security — Bảo mật hệ thống Blueprint]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-referrals|/admin/referrals — Quản lý referral]], [[web/page/admin/admin-students|/admin/students — Quản lý học viên]], [[web/page/instructor/overview|/instructor — Instructor Overview]], [[web/page/student/register|/register — Đăng ký tài khoản]], [[web/page_function_matrix|Page Function Matrix — Blueprint]], [[web/security|Security — Bảo mật hệ thống Blueprint]]

@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Vai trò của trang
@@ -85,7 +86,7 @@ Ví dụ:
 ```text
 Khóa học của tôi
 
-Theo dõi tiến độ học tập và tiếp tục các khóa học của bạn tại CORTEX.
+Theo dõi tiến độ học tập và tiếp tục các khóa học của bạn tại Blueprint.
 ```
 
 ---
@@ -182,7 +183,7 @@ Access expired
 | Active    | Đang học                           | `Tiếp tục học`     |
 | Completed | Đã hoàn thành                      | `Xem lại khóa học` |
 | Expired   | Hết quyền truy cập nếu có giới hạn | `/contact?type=support` |
-| Pending   | Đang chờ kích hoạt/thanh toán      | `Xem trạng thái`   |
+| Pending   | Chưa học được/đang chờ kích hoạt   | `Hỗ trợ học viên`  |
 
 **MVP có thể chỉ cần:** `Active` và `Completed`.
 
@@ -196,6 +197,7 @@ Access expired
 | Học viên có nhiều khóa | Sắp xếp khóa đang học lên trước                 |
 | Khóa completed         | Đưa sau khóa active                             |
 | Khóa expired           | Đưa cuối danh sách                              |
+| Khóa pending/chưa học được | Làm mờ như khóa hết hạn; CTA `Hỗ trợ học viên` |
 | Khóa chưa enrolled     | Không được hiển thị                             |
 | Khóa bị [[web/page/admin/admin|admin]] hủy/refund | Hiển thị `cancelled` nếu cần lịch sử học; không cho vào lesson |
 
@@ -208,11 +210,11 @@ Nếu học viên chưa đăng ký khóa nào:
 ```text
 Bạn chưa có khóa học nào.
 
-Khám phá các khóa học AI tại CORTEX để bắt đầu lộ trình học của bạn.
+Khám phá các khóa học AI tại Blueprint để bắt đầu lộ trình học của bạn.
 [Xem khóa học]
 ```
 
-Có thể thêm mascot nhỏ để trang không bị trống.
+Empty state cần có thông điệp ngắn và CTA rõ.
 
 ---
 
@@ -285,20 +287,6 @@ Nếu status = expired:
 
 ---
 
-# 11. UI style đề xuất
-
-| Phần         | Gợi ý                              |
-| ------------ | ---------------------------------- |
-| Layout       | Grid 2–3 cột trên desktop          |
-| Card         | Bo góc lớn, shadow nhẹ, rõ tiến độ |
-| Badge        | Status và level nên nhìn rõ        |
-| Progress bar | Nên nổi bật, dễ đọc                |
-| CTA          | Nút chính đặt cuối card            |
-| Empty state  | Có mascot nhỏ + CTA về `/courses`  |
-| Mobile       | Card full-width, thông tin xếp dọc |
-
----
-
 # 12. Component cần có
 
 | Component                | Dùng để làm gì                  |
@@ -336,13 +324,13 @@ Trang `/my-courses` đạt nếu:
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]]

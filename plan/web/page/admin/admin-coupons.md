@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,11 +18,12 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 
 ## 1. Mục tiêu
 
-Admin tạo, sửa, tạm dừng và theo dõi [[web/page/student/coupon|coupon]] mà không làm sai lịch sử đơn hàng.
+Admin tạo, sửa, tạm dừng và theo dõi coupon mà không làm sai lịch sử đơn hàng.
 
 ---
 
@@ -45,15 +46,15 @@ Admin tạo, sửa, tạm dừng và theo dõi [[web/page/student/coupon|coupon]
 
 | KPI | Ý nghĩa |
 | --- | ------- |
-| Active Coupons | Số [[web/page/student/coupon|coupon]] đang active |
+| Active Coupons | Số coupon đang active |
 | Total Redemptions | Số lượt applied |
-| Revenue from Coupons | Doanh thu từ đơn paid có [[web/page/student/coupon|coupon]] |
-| Discount Given | Tổng discount_amount từ [[web/page/student/coupon|coupon]] |
+| Revenue from Coupons | Doanh thu từ đơn paid có coupon |
+| Discount Given | Tổng discount_amount từ coupon |
 | Expiring Soon | Coupon sắp hết hạn |
 
 ---
 
-## 4. Form tạo/sửa [[web/page/student/coupon|coupon]]
+## 4. Form tạo/sửa coupon
 
 | Nhóm | Field |
 | ---- | ----- |
@@ -82,10 +83,10 @@ Admin tạo, sửa, tạm dừng và theo dõi [[web/page/student/coupon|coupon]
 
 | Bảng | Dữ liệu |
 | ---- | ------ |
-| `coupons` | [[web/page/student/coupon|coupon]] configuration |
+| `coupons` | coupon configuration |
 | `coupon_redemptions` | usage history, reserved_expires_at cleanup |
 | `orders` | revenue/discount/order status |
-| `audit_logs` | Log [[web/page/student/coupon|coupon]] create/update/archive |
+| `audit_logs` | Log coupon create/update/archive |
 | `courses` | scope theo analysis/level |
 | `users` | created_by, updated_by, user sử dụng |
 
@@ -96,11 +97,11 @@ Admin tạo, sửa, tạm dừng và theo dõi [[web/page/student/coupon|coupon]
 | Tiêu chí | Đạt / Không |
 | -------- | ----------- |
 | Student không truy cập được | |
-| Admin tạo/sửa [[web/page/student/coupon|coupon]] được | |
+| Admin tạo/sửa coupon được | |
 | Không tạo code trùng | |
 | Validate discount rule đúng | |
 | Hiển thị usage/redemption đúng | |
-| Không hard delete [[web/page/student/coupon|coupon]] đã dùng | |
+| Không hard delete coupon đã dùng | |
 | Coupon archived không apply được | |
 
 ---
@@ -108,13 +109,13 @@ Admin tạo, sửa, tạm dừng và theo dõi [[web/page/student/coupon|coupon]
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]]
+- **Outgoing Links:** *None*
 - **Incoming Links (Backlinks):** *None*

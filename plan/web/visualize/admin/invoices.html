@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý hóa đơn / biên nhận - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .pdf-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border: 1px solid #fee2e2;
+      background-color: #fef2f2;
+      color: #ef4444;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .pdf-badge:hover {
+      background-color: #fca5a5;
+      color: #b91c1c;
+    }
+    
+    .file-attachment-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border-passive);
+      border-radius: 6px;
+      padding: 8px 12px;
+      background-color: #fafbf9;
+      margin-top: 4px;
+    }
+    
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 10px;
+      font-size: 11.5px;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 14px;
+      bottom: -16px;
+      width: 1px;
+      background-color: var(--border-passive);
+    }
+    .timeline-item:last-child::before {
+      display: none;
+    }
+    .timeline-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background-color: var(--bg-card);
+      border: 2px solid var(--border-passive);
+      z-index: 1;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .timeline-dot.green { border-color: var(--color-green); background-color: var(--color-green); }
+    .timeline-dot.red { border-color: var(--color-red); background-color: var(--color-red); }
+    .timeline-dot.blue { border-color: var(--color-indigo); background-color: var(--color-indigo); }
+    .timeline-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .timeline-title { font-weight: 600; color: var(--text-primary); }
+    .timeline-time { font-size: 10px; color: var(--text-secondary); }
+    .timeline-desc { color: var(--text-secondary); font-size: 11px; }
+
+    .action-grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link active" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý hóa đơn / biên nhận</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Tạo, phát hành, hủy và tải biên nhận / hóa đơn dựa trên đơn hàng đã thanh toán.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-black" id="create-invoice-btn">
+            <i data-lucide="plus"></i>
+            <span>Tạo hóa đơn</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (4 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-4" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Tổng hóa đơn</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,085</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+10%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đã phát hành</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">934</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+12%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Đã hủy</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">42</span>
+            <span class="kpi-trend trend-down" style="color: var(--color-red);"><i data-lucide="arrow-down-right"></i>+4%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-label">Tổng doanh thu (đã xuất HD)</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">$121,580</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+9%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="invoice-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Filters & Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel" style="padding: 14px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              
+              <div class="form-group" style="margin-bottom: 0; min-width: 120px; flex: 1;">
+                <input type="date" class="form-control" id="filter-from-date" value="2026-05-02" style="padding: 4px 8px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 120px; flex: 1;">
+                <input type="date" class="form-control" id="filter-to-date" value="2026-06-02" style="padding: 4px 8px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1.2;">
+                <select class="form-control form-select" id="filter-status" style="padding: 4px 8px;">
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="issued">Đã phát hành</option>
+                  <option value="canceled">Đã hủy</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1.2;">
+                <select class="form-control form-select" id="filter-course" style="padding: 4px 8px;">
+                  <option value="">Tất cả khóa học</option>
+                  <option value="ai">AI Agent & Vibe Coding</option>
+                  <option value="starter">Starter Mini Course</option>
+                  <option value="python">Python for Data Analysis</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 180px; flex: 1.5; position: relative;">
+                <input type="text" class="form-control" id="search-invoice-input" placeholder="Tìm theo mã HD, email, tên..." style="padding: 4px 8px 4px 28px;">
+                <i data-lucide="search" style="width: 14px; height: 14px; position: absolute; left: 8px; top: 9px; color: var(--text-secondary);"></i>
+              </div>
+
+              <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Danh sách hóa đơn</h2>
+                <span class="panel-subtitle" id="invoice-count-label">1,085 hóa đơn</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="invoices-table">
+                <thead>
+                  <tr>
+                    <th>Mã hóa đơn</th>
+                    <th class="col-secondary">Order code</th>
+                    <th>Học viên</th>
+                    <th class="col-secondary">Khóa học</th>
+                    <th class="col-secondary">Ngày phát hành</th>
+                    <th>Số tiền</th>
+                    <th>Trạng thái</th>
+                    <th class="col-secondary">File</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginator -->
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 - 10 trong 1,085 hóa đơn</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>10 / trang</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Detail Drawer -->
+        <div class="grid-col-right">
+          <div class="panel" style="position: sticky; top: 16px;">
+            <div class="student-profile-header" style="padding-bottom: 10px;">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span class="student-profile-name" style="font-size: 15px;">Chi tiết hóa đơn</span>
+                <span class="cert-id" id="drawer-invoice-id-title">INV-2026-001085</span>
+              </div>
+              <button class="btn-icon-only" id="close-drawer-btn" style="position: absolute; right: 0; top: 0;" title="Đóng panel"><i data-lucide="x"></i></button>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between;">
+              <span class="badge badge-green" id="drawer-status-badge">ĐÃ PHÁT HÀNH</span>
+              <span style="font-size: 11px; color: var(--text-secondary);" id="drawer-meta-title">Phiên bản: 1 • 21/05/2026 14:35</span>
+            </div>
+
+            <!-- Order info -->
+            <div class="detail-section-title">
+              <span>Thông tin đơn hàng</span>
+              <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Mã đơn hàng</span>
+                <span class="detail-value cert-id" id="drawer-order-code">MAY-ORD-2026-0001</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Ngày thanh toán</span>
+                <span class="detail-value" id="drawer-pay-date">21/05/2026 14:32</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Phương thức</span>
+                <span class="detail-value" id="drawer-pay-method">VNPay</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Số tiền</span>
+                <span class="detail-value" id="drawer-pay-amount">2.690.000đ</span>
+              </div>
+              <a class="btn-secondary" href="orders.html" id="drawer-view-order-link" style="margin-top: 6px; font-size: 11px; padding: 4px 8px; justify-content: center;">
+                <span>Xem chi tiết đơn hàng</span>
+                <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
+              </a>
+            </div>
+
+            <!-- Buyer Info -->
+            <div class="detail-section-title">
+              <span>Thông tin người mua</span>
+              <i data-lucide="user" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Họ tên</span>
+                <span class="detail-value" id="drawer-student-name">Phạm Đức Trí</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Email</span>
+                <span class="detail-value" id="drawer-student-email">tri@email.com</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Số điện thoại</span>
+                <span class="detail-value" id="drawer-student-phone">09xxxxxxxx</span>
+              </div>
+              <div class="detail-item" style="align-items: flex-start;">
+                <span class="detail-label">Địa chỉ</span>
+                <span class="detail-value" id="drawer-student-address" style="max-width: 180px; line-height: 1.3;">123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Yêu cầu hóa đơn</span>
+                <span class="badge" id="drawer-invoice-requested">Có</span>
+              </div>
+              <div class="detail-item" id="drawer-company-row">
+                <span class="detail-label">Công ty</span>
+                <span class="detail-value" id="drawer-company-name" style="max-width: 180px; text-align: right;">—</span>
+              </div>
+              <div class="detail-item" id="drawer-tax-code-row">
+                <span class="detail-label">Mã số thuế</span>
+                <span class="detail-value cert-id" id="drawer-tax-code">—</span>
+              </div>
+            </div>
+
+            <!-- Invoice breakdown -->
+            <div class="detail-section-title">
+              <span>Thông tin hóa đơn</span>
+              <i data-lucide="file-text" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Khóa học</span>
+                <span class="detail-value" id="drawer-course-name" style="max-width: 180px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">AI Agent & Vibe Coding</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Tổng tiền</span>
+                <span class="detail-value" id="drawer-total-raw">2.990.000đ</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Giảm giá</span>
+                <span class="detail-value" id="drawer-total-discount" style="color:var(--color-red);">-300.000đ</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Thuế (0%)</span>
+                <span class="detail-value">0đ</span>
+              </div>
+              <div class="detail-item" style="border-top:1px solid var(--border-passive); padding-top:6px; margin-top:4px;">
+                <span class="detail-label" style="font-weight: 600; color: var(--text-primary);">Tổng thanh toán</span>
+                <span class="detail-value" id="drawer-total-final" style="font-weight: 700; font-size: 14px;">2.690.000đ</span>
+              </div>
+            </div>
+
+            <!-- Invoice Files -->
+            <div class="detail-section-title">
+              <span>Tệp hóa đơn</span>
+              <i data-lucide="paperclip" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="file-attachment-card">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="file-text" style="color: #ef4444; width: 20px; height: 20px;"></i>
+                <div style="display: flex; flex-direction: column;">
+                  <span class="cert-id" id="drawer-filename" style="font-weight: 600; font-size: 11px;">INV-2026-001085-v1.pdf</span>
+                  <span style="font-size: 9.5px; color: var(--text-secondary);">152 KB</span>
+                </div>
+              </div>
+              <div style="display: flex; gap: 4px;">
+                <button class="btn-icon-only" id="download-invoice-btn" title="Tải xuống PDF"><i data-lucide="download"></i></button>
+                <button class="btn-icon-only" id="share-invoice-btn" title="Chia sẻ link"><i data-lucide="share-2"></i></button>
+              </div>
+            </div>
+
+            <!-- History log timeline -->
+            <div class="detail-section-title">
+              <span>Lịch sử hóa đơn</span>
+              <i data-lucide="clock" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot green" id="timeline-issued-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title" id="timeline-issued-title">Đã phát hành</span>
+                  <span class="timeline-time" id="timeline-issued-time">21/05/2026 14:35</span>
+                  <span class="timeline-desc">bởi Admin User</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot blue"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title">Đã tạo</span>
+                  <span class="timeline-time" id="timeline-created-time">21/05/2026 14:32</span>
+                  <span class="timeline-desc">Hệ thống tạo tự động</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-grid-2x2">
+              <button class="btn-secondary" id="drawer-version-btn" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; justify-content: center; height: 28px;">
+                <i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i>
+                <span>Tạo phiên bản mới</span>
+              </button>
+              <button class="btn-secondary" id="drawer-cancel-invoice-btn" style="font-size: 11px; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; justify-content: center; height: 28px; color: var(--color-red);">
+                <i data-lucide="ban" style="width: 12px; height: 12px;"></i>
+                <span>Hủy hóa đơn</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Data
+      const invoicesData = [
+        {
+          id: "INV-2026-001085",
+          orderCode: "MAY-ORD-2026-0001",
+          studentName: "Phạm Đức Trí",
+          studentEmail: "tri@email.com",
+          studentPhone: "0987 654 321",
+          studentAddress: "123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          issuedDate: "21/05/2026 14:35",
+          totalRaw: "2.990.000đ",
+          discount: "-300.000đ",
+          amount: "2.690.000đ",
+          status: "issued",
+          statusName: "Đã phát hành"
+        },
+        {
+          id: "INV-2026-001081",
+          orderCode: "MAY-ORD-2026-0005",
+          studentName: "Đỗ Hoàng Anh",
+          studentEmail: "anhdo@gmail.com",
+          studentPhone: "0912 345 678",
+          studentAddress: "456 Trần Hưng Đạo, Quận 5, TP. Hồ Chí Minh",
+          course: "Python for Data Analysis",
+          courseCode: "python",
+          issuedDate: "18/05/2026 16:40",
+          totalRaw: "990.000đ",
+          discount: "0đ",
+          amount: "990.000đ",
+          status: "canceled",
+          statusName: "Đã hủy"
+        },
+        {
+          id: "INV-2026-001080",
+          orderCode: "MAY-ORD-2026-0008",
+          studentName: "Nguyễn Thu Hà",
+          studentEmail: "ha.nguyen@gmail.com",
+          studentPhone: "0934 567 890",
+          studentAddress: "789 Lê Lợi, Quận Hải Châu, Đà Nẵng",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          courseCode: "ai",
+          issuedDate: "16/05/2026 18:30",
+          totalRaw: "2.990.000đ",
+          discount: "-300.000đ",
+          amount: "2.690.000đ",
+          status: "issued",
+          statusName: "Đã phát hành"
+        },
+        {
+          id: "INV-2026-001078",
+          orderCode: "MAY-ORD-2026-0002",
+          studentName: "Trần Thị Bình",
+          studentEmail: "binh.tran@email.com",
+          studentPhone: "0909 123 456",
+          studentAddress: "12 Lý Tự Trọng, Quận Hoàn Kiếm, Hà Nội",
+          course: "Starter Mini Course",
+          courseCode: "starter",
+          issuedDate: "14/05/2026 10:45",
+          totalRaw: "590.000đ",
+          discount: "0đ",
+          amount: "590.000đ",
+          status: "issued",
+          statusName: "Đã phát hành"
+        }
+      ];
+
+      let activeIndex = -1;
+
+      // Select DOM
+      const tableBody = document.querySelector('#invoices-table tbody');
+      const gridContainer = document.getElementById('invoice-grid');
+      const fromDateFilter = document.getElementById('filter-from-date');
+      const toDateFilter = document.getElementById('filter-to-date');
+      const statusFilter = document.getElementById('filter-status');
+      const courseFilter = document.getElementById('filter-course');
+      const searchInput = document.getElementById('search-invoice-input');
+      const resetBtn = document.getElementById('filter-reset-btn');
+
+      // Drawer DOM
+      const drawerInvoiceIdTitle = document.getElementById('drawer-invoice-id-title');
+      const drawerStatusBadge = document.getElementById('drawer-status-badge');
+      const drawerMetaTitle = document.getElementById('drawer-meta-title');
+      const drawerOrderCode = document.getElementById('drawer-order-code');
+      const drawerPayDate = document.getElementById('drawer-pay-date');
+      const drawerPayMethod = document.getElementById('drawer-pay-method');
+      const drawerPayAmount = document.getElementById('drawer-pay-amount');
+      
+      const drawerStudentName = document.getElementById('drawer-student-name');
+      const drawerStudentEmail = document.getElementById('drawer-student-email');
+      const drawerStudentPhone = document.getElementById('drawer-student-phone');
+      const drawerStudentAddress = document.getElementById('drawer-student-address');
+      const drawerInvoiceRequested = document.getElementById('drawer-invoice-requested');
+      const drawerCompanyName = document.getElementById('drawer-company-name');
+      const drawerTaxCode = document.getElementById('drawer-tax-code');
+      const drawerCompanyRow = document.getElementById('drawer-company-row');
+      const drawerTaxCodeRow = document.getElementById('drawer-tax-code-row');
+      
+      const drawerCourseName = document.getElementById('drawer-course-name');
+      const drawerTotalRaw = document.getElementById('drawer-total-raw');
+      const drawerTotalDiscount = document.getElementById('drawer-total-discount');
+      const drawerTotalFinal = document.getElementById('drawer-total-final');
+      
+      const drawerFilename = document.getElementById('drawer-filename');
+      const timelineIssuedDot = document.getElementById('timeline-issued-dot');
+      const timelineIssuedTitle = document.getElementById('timeline-issued-title');
+      const timelineIssuedTime = document.getElementById('timeline-issued-time');
+      const timelineCreatedTime = document.getElementById('timeline-created-time');
+      
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+      const cancelInvoiceBtn = document.getElementById('drawer-cancel-invoice-btn');
+
+      // Render Table
+      function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="9" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px;"></i>
+                  <span>Không tìm thấy hóa đơn nào khớp</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('invoice-count-label').innerText = '0 hóa đơn';
+          document.getElementById('pagination-label').innerText = 'Hiển thị 0 - 0 trong 0 hóa đơn';
+          return;
+        }
+
+        data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          if (activeIndex === index) {
+            row.classList.add('highlight-row');
+          }
+
+          let statusClass = 'badge-gray';
+          if (item.status === 'issued') statusClass = 'badge-green';
+          else if (item.status === 'canceled') statusClass = 'badge-red';
+
+          row.innerHTML = `
+            <td class="cert-id" style="font-weight:600;">${item.id}</td>
+            <td class="col-secondary cert-id">${item.orderCode}</td>
+            <td>
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-weight: 500;">${item.studentName}</span>
+                <span style="font-size: 10.5px; color: var(--text-secondary);">${item.studentEmail}</span>
+              </div>
+            </td>
+            <td class="col-secondary">${item.course}</td>
+            <td class="col-secondary" style="color: var(--text-secondary);">${item.issuedDate}</td>
+            <td style="font-weight:600;">${item.amount}</td>
+            <td><span class="badge ${statusClass}">${item.statusName}</span></td>
+            <td class="col-secondary">
+              <a href="#" class="pdf-badge" onclick="event.stopPropagation(); window.showToast ? window.showToast('Đang tạo và tải tệp hóa đơn PDF...') : alert('Tải PDF...');">
+                <i data-lucide="file-text" style="width: 10px; height: 10px;"></i>
+                <span>PDF</span>
+              </a>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                <button class="btn-icon-only" title="Hành động khác"><i data-lucide="more-vertical"></i></button>
+              </div>
+            </td>
+          `;
+
+          // Row click to open drawer
+          row.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            openDrawer(item, index);
+          });
+
+          // Eye click
+          row.querySelector('.view-details-btn').addEventListener('click', () => {
+            openDrawer(item, index);
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.getElementById('invoice-count-label').innerText = `${data.length} hóa đơn`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} hóa đơn`;
+      }
+
+      function openDrawer(item, index) {
+        activeIndex = index;
+
+        // Highlight row
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((r, idx) => {
+          if (idx === index) r.classList.add('highlight-row');
+          else r.classList.remove('highlight-row');
+        });
+
+        // Fill drawer values
+        drawerInvoiceIdTitle.innerText = item.id;
+        drawerStatusBadge.className = `badge ${item.status === 'issued' ? 'badge-green' : 'badge-red'}`;
+        drawerStatusBadge.innerText = item.statusName.toUpperCase();
+        
+        drawerMetaTitle.innerText = `Phiên bản: 1 • Ngày phát hành: ${item.issuedDate}`;
+        drawerOrderCode.innerText = item.orderCode;
+        drawerPayDate.innerText = item.issuedDate.split(' ')[0] + ' 14:32';
+        drawerPayAmount.innerText = item.amount;
+        
+        drawerStudentName.innerText = item.studentName;
+        drawerStudentEmail.innerText = item.studentEmail;
+        drawerStudentPhone.innerText = item.studentPhone;
+        drawerStudentAddress.innerText = item.studentAddress;
+        
+        const isInvoiceReq = item.id.includes('001085') || item.id.includes('001088') || item.id.includes('001090');
+        drawerInvoiceRequested.innerText = isInvoiceReq ? 'Có' : 'Không';
+        drawerInvoiceRequested.className = `badge ${isInvoiceReq ? 'badge-green' : 'badge-gray'}`;
+        
+        if (isInvoiceReq) {
+          drawerCompanyRow.style.display = 'flex';
+          drawerTaxCodeRow.style.display = 'flex';
+          drawerCompanyName.innerText = "Công ty TNHH Công nghệ AI Việt Nam";
+          drawerTaxCode.innerText = "0109827364";
+        } else {
+          drawerCompanyRow.style.display = 'none';
+          drawerTaxCodeRow.style.display = 'none';
+          drawerCompanyName.innerText = "—";
+          drawerTaxCode.innerText = "—";
+        }
+        
+        drawerCourseName.innerText = item.course;
+        drawerTotalRaw.innerText = item.totalRaw;
+        drawerTotalDiscount.innerText = item.discount;
+        drawerTotalFinal.innerText = item.amount;
+        
+        drawerFilename.innerText = `${item.id}-v1.pdf`;
+        timelineCreatedTime.innerText = item.issuedDate.split(' ')[0] + ' 14:32';
+        
+        if (item.status === 'canceled') {
+          timelineIssuedDot.className = 'timeline-dot red';
+          timelineIssuedTitle.innerText = 'Đã hủy hóa đơn';
+          timelineIssuedTime.innerText = item.issuedDate;
+          cancelInvoiceBtn.disabled = true;
+          cancelInvoiceBtn.style.opacity = '0.5';
+          cancelInvoiceBtn.style.cursor = 'not-allowed';
+        } else {
+          timelineIssuedDot.className = 'timeline-dot green';
+          timelineIssuedTitle.innerText = 'Đã phát hành';
+          timelineIssuedTime.innerText = item.issuedDate;
+          cancelInvoiceBtn.disabled = false;
+          cancelInvoiceBtn.style.opacity = '1';
+          cancelInvoiceBtn.style.cursor = 'pointer';
+        }
+
+        gridContainer.classList.remove('drawer-closed');
+      }
+
+      function closeDrawer() {
+        activeIndex = -1;
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlight-row'));
+        gridContainer.classList.add('drawer-closed');
+      }
+
+      closeDrawerBtn.addEventListener('click', closeDrawer);
+
+      // Cancel invoice handler
+      cancelInvoiceBtn.addEventListener('click', () => {
+        if (activeIndex === -1) return;
+        const invoice = invoicesData[activeIndex];
+        if (invoice.status === 'canceled') return;
+
+        if (confirm(`Bạn có chắc muốn hủy hóa đơn ${invoice.id}?`)) {
+          invoice.status = 'canceled';
+          invoice.statusName = 'Đã hủy';
+          invoice.issuedDate = new Date().toLocaleString('vi-VN');
+          if (window.showToast) window.showToast(`Đã hủy thành công hóa đơn ${invoice.id}`, 'info');
+          
+          renderTable(invoicesData);
+          openDrawer(invoice, activeIndex);
+        }
+      });
+
+      // Filter logic
+      function runFilters() {
+        const query = searchInput.value.toLowerCase().trim();
+        const statusVal = statusFilter.value;
+        const courseVal = courseFilter.value;
+
+        let filtered = invoicesData;
+        if (query) {
+          filtered = filtered.filter(x => x.id.toLowerCase().includes(query) || x.studentName.toLowerCase().includes(query) || x.studentEmail.toLowerCase().includes(query));
+        }
+        if (statusVal) {
+          filtered = filtered.filter(x => x.status === statusVal);
+        }
+        if (courseVal) {
+          filtered = filtered.filter(x => x.courseCode === courseVal);
+        }
+
+        renderTable(filtered);
+        closeDrawer();
+      }
+
+      searchInput.addEventListener('input', runFilters);
+      statusFilter.addEventListener('change', runFilters);
+      courseFilter.addEventListener('change', runFilters);
+      
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        statusFilter.value = '';
+        courseFilter.value = '';
+        renderTable(invoicesData);
+      });
+
+      // Export/Create buttons placeholder actions
+      document.getElementById('create-invoice-btn').addEventListener('click', () => {
+        if (window.showToast) window.showToast('Vui lòng chọn một đơn hàng Paid để tạo hóa đơn mới.', 'info');
+      });
+      document.getElementById('download-invoice-btn').addEventListener('click', () => {
+        if (window.showToast) window.showToast('Đang tải tệp PDF hóa đơn...');
+      });
+      document.getElementById('share-invoice-btn').addEventListener('click', () => {
+        navigator.clipboard.writeText('https://blueprint.edu.vn/invoice/' + drawerInvoiceIdTitle.innerText).then(() => {
+          if (window.showToast) window.showToast('Đã copy link hóa đơn vào clipboard!');
+        });
+      });
+
+      // Initial Render
+      renderTable(invoicesData);
+    });
+  </script>
+</body>
+</html>

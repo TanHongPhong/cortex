@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[P2]]"
 ---
 
@@ -18,11 +18,12 @@ status: "[[P2]]"
 **Status:** P2
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Future
 
 ## 1. Mục tiêu
 
-Báo cáo doanh thu theo thời gian, khóa học, payment method, [[web/page/student/coupon|coupon]] và [[web/page/student/referral|referral]] sau khi `orders`/`payment_transactions` đã ổn định.
+Báo cáo doanh thu theo thời gian, khóa học, payment method, coupon và referral sau khi `orders`/`payment_transactions` đã ổn định.
 
 ---
 
@@ -67,8 +68,8 @@ MVP báo cáo doanh thu trước mắt nằm trong `/admin/orders`.
 | `account_balance_transactions` | refund_credit ledger đối soát số dư |
 | `payment_transactions` | đối soát theo giao dịch |
 | `courses` | course metadata hiện tại |
-| `coupons` | [[web/page/student/coupon|coupon]] metadata hiện tại |
-| `referral_codes` | [[web/page/student/referral|referral]] metadata hiện tại |
+| `coupons` | coupon metadata hiện tại |
+| `referral_codes` | referral metadata hiện tại |
 
 ---
 
@@ -87,13 +88,13 @@ MVP báo cáo doanh thu trước mắt nằm trong `/admin/orders`.
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/referral|/referral — Mã giới thiệu]]
+- **Outgoing Links:** [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]]
 - **Incoming Links (Backlinks):** *None*

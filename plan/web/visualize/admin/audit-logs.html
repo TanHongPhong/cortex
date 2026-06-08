@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch sử thao tác - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .pill-filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .pill-btn {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-passive);
+      border-radius: 9999px;
+      padding: 5px 12px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .pill-btn:hover {
+      border-color: var(--border-interactive);
+      color: var(--text-primary);
+    }
+    .pill-btn.active {
+      background-color: var(--sidebar-active-bg);
+      border-color: var(--text-primary);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    
+    .action-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .act-course { background-color: #eff6ff; color: #1e40af; }
+    .act-student { background-color: #ecfdf5; color: #065f46; }
+    .act-payment { background-color: #fff7ed; color: #9a3412; }
+    .act-security { background-color: #fef2f2; color: #991b1b; }
+    .act-settings { background-color: #f3f4f6; color: #374151; }
+
+    .json-box {
+      background-color: #1c1c1a;
+      color: #a3e635;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.4;
+      overflow-x: auto;
+      margin-top: 8px;
+      border: 1px solid var(--border-passive);
+      white-space: pre-wrap;
+      max-height: 250px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link active" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Lịch sử thao tác</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Nhật ký truy vết các thao tác vận hành của đội ngũ quản trị viên và giảng viên.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-secondary" id="export-logs-btn" style="height: 32px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px;">
+            <i data-lucide="download"></i>
+            <span>Export CSV</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Category Filter Pills -->
+      <div class="pill-filters">
+        <button class="pill-btn active" data-filter="all">Tất cả</button>
+        <button class="pill-btn" data-filter="course">Khóa học</button>
+        <button class="pill-btn" data-filter="student">Học viên</button>
+        <button class="pill-btn" data-filter="payment">Giao dịch</button>
+        <button class="pill-btn" data-filter="security">Bảo mật</button>
+        <button class="pill-btn" data-filter="settings">Cài đặt</button>
+      </div>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right Drawer)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="logs-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Search, Filters & Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel" style="padding: 14px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              
+              <div class="form-group" style="margin-bottom: 0; min-width: 200px; flex: 2;">
+                <input type="text" class="form-control" id="search-actor" style="padding: 4px 8px;" placeholder="Tìm theo tên hoặc email admin...">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 160px; flex: 1.2;">
+                <select class="form-control form-select" id="filter-ip" style="padding: 4px 8px;">
+                  <option value="">Tất cả địa chỉ IP</option>
+                  <option value="113.23.45.167">113.23.45.167 (HN)</option>
+                  <option value="27.72.100.85">27.72.100.85 (HCM)</option>
+                </select>
+              </div>
+
+              <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;" title="Reset filters">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Nhật ký vận hành</h2>
+                <span class="panel-subtitle" id="logs-count-label">5 logs</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="logs-table">
+                <thead>
+                  <tr>
+                    <th>Thời gian</th>
+                    <th>Người thực hiện</th>
+                    <th>Thao tác</th>
+                    <th class="col-secondary">Địa chỉ IP</th>
+                    <th class="col-secondary">Chi tiết description</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginator -->
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 - 5 trong 5 logs</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>20 / trang</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Detail Drawer -->
+        <div class="grid-col-right">
+          <div class="panel" style="position: sticky; top: 16px;">
+            
+            <div class="student-profile-header" style="padding-bottom: 10px;">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span class="student-profile-name" style="font-size: 15px;">Chi tiết log thao tác</span>
+                <span class="cert-id" id="drawer-log-id">LOG-2026-0001</span>
+              </div>
+              <button class="btn-icon-only" id="close-drawer-btn" style="position: absolute; right: 0; top: 0;" title="Đóng panel"><i data-lucide="x"></i></button>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between;">
+              <span class="action-badge act-course" id="drawer-action-badge">COURSE_UPDATE</span>
+              <span style="font-size: 11px; color: var(--text-secondary);" id="drawer-log-time">Thời gian: 07/06/2026 10:45:12</span>
+            </div>
+
+            <!-- General info -->
+            <div class="detail-section-title">
+              <span>Thông tin vận hành</span>
+              <i data-lucide="info" style="width: 13px; height: 13px;"></i>
+            </div>
+            
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Người thực hiện</span>
+                <span class="detail-value" id="drawer-actor" style="font-weight: 600;">Admin User</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Email tài khoản</span>
+                <span class="detail-value" id="drawer-email" style="font-family: var(--font-mono);">admin@blueprint.edu</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Địa chỉ IP</span>
+                <span class="detail-value" id="drawer-ip">113.23.45.167</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">User Agent</span>
+                <span class="detail-value" id="drawer-user-agent" style="font-size: 10.5px; max-width: 180px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Mozilla/5.0 (Macintosh)...</span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="detail-section-title">
+              <span>Mô tả hoạt động</span>
+              <i data-lucide="file-text" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="note-edit-box" id="drawer-desc" style="line-height: 1.4; padding: 12px; font-size:12px;">
+              Cập nhật tiêu đề bài học số 4 khóa AI Agent Bootcamp từ "Chấm điểm bài học" thành "Tự động chấm điểm".
+            </div>
+
+            <!-- Raw Metadata (JSON) -->
+            <div class="detail-section-title">
+              <span>Raw JSON Metadata</span>
+              <i data-lucide="code" style="width: 13px; height: 13px;"></i>
+            </div>
+            <pre class="json-box" id="drawer-json"></pre>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Data
+      const logsData = [
+        {
+          id: "LOG-2026-0001",
+          time: "07/06/2026 10:45:12",
+          actor: "Admin User",
+          email: "admin@blueprint.edu",
+          action: "COURSE_UPDATE",
+          category: "course",
+          ip: "113.23.45.167",
+          desc: "Cập nhật nội dung bài học số 4 khóa AI Agent & Vibe Coding Bootcamp.",
+          userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          meta: {
+            course_id: "course_ai_agent_bootcamp",
+            lesson_id: "lesson_4",
+            fields_changed: ["title", "short_desc"],
+            old_values: { title: "Chấm điểm bài học", short_desc: "Hướng dẫn" },
+            new_values: { title: "Tự động chấm điểm", short_desc: "Tự động hóa với LLM" }
+          }
+        },
+        {
+          id: "LOG-2026-0002",
+          time: "06/06/2026 15:30:45",
+          actor: "Admin User",
+          email: "admin@blueprint.edu",
+          action: "STUDENT_BAN",
+          category: "student",
+          ip: "113.23.45.167",
+          desc: "Tạm khóa tài khoản học viên khanh.vo@email.com do vi phạm điều khoản sao chép mã nguồn.",
+          userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          meta: {
+            student_id: "user_vt_0012",
+            action: "ban",
+            reason: "Source code plagiarism detected on submission #12",
+            expiry_date: "2026-07-06T15:30:00Z"
+          }
+        },
+        {
+          id: "LOG-2026-0003",
+          time: "05/06/2026 09:12:01",
+          actor: "Lê Văn Tám",
+          email: "tam.le@blueprint.edu",
+          action: "PAYMENT_APPROVE",
+          category: "payment",
+          ip: "27.72.100.85",
+          desc: "Phê duyệt giao dịch thanh toán thủ công cho đơn hàng MAY-ORD-2026-0038.",
+          userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          meta: {
+            order_code: "MAY-ORD-2026-0038",
+            payment_provider: "manual_bank_transfer",
+            amount: 2400000,
+            approved_by: "tam.le@blueprint.edu"
+          }
+        },
+        {
+          id: "LOG-2026-0004",
+          time: "03/06/2026 16:40:22",
+          actor: "Admin User",
+          email: "admin@blueprint.edu",
+          action: "SETTINGS_CHANGE",
+          category: "settings",
+          ip: "113.23.45.167",
+          desc: "Thay đổi thông tin cấu hình cổng tích hợp Momo API key.",
+          userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          meta: {
+            integration: "momo_qr",
+            changed_fields: ["api_endpoint", "partner_code"],
+            api_endpoint_old: "https://test-payment.momo.vn",
+            api_endpoint_new: "https://payment.momo.vn"
+          }
+        },
+        {
+          id: "LOG-2026-0005",
+          time: "02/06/2026 23:55:10",
+          actor: "Hệ thống bảo mật",
+          email: "security-daemon@blueprint.sh",
+          action: "SECURITY_ALERT",
+          category: "security",
+          ip: "185.220.101.4",
+          desc: "Phát hiện số lượng lớn yêu cầu sai Token xác thực (Brute-force attempt) trên API endpoint /checkout/confirm.",
+          userAgent: "python-requests/2.31.0",
+          meta: {
+            request_endpoint: "/api/v1/checkout/confirm",
+            failures_count: 125,
+            action_taken: "ip_temporary_blocked",
+            blocked_duration_seconds: 3600
+          }
+        }
+      ];
+
+      let activeIndex = -1;
+      let selectedCategory = 'all';
+
+      // DOM Elements
+      const tableBody = document.querySelector('#logs-table tbody');
+      const gridContainer = document.getElementById('logs-grid');
+      const searchActorInput = document.getElementById('search-actor');
+      const ipFilter = document.getElementById('filter-ip');
+      const resetBtn = document.getElementById('filter-reset-btn');
+      const pillButtons = document.querySelectorAll('.pill-btn');
+
+      // Drawer DOM Elements
+      const drawerLogId = document.getElementById('drawer-log-id');
+      const drawerActionBadge = document.getElementById('drawer-action-badge');
+      const drawerLogTime = document.getElementById('drawer-log-time');
+      const drawerActor = document.getElementById('drawer-actor');
+      const drawerEmail = document.getElementById('drawer-email');
+      const drawerIp = document.getElementById('drawer-ip');
+      const drawerUserAgent = document.getElementById('drawer-user-agent');
+      const drawerDesc = document.getElementById('drawer-desc');
+      const drawerJson = document.getElementById('drawer-json');
+      
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+
+      // Get action badge style class
+      function getActionBadgeClass(category) {
+        if (category === 'course') return 'act-course';
+        if (category === 'student') return 'act-student';
+        if (category === 'payment') return 'act-payment';
+        if (category === 'security') return 'act-security';
+        return 'act-settings';
+      }
+
+      // Render Table
+      function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px;"></i>
+                  <span>Không tìm thấy nhật ký thao tác nào khớp</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('logs-count-label').innerText = '0 logs';
+          document.getElementById('pagination-label').innerText = 'Hiển thị 0 - 0 trong 0 logs';
+          return;
+        }
+
+        data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          if (activeIndex === index) {
+            row.classList.add('highlight-row');
+          }
+
+          let badgeClass = getActionBadgeClass(item.category);
+
+          row.innerHTML = `
+            <td style="color: var(--text-secondary); white-space: nowrap;">${item.time}</td>
+            <td>
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-weight: 500;">${item.actor}</span>
+                <span style="font-size: 10.5px; color: var(--text-secondary);">${item.email}</span>
+              </div>
+            </td>
+            <td><span class="action-badge ${badgeClass}">${item.action}</span></td>
+            <td class="col-secondary" style="font-family: var(--font-mono); color: var(--text-secondary);">${item.ip}</td>
+            <td class="col-secondary"><div style="font-size: 11.5px; max-width: 380px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" title="${item.desc}">${item.desc}</div></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-icon-only view-details-btn" title="Xem chi tiết & Meta JSON"><i data-lucide="eye"></i></button>
+              </div>
+            </td>
+          `;
+
+          // Row click
+          row.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            openDrawer(item, index);
+          });
+
+          // Eye click
+          row.querySelector('.view-details-btn').addEventListener('click', () => {
+            openDrawer(item, index);
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.getElementById('logs-count-label').innerText = `${data.length} logs`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} logs`;
+      }
+
+      function openDrawer(item, index) {
+        activeIndex = index;
+
+        // Highlight active row
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((r, idx) => {
+          if (idx === index) r.classList.add('highlight-row');
+          else r.classList.remove('highlight-row');
+        });
+
+        // Set drawer content
+        drawerLogId.innerText = item.id;
+        
+        let badgeClass = getActionBadgeClass(item.category);
+        drawerActionBadge.className = `action-badge ${badgeClass}`;
+        drawerActionBadge.innerText = item.action;
+
+        drawerLogTime.innerText = `Thời gian: ${item.time}`;
+        drawerActor.innerText = item.actor;
+        drawerEmail.innerText = item.email;
+        drawerIp.innerText = item.ip;
+        drawerUserAgent.innerText = item.userAgent;
+        drawerUserAgent.setAttribute('title', item.userAgent);
+        drawerDesc.innerText = item.desc;
+        
+        // Formatted JSON display
+        drawerJson.innerText = JSON.stringify(item.meta, null, 2);
+
+        gridContainer.classList.remove('drawer-closed');
+      }
+
+      function closeDrawer() {
+        activeIndex = -1;
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlight-row'));
+        gridContainer.classList.add('drawer-closed');
+      }
+
+      closeDrawerBtn.addEventListener('click', closeDrawer);
+
+      // Category Pill Click
+      pillButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          pillButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedCategory = btn.getAttribute('data-filter');
+          runFilters();
+        });
+      });
+
+      // Filter logic
+      function runFilters() {
+        const searchVal = searchActorInput.value.toLowerCase().trim();
+        const ipVal = ipFilter.value;
+
+        let filtered = logsData;
+
+        // Category pill filter
+        if (selectedCategory !== 'all') {
+          filtered = filtered.filter(x => x.category === selectedCategory);
+        }
+        // Search filter
+        if (searchVal) {
+          filtered = filtered.filter(x => 
+            x.actor.toLowerCase().includes(searchVal) || 
+            x.email.toLowerCase().includes(searchVal) || 
+            x.desc.toLowerCase().includes(searchVal)
+          );
+        }
+        // IP filter
+        if (ipVal) {
+          filtered = filtered.filter(x => x.ip === ipVal);
+        }
+
+        renderTable(filtered);
+        closeDrawer();
+      }
+
+      searchActorInput.addEventListener('input', runFilters);
+      ipFilter.addEventListener('change', runFilters);
+      
+      resetBtn.addEventListener('click', () => {
+        searchActorInput.value = '';
+        ipFilter.value = '';
+        pillButtons.forEach(b => b.classList.remove('active'));
+        document.querySelector('.pill-btn[data-filter="all"]').classList.add('active');
+        selectedCategory = 'all';
+        renderTable(logsData);
+        closeDrawer();
+      });
+
+      // Header Export Action
+      document.getElementById('export-logs-btn').addEventListener('click', () => {
+        if (window.showToast) window.showToast('Đang tạo tệp CSV nhật ký thao tác...');
+      });
+
+      // Initial render
+      renderTable(logsData);
+    });
+  </script>
+</body>
+</html>

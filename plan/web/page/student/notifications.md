@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[P1]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[P1]]"
 **Status:** P1
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Mục tiêu trang
@@ -31,7 +32,7 @@ Học viên xem tất cả in-app notification và mở đúng việc cần xử
 | Khu vực | Yêu cầu |
 | ------- | ------- |
 | Header | Tiêu đề, unread count, nút `Mark all as read`. |
-| Filters | All, unread, course, payment, submission, [[web/page/website/certificate|certificate]], Q&A. |
+| Filters | All, unread, course, payment, submission, [[web/page/website/certificate|certificate]], announcement. |
 | Notification list | Title, body, type, created_at, read/unread state. |
 | Action | Click item mở `target_url` và set `read_at`. |
 | Empty state | “Bạn chưa có thông báo nào.” |
@@ -53,7 +54,7 @@ Học viên xem tất cả in-app notification và mở đúng việc cần xử
 - Chỉ hiển thị notification có `user_id = current_user.id`.
 - Notification là delivery cá nhân; announcement vẫn là nội dung nguồn.
 - MVP chỉ hỗ trợ in-app notification, chưa cần email/push.
-- Các event tạo notification: order paid, submission reviewed, [[web/page/website/certificate|certificate]] issued, announcement published, question answered.
+- Các event tạo notification: order paid, submission reviewed, [[web/page/website/certificate|certificate]] issued, announcement published.
 
 ---
 
@@ -72,13 +73,13 @@ Học viên xem tất cả in-app notification và mở đúng việc cần xử
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** [[web/page/student/login|/login — Đăng nhập]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/hard_notes|Hard Notes]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-announcements|/admin/announcements — Quản lý thông báo]], [[web/page/admin/admin-overview|/admin — Admin Overview]], [[web/page/instructor/overview|/instructor — Instructor Overview]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/learn-lesson|/learn/analysis/lesson — Trang bài học]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/hard_notes|Hard Notes]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-announcements|/admin/announcements — Quản lý thông báo]], [[web/page/admin/admin-overview|/admin — Admin Overview]], [[web/page/instructor/overview|/instructor — Instructor Overview]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/learn-lesson|/learn/[course]/[lesson] — Trang bài học]], [[web/page_function_matrix|Page Function Matrix — Blueprint]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

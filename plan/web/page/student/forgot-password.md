@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 **Covered routes:** `/forgot-password`, `/reset-password`
 
@@ -47,11 +48,11 @@ User quên mật khẩu
 ### Layout
 
 ```text
-Logo CORTEX
+Logo Blueprint
 
 Đặt lại mật khẩu
 
-Nhập email đã đăng ký, CORTEX sẽ gửi link đặt lại mật khẩu.
+Nhập email đã đăng ký, Blueprint sẽ gửi link đặt lại mật khẩu.
 
 [Email]
 
@@ -105,7 +106,7 @@ Không thể gửi email đặt lại mật khẩu. Vui lòng thử lại sau.
 ### Layout
 
 ```text
-Logo CORTEX
+Logo Blueprint
 
 Tạo mật khẩu mới
 
@@ -173,7 +174,7 @@ Bạn có thể đăng nhập bằng mật khẩu mới.
 ### Subject
 
 ```
-[CORTEX] Đặt lại mật khẩu của bạn
+[Blueprint] Đặt lại mật khẩu của bạn
 ```
 
 ### Body
@@ -181,7 +182,7 @@ Bạn có thể đăng nhập bằng mật khẩu mới.
 ```
 Xin chào {{full_name}},
 
-Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản CORTEX.
+Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản Blueprint.
 
 Bấm vào link bên dưới để tạo mật khẩu mới:
 {{reset_link}}
@@ -191,7 +192,7 @@ Link này sẽ hết hạn sau 15 phút.
 Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.
 
 ---
-CORTEX
+Blueprint
 ```
 
 ---
@@ -261,13 +262,13 @@ CORTEX
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
 - **Outgoing Links:** *None*
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]]

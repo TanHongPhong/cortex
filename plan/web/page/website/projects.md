@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Public Website]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -55,7 +55,7 @@ status: "[[MVP]]"
 
 | Thành phần | Yêu cầu                                               |
 | ---------- | ----------------------------------------------------- |
-| Title      | “Dự án học viên tại CORTEX”                           |
+| Title      | “Dự án học viên tại Blueprint”                           |
 | Subtitle   | Nói rõ học viên học qua project thực tế               |
 | CTA chính  | `Xem khóa học`                                        |
 | CTA phụ    | `Đăng ký học thử`                                     |
@@ -64,7 +64,7 @@ status: "[[MVP]]"
 **Gợi ý nội dung:**
 
 ```text
-Không chỉ học lý thuyết. Tại CORTEX, mỗi khóa học đều hướng đến một sản phẩm hoặc project có thể đưa vào portfolio.
+Không chỉ học lý thuyết. Tại Blueprint, mỗi khóa học đều hướng đến một sản phẩm hoặc project có thể đưa vào portfolio.
 ```
 
 ---
@@ -107,7 +107,7 @@ Không chỉ học lý thuyết. Tại CORTEX, mỗi khóa học đều hướng
 | Empty state  | Nếu chưa có project học viên, hiển thị project mẫu của academy |
 
 **Lưu ý quan trọng:**
-Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project by CORTEX**, không nên giả làm project học viên.
+Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project by Blueprint**, không nên giả làm project học viên.
 
 ---
 
@@ -129,7 +129,7 @@ Giai đoạn đầu chưa có học viên thì nên ghi rõ là **Sample Project
 
 # 7. Section 5 — How students build projects
 
-**Mục đích:** giải thích quy trình làm project tại CORTEX.
+**Mục đích:** giải thích quy trình làm project tại Blueprint.
 
 | Bước                   | Nội dung                                |
 | ---------------------- | --------------------------------------- |
@@ -226,7 +226,7 @@ Bảng nên thêm: `projects`
 | Card        | Ảnh lớn, text ngắn, badge rõ            |
 | Hover       | Hover nhẹ, hiện nút xem demo            |
 | Visual      | Dùng screenshot thật/mockup đẹp         |
-| Category    | Dùng tag màu nhẹ, không quá sặc sỡ      |
+| Category    | Dùng badge `--accent` theo [[web/page/website/design|Blueprint Mono / Dark Mono]], không dùng màu sặc sỡ |
 | Empty state | Có mascot + câu hướng dẫn               |
 | Mobile      | Card 1 cột, CTA rõ                      |
 
@@ -236,7 +236,7 @@ Bảng nên thêm: `projects`
 
 | Trường hợp               | Cách xử lý                                  |
 | ------------------------ | ------------------------------------------- |
-| Chưa có project học viên | Hiển thị project mẫu của CORTEX             |
+| Chưa có project học viên | Hiển thị project mẫu của Blueprint             |
 | Project chưa public      | Không hiển thị                              |
 | Không có demo link       | Hiển thị nút `Xem mô tả` thay vì `Xem demo` |
 | Có tên học viên          | Chỉ hiển thị khi học viên cho phép          |
@@ -267,13 +267,13 @@ Trang `/projects` đạt nếu:
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/website
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/website
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
-- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page_function_matrix|Page Function Matrix — CORTEX]], [[web/unified_database_schema|💎 Unified Database Schema - CORTEX Project]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page_function_matrix|Page Function Matrix — Blueprint]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

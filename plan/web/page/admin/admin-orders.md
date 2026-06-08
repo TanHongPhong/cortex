@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Admin Dashboard]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Admin
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/admin/design|Admin Dashboard Design — Warm Operational System]]
 **Build decision:** Build
 
 ## 1. Mục tiêu trang
@@ -28,7 +29,7 @@ Admin dùng trang này để:
 1. Xem danh sách đơn hàng
 2. Theo dõi doanh thu theo trạng thái thanh toán
 3. Kiểm tra học viên đã mua khóa nào
-4. Đối soát giao dịch Momo/VNPay và webhook/callback
+4. Đối soát giao dịch QR Momo/VNPay và webhook
 5. Xử lý pending / paid / refunded
 6. Xuất CSV/Excel phục vụ kế toán, đối soát, khai báo thuế
 ```
@@ -154,7 +155,7 @@ Date range + Status filter + Course filter
 | Status       | pending / paid / failed / refunded    |
 | Paid at      | Ngày thanh toán                       |
 | Created at   | Ngày tạo đơn                          |
-| Actions      | View / Retry payment / Refund / Export |
+| Actions      | View / Copy checkout link / Refund / Export |
 
 ---
 
@@ -207,7 +208,7 @@ cancelled
 | Action              | Chức năng                  |
 | ------------------- | -------------------------- |
 | `View`              | Xem chi tiết đơn           |
-| `Retry payment`     | Tạo giao dịch gateway mới cho order pending/failed |
+| `Copy checkout link` | Copy link checkout/order để gửi lại user tự mở và tạo QR mới |
 | `Mark refunded`     | Đánh dấu hoàn tiền         |
 | `Cancel order`      | Hủy đơn chưa thanh toán    |
 | `Export row`        | Xuất riêng đơn đó          |
@@ -282,7 +283,7 @@ Order Detail
 
 | Field                | Nội dung                         |
 | -------------------- | -------------------------------- |
-| Coupon code snapshot | Mã [[web/page/student/coupon|coupon]] tại thời điểm mua      |
+| Coupon code snapshot | Mã coupon tại thời điểm mua      |
 | Coupon ID            | Coupon hiện tại nếu còn tồn tại  |
 | Referral code ID     | Referral nếu có                  |
 | Discount amount      | Tổng tiền giảm                   |
@@ -296,7 +297,7 @@ Order Detail
 | Final amount    | Số tiền thực thu                |
 | Payment status  | unpaid / paid / refunded / partially_refunded |
 | Payment method  | momo / vnpay                    |
-| Transaction ID  | Mã giao dịch gateway chính      |
+| Transaction ID  | Mã giao dịch provider chính     |
 | Paid at         | Ngày thanh toán                 |
 | Refunded at     | Ngày hoàn tiền                  |
 | Refund reason   | Lý do hoàn tiền                 |
@@ -316,7 +317,7 @@ Status
 Created at
 ```
 
-Không ghi đè transaction cũ khi user thử thanh toán lại hoặc gateway retry. Tạo record mới để audit.
+Không ghi đè transaction cũ khi user tạo QR/thử thanh toán lại hoặc provider webhook retry. Tạo record mới để audit.
 
 ---
 
@@ -362,19 +363,19 @@ Note
 ```text
 Lead hoặc student đăng ký khóa
 → tạo order status = pending
-→ user thanh toán qua Momo/VNPay
-→ gateway callback/webhook hợp lệ xác nhận thanh toán
+→ user quét QR Momo/VNPay và xác nhận trên app provider
+→ provider webhook hợp lệ xác nhận thanh toán
 → order status = paid
 → tạo enrollment status = active
 → học viên được vào học
 ```
 
-## Flow gateway xác nhận thanh toán
+## Flow webhook xác nhận thanh toán QR
 
 ```text
-Gateway gửi callback/webhook
+Provider gửi webhook sau khi user quét QR và thanh toán
 → backend ghi payment_webhook_logs
-→ verify chữ ký/hash + amount + currency + order_id
+→ verify chữ ký/hash + amount + currency + order_id + provider_transaction_id
 → cập nhật payment_transactions success/failed
 → nếu success: order status = paid
 → tạo enrollment idempotently
@@ -406,6 +407,7 @@ Admin mở order
 | Order cancelled          | Không tạo enrollment                            |
 | Student đã có enrollment | Không tạo enrollment trùng                      |
 | Đơn paid rồi             | Không sửa amount tùy tiện                       |
+| Payment confirmation     | Admin không tạo QR thay user, không upload biên lai, không đổi order sang paid |
 | Hoàn tiền                | Phải nhập lý do                                 |
 | Export thuế              | Chỉ nên xuất đơn paid/refunded theo khoảng ngày |
 
@@ -422,10 +424,11 @@ Admin mở order
 | Status filter     | Lọc pending / paid / refunded / cancelled        |
 | Course filter     | Lọc theo khóa học                                |
 | Order detail      | Xem đầy đủ thông tin đơn                         |
-| Gateway transactions | Xem transaction/callback/webhook của Momo/VNPay |
+| QR transactions | Xem QR transaction/webhook của Momo/VNPay |
 | Refund            | Đánh dấu refunded, nhập lý do, credit vào account balance |
 | Export            | Xuất CSV/Excel theo filter                       |
 | Safety            | Không tạo enrollment trùng                       |
+| Paid source       | Chỉ webhook QR hợp lệ được đổi order sang paid; admin không có action paid thủ công |
 | Responsive        | Ưu tiên desktop, mobile xem được                 |
 
 ---
@@ -436,13 +439,13 @@ Admin mở order
 | ------------- | ----------------------------------- |
 | `orders`      | Đơn hàng                            |
 | `payment_transactions` | Từng lần thanh toán/thử thanh toán |
-| `payment_webhook_logs` | Debug webhook nếu có gateway |
+| `payment_webhook_logs` | Debug provider webhook |
 | `users`       | Học viên                            |
 | `courses`     | Khóa học                            |
 | `enrollments` | Quyền học sau khi thanh toán        |
 | `leads`       | Nếu order tạo từ lead               |
 | `coupons`     | Mã giảm giá                         |
-| `coupon_redemptions` | Lịch sử dùng [[web/page/student/coupon|coupon]], reserved_expires_at |
+| `coupon_redemptions` | Lịch sử dùng coupon, reserved_expires_at |
 | `referral_codes` | Mã giới thiệu                    |
 | `invoices` | Biên nhận/hóa đơn, invoice_version/replaced_invoice_id |
 | `account_balance_transactions` | Ledger refund_credit/reset số dư |
@@ -466,7 +469,7 @@ Admin mở order
 | `status`                | pending / paid / failed / refunded / cancelled |
 | `payment_status`        | unpaid / paid / refunded / partially_refunded  |
 | `payment_method`        | momo / vnpay                                   |
-| `transaction_id`        | Mã giao dịch gateway chính                     |
+| `transaction_id`        | Mã giao dịch provider chính                    |
 | `billing_name`          | Tên billing                                    |
 | `billing_email`         | Email billing                                  |
 | `billing_phone`         | Phone billing                                  |
@@ -477,7 +480,7 @@ Admin mở order
 | `course_title_snapshot` | Tên khóa lúc mua                               |
 | `course_price_snapshot` | Giá khóa lúc mua                               |
 | `coupon_id`             | Coupon nếu có                                  |
-| `coupon_code_snapshot`  | Mã [[web/page/student/coupon|coupon]] lúc mua                              |
+| `coupon_code_snapshot`  | Mã coupon lúc mua                              |
 | `referral_code_id`      | Referral nếu có                                |
 | `paid_at`               | Ngày thanh toán                                |
 | `refunded_at`           | Ngày hoàn tiền                                 |
@@ -500,6 +503,8 @@ MVP nên dùng bảng này để không mất lịch sử các lần thử thanh
 | `provider`                | momo / vnpay                           |
 | `provider_transaction_id` | Mã giao dịch từ provider              |
 | `idempotency_key`         | Key chống duplicate khi retry/webhook |
+| `qr_payload`              | Payload/URL render QR thanh toán       |
+| `qr_expires_at`           | Thời điểm QR hết hạn                   |
 | `amount`                  | Số tiền thanh toán                    |
 | `currency`                | VND                                   |
 | `status`                  | pending / success / failed / refunded |
@@ -524,12 +529,12 @@ User checkout hoặc hệ thống tạo order
 → snapshot course_title_snapshot + course_price_snapshot
 ```
 
-## Gateway paid callback/webhook
+## QR paid webhook
 
 ```text
-Gateway gửi callback/webhook Momo/VNPay
+Provider gửi webhook Momo/VNPay sau khi user quét QR
 → ghi payment_webhook_logs
-→ verify chữ ký/hash, amount, currency, order_id
+→ verify chữ ký/hash, amount, currency, order_id, provider_transaction_id
 → match payment_transactions pending bằng provider_transaction_id/idempotency_key
 → set payment_transactions.status = success
 → order.status = paid
@@ -576,7 +581,7 @@ Admin chọn date range/status/course
 | `OrderStatusFilter` | Lọc theo trạng thái                     |
 | `OrderTable`        | Danh sách đơn                           |
 | `OrderDetailDrawer` | Chi tiết đơn                            |
-| `PaymentGatewayDrawer` | Xem callback/webhook và transaction gateway |
+| `PaymentProviderDrawer` | Xem QR transaction và provider webhook |
 | `RefundModal`       | Hoàn tiền                               |
 | `ExportButton`      | Xuất CSV/Excel                          |
 | `StatusBadge`       | pending / paid / refunded / cancelled   |
@@ -605,21 +610,6 @@ Thử thay đổi khoảng ngày, trạng thái hoặc khóa học.
 
 ---
 
-# 19. UI style đề xuất
-
-| Phần          | Gợi ý                                                       |
-| ------------- | ----------------------------------------------------------- |
-| Tổng thể      | Admin finance table, rõ và thực dụng                        |
-| KPI cards     | Số tiền lớn, dễ đọc                                         |
-| Revenue       | Format VND rõ ràng                                          |
-| Table         | Ưu tiên paid_at, final_amount, status                       |
-| Status badge  | Pending vàng, paid xanh, refunded tím/xám, cancelled đỏ nhẹ |
-| Export button | Đặt rõ ở header hoặc cạnh filter                            |
-| Desktop       | Ưu tiên bảng rộng                                           |
-| Mobile        | Có thể xem card list, export ưu tiên desktop                |
-
----
-
 # 20. Acceptance Criteria
 
 Trang `/admin/orders` đạt nếu:
@@ -631,8 +621,9 @@ Trang `/admin/orders` đạt nếu:
 | Admin xem được danh sách đơn hàng               |             |
 | Admin lọc đơn theo ngày/status/course           |             |
 | Admin mở được chi tiết đơn                      |             |
-| Gateway callback/webhook hợp lệ mark paid được  |             |
-| Paid từ gateway tạo enrollment nếu chưa có      |             |
+| Webhook QR hợp lệ mark paid được               |             |
+| Admin không có action đổi order sang paid thủ công |             |
+| Paid từ QR webhook tạo enrollment nếu chưa có   |             |
 | Không tạo enrollment trùng                      |             |
 | Admin mark refunded được và bắt buộc nhập lý do |             |
 | Refund tạo `account_balance_transactions` và cộng đúng `users.account_balance` |             |
@@ -662,8 +653,8 @@ Trang `/admin/orders` đạt nếu:
 5. Status/course filter
 6. Order table
 7. Order detail drawer
-8. Gateway transaction/webhook detail
-9. Auto create enrollment after gateway paid
+8. QR transaction/webhook detail
+9. Auto create enrollment after QR webhook paid
 10. Mark refunded
 11. Export CSV/Excel
 12. Empty/loading/error state
@@ -676,13 +667,13 @@ Nói ngắn gọn: **`/admin/orders` là trang quản lý tiền và xuất dữ
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/admin
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/admin
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/admin/admin|Admin Dashboard]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]]
+- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]]
 - **Incoming Links (Backlinks):** *None*

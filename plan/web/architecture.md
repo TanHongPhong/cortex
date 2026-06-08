@@ -1,18 +1,18 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
 type: ["[[Technical Specification]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[Single Source of Truth for Technical Architecture]]"
 ---
 
-# Architecture — Kiến trúc kỹ thuật CORTEX
+# Architecture — Kiến trúc kỹ thuật Blueprint
 
 **Version:** 1.0
 **Last Updated:** 2026-06-01
@@ -34,7 +34,7 @@ status: "[[Single Source of Truth for Technical Architecture]]"
 | File Storage | Cloudflare R2 / S3-compatible | Scalable, cost-effective |
 | Video Hosting | Cloudflare Stream / Bunny Stream | Secure streaming, token-based access |
 | Email | Resend / Nodemailer | Transactional email |
-| Payment | Momo/VNPay online payment (MVP) | Automatic payment redirect, callback/webhook, transaction idempotency |
+| Payment | Momo/VNPay QR payment (MVP) | QR payment session, webhook confirmation, transaction idempotency |
 | Hosting | Vercel (frontend) + Railway/Supabase (DB) | Easy deployment, auto-scaling |
 | CDN | Cloudflare | Global edge caching |
 | Monitoring | Vercel Analytics + Sentry | Performance + error tracking |
@@ -44,97 +44,97 @@ status: "[[Single Source of Truth for Technical Architecture]]"
 ## 2. Project Structure
 
 ```
-cortex/
+blueprint/
 ├── app/                          # Next.js App Router
 │   ├── (public)/                 # Public routes (no auth required)
-│   │   ├── [[web/page|page]].tsx              # Home [[web/page|page]]
+│   │   ├── page.tsx              # Home page
 │   │   ├── courses/
-│   │   │   ├── [[web/page|page]].tsx          # Course list
+│   │   │   ├── page.tsx          # Course list
 │   │   │   └── [slug]/page.tsx   # Course detail
-│   │   ├── [[web/page/website/projects|projects]]/page.tsx
-│   │   ├── [[web/page/website/certificate|certificate]]/page.tsx
-│   │   ├── [[web/page/website/verify-certificate|verify-certificate]]/page.tsx
-│   │   ├── [[web/page/website/blog|blog]]/
-│   │   │   ├── [[web/page|page]].tsx          # Resources hub
+│   │   ├── projects/page.tsx
+│   │   ├── certificate/page.tsx
+│   │   ├── verify-certificate/page.tsx
+│   │   ├── blog/
+│   │   │   ├── page.tsx          # Resources hub
 │   │   │   └── [slug]/page.tsx   # Resource detail
-│   │   ├── [[web/page/website/contact|contact]]/page.tsx
-│   │   ├── [[web/page/website/privacy|privacy]]/page.tsx
-│   │   ├── [[web/page/website/terms|terms]]/page.tsx
-│   │   └── [[web/page/website/refund-policy|refund-policy]]/page.tsx
+│   │   ├── contact/page.tsx
+│   │   ├── privacy/page.tsx
+│   │   ├── terms/page.tsx
+│   │   └── refund-policy/page.tsx
 │   │
 │   ├── (auth)/                   # Auth routes
-│   │   ├── [[web/page/student/login|login]]/page.tsx
-│   │   ├── [[web/page/student/register|register]]/page.tsx
-│   │   ├── [[web/page/student/forgot-password|forgot-password]]/page.tsx
+│   │   ├── login/page.tsx
+│   │   ├── register/page.tsx
+│   │   ├── forgot-password/page.tsx
 │   │   └── reset-password/page.tsx
 │   │
 │   ├── (student)/                # Student portal (auth required, role=student)
 │   │   ├── layout.tsx            # Student layout with sidebar
-│   │   ├── [[web/page/student/dashboard|dashboard]]/page.tsx
-│   │   ├── [[web/page/student/notifications|notifications]]/page.tsx
-│   │   ├── [[web/page/student/my-courses|my-courses]]/page.tsx
+│   │   ├── dashboard/page.tsx
+│   │   ├── notifications/page.tsx
+│   │   ├── my-courses/page.tsx
 │   │   ├── learn/
 │   │   │   ├── [course]/page.tsx
 │   │   │   └── [course]/[lesson]/page.tsx
-│   │   ├── [[web/page/student/my-certificates|my-certificates]]/page.tsx
-│   │   ├── [[web/page/student/my-orders|my-orders]]/
-│   │   │   ├── [[web/page|page]].tsx
+│   │   ├── my-certificates/page.tsx
+│   │   ├── my-orders/
+│   │   │   ├── page.tsx
 │   │   │   └── [id]/page.tsx
-│   │   ├── [[web/page/student/profile|profile]]/page.tsx
-│   │   ├── [[web/page/student/checkout|checkout]]/
+│   │   ├── profile/page.tsx
+│   │
+│   ├── (checkout)/               # Standalone checkout flow (auth required, no student sidebar)
+│   │   ├── checkout/
 │   │   │   ├── [courseSlug]/page.tsx
 │   │   │   ├── success/page.tsx
 │   │   │   └── failed/page.tsx
-│   │   └── [[web/page/student/referral|referral]]/page.tsx
 │   │
 │   ├── (instructor)/             # Instructor workspace (auth required, role=instructor)
 │   │   ├── layout.tsx            # Instructor layout
-│   │   ├── [[web/page|page]].tsx              # Overview
+│   │   ├── page.tsx              # Overview
 │   │   ├── courses/page.tsx
-│   │   ├── [[web/page/instructor/submissions|submissions]]/page.tsx
-│   │   └── [[web/page/instructor/questions|questions]]/page.tsx
+│   │   └── submissions/page.tsx
 │   │
-│   ├── ([[web/page/admin/admin|admin]])/                  # Admin dashboard (auth required; role=admin, content routes allow course_editor)
+│   ├── (admin)/                  # Admin dashboard (auth required; content routes also allow assigned instructor edit)
 │   │   ├── layout.tsx            # Admin layout with role-filtered sidebar
-│   │   ├── [[web/page|page]].tsx              # Overview
+│   │   ├── page.tsx              # Overview
 │   │   ├── courses/
-│   │   │   ├── [[web/page|page]].tsx
+│   │   │   ├── page.tsx
 │   │   │   └── [id]/page.tsx
 │   │   ├── lessons/page.tsx
 │   │   ├── students/
-│   │   │   ├── [[web/page|page]].tsx
+│   │   │   ├── page.tsx
 │   │   │   └── [id]/page.tsx
-│   │   ├── [[web/page/instructor/submissions|submissions]]/page.tsx
+│   │   ├── submissions/page.tsx
 │   │   ├── certificates/page.tsx
 │   │   ├── certificate-templates/page.tsx
 │   │   ├── orders/page.tsx
 │   │   ├── coupons/page.tsx
 │   │   ├── payments/page.tsx
 │   │   ├── invoices/page.tsx
-│   │   ├── referrals/page.tsx
-│   │   ├── revenue/page.tsx
 │   │   ├── leads/page.tsx
 │   │   ├── resources/page.tsx
 │   │   ├── announcements/page.tsx
 │   │   ├── reviews/page.tsx
+│   │   ├── system/
+│   │   │   └── users/page.tsx
 │   │   └── audit-logs/page.tsx
 │   │
 │   └── api/                      # API routes
 │       ├── auth/
-│       │   ├── [[web/page/student/login|login]]/route.ts
-│       │   ├── [[web/page/student/register|register]]/route.ts
-│       │   ├── [[web/page/student/forgot-password|forgot-password]]/route.ts
+│       │   ├── login/route.ts
+│       │   ├── register/route.ts
+│       │   ├── forgot-password/route.ts
 │       │   ├── reset-password/route.ts
 │       │   └── me/route.ts
 │       ├── courses/route.ts
 │       ├── lessons/route.ts
 │       ├── enrollments/route.ts
-│       ├── [[web/page/instructor/submissions|submissions]]/route.ts
+│       ├── submissions/route.ts
 │       ├── certificates/route.ts
 │       ├── orders/route.ts
 │       ├── payments/route.ts
 │       ├── leads/route.ts
-│       ├── [[web/page/student/notifications|notifications]]/route.ts
+│       ├── notifications/route.ts
 │       └── webhooks/
 │           └── payment/route.ts
 │
@@ -175,6 +175,11 @@ cortex/
 ├── tsconfig.json
 └── package.json
 ```
+
+Future/P2 routes intentionally not shown in the MVP app tree:
+
+- `/admin/referrals`
+- `/admin/revenue`
 
 ---
 
@@ -261,7 +266,7 @@ GET /admin/orders?status=paid&course_id=xxx&from=2026-01-01&to=2026-12-31
 {
   sub: string,        // user_id
   email: string,
-  role: 'student' | 'instructor' | 'course_editor' | '[[web/page/admin/admin|admin]]',
+  role: 'student' | 'instructor' | '[[web/page/admin/admin|admin]]',
   iat: number,
   exp: number
 }
@@ -279,7 +284,7 @@ GET /admin/orders?status=paid&course_id=xxx&from=2026-01-01&to=2026-12-31
 3. If expired, try refresh token
 4. Attach user to request context
 5. Route protection:
-   - /admin/courses* và /admin/lessons* → require role = course_editor OR [[web/page/admin/admin|admin]]
+   - /admin/courses* và /admin/lessons* → require role = [[web/page/admin/admin|admin]] OR instructor with `course_instructors.can_edit_course_content = true` for the target course
    - /admin/* còn lại → require role = [[web/page/admin/admin|admin]]
    - /instructor/* → require role = instructor OR [[web/page/admin/admin|admin]]
    - (student)/* → require role = student
@@ -362,7 +367,7 @@ const [[web/page/instructor/submissions|submissions]] = await db.submission.find
 | Notification delivery | Various events | Create notification records |
 | Certificate PDF generation | Admin issue [[web/page/website/certificate|certificate]] | Generate PDF, upload to storage |
 | Cleanup expired tokens | Cron (hourly) | Delete used/expired password_reset_tokens |
-| Cleanup expired [[web/page/student/coupon|coupon]] reservations | Cron (hourly) | Cancel reserved redemptions past expiry |
+| Cleanup expired coupon reservations | Cron (hourly) | Cancel reserved redemptions past expiry |
 | Video processing webhook | Provider callback | Update video_assets status |
 
 ---
@@ -395,7 +400,7 @@ CF_STREAM_API_TOKEN=...
 # Email
 EMAIL_PROVIDER=resend
 RESEND_API_KEY=...
-EMAIL_FROM=noreply@cortex.vn
+EMAIL_FROM=noreply@blueprint.vn
 
 # Payment Gateway
 PAYMENT_PROVIDERS=momo,vnpay
@@ -406,12 +411,12 @@ MOMO_ENDPOINT=...
 VNPAY_TMN_CODE=...
 VNPAY_HASH_SECRET=...
 VNPAY_PAYMENT_URL=...
-PAYMENT_RETURN_URL=https://cortex.vn/checkout/success
-PAYMENT_FAILED_URL=https://cortex.vn/checkout/failed
-PAYMENT_WEBHOOK_URL=https://cortex.vn/api/webhooks/payment
+PAYMENT_RETURN_URL=https://blueprint.vn/checkout/success
+PAYMENT_FAILED_URL=https://blueprint.vn/checkout/failed
+PAYMENT_WEBHOOK_URL=https://blueprint.vn/api/webhooks/payment
 
 # App
-NEXT_PUBLIC_APP_URL=https://cortex.vn
+NEXT_PUBLIC_APP_URL=https://blueprint.vn
 NODE_ENV=production
 ```
 
@@ -420,12 +425,12 @@ NODE_ENV=production
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]]
 
 ### Relations
-- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/questions|/instructor/questions — Trả lời Q&A]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/coupon|/coupon — Coupon của tôi / Nhập mã giảm giá]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/forgot-password|/forgot-password — Quên mật khẩu]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[web/page/student/my-courses|/my-courses — Khóa học của tôi]], [[web/page/student/my-orders|/my-orders và /my-orders/:id — Đơn hàng của tôi]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/student/referral|/referral — Mã giới thiệu]], [[web/page/student/register|/register — Đăng ký tài khoản]], [[web/page/website/404|/404 — Trang không tìm thấy]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page/website/refund-policy|/refund-policy — Chính sách refund]], [[web/page/website/terms|/terms — Điều khoản sử dụng]], [[web/page/website/verify-certificate|/verify-certificate — Trang xác thực chứng chỉ]]
+- **Outgoing Links:** [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/forgot-password|/forgot-password — Quên mật khẩu]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[web/page/student/my-courses|/my-courses — Khóa học của tôi]], [[web/page/student/my-orders|/my-orders và /my-orders/:id — Đơn hàng của tôi]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/student/register|/register — Đăng ký tài khoản]], [[web/page/website/404|/404 — Trang không tìm thấy]], [[web/page/website/500|/500 — Trang lỗi server]], [[web/page/website/blog|/blog — Blog / Resources Hub]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page/website/refund-policy|/refund-policy — Chính sách refund]], [[web/page/website/terms|/terms — Điều khoản sử dụng]], [[web/page/website/verify-certificate|/verify-certificate — Trang xác thực chứng chỉ]]
 - **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[analysis/course_vn|1. MindX — AI Agent Engineer]], [[web/hard_notes|Hard Notes]]

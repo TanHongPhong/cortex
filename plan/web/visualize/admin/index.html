@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <!-- Stylized clover/flower logo matching the screenshot logo -->
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar">
+            <i data-lucide="user"></i>
+          </div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & date range picker -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Admin Dashboard</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Overview of Blueprint operational metrics and KPIs.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+          <i data-lucide="calendar"></i>
+          <span>Jun 2 – Jun 8, 2026</span>
+          <i data-lucide="chevron-down" class="chevron"></i>
+        </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW 1 (5 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1">
+        <!-- Card 1: Leads -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="user-plus"></i>
+            </div>
+            <span class="kpi-label">Leads</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">32</span>
+            <span class="kpi-trend trend-up">+12</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Students -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="users"></i>
+            </div>
+            <span class="kpi-label">Students</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,248</span>
+            <span class="kpi-trend trend-up">+8%</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Enrollments -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="graduation-cap"></i>
+            </div>
+            <span class="kpi-label">Enrollments</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">2,842</span>
+            <span class="kpi-trend trend-up">+5%</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Courses -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="book-open"></i>
+            </div>
+            <span class="kpi-label">Courses</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">126</span>
+            <span class="kpi-trend trend-up">+3</span>
+          </div>
+        </div>
+
+        <!-- Card 5: Revenue -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="dollar-sign"></i>
+            </div>
+            <span class="kpi-label">Revenue</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">$128,540</span>
+            <span class="kpi-trend trend-up">+10%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW 2 (7 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-2">
+        <!-- Card 1: Paid Orders -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="shopping-cart"></i>
+            </div>
+            <span class="kpi-label">Paid Orders</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">732</span>
+            <span class="kpi-trend trend-up">+11%</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Pending Orders -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="clock"></i>
+            </div>
+            <span class="kpi-label">Pending Orders</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">41</span>
+            <span class="kpi-trend trend-down">-6%</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Submissions Pending -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="check-square"></i>
+            </div>
+            <span class="kpi-label">Submissions Pending</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">27</span>
+            <span class="kpi-trend trend-up">+4</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Certificates Issued -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="award"></i>
+            </div>
+            <span class="kpi-label">Certificates Issued</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,105</span>
+            <span class="kpi-trend trend-up">+21</span>
+          </div>
+        </div>
+
+
+
+        <!-- Card 6: Pending Reviews -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="star"></i>
+            </div>
+            <span class="kpi-label">Pending Reviews</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">14</span>
+            <span class="kpi-trend trend-up">+2</span>
+          </div>
+        </div>
+
+        <!-- Card 7: Failed Notif. -->
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box">
+              <i data-lucide="bell"></i>
+            </div>
+            <span class="kpi-label">Failed Notif.</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">7</span>
+            <span class="kpi-trend trend-down">-1</span>
+          </div>
+          <div class="kpi-card-dropdown">
+            <i data-lucide="chevron-down"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           TWO COLUMN GRID FOR DETAILED WORKFLOWS
+           ========================================================================== -->
+      <section class="dashboard-grid">
+        
+        <!-- LEFT COLUMN: Tables -->
+        <div class="grid-col-left">
+          
+          <!-- Panel: Pending Submissions -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Pending Submissions</h2>
+                <span class="panel-subtitle">(5 latest)</span>
+              </div>
+              <a href="#" class="panel-header-link">
+                <span>View all submissions</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Lesson</th>
+                    <th>Type</th>
+                    <th>Submitted at</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-nv">NV</div>
+                        <span class="student-name">Nguyễn Văn An</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">React for Beginners</span></td>
+                    <td><span class="lesson-name">Final Project</span></td>
+                    <td><span class="badge badge-indigo">final_project</span></td>
+                    <td style="color: var(--text-secondary);">Jun 2, 2026 09:41</td>
+                    <td><button class="btn-small">Review</button></td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-tt">TT</div>
+                        <span class="student-name">Trần Thị Bình</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">UI/UX Design</span></td>
+                    <td><span class="lesson-name">Assignment 2</span></td>
+                    <td><span class="badge badge-orange">assignment</span></td>
+                    <td style="color: var(--text-secondary);">Jun 2, 2026 09:22</td>
+                    <td><button class="btn-small">Review</button></td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-lm">LM</div>
+                        <span class="student-name">Lê Minh Châu</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">Node.js API</span></td>
+                    <td><span class="lesson-name">Assignment 1</span></td>
+                    <td><span class="badge badge-orange">assignment</span></td>
+                    <td style="color: var(--text-secondary);">Jun 1, 2026 22:15</td>
+                    <td><button class="btn-small">Review</button></td>
+                  </tr>
+                  <!-- Row 4 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-ph">PH</div>
+                        <span class="student-name">Phạm Hoàng Duy</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">Python Data</span></td>
+                    <td><span class="lesson-name">Final Project</span></td>
+                    <td><span class="badge badge-indigo">final_project</span></td>
+                    <td style="color: var(--text-secondary);">Jun 1, 2026 20:31</td>
+                    <td><button class="btn-small">Review</button></td>
+                  </tr>
+                  <!-- Row 5 -->
+                  <tr>
+                    <td>
+                      <div class="col-student">
+                        <div class="avatar avatar-vt">VT</div>
+                        <span class="student-name">Võ Thị Khánh</span>
+                      </div>
+                    </td>
+                    <td><span class="course-title">Digital Marketing</span></td>
+                    <td><span class="lesson-name">Assignment 3</span></td>
+                    <td><span class="badge badge-orange">assignment</span></td>
+                    <td style="color: var(--text-secondary);">Jun 1, 2026 18:05</td>
+                    <td><button class="btn-small">Review</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+          <!-- Panel: Certificate Activity -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Certificate Activity</h2>
+                <span class="panel-subtitle">(5 latest)</span>
+              </div>
+              <a href="#" class="panel-header-link">
+                <span>View all certificates</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+            
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Certificate ID</th>
+                    <th>Status</th>
+                    <th>Issued at</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Row 1 -->
+                  <tr>
+                    <td><span class="student-name">Nguyễn Văn An</span></td>
+                    <td><span class="course-title">React for Beginners</span></td>
+                    <td><span class="cert-id">CERT-2026-1105</span></td>
+                    <td><span class="badge badge-green">valid</span></td>
+                    <td style="color: var(--text-secondary);">Jun 2, 2026 09:15</td>
+                    <td><button class="btn-small">View</button></td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr>
+                    <td><span class="student-name">Trần Thị Bình</span></td>
+                    <td><span class="course-title">UI/UX Design</span></td>
+                    <td><span class="cert-id">CERT-2026-1104</span></td>
+                    <td><span class="badge badge-green">valid</span></td>
+                    <td style="color: var(--text-secondary);">Jun 2, 2026 08:50</td>
+                    <td><button class="btn-small">View</button></td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr>
+                    <td><span class="student-name">Lê Minh Châu</span></td>
+                    <td><span class="course-title">Node.js API</span></td>
+                    <td><span class="cert-id">CERT-2026-1103</span></td>
+                    <td><span class="badge badge-green">valid</span></td>
+                    <td style="color: var(--text-secondary);">Jun 1, 2026 21:03</td>
+                    <td><button class="btn-small">View</button></td>
+                  </tr>
+                  <!-- Row 4 -->
+                  <tr>
+                    <td><span class="student-name">Phạm Hoàng Duy</span></td>
+                    <td><span class="course-title">Python Data</span></td>
+                    <td><span class="cert-id">CERT-2026-1102</span></td>
+                    <td><span class="badge badge-green">valid</span></td>
+                    <td style="color: var(--text-secondary);">Jun 1, 2026 19:12</td>
+                    <td><button class="btn-small">View</button></td>
+                  </tr>
+                  <!-- Row 5 -->
+                  <tr>
+                    <td><span class="student-name">Võ Thị Khánh</span></td>
+                    <td><span class="course-title">Digital Marketing</span></td>
+                    <td><span class="cert-id">CERT-2026-1101</span></td>
+                    <td><span class="badge badge-green">valid</span></td>
+                    <td style="color: var(--text-secondary);">Jun 1, 2026 17:45</td>
+                    <td><button class="btn-small">View</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: Alerts & Tasks -->
+        <div class="grid-col-right">
+          
+          <!-- Panel: Commerce Alerts -->
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Commerce Alerts</h2>
+              <a href="#" class="panel-header-link">
+                <span>View all alerts</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+            
+            <div class="alert-list">
+              <!-- Item 1: Pending orders -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon orange">
+                    <i data-lucide="clock"></i>
+                  </div>
+                  <span class="alert-title">Pending orders</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count">41</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2: QR payment pending -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <!-- Standard QR scanner icon simulation -->
+                    <i data-lucide="qr-code"></i>
+                  </div>
+                  <span class="alert-title">QR payment pending</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count">18</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3: Failed payments -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <i data-lucide="alert-triangle"></i>
+                  </div>
+                  <span class="alert-title">Failed payments</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count">7</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4: Invoice requested -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <i data-lucide="file-text"></i>
+                  </div>
+                  <span class="alert-title">Invoice requested</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count">12</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Needs Attention -->
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Needs Attention</h2>
+              <a href="#" class="panel-header-link">
+                <span>View all tasks</span>
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+            
+            <div class="alert-list">
+              <!-- Item 1: Students eligible for certificate -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <i data-lucide="award"></i>
+                  </div>
+                  <span class="alert-title">Students eligible for certificate</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count-neutral">15</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2: Overdue submissions -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <i data-lucide="clock"></i>
+                  </div>
+                  <span class="alert-title">Overdue submissions</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count-neutral">9</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3: Courses without thumbnail -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <i data-lucide="image"></i>
+                  </div>
+                  <span class="alert-title">Courses without thumbnail</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count-neutral">6</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 4: Draft courses -->
+              <div class="alert-item">
+                <div class="alert-left">
+                  <div class="alert-icon gray">
+                    <i data-lucide="file-text"></i>
+                  </div>
+                  <span class="alert-title">Draft courses</span>
+                </div>
+                <div class="alert-right">
+                  <span class="alert-count-neutral">4</span>
+                  <div class="alert-chevron">
+                    <i data-lucide="chevron-right"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons script -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theo dõi giao dịch thanh toán - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .provider-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    .provider-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .provider-vnpay { background-color: #005baa; }
+    .provider-momo { background-color: #a50064; }
+    .provider-bank { background-color: #16a34a; }
+    
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .timeline-item {
+      display: flex;
+      gap: 10px;
+      font-size: 11.5px;
+      position: relative;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 14px;
+      bottom: -16px;
+      width: 1px;
+      background-color: var(--border-passive);
+    }
+    .timeline-item:last-child::before {
+      display: none;
+    }
+    .timeline-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background-color: var(--bg-card);
+      border: 2px solid var(--border-passive);
+      z-index: 1;
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+    .timeline-dot.green { border-color: var(--color-green); background-color: var(--color-green); }
+    .timeline-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .timeline-title { font-weight: 600; color: var(--text-primary); }
+    .timeline-time { font-size: 10px; color: var(--text-secondary); }
+    .timeline-desc { color: var(--text-secondary); font-family: var(--font-mono); font-size: 11px; }
+
+    .json-box {
+      background-color: #fcfcfb;
+      border: 1px dashed var(--border-passive);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      max-height: 150px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    
+    .btn-group-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .btn-group-row button {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link active" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Theo dõi giao dịch thanh toán</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Theo dõi các giao dịch QR, đối soát webhook và trạng thái thanh toán.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (6 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-2 kpi-row-cols-6" style="margin-bottom: 20px;">
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="receipt"></i></div>
+            <span class="kpi-label">Total Transactions</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">1,248</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+12%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">so với kỳ trước</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box" style="color: var(--color-green);"><i data-lucide="shield-check"></i></div>
+            <span class="kpi-label">Successful</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">932</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+10%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Tỷ lệ thành công 74.7%</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box" style="color: var(--color-red);"><i data-lucide="x-circle"></i></div>
+            <span class="kpi-label">Failed</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">186</span>
+            <span class="kpi-trend trend-down"><i data-lucide="arrow-down-right"></i>-6%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Tỷ lệ thất bại 14.9%</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box" style="color: var(--color-orange);"><i data-lucide="clock"></i></div>
+            <span class="kpi-label">Pending</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">120</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+8%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Đang chờ 9.6%</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box" style="color: var(--color-indigo);"><i data-lucide="banknote"></i></div>
+            <span class="kpi-label">Total Amount</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">$128,540</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+9%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Số tiền giao dịch</span>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <div class="kpi-icon-box"><i data-lucide="bar-chart-3"></i></div>
+            <span class="kpi-label">Average Amount</span>
+          </div>
+          <div class="kpi-value-container">
+            <span class="kpi-value">$103.12</span>
+            <span class="kpi-trend trend-up"><i data-lucide="arrow-up-right"></i>+4%</span>
+          </div>
+          <span style="font-size: 9px; color: var(--text-secondary); margin-top: 4px;">Trung bình giao dịch</span>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="payment-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Filters & Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel" style="padding: 14px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1;">
+                <select class="form-control form-select" id="filter-provider" style="padding: 4px 8px;">
+                  <option value="">Tất cả provider</option>
+                  <option value="vnpay">VNPay</option>
+                  <option value="momo">MoMo</option>
+                  <option value="bank">Bank Transfer</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 140px; flex: 1;">
+                <select class="form-control form-select" id="filter-status" style="padding: 4px 8px;">
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="success">Success</option>
+                  <option value="pending">Pending</option>
+                  <option value="failed">Failed</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 120px; flex: 1;">
+                <input type="date" class="form-control" id="filter-from-date" value="2026-05-02" style="padding: 4px 8px;">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 120px; flex: 1;">
+                <input type="date" class="form-control" id="filter-to-date" value="2026-06-02" style="padding: 4px 8px;">
+              </div>
+
+              <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Danh sách giao dịch</h2>
+                <span class="panel-subtitle" id="transaction-count-label">1,248 giao dịch</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="payments-table">
+                <thead>
+                  <tr>
+                    <th>Order code</th>
+                    <th>Provider</th>
+                    <th class="col-secondary">Provider transaction ID</th>
+                    <th class="col-secondary">Provider event ID</th>
+                    <th>Amount</th>
+                    <th class="col-secondary">Currency</th>
+                    <th>Status</th>
+                    <th class="col-secondary">Created at</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginator -->
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 - 6 trong 6 giao dịch</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>10 / trang</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Detail Drawer -->
+        <div class="grid-col-right">
+          <div class="panel" style="position: sticky; top: 16px;">
+            <div class="student-profile-header" style="padding-bottom: 10px;">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span class="student-profile-name" style="font-size: 15px;">Transaction Detail</span>
+                <span class="cert-id" id="drawer-event-id-title">VNPAY_20260521_00123</span>
+              </div>
+              <button class="btn-icon-only" id="close-drawer-btn" style="position: absolute; right: 0; top: 0;" title="Đóng panel"><i data-lucide="x"></i></button>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between;">
+              <span class="badge badge-green" id="drawer-status-badge">Success</span>
+              <span style="font-size: 11px; color: var(--text-secondary);" id="drawer-status-text">Thanh toán thành công</span>
+            </div>
+
+            <!-- Order info -->
+            <div class="detail-section-title">
+              <span>Thông tin đơn hàng</span>
+              <i data-lucide="shopping-bag" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Mã đơn hàng</span>
+                <span class="detail-value cert-id" id="drawer-order-code">MAY-ORD-2026-0001</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Khóa học</span>
+                <span class="detail-value" id="drawer-course-name" style="max-width: 180px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">AI Agent & Vibe Coding</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Số tiền</span>
+                <span class="detail-value" id="drawer-order-amount">2.690.000đ</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Trạng thái đơn</span>
+                <span class="badge badge-green" id="drawer-order-status">Paid</span>
+              </div>
+              <a class="btn-secondary" href="orders.html" id="drawer-view-order-link" style="margin-top: 6px; font-size: 11px; padding: 4px 8px; justify-content: center;">
+                <span>Xem chi tiết đơn hàng</span>
+                <i data-lucide="arrow-right" style="width: 12px; height: 12px;"></i>
+              </a>
+            </div>
+
+            <!-- Customer Info -->
+            <div class="detail-section-title">
+              <span>Thông tin khách hàng</span>
+              <i data-lucide="user" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Họ và tên</span>
+                <span class="detail-value" id="drawer-customer-name" style="font-weight: 600;">Phạm Hoàng Duy</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Email</span>
+                <span class="detail-value" id="drawer-customer-email">duy.pham@email.com</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Số điện thoại</span>
+                <span class="detail-value" id="drawer-customer-phone">0912 345 678</span>
+              </div>
+            </div>
+
+            <!-- Transaction Info -->
+            <div class="detail-section-title">
+              <span>Thông tin giao dịch</span>
+              <i data-lucide="receipt" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="detail-list">
+              <div class="detail-item">
+                <span class="detail-label">Provider</span>
+                <span class="detail-value" id="drawer-provider">VNPay</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Transaction ID</span>
+                <span class="detail-value cert-id" style="display: inline-flex; align-items: center; gap: 4px;">
+                  <span id="drawer-transaction-id">241234124124123</span>
+                  <button class="copy-btn" id="copy-tx-id-btn" title="Copy"><i data-lucide="copy"></i></button>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Event ID</span>
+                <span class="detail-value cert-id" style="display: inline-flex; align-items: center; gap: 4px;">
+                  <span id="drawer-event-id">VNPAY_20260521_00123</span>
+                  <button class="copy-btn" id="copy-event-id-btn" title="Copy"><i data-lucide="copy"></i></button>
+                </span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Idempotency Key</span>
+                <span class="detail-value cert-id" id="drawer-idempotency" style="font-size: 10.5px;">ord_may-ord-2026-0001_vnpay</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Thời gian nhận</span>
+                <span class="detail-value" id="drawer-created-at">21/05/2026 14:32:18</span>
+              </div>
+            </div>
+
+            <!-- Webhook timeline -->
+            <div class="detail-section-title">
+              <span>Lịch sử đối soát Webhook</span>
+              <i data-lucide="clock" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot green"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title">Processed</span>
+                  <span class="timeline-time" id="timeline-process-time">21/05/2026 14:32:24</span>
+                  <span class="timeline-desc">HTTP 200 • Signature valid • Amount matched</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                  <span class="timeline-title">Received</span>
+                  <span class="timeline-time" id="timeline-receive-time">21/05/2026 14:32:18</span>
+                  <span class="timeline-desc">Event: payment.success</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Raw JSON -->
+            <div class="detail-section-title">
+              <span>Raw payload JSON</span>
+              <i data-lucide="braces" style="width: 13px; height: 13px;"></i>
+            </div>
+            <div class="json-box" id="drawer-raw-json">
+              <!-- Filled dynamically -->
+            </div>
+
+            <div class="btn-group-row">
+              <button class="btn-secondary" id="drawer-copy-payload-btn" style="font-size: 11.5px; padding: 6px 12px; display: inline-flex; align-items: center; gap: 4px; justify-content: center;">
+                <i data-lucide="copy" style="width: 13px; height: 13px;"></i>
+                <span>Copy Payload</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Data
+      const paymentsData = [
+        {
+          orderCode: "MAY-ORD-2026-0001",
+          provider: "vnpay",
+          providerName: "VNPay",
+          txId: "241234124124123",
+          eventId: "VNPAY_20260521_00123",
+          amount: "2.690.000đ",
+          currency: "VND",
+          status: "success",
+          statusText: "Thanh toán thành công",
+          createdAt: "21/05/2026 14:32",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          idempotency: "ord_may-ord-2026-0001_vnpay",
+          rawJson: '{\n  "provider": "vnpay",\n  "transaction_id": "241234124124123",\n  "amount": 2690000,\n  "status": "success",\n  "event_id": "VNPAY_20260521_00123",\n  "verified_at": "2026-05-21T14:32:00Z"\n}'
+        },
+        {
+          orderCode: "MAY-ORD-2026-0003",
+          provider: "vnpay",
+          providerName: "VNPay",
+          txId: "2412341241234124",
+          eventId: "VNPAY_20260521_00234",
+          amount: "1.990.000đ",
+          currency: "VND",
+          status: "pending",
+          statusText: "Đang chờ thanh toán",
+          createdAt: "21/05/2026 09:45",
+          course: "Starter Mini Course",
+          idempotency: "ord_may-ord-2026-0003_vnpay",
+          rawJson: '{\n  "provider": "vnpay",\n  "transaction_id": "2412341241234124",\n  "amount": 1990000,\n  "status": "pending",\n  "event_id": "VNPAY_20260521_00234"\n}'
+        },
+        {
+          orderCode: "MAY-ORD-2026-0005",
+          provider: "momo",
+          providerName: "MoMo",
+          txId: "51048289028",
+          eventId: "MOMO_20260518_00321",
+          amount: "990.000đ",
+          currency: "VND",
+          status: "failed",
+          statusText: "Giao dịch thất bại (Hủy)",
+          createdAt: "18/05/2026 16:30",
+          course: "Python for Data Analysis",
+          idempotency: "ord_may-ord-2026-0005_momo",
+          rawJson: '{\n  "provider": "momo",\n  "transaction_id": "51048289028",\n  "amount": 990000,\n  "status": "failed",\n  "error_code": 49,\n  "message": "User canceled transaction"\n}'
+        },
+        {
+          orderCode: "MAY-ORD-2026-0007",
+          provider: "bank",
+          providerName: "Bank Transfer",
+          txId: "FT2605170092",
+          eventId: "BANK_20260517_00098",
+          amount: "5.990.000đ",
+          currency: "VND",
+          status: "success",
+          statusText: "Chuyển khoản thành công",
+          createdAt: "17/05/2026 10:15",
+          course: "Advanced Automation",
+          idempotency: "ord_may-ord-2026-0007_bank",
+          rawJson: '{\n  "provider": "bank",\n  "transaction_id": "FT2605170092",\n  "amount": 5990000,\n  "status": "success",\n  "bank_code": "VCB"\n}'
+        },
+        {
+          orderCode: "MAY-ORD-2026-0008",
+          provider: "vnpay",
+          providerName: "VNPay",
+          txId: "2412341241234129",
+          eventId: "VNPAY_20260516_00456",
+          amount: "2.690.000đ",
+          currency: "VND",
+          status: "success",
+          statusText: "Thanh toán thành công",
+          createdAt: "16/05/2026 18:22",
+          course: "AI Agent & Vibe Coding Bootcamp",
+          idempotency: "ord_may-ord-2026-0008_vnpay",
+          rawJson: '{\n  "provider": "vnpay",\n  "transaction_id": "2412341241234129",\n  "amount": 2690000,\n  "status": "success"\n}'
+        },
+        {
+          orderCode: "MAY-ORD-2026-0010",
+          provider: "momo",
+          providerName: "MoMo",
+          txId: "51048289110",
+          eventId: "MOMO_20260515_00998",
+          amount: "12.000.000đ",
+          currency: "VND",
+          status: "pending",
+          statusText: "Chờ xác nhận giao dịch",
+          createdAt: "15/05/2026 21:05",
+          course: "Premium Mentoring",
+          idempotency: "ord_may-ord-2026-0010_momo",
+          rawJson: '{\n  "provider": "momo",\n  "transaction_id": "51048289110",\n  "amount": 12000000,\n  "status": "pending"\n}'
+        }
+      ];
+
+      let activeIndex = -1;
+
+      // Select DOM
+      const tableBody = document.querySelector('#payments-table tbody');
+      const gridContainer = document.getElementById('payment-grid');
+      const providerFilter = document.getElementById('filter-provider');
+      const statusFilter = document.getElementById('filter-status');
+      const fromDateFilter = document.getElementById('filter-from-date');
+      const toDateFilter = document.getElementById('filter-to-date');
+      const resetBtn = document.getElementById('filter-reset-btn');
+      
+      const drawerEventIdTitle = document.getElementById('drawer-event-id-title');
+      const drawerStatusBadge = document.getElementById('drawer-status-badge');
+      const drawerStatusText = document.getElementById('drawer-status-text');
+      const drawerOrderCode = document.getElementById('drawer-order-code');
+      const drawerCourseName = document.getElementById('drawer-course-name');
+      const drawerOrderAmount = document.getElementById('drawer-order-amount');
+      const drawerCustomerName = document.getElementById('drawer-customer-name');
+      const drawerCustomerEmail = document.getElementById('drawer-customer-email');
+      const drawerCustomerPhone = document.getElementById('drawer-customer-phone');
+      const drawerProvider = document.getElementById('drawer-provider');
+      const drawerTxId = document.getElementById('drawer-transaction-id');
+      const drawerEventId = document.getElementById('drawer-event-id');
+      const drawerIdempotency = document.getElementById('drawer-idempotency');
+      const drawerCreatedAt = document.getElementById('drawer-created-at');
+      const drawerRawJson = document.getElementById('drawer-raw-json');
+      
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+
+      // Populate Table
+      function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="9" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px;"></i>
+                  <span>Không tìm thấy giao dịch nào khớp với bộ lọc</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('transaction-count-label').innerText = '0 giao dịch';
+          document.getElementById('pagination-label').innerText = 'Hiển thị 0 - 0 trong 0 giao dịch';
+          return;
+        }
+
+        data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          if (activeIndex === index) {
+            row.classList.add('highlight-row');
+          }
+
+          let providerHtml = '';
+          if (item.provider === 'vnpay') {
+            providerHtml = `<div class="provider-cell"><span class="provider-icon provider-vnpay">V</span><span>VNPay</span></div>`;
+          } else if (item.provider === 'momo') {
+            providerHtml = `<div class="provider-cell"><span class="provider-icon provider-momo">M</span><span>MoMo</span></div>`;
+          } else {
+            providerHtml = `<div class="provider-cell"><span class="provider-icon provider-bank">B</span><span>Bank</span></div>`;
+          }
+
+          let statusClass = 'badge-gray';
+          if (item.status === 'success') statusClass = 'badge-green';
+          else if (item.status === 'pending') statusClass = 'badge-orange';
+          else if (item.status === 'failed') statusClass = 'badge-red';
+
+          row.innerHTML = `
+            <td class="cert-id" style="font-weight:600;">${item.orderCode}</td>
+            <td>${providerHtml}</td>
+            <td class="col-secondary cert-id">${item.txId}</td>
+            <td class="col-secondary cert-id">${item.eventId}</td>
+            <td style="font-weight:600;">${item.amount}</td>
+            <td class="col-secondary">${item.currency}</td>
+            <td><span class="badge ${statusClass}">${item.status.toUpperCase()}</span></td>
+            <td class="col-secondary" style="color: var(--text-secondary);">${item.createdAt}</td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-icon-only view-details-btn" title="Xem chi tiết"><i data-lucide="eye"></i></button>
+                <button class="btn-icon-only" title="Hành động khác"><i data-lucide="more-vertical"></i></button>
+              </div>
+            </td>
+          `;
+
+          // Row click to open drawer
+          row.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return; // ignore click on actions
+            openDrawer(item, index);
+          });
+
+          // Eye button click
+          const viewBtn = row.querySelector('.view-details-btn');
+          viewBtn.addEventListener('click', () => {
+            openDrawer(item, index);
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.getElementById('transaction-count-label').innerText = `${data.length} giao dịch`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 - ${data.length} trong ${data.length} giao dịch`;
+      }
+
+      function openDrawer(item, index) {
+        activeIndex = index;
+        
+        // Highlight active row
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((r, idx) => {
+          if (idx === index) r.classList.add('highlight-row');
+          else r.classList.remove('highlight-row');
+        });
+
+        // Set drawer values
+        drawerEventIdTitle.innerText = item.eventId;
+        drawerStatusBadge.className = `badge ${item.status === 'success' ? 'badge-green' : item.status === 'pending' ? 'badge-orange' : 'badge-red'}`;
+        drawerStatusBadge.innerText = item.status.toUpperCase();
+        drawerStatusText.innerText = item.statusText;
+        drawerOrderCode.innerText = item.orderCode;
+        drawerCourseName.innerText = item.course;
+        drawerOrderAmount.innerText = item.amount;
+
+        // Customer Info logic
+        let name = "Phạm Hoàng Duy";
+        let email = "duy.pham@email.com";
+        let phone = "0912 345 678";
+        if (item.orderCode.includes("0003")) {
+          name = "Nguyễn Văn An";
+          email = "an.nguyen@email.com";
+          phone = "0909 123 456";
+        } else if (item.orderCode.includes("0005")) {
+          name = "Trần Thị Bình";
+          email = "binh.tran@email.com";
+          phone = "0988 777 666";
+        } else if (item.orderCode.includes("0007")) {
+          name = "Lê Minh Châu";
+          email = "chau.le@email.com";
+          phone = "0977 111 222";
+        } else if (item.orderCode.includes("0008")) {
+          name = "Phạm Hoàng Duy";
+          email = "duy.pham@email.com";
+          phone = "0912 345 678";
+        } else if (item.orderCode.includes("0010")) {
+          name = "Hoàng Minh Đức";
+          email = "duc.hoang@email.com";
+          phone = "0933 444 555";
+        }
+        drawerCustomerName.innerText = name;
+        drawerCustomerEmail.innerText = email;
+        drawerCustomerPhone.innerText = phone;
+
+        drawerProvider.innerText = item.providerName;
+        drawerTxId.innerText = item.txId;
+        drawerEventId.innerText = item.eventId;
+        drawerIdempotency.innerText = item.idempotency;
+        drawerCreatedAt.innerText = item.createdAt + ':18';
+        document.getElementById('timeline-process-time').innerText = item.status === 'success' ? item.createdAt + ':24' : '—';
+        document.getElementById('timeline-receive-time').innerText = item.createdAt + ':18';
+        drawerRawJson.innerText = item.rawJson;
+
+        // Open
+        gridContainer.classList.remove('drawer-closed');
+      }
+
+      function closeDrawer() {
+        activeIndex = -1;
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlight-row'));
+        gridContainer.classList.add('drawer-closed');
+      }
+
+      closeDrawerBtn.addEventListener('click', closeDrawer);
+
+      // Filters
+      function filterData() {
+        const providerVal = providerFilter.value;
+        const statusVal = statusFilter.value;
+        
+        let filtered = paymentsData;
+        if (providerVal) {
+          filtered = filtered.filter(x => x.provider === providerVal);
+        }
+        if (statusVal) {
+          filtered = filtered.filter(x => x.status === statusVal);
+        }
+        
+        renderTable(filtered);
+        closeDrawer();
+      }
+
+      providerFilter.addEventListener('change', filterData);
+      statusFilter.addEventListener('change', filterData);
+      resetBtn.addEventListener('click', () => {
+        providerFilter.value = '';
+        statusFilter.value = '';
+        filterData();
+      });
+
+      // Initial Render
+      renderTable(paymentsData);
+
+      // Copy buttons Clipboard Actions
+      function setupCopy(btnId, textElId, successMessage) {
+        const btn = document.getElementById(btnId);
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const text = document.getElementById(textElId).innerText;
+          navigator.clipboard.writeText(text).then(() => {
+            const originalIcon = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="check" style="color:var(--color-green);"></i>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            if (window.showToast) {
+              window.showToast(successMessage);
+            } else {
+              alert(successMessage);
+            }
+            setTimeout(() => {
+              btn.innerHTML = originalIcon;
+              if (typeof lucide !== 'undefined') lucide.createIcons();
+            }, 2000);
+          });
+        });
+      }
+
+      setupCopy('copy-tx-id-btn', 'drawer-transaction-id', 'Đã copy mã giao dịch!');
+      setupCopy('copy-event-id-btn', 'drawer-event-id', 'Đã copy Event ID!');
+      
+      const copyPayloadBtn = document.getElementById('drawer-copy-payload-btn');
+      copyPayloadBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(drawerRawJson.innerText).then(() => {
+          if (window.showToast) window.showToast('Đã copy toàn bộ raw payload!');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

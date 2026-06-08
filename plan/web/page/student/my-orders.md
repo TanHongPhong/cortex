@@ -1,15 +1,15 @@
 ---
 categories:
   - "[[Projects]]"
-  - "[[cortex.ai]]"
-  - "[[cortex.ai Web]]"
+  - "[[Blueprint]]"
+  - "[[Blueprint Web]]"
   - "[[Requirements]]"
   - "[[Student Portal]]"
 type: ["[[Page Spec]]"]
-org: ["[[cortex.ai]]"]
+org: ["[[Blueprint]]"]
 start: 2026-06-02
 year: 2026
-url: https://github.com/TanHongPhong/cortex
+url: https://github.com/TanHongPhong/blueprint
 status: "[[MVP]]"
 ---
 
@@ -18,6 +18,7 @@ status: "[[MVP]]"
 **Status:** MVP
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
+**Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
 **Build decision:** Build
 
 ## 1. Mục tiêu
@@ -45,7 +46,7 @@ Học viên xem lịch sử đơn hàng, trạng thái thanh toán, chi tiết g
 | Order info | order_code, status, payment_status, created_at, paid_at |
 | Course snapshot | course_title_snapshot, course_price_snapshot |
 | Billing info | billing name/email/phone/company/tax/address |
-| Coupon/referral | coupon_code_snapshot, discount_amount, [[web/page/student/referral|referral]] code nếu có |
+| Coupon/referral | coupon_code_snapshot, discount_amount, referral code nếu có |
 | Payment transactions | provider, amount, currency, status, created_at |
 | Invoice/receipt | invoice_code, status, invoice_url nếu có |
 | Refund credit | Nếu order refunded, hiển thị số tiền đã cộng vào `users.account_balance` và hướng dẫn liên hệ [[web/page/admin/admin|admin]] để rút |
@@ -89,13 +90,13 @@ Không cho user xem order của người khác dù biết ID.
 ## 🗺️ Obsidian Meta
 
 ### Tags
-- #cortex/page/student
-- #cortex/plan
-- #cortex/requirement
+- #blueprint/page/student
+- #blueprint/plan
+- #blueprint/requirement
 
 ### Navigation
-- **Breadcrumbs:** [[CORTEX_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
+- **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/student/dashboard|Student Portal]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/login|/login — Đăng nhập]], [[web/page/student/referral|/referral — Mã giới thiệu]]
-- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật CORTEX]]
+- **Outgoing Links:** [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/login|/login — Đăng nhập]]
+- **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]]

@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý mã giảm giá - Blueprint</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .kpi-indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .indicator-green { background-color: var(--color-green); }
+    .indicator-brown { background-color: #8b5a2b; }
+    .indicator-orange { background-color: var(--color-orange); }
+    .indicator-red { background-color: var(--color-red); }
+    .indicator-purple { background-color: var(--color-indigo); }
+    
+    .form-section-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-passive);
+      padding-bottom: 4px;
+    }
+    
+    .toggle-switch-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 34px;
+      height: 20px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--border-passive);
+      transition: .2s;
+      border-radius: 20px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider {
+      background-color: var(--text-primary);
+    }
+    input:checked + .toggle-slider:before {
+      transform: translateX(14px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         LEFT SIDEBAR
+         ========================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <svg class="sidebar-logo-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C13.1 2 14 2.9 14 4V8C14 9.1 13.1 10 12 10C10.9 10 10 9.1 10 8V4C10 2.9 10.9 2 12 2Z"/>
+          <path d="M12 14C13.1 14 14 14.9 14 16V20C14 21.1 13.1 22 12 22C10.9 22 10 21.1 10 20V16C10 14.9 10.9 14 12 14Z"/>
+          <path d="M4 10C2.9 10 2 10.9 2 12C2 13.1 2.9 14 4 14H8C9.1 14 10 13.1 10 12C10 10.9 9.1 10 8 10H4Z"/>
+          <path d="M16 10C14.9 10 14 10.9 14 12C14 13.1 14.9 14 16 14H20C21.1 14 22 13.1 22 12C22 10.9 21.1 10 20 10H16Z"/>
+        </svg>
+        <span class="sidebar-logo-text">Blueprint</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="index.html"><i data-lucide="layout-grid"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="courses.html"><i data-lucide="book-open"></i><span>Courses</span></a>
+        <a class="sidebar-link" href="lessons.html"><i data-lucide="play-circle"></i><span>Lessons</span></a>
+        <a class="sidebar-link" href="students.html"><i data-lucide="users"></i><span>Students</span></a>
+        <a class="sidebar-link" href="submissions.html"><i data-lucide="check-square"></i><span>Submissions</span></a>
+        <a class="sidebar-link" href="certificates.html"><i data-lucide="award"></i><span>Certificates</span></a>
+        <a class="sidebar-link" href="certificate-templates.html"><i data-lucide="file-badge"></i><span>Templates</span></a>
+        <a class="sidebar-link" href="resources.html"><i data-lucide="library"></i><span>Resources</span></a>
+        <a class="sidebar-link" href="orders.html"><i data-lucide="shopping-cart"></i><span>Orders</span></a>
+        <a class="sidebar-link" href="payments.html"><i data-lucide="credit-card"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="invoices.html"><i data-lucide="file-text"></i><span>Invoices</span></a>
+        <a class="sidebar-link active" href="coupons.html"><i data-lucide="tag"></i><span>Coupons</span></a>
+        <a class="sidebar-link" href="leads.html"><i data-lucide="user-plus"></i><span>Leads</span></a>
+        <a class="sidebar-link" href="announcements.html"><i data-lucide="megaphone"></i><span>Announcements</span></a>
+        <a class="sidebar-link" href="reviews.html"><i data-lucide="message-square"></i><span>Reviews</span></a>
+        <a class="sidebar-link" href="audit-logs.html"><i data-lucide="activity"></i><span>Audit Logs</span></a>
+        <a class="sidebar-link" href="referrals.html"><i data-lucide="git-branch"></i><span>Referrals</span></a>
+        <a class="sidebar-link" href="revenue.html"><i data-lucide="trending-up"></i><span>Revenue</span></a>
+        <a class="sidebar-link" href="settings.html"><i data-lucide="settings"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar"><i data-lucide="user"></i></div>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name">Admin User</span>
+            <span class="sidebar-user-role">Administrator</span>
+          </div>
+          <div class="sidebar-user-chevron"><i data-lucide="chevron-down"></i></div>
+        </div>
+        <a class="sidebar-link" href="#" style="margin-top: 4px;">
+          <i data-lucide="log-out"></i>
+          <span>Log out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-viewport">
+      
+      <!-- Dashboard title & top actions -->
+      <section class="dashboard-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <h1 class="dashboard-title">Quản lý mã giảm giá</h1>
+            <span style="font-size: 12.5px; color: var(--text-secondary);">Tạo, quản lý và theo dõi hiệu quả của các mã giảm giá.</span>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="date-selector" id="date-selector-btn">
+            <i data-lucide="calendar"></i>
+            <span>Jun 2 – Jun 8, 2026</span>
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </div>
+          <button class="btn-secondary" id="export-btn">
+            <i data-lucide="download"></i>
+            <span>Export</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <button class="btn-black" id="create-coupon-btn">
+            <i data-lucide="plus"></i>
+            <span>Tạo coupon mới</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           KPI GRID ROW (5 Cards)
+           ========================================================================== -->
+      <section class="kpi-row-1 kpi-row-cols-5" style="margin-bottom: 20px;">
+        <div class="kpi-card" style="padding: 12px 14px;">
+          <span class="kpi-label" style="margin-bottom: 4px;">Active Coupons</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">18</span>
+            <div style="display: flex; align-items: center; font-size: 11px; color: var(--text-secondary);">
+              <span class="kpi-indicator-dot indicator-green"></span>
+              <span>Đang hoạt động</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="padding: 12px 14px;">
+          <span class="kpi-label" style="margin-bottom: 4px;">Total Redemptions</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">1,248</span>
+            <div style="display: flex; align-items: center; font-size: 11px; color: var(--text-secondary);">
+              <span class="kpi-indicator-dot indicator-brown"></span>
+              <span>Tổng lượt áp dụng</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="padding: 12px 14px;">
+          <span class="kpi-label" style="margin-bottom: 4px;">Revenue from Coupons</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">$128,540</span>
+            <div style="display: flex; align-items: center; font-size: 11px; color: var(--text-secondary);">
+              <span class="kpi-indicator-dot indicator-green"></span>
+              <span>Từ đơn hàng paid</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="padding: 12px 14px;">
+          <span class="kpi-label" style="margin-bottom: 4px;">Discount Given</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px;">$18,760</span>
+            <div style="display: flex; align-items: center; font-size: 11px; color: var(--text-secondary);">
+              <span class="kpi-indicator-dot indicator-orange"></span>
+              <span>Tổng giá trị giảm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="padding: 12px 14px;">
+          <span class="kpi-label" style="margin-bottom: 4px;">Expiring Soon</span>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2px;">
+            <span class="kpi-value" style="font-size: 20px; color: var(--color-orange-dark);">5</span>
+            <div style="display: flex; align-items: center; font-size: 11px; color: var(--text-secondary);">
+              <span class="kpi-indicator-dot indicator-red"></span>
+              <span>Hết hạn trong 7 ngày</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           MAIN CONTENT GRID (2/3 Left, 1/3 Right)
+           ========================================================================== -->
+      <section class="dashboard-grid drawer-closed" id="coupon-grid" style="grid-template-columns: 6fr 6fr;">
+        
+        <!-- LEFT COLUMN: Filters & Table -->
+        <div class="grid-col-left">
+          
+          <div class="panel" style="padding: 14px 20px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              
+              <div class="form-group" style="margin-bottom: 0; min-width: 180px; flex: 1.5; position: relative;">
+                <input type="text" class="form-control" id="search-coupon-input" placeholder="Tìm theo code, tên coupon..." style="padding: 4px 8px 4px 28px;">
+                <i data-lucide="search" style="width: 14px; height: 14px; position: absolute; left: 8px; top: 9px; color: var(--text-secondary);"></i>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 120px; flex: 1;">
+                <select class="form-control form-select" id="filter-status" style="padding: 4px 8px;">
+                  <option value="">Tất cả trạng thái</option>
+                  <option value="active">Active</option>
+                  <option value="paused">Paused</option>
+                  <option value="expired">Expired</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 110px; flex: 1;">
+                <select class="form-control form-select" id="filter-type" style="padding: 4px 8px;">
+                  <option value="">Tất cả loại</option>
+                  <option value="percentage">Percentage</option>
+                  <option value="fixed">Fixed Amount</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0; min-width: 110px; flex: 1;">
+                <select class="form-control form-select" id="filter-scope" style="padding: 4px 8px;">
+                  <option value="">Tất cả scope</option>
+                  <option value="all">All Courses</option>
+                  <option value="core">Core Level</option>
+                  <option value="advanced">Advanced Level</option>
+                </select>
+              </div>
+
+              <button class="btn-secondary" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;">
+                <i data-lucide="sliders-horizontal" style="width: 12px; height: 12px;"></i>
+                <span>Bộ lọc</span>
+              </button>
+
+              <button class="btn-secondary" id="filter-reset-btn" style="padding: 6px 10px; display: inline-flex; align-items: center; gap: 4px; height: 30px;">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2 class="panel-title">Danh sách mã giảm giá</h2>
+                <span class="panel-subtitle" id="coupon-count-label">18 coupons</span>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table id="coupons-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Tên coupon</th>
+                    <th class="col-secondary">Loại giảm</th>
+                    <th>Giảm giá</th>
+                    <th class="col-secondary">Phạm vi áp dụng</th>
+                    <th class="col-secondary">Thời gian hiệu lực</th>
+                    <th class="col-secondary">Lượt dùng</th>
+                    <th>Trạng thái</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Filled dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Paginator -->
+            <div class="pagination-container">
+              <span id="pagination-label">Hiển thị 1 đến 5 của 5 coupon</span>
+              <div class="pagination-pages">
+                <button class="page-btn" disabled><i data-lucide="chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn" disabled><i data-lucide="chevron-right"></i></button>
+              </div>
+              <select class="page-select-dropdown">
+                <option>10 / trang</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Form Drawer -->
+        <div class="grid-col-right">
+          <div class="panel" style="position: sticky; top: 16px;">
+            <div class="student-profile-header" style="padding-bottom: 10px; margin-bottom: 12px;">
+              <span class="student-profile-name" id="form-drawer-title" style="font-size: 15px;">Tạo coupon mới</span>
+              <button class="btn-icon-only" id="close-drawer-btn" style="position: absolute; right: 0; top: 0;" title="Đóng panel"><i data-lucide="x"></i></button>
+            </div>
+
+            <form id="coupon-form" style="display: flex; flex-direction: column; gap: 12px; max-height: 70vh; overflow-y: auto; padding-right: 4px;">
+              
+              <!-- Section 1 -->
+              <div class="form-section-title" style="margin-top: 0;">Thông tin cơ bản</div>
+              <div class="form-group">
+                <label class="form-label">Code <span class="required">*</span></label>
+                <input type="text" class="form-control cert-id" id="form-code" placeholder="Nhập mã coupon (WELCOME10)" required style="text-transform: uppercase;">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tên coupon <span class="required">*</span></label>
+                <input type="text" class="form-control" id="form-name" placeholder="Nhập tên coupon" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Mô tả</label>
+                <textarea class="form-control form-textarea" id="form-desc" placeholder="Mô tả ngắn về coupon..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Trạng thái</label>
+                <select class="form-control form-select" id="form-status">
+                  <option value="active">Active</option>
+                  <option value="paused">Paused</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </div>
+
+              <!-- Section 2 -->
+              <div class="form-section-title">Quy tắc giảm giá</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Loại giảm <span class="required">*</span></label>
+                  <select class="form-control form-select" id="form-type">
+                    <option value="percentage">Percentage (%)</option>
+                    <option value="fixed">Fixed Amount (đ)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Giá trị giảm <span class="required">*</span></label>
+                  <input type="number" class="form-control" id="form-value" placeholder="0" required min="1">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Giảm tối đa</label>
+                  <input type="number" class="form-control" id="form-max-discount" placeholder="Không giới hạn">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Đơn tối thiểu</label>
+                  <input type="number" class="form-control" id="form-min-spend" placeholder="0">
+                </div>
+              </div>
+
+              <!-- Section 3 -->
+              <div class="form-section-title">Quy tắc sử dụng</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Giới hạn tổng</label>
+                  <input type="number" class="form-control" id="form-limit-total" placeholder="Không giới hạn">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Giới hạn/User</label>
+                  <input type="number" class="form-control" id="form-limit-user" placeholder="1" value="1">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Bắt đầu <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="form-start-date" required value="2026-06-02">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Hết hạn <span class="required">*</span></label>
+                  <input type="date" class="form-control" id="form-end-date" required value="2026-07-02">
+                </div>
+              </div>
+
+              <!-- Section 4 -->
+              <div class="form-section-title">Phạm vi áp dụng</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Áp dụng cho <span class="required">*</span></label>
+                  <select class="form-control form-select" id="form-scope">
+                    <option value="all">All Courses</option>
+                    <option value="selected">Selected Courses</option>
+                    <option value="levels">Selected Levels</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Khóa học / Level</label>
+                  <select class="form-control form-select" id="form-scope-target" disabled>
+                    <option value="">Tất cả</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Section 5 -->
+              <div class="form-section-title">Cài đặt khác</div>
+              <div class="toggle-switch-container">
+                <span style="font-size: 12px; color: var(--text-primary); font-weight: 500;">Cho phép stack với coupon khác</span>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="form-stack">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </form>
+
+            <!-- Redemption History List -->
+            <div id="drawer-redemptions-section" style="display: none; margin-top: 16px;">
+              <div class="form-section-title">Lịch sử áp dụng coupon</div>
+              <div class="table-container" style="max-height: 160px; overflow-y: auto; font-size: 11px; margin-top: 8px; border: 1px solid var(--border-passive); border-radius: 4px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;" id="drawer-redemptions-table">
+                  <thead>
+                    <tr style="background-color: var(--bg-app); border-bottom: 1px solid var(--border-passive); color: var(--text-secondary);">
+                      <th style="padding: 6px 8px; font-weight: 600;">Học viên</th>
+                      <th style="padding: 6px 8px; font-weight: 600;">Đơn hàng</th>
+                      <th style="padding: 6px 8px; font-weight: 600;">Giảm giá</th>
+                      <th style="padding: 6px 8px; font-weight: 600;">Ngày dùng</th>
+                      <th style="padding: 6px 8px; font-weight: 600;">Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Filled dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel-footer" style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border-passive); justify-content: flex-end; gap: 12px;">
+              <button class="btn-secondary" id="form-cancel-btn">Hủy</button>
+              <button class="btn-black" id="form-save-btn">Lưu coupon</button>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="app.js"></script>
+  
+  <!-- Page specific JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mock Data
+      const couponsData = [
+        {
+          code: "WELCOME10",
+          name: "Welcome 10%",
+          type: "percentage",
+          typeName: "Percentage",
+          value: "10%",
+          scope: "All Courses",
+          duration: "01/05/2026 - 31/05/2026",
+          redemptions: "128 / 300",
+          status: "active"
+        },
+        {
+          code: "VIP100K",
+          name: "Giảm 100K cho Core",
+          type: "fixed",
+          typeName: "Fixed Amount",
+          value: "100.000đ",
+          scope: "Core Level",
+          duration: "01/05/2026 - 30/06/2026",
+          redemptions: "32 / 200",
+          status: "active"
+        },
+        {
+          code: "ADVANCE15",
+          name: "Advanced 15%",
+          type: "percentage",
+          typeName: "Percentage",
+          value: "15%",
+          scope: "Advanced Level",
+          duration: "01/03/2026 - 31/05/2026",
+          redemptions: "88 / 150",
+          status: "paused"
+        },
+        {
+          code: "SUMMER30",
+          name: "Summer Sale 30%",
+          type: "percentage",
+          typeName: "Percentage",
+          value: "30%",
+          scope: "All Courses",
+          duration: "01/04/2026 - 01/05/2026",
+          redemptions: "420 / 500",
+          status: "expired"
+        },
+        {
+          code: "STUDENT30",
+          name: "Student Discount 30%",
+          type: "percentage",
+          typeName: "Percentage",
+          value: "30%",
+          scope: "Starter Level",
+          duration: "01/02/2026 - 28/02/2026",
+          redemptions: "75 / 100",
+          status: "archived"
+        }
+      ];
+
+      let editingIndex = -1;
+
+      // Select DOM
+      const tableBody = document.querySelector('#coupons-table tbody');
+      const gridContainer = document.getElementById('coupon-grid');
+      const createBtn = document.getElementById('create-coupon-btn');
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+      const cancelBtn = document.getElementById('form-cancel-btn');
+      const saveBtn = document.getElementById('form-save-btn');
+      
+      const searchInput = document.getElementById('search-coupon-input');
+      const statusFilter = document.getElementById('filter-status');
+      const typeFilter = document.getElementById('filter-type');
+      const scopeFilter = document.getElementById('filter-scope');
+      const resetBtn = document.getElementById('filter-reset-btn');
+
+      // Form DOM
+      const formDrawerTitle = document.getElementById('form-drawer-title');
+      const formCode = document.getElementById('form-code');
+      const formName = document.getElementById('form-name');
+      const formDesc = document.getElementById('form-desc');
+      const formStatus = document.getElementById('form-status');
+      const formType = document.getElementById('form-type');
+      const formValue = document.getElementById('form-value');
+      const formMaxDiscount = document.getElementById('form-max-discount');
+      const formMinSpend = document.getElementById('form-min-spend');
+      const formLimitTotal = document.getElementById('form-limit-total');
+      const formLimitUser = document.getElementById('form-limit-user');
+      const formStartDate = document.getElementById('form-start-date');
+      const formEndDate = document.getElementById('form-end-date');
+      const formScope = document.getElementById('form-scope');
+      const formScopeTarget = document.getElementById('form-scope-target');
+      const formStack = document.getElementById('form-stack');
+      const drawerRedemptionsSection = document.getElementById('drawer-redemptions-section');
+      const drawerRedemptionsTableBody = document.querySelector('#drawer-redemptions-table tbody');
+
+      // Render Table
+      function renderTable(data) {
+        tableBody.innerHTML = '';
+        if (data.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="9" style="text-align: center; padding: 32px; color: var(--text-secondary);">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                  <i data-lucide="search-x" style="width: 24px; height: 24px;"></i>
+                  <span>Không tìm thấy mã giảm giá nào khớp</span>
+                </div>
+              </td>
+            </tr>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          document.getElementById('coupon-count-label').innerText = '0 coupons';
+          document.getElementById('pagination-label').innerText = 'Hiển thị 0 của 0 coupon';
+          return;
+        }
+
+        data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.style.cursor = 'pointer';
+          if (editingIndex === index) {
+            row.classList.add('highlight-row');
+          }
+
+          let statusClass = 'badge-gray';
+          if (item.status === 'active') statusClass = 'badge-green';
+          else if (item.status === 'paused') statusClass = 'badge-orange';
+          else if (item.status === 'expired') statusClass = 'badge-red';
+
+          row.innerHTML = `
+            <td class="cert-id" style="font-weight:600;">${item.code}</td>
+            <td style="font-weight:500;">${item.name}</td>
+            <td class="col-secondary">${item.typeName}</td>
+            <td style="font-weight:600;">${item.value}</td>
+            <td class="col-secondary">${item.scope}</td>
+            <td class="col-secondary" style="color: var(--text-secondary);">${item.duration}</td>
+            <td class="col-secondary">
+              <div style="display: inline-flex; align-items: center; gap: 4px;">
+                <span>${item.redemptions}</span>
+                <i data-lucide="info" style="width: 12px; height: 12px; color: var(--text-secondary); cursor: pointer;"></i>
+              </div>
+            </td>
+            <td><span class="badge ${statusClass}">${item.status.toUpperCase()}</span></td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <button class="btn-icon-only view-details-btn" title="Chỉnh sửa"><i data-lucide="pencil"></i></button>
+                <button class="btn-icon-only" title="Hành động khác"><i data-lucide="more-horizontal"></i></button>
+              </div>
+            </td>
+          `;
+
+          // Edit click
+          row.addEventListener('click', (e) => {
+            if (e.target.closest('button')) return;
+            openDrawerForEdit(item, index);
+          });
+          
+          row.querySelector('.view-details-btn').addEventListener('click', () => {
+            openDrawerForEdit(item, index);
+          });
+
+          tableBody.appendChild(row);
+        });
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.getElementById('coupon-count-label').innerText = `${data.length} coupons`;
+        document.getElementById('pagination-label').innerText = `Hiển thị 1 đến ${data.length} của ${data.length} coupon`;
+      }
+
+      function openDrawerForCreate() {
+        editingIndex = -1;
+        formDrawerTitle.innerText = "Tạo coupon mới";
+        
+        // Reset inputs
+        formCode.value = '';
+        formCode.disabled = false;
+        formName.value = '';
+        formDesc.value = '';
+        formStatus.value = 'active';
+        formType.value = 'percentage';
+        formValue.value = '';
+        formMaxDiscount.value = '';
+        formMinSpend.value = '';
+        formLimitTotal.value = '';
+        formLimitUser.value = '1';
+        formStartDate.value = '2026-06-02';
+        formEndDate.value = '2026-07-02';
+        formScope.value = 'all';
+        formScopeTarget.value = '';
+        formScopeTarget.disabled = true;
+        formStack.checked = false;
+
+        drawerRedemptionsSection.style.display = 'none';
+
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlight-row'));
+
+        gridContainer.classList.remove('drawer-closed');
+      }
+
+      function openDrawerForEdit(item, index) {
+        editingIndex = index;
+        formDrawerTitle.innerText = "Chỉnh sửa coupon";
+        
+        formCode.value = item.code;
+        formCode.disabled = true; // coupon code immutable
+        formName.value = item.name;
+        formDesc.value = item.desc || "Mã giảm giá áp dụng cho chiến dịch quảng bá.";
+        formStatus.value = item.status === 'expired' || item.status === 'archived' ? 'archived' : item.status;
+        formType.value = item.type;
+        formValue.value = parseInt(item.value);
+        formMaxDiscount.value = item.maxDiscount || '';
+        formMinSpend.value = item.minSpend || '';
+        formLimitTotal.value = item.limitTotal || '';
+        formLimitUser.value = item.limitUser || '1';
+        
+        // split duration to dates
+        const dates = item.duration.split(' - ');
+        if (dates.length === 2) {
+          formStartDate.value = formatDateForInput(dates[0]);
+          formEndDate.value = formatDateForInput(dates[1]);
+        }
+
+        formScope.value = item.scope.includes('Core') ? 'selected' : 'all';
+        formScopeTarget.disabled = formScope.value === 'all';
+        formStack.checked = item.stack || false;
+
+        drawerRedemptionsSection.style.display = 'block';
+        renderRedemptions(item);
+
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((r, idx) => {
+          if (idx === index) r.classList.add('highlight-row');
+          else r.classList.remove('highlight-row');
+        });
+
+        gridContainer.classList.remove('drawer-closed');
+      }
+
+      function renderRedemptions(item) {
+        drawerRedemptionsTableBody.innerHTML = '';
+        
+        const redemptionsList = [
+          { student: "Phạm Hoàng Duy", order: "MAY-ORD-2026-0001", discount: "269.000đ", date: "06/06/2026 21:15", status: "Paid" },
+          { student: "Nguyễn Văn An", order: "MAY-ORD-2026-0002", discount: "200.000đ", date: "05/06/2026 10:30", status: "Paid" },
+          { student: "Trần Thị Bình", order: "MAY-ORD-2026-0003", discount: "150.000đ", date: "04/06/2026 18:22", status: "Pending" }
+        ];
+        
+        const isFixed = item.type === 'fixed';
+        const valStr = isFixed ? `${parseInt(item.value).toLocaleString('vi-VN')}đ` : item.value;
+        
+        redemptionsList.forEach(r => {
+          const row = document.createElement('tr');
+          row.style.borderBottom = '1px solid var(--border-passive)';
+          
+          let statusBadge = r.status === 'Paid' ? '<span class="badge badge-green">Paid</span>' : '<span class="badge badge-gray">Pending</span>';
+          let finalDiscount = isFixed ? valStr : `-${valStr} (giảm ${r.discount})`;
+          
+          row.innerHTML = `
+            <td style="padding: 6px 8px;">${r.student}</td>
+            <td style="padding: 6px 8px;" class="cert-id">${r.order}</td>
+            <td style="padding: 6px 8px; font-weight:600;">${finalDiscount}</td>
+            <td style="padding: 6px 8px; color: var(--text-secondary);">${r.date}</td>
+            <td style="padding: 6px 8px;">${statusBadge}</td>
+          `;
+          drawerRedemptionsTableBody.appendChild(row);
+        });
+      }
+
+      function formatDateForInput(dateStr) {
+        const parts = dateStr.split('/');
+        if (parts.length === 3) {
+          return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        }
+        return '2026-06-02';
+      }
+
+      function formatDateForDisplay(dateStr) {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+          return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+        return dateStr;
+      }
+
+      createBtn.addEventListener('click', openDrawerForCreate);
+      closeDrawerBtn.addEventListener('click', () => {
+        gridContainer.classList.add('drawer-closed');
+        editingIndex = -1;
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(r => r.classList.remove('highlight-row'));
+      });
+      cancelBtn.addEventListener('click', () => {
+        gridContainer.classList.add('drawer-closed');
+      });
+
+      formScope.addEventListener('change', () => {
+        if (formScope.value === 'all') {
+          formScopeTarget.disabled = true;
+          formScopeTarget.innerHTML = '<option value="">Tất cả</option>';
+        } else if (formScope.value === 'selected') {
+          formScopeTarget.disabled = false;
+          formScopeTarget.innerHTML = `
+            <option value="ai">AI Agent & Vibe Coding Bootcamp</option>
+            <option value="starter">Starter Mini Course</option>
+            <option value="python">Python for Data Analysis</option>
+          `;
+        } else {
+          formScopeTarget.disabled = false;
+          formScopeTarget.innerHTML = `
+            <option value="core">Core Level</option>
+            <option value="advanced">Advanced Level</option>
+            <option value="premium">Premium Level</option>
+          `;
+        }
+      });
+
+      // Save Handler
+      saveBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const code = formCode.value.trim().toUpperCase();
+        const name = formName.value.trim();
+        const valueNum = formValue.value;
+        
+        if (!code || !name || !valueNum) {
+          if (window.showToast) window.showToast('Vui lòng điền đầy đủ các thông tin bắt buộc!', 'error');
+          else alert('Vui lòng điền đầy đủ thông tin!');
+          return;
+        }
+
+        const formattedVal = formType.value === 'percentage' ? `${valueNum}%` : `${parseInt(valueNum).toLocaleString('vi-VN')}đ`;
+        const scopeText = formScope.value === 'all' ? 'All Courses' : formScope.value === 'selected' ? 'Selected Courses' : 'Selected Levels';
+        const durationText = `${formatDateForDisplay(formStartDate.value)} - ${formatDateForDisplay(formEndDate.value)}`;
+
+        if (editingIndex === -1) {
+          // Add
+          const newCoupon = {
+            code,
+            name,
+            type: formType.value,
+            typeName: formType.value === 'percentage' ? 'Percentage' : 'Fixed Amount',
+            value: formattedVal,
+            scope: scopeText,
+            duration: durationText,
+            redemptions: `0 / ${formLimitTotal.value || '∞'}`,
+            status: formStatus.value
+          };
+          couponsData.unshift(newCoupon);
+          if (window.showToast) window.showToast(`Đã tạo thành công coupon "${code}"!`);
+        } else {
+          // Update
+          const coupon = couponsData[editingIndex];
+          coupon.name = name;
+          coupon.type = formType.value;
+          coupon.typeName = formType.value === 'percentage' ? 'Percentage' : 'Fixed Amount';
+          coupon.value = formattedVal;
+          coupon.scope = scopeText;
+          coupon.duration = durationText;
+          coupon.status = formStatus.value;
+          if (window.showToast) window.showToast(`Đã lưu thay đổi cho coupon "${coupon.code}"!`);
+        }
+
+        renderTable(couponsData);
+        gridContainer.classList.add('drawer-closed');
+      });
+
+      // Search & Filters
+      function runFilters() {
+        const query = searchInput.value.toLowerCase().trim();
+        const statusVal = statusFilter.value;
+        const typeVal = typeFilter.value;
+        const scopeVal = scopeFilter.value;
+
+        let filtered = couponsData;
+        if (query) {
+          filtered = filtered.filter(x => x.code.toLowerCase().includes(query) || x.name.toLowerCase().includes(query));
+        }
+        if (statusVal) {
+          filtered = filtered.filter(x => x.status === statusVal);
+        }
+        if (typeVal) {
+          filtered = filtered.filter(x => x.type === typeVal);
+        }
+        if (scopeVal) {
+          filtered = filtered.filter(x => x.scope.toLowerCase().includes(scopeVal));
+        }
+
+        renderTable(filtered);
+      }
+
+      searchInput.addEventListener('input', runFilters);
+      statusFilter.addEventListener('change', runFilters);
+      typeFilter.addEventListener('change', runFilters);
+      scopeFilter.addEventListener('change', runFilters);
+      
+      resetBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        statusFilter.value = '';
+        typeFilter.value = '';
+        scopeFilter.value = '';
+        renderTable(couponsData);
+      });
+
+      // Export trigger
+      const exportBtn = document.getElementById('export-btn');
+      exportBtn.addEventListener('click', () => {
+        if (window.showToast) window.showToast('Bắt đầu tải tệp báo cáo mã giảm giá...', 'info');
+      });
+
+      // Initial Render
+      renderTable(couponsData);
+    });
+  </script>
+</body>
+</html>
