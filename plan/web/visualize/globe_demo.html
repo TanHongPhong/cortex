@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Glowing Globe Effect - Blueprint Showcase</title>
+  
+  <!-- Font Google Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #030712;
+      --panel-bg: rgba(10, 15, 30, 0.45);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --accent-color: #00f0ff;
+      --accent-glow: rgba(0, 240, 255, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Ambient background gradient glow */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(circle, var(--accent-glow) 0%, rgba(3, 7, 18, 0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      transition: background 0.5s ease, width 0.5s ease, height 0.5s ease;
+    }
+
+    /* Subtle background grid pattern */
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+      background-position: center;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Globe wrapper container */
+    .globe-wrap {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      cursor: grab;
+    }
+
+    .globe-wrap:active {
+      cursor: grabbing;
+    }
+
+    .globe-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+    }
+
+    /* Control Panel (Glassmorphism) */
+    .control-panel {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      width: 320px;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 24px;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .panel-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 50%, var(--accent-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .panel-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .control-group {
+      margin-bottom: 18px;
+    }
+
+    .control-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .control-value {
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--accent-color);
+    }
+
+    /* Standard inputs styling */
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      height: 4px;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--accent-color);
+      transition: transform 0.1s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Colors preset wrapper */
+    .color-presets {
+      display: flex;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .preset-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .preset-btn.active {
+      transform: scale(1.15);
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+    }
+
+    .preset-white { background-color: #ffffff; }
+    .preset-cyan { background-color: #00f0ff; }
+    .preset-purple { background-color: #8a2be2; }
+    .preset-pink { background-color: #ff007f; }
+
+    /* Checkbox switch wrapper */
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .3s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-color);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Top Navigation Bar */
+    .top-nav {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 12px;
+      padding: 12px 24px;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      gap: 32px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-color) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-badge {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--accent-color);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-link.active {
+      color: var(--accent-color);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--panel-border);
+    }
+
+    @media (max-width: 768px) {
+      .top-nav {
+        top: auto;
+        bottom: 24px;
+        left: 24px;
+        right: 24px;
+        gap: 16px;
+      }
+      .control-panel {
+        top: 24px;
+        left: 24px;
+        right: 24px;
+        width: auto;
+      }
+    }
+  </style>
+
+  <!-- Three.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <!-- Top Navigation Bar -->
+  <div class="top-nav">
+    <div class="nav-logo">
+      <span class="logo-text">Blueprint</span>
+      <span class="logo-badge">WebGL Lab</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← Trang chủ</a>
+      <a href="hero_background_demo.html" class="nav-link">Particle Grid</a>
+      <a href="globe_demo.html" class="nav-link active">3D Globe</a>
+    </div>
+  </div>
+
+  <!-- Globe visual wrapper -->
+  <div class="globe-wrap" id="globe-container">
+    <canvas class="globe-canvas" id="globe-canvas"></canvas>
+  </div>
+
+  <!-- Premium Control Panel -->
+  <div class="control-panel">
+    <div class="panel-title">3D Hologram Globe</div>
+    <div class="panel-subtitle">Blueprint WebGL Visualization Sandbox</div>
+
+    <!-- Rotation Speed -->
+    <div class="control-group">
+      <div class="control-label-row">
+        <span>Tốc độ xoay (Auto Rotate Speed)</span>
+        <span class="control-value" id="val-speed">0.07</span>
+      </div>
+      <input type="range" id="input-speed" min="0" max="0.5" step="0.01" value="0.07">
+    </div>
+
+    <!-- Globe Scale -->
+    <div class="control-group">
+      <div class="control-label-row">
+        <span>Kích thước (Globe Scale)</span>
+        <span class="control-value" id="val-scale">1.0</span>
+      </div>
+      <input type="range" id="input-scale" min="0.5" max="1.5" step="0.05" value="1.0">
+    </div>
+
+    <!-- Core Glow Intensity -->
+    <div class="control-group">
+      <div class="control-label-row">
+        <span>Độ sáng lõi (Glow opacity)</span>
+        <span class="control-value" id="val-glow">0.02</span>
+      </div>
+      <input type="range" id="input-glow" min="0.0" max="0.1" step="0.005" value="0.02">
+    </div>
+
+    <!-- Accent Color -->
+    <div class="control-group">
+      <div class="control-label-row">
+        <span>Màu sắc (Accent color)</span>
+      </div>
+      <div class="color-presets">
+        <button class="preset-btn preset-white" data-color="#ffffff" data-glow="rgba(255, 255, 255, 0.1)"></button>
+        <button class="preset-btn preset-cyan active" data-color="#00f0ff" data-glow="rgba(0, 240, 255, 0.25)"></button>
+        <button class="preset-btn preset-purple" data-color="#8a2be2" data-glow="rgba(138, 43, 226, 0.25)"></button>
+        <button class="preset-btn preset-pink" data-color="#ff007f" data-glow="rgba(255, 0, 127, 0.25)"></button>
+      </div>
+    </div>
+
+    <!-- Auto rotate toggle -->
+    <div class="control-group switch-row">
+      <span style="font-size: 13px; font-weight: 500;">Tự động xoay (Auto Rotate)</span>
+      <label class="switch">
+        <input type="checkbox" id="input-autorotate" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <script>
+    // Configuration object
+    const CONFIG = {
+      speed: 0.07,
+      scale: 1.0,
+      glowOpacity: 0.02,
+      color: '#00f0ff',
+      autoRotate: true
+    };
+
+    // UI Hookups
+    const uiSpeed = document.getElementById('input-speed');
+    const valSpeed = document.getElementById('val-speed');
+    const uiScale = document.getElementById('input-scale');
+    const valScale = document.getElementById('val-scale');
+    const uiGlow = document.getElementById('input-glow');
+    const valGlow = document.getElementById('val-glow');
+    const uiAutoRotate = document.getElementById('input-autorotate');
+    const colorButtons = document.querySelectorAll('.preset-btn');
+    const rootStyle = document.documentElement.style;
+
+    // Initialize WebGL Scene
+    const container = document.getElementById('globe-container');
+    const canvas = document.getElementById('globe-canvas');
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.set(0, 0, 3);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+    });
+
+    // Texture mapping (Original Clarasight world map texture)
+    const texture = new THREE.TextureLoader().load('https://cdn.prod.website-files.com/69bd9a3628f03d7aa1b12d3f/69dacd360c35f4526d1ee1f2_world-map.png', (tex) => {
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.NearestFilter;
+      tex.generateMipmaps = true;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      tex.wrapS = THREE.ClampToEdgeWrapping;
+      tex.wrapT = THREE.ClampToEdgeWrapping;
+    });
+
+    const geometry = new THREE.SphereGeometry(1, 128, 128);
+
+    // Semi-transparent core glow basic sphere
+    const baseMaterial = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(CONFIG.color),
+      transparent: true,
+      opacity: CONFIG.glowOpacity,
+    });
+    const baseSphere = new THREE.Mesh(geometry, baseMaterial);
+
+    // Glowing world dots mapped on sphere surface
+    const dotsMaterial = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(CONFIG.color),
+      map: texture,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const dotsSphere = new THREE.Mesh(geometry, dotsMaterial);
+    dotsSphere.scale.set(1.001, 1.001, 1.001);
+
+    // Rotation pivot group
+    const pivot = new THREE.Group();
+    pivot.rotation.x = 0.25;
+    pivot.rotation.z = -0.08;
+    pivot.add(baseSphere);
+    pivot.add(dotsSphere);
+    scene.add(pivot);
+
+    const clock = new THREE.Clock();
+
+    // Resize logic
+    function resizeRenderer() {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      if (!width || !height) return;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(width, height, false);
+    }
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      
+      if (CONFIG.autoRotate && !isDragging) {
+        pivot.rotation.y += delta * CONFIG.speed;
+      }
+      
+      renderer.render(scene, camera);
+    }
+
+    // Interactive gesture rotation (Drag to spin)
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+
+    container.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+
+      const deltaMove = {
+        x: e.clientX - previousMousePosition.x,
+        y: e.clientY - previousMousePosition.y
+      };
+
+      // Adjust rotation based on drag speed
+      pivot.rotation.y += deltaMove.x * 0.005;
+      pivot.rotation.x += deltaMove.y * 0.005;
+
+      previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    // Touch support for mobile devices
+    container.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+
+      const deltaMove = {
+        x: e.touches[0].clientX - previousMousePosition.x,
+        y: e.touches[0].clientY - previousMousePosition.y
+      };
+
+      pivot.rotation.y += deltaMove.x * 0.008;
+      pivot.rotation.x += deltaMove.y * 0.008;
+
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    // Handle inputs updates
+    uiSpeed.addEventListener('input', (e) => {
+      CONFIG.speed = parseFloat(e.target.value);
+      valSpeed.textContent = CONFIG.speed;
+    });
+
+    uiScale.addEventListener('input', (e) => {
+      CONFIG.scale = parseFloat(e.target.value);
+      valScale.textContent = CONFIG.scale;
+      baseSphere.scale.set(CONFIG.scale, CONFIG.scale, CONFIG.scale);
+      dotsSphere.scale.set(CONFIG.scale * 1.001, CONFIG.scale * 1.001, CONFIG.scale * 1.001);
+    });
+
+    uiGlow.addEventListener('input', (e) => {
+      CONFIG.glowOpacity = parseFloat(e.target.value);
+      valGlow.textContent = CONFIG.glowOpacity;
+      baseMaterial.opacity = CONFIG.glowOpacity;
+    });
+
+    uiAutoRotate.addEventListener('change', (e) => {
+      CONFIG.autoRotate = e.target.checked;
+    });
+
+    // Color buttons preset listener
+    colorButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        colorButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const colorHex = btn.getAttribute('data-color');
+        const glowVal = btn.getAttribute('data-glow');
+
+        CONFIG.color = colorHex;
+        
+        // Update Three.js materials colors
+        const newColor = new THREE.Color(colorHex);
+        baseMaterial.color = newColor;
+        dotsMaterial.color = newColor;
+
+        // Update CSS custom properties for ambient glows
+        rootStyle.setProperty('--accent-color', colorHex);
+        rootStyle.setProperty('--accent-glow', glowVal);
+      });
+    });
+
+    // Start everything
+    resizeRenderer();
+    animate();
+    window.addEventListener('resize', resizeRenderer);
+  </script>
+</body>
+</html>

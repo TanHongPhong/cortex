@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js WebGL Particle Grid - Blueprint Showcase</title>
+  
+  <!-- Font Google Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #020617;
+      --panel-bg: rgba(6, 26, 51, 0.45);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --accent-color: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(180deg, #020617 0%, #030f26 8%, #05183a 16%, #082252 24%, #0b2f75 32%, #0e43a5 40%, #1a66cc 50%, #2b8bee 60%, #54a9f5 72%, #8cc2f9 82%, #b8dafc 90%, #dcf0ff 95%, #f0f6ff 100%);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-primary);
+    }
+
+
+
+    /* Grid overlay line - 1.5px thickness */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1.5px, transparent 1.5px);
+      background-size: 60px 60px;
+      background-position: center;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Hero Background visual wrapper */
+    .hero-background {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .hero-background video {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      left: 0;
+      top: 0;
+    }
+
+    .hero-background canvas {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      background: transparent;
+    }
+
+
+  </style>
+
+  <!-- Three.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
+</head>
+<body>
+
+  <!-- 1.5px grid lines overlay -->
+  <div class="grid-overlay"></div>
+
+  <!-- Hero Background container -->
+  <div id="hero-background" class="hero-background">
+    <video src="./earth.mp4" autoplay muted loop playsinline preload="auto" crossorigin="anonymous"></video>
+  </div>
+
+
+
+  <script>
+    // Configuration object
+    const CONFIG = {
+      density: 80,
+      minCols: 90,
+      maxCols: 320,
+      densityReferenceWidth: 1440,
+      densityMinScale: 0.28,
+      densityMaxScale: 1.0,
+      densityWidthExponent: 1.55,
+      minDotMinSize: 0.7,
+      maxDotMinSize: 0.32,
+      minDotMaxSize: 4.8,
+      maxDotMaxSize: 2.4,
+      mobileDotScaleMin: 0.82,
+      mobileDotScaleMax: 1.0,
+      minThreshold: 0.06,
+      maxThreshold: 0.1,
+      minFeather: 0.2,
+      maxFeather: 0.12,
+      gamma: 1.1,
+      opacity: 0.92,
+      softness: 0.22,
+      smoothing: 0.085,
+      dotColor: '#ffffff', // Start with White
+      contentOffsetX: 0.0,
+      contentOffsetY: 0.45,
+      contentScale: 1.04,
+      hoverEnabled: true,
+      hoverRadius: 0.1,
+      hoverSoftness: 0.12,
+      hoverStrength: 1.0,
+      hoverSmoothing: 0.12,
+      hoverMorphSpeed: 0.9,
+      hoverNoiseScale: 36.0,
+      hoverNoiseAmount: 0.42,
+      videoOpacity: 1.0
+    };
+
+    if ('ontouchstart' in window) {
+      CONFIG.hoverEnabled = false;
+    }
+
+    // UI Hookups (Controls removed)
+    const rootStyle = document.documentElement.style;
+
+    // WebGL state variables
+    const wrap = document.getElementById('hero-background');
+    const video = wrap.querySelector('video');
+    let renderer, scene, camera;
+    let geometry = null;
+    let material = null;
+    let points = null;
+    let videoTexture = null;
+    let prevRT = null;
+    let currRT = null;
+    let simScene = null;
+    let simCamera = null;
+    let simMaterial = null;
+    let simQuad = null;
+    let started = false;
+    let resizeObserver = null;
+    let cols = 0;
+    let rows = 0;
+    let time = 0;
+    let lastTime = performance.now();
+    let isVisible = !document.hidden;
+
+    const pointer = {
+      currentX: 0.5,
+      currentY: 0.5,
+      targetX: 0.5,
+      targetY: 0.5,
+      currentActive: 0,
+      targetActive: 0,
+    };
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function lerp(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function getDensityT() {
+      return clamp(CONFIG.density, 0, 100) / 100;
+    }
+
+    function getWrapSize() {
+      const rect = wrap.getBoundingClientRect();
+      return {
+        width: Math.max(1, Math.round(rect.width || window.innerWidth)),
+        height: Math.max(1, Math.round(rect.height || window.innerHeight)),
+      };
+    }
+
+    function getDerivedConfig() {
+      const { width } = getWrapSize();
+      const t = getDensityT();
+      const baseCols = lerp(CONFIG.minCols, CONFIG.maxCols, t);
+
+      const widthRatio = clamp(width / CONFIG.densityReferenceWidth, 0, 1);
+      const widthScale = lerp(CONFIG.densityMinScale, CONFIG.densityMaxScale, Math.pow(widthRatio, CONFIG.densityWidthExponent));
+
+      const dotScale = lerp(CONFIG.mobileDotScaleMin, CONFIG.mobileDotScaleMax, Math.pow(widthRatio, 1.15));
+
+      return {
+        cols: Math.max(28, Math.round(baseCols * widthScale)),
+        minSize: lerp(CONFIG.minDotMinSize, CONFIG.maxDotMinSize, t) * dotScale,
+        maxSize: lerp(CONFIG.minDotMaxSize, CONFIG.maxDotMaxSize, t) * dotScale,
+        threshold: lerp(CONFIG.minThreshold, CONFIG.maxThreshold, t),
+        feather: lerp(CONFIG.minFeather, CONFIG.maxFeather, t),
+      };
+    }
+
+    function disposeRenderTarget(rt) {
+      if (rt) rt.dispose();
+    }
+
+    function buildPoints() {
+      const { width, height } = getWrapSize();
+      const aspect = width / height;
+      const derived = getDerivedConfig();
+
+      cols = derived.cols;
+      rows = Math.max(1, Math.round(cols / aspect));
+      const count = cols * rows;
+
+      const positions = new Float32Array(count * 3);
+      const uvs = new Float32Array(count * 2);
+
+      let p3 = 0;
+      let p2 = 0;
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const u = cols > 1 ? x / (cols - 1) : 0.5;
+          const v = rows > 1 ? y / (rows - 1) : 0.5;
+
+          positions[p3++] = u * 2 - 1;
+          positions[p3++] = 1 - v * 2;
+          positions[p3++] = 0;
+
+          uvs[p2++] = u;
+          uvs[p2++] = 1.0 - v;
+        }
+      }
+
+      if (geometry) geometry.dispose();
+      geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+
+      if (points) scene.remove(points);
+      points = new THREE.Points(geometry, material);
+      scene.add(points);
+    }
+
+    function buildSimulation() {
+      const derived = getDerivedConfig();
+
+      simScene = new THREE.Scene();
+      simCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+      const plane = new THREE.PlaneGeometry(2, 2);
+
+      simMaterial = new THREE.ShaderMaterial({
+        uniforms: {
+          uVideo: { value: videoTexture },
+          uPrev: { value: null },
+          uThreshold: { value: derived.threshold },
+          uFeather: { value: derived.feather },
+          uGamma: { value: CONFIG.gamma },
+          uSmoothing: { value: CONFIG.smoothing },
+          uVideoAspect: { value: 1 },
+          uCanvasAspect: { value: 1 },
+          uContentOffsetX: { value: CONFIG.contentOffsetX },
+          uContentOffsetY: { value: CONFIG.contentOffsetY },
+          uContentScale: { value: CONFIG.contentScale },
+          uPointer: { value: new THREE.Vector2(0.5, 0.5) },
+          uPointerActive: { value: 0 },
+          uPointerRadius: { value: CONFIG.hoverRadius },
+          uPointerSoftness: { value: CONFIG.hoverSoftness },
+          uPointerStrength: { value: CONFIG.hoverStrength },
+          uTime: { value: 0 },
+          uHoverMorphSpeed: { value: CONFIG.hoverMorphSpeed },
+          uHoverNoiseScale: { value: CONFIG.hoverNoiseScale },
+          uHoverNoiseAmount: { value: CONFIG.hoverNoiseAmount },
+          uVideoOpacity: { value: CONFIG.videoOpacity }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = vec4(position.xy, 0.0, 1.0);
+          }
+        `,
+        fragmentShader: `
+          varying vec2 vUv;
+          uniform sampler2D uVideo;
+          uniform sampler2D uPrev;
+          uniform float uThreshold;
+          uniform float uFeather;
+          uniform float uGamma;
+          uniform float uSmoothing;
+          uniform float uVideoAspect;
+          uniform float uCanvasAspect;
+          uniform float uContentOffsetX;
+          uniform float uContentOffsetY;
+          uniform float uContentScale;
+          uniform vec2 uPointer;
+          uniform float uPointerActive;
+          uniform float uPointerRadius;
+          uniform float uPointerSoftness;
+          uniform float uPointerStrength;
+          uniform float uTime;
+          uniform float uHoverMorphSpeed;
+          uniform float uHoverNoiseScale;
+          uniform float uHoverNoiseAmount;
+          uniform float uVideoOpacity;
+          
+          vec2 coverUv(vec2 uv, float textureAspect, float screenAspect, float offsetX, float offsetY, float zoom) {
+            vec2 newUv = uv;
+            if (screenAspect > textureAspect) {
+              float scale = textureAspect / screenAspect;
+              newUv.y = (uv.y - 0.5) * scale + 0.5;
+            } else {
+              float scale = screenAspect / textureAspect;
+              newUv.x = (uv.x - 0.5) * scale + 0.5;
+            }
+            newUv = (newUv - 0.5) / zoom + 0.5;
+            newUv.x += offsetX;
+            newUv.y += offsetY;
+            return newUv;
+          }
+          
+          float hoverField(vec2 uv, vec2 pointer, float canvasAspect, float timeValue) {
+            vec2 delta = uv - pointer;
+            delta.x *= canvasAspect;
+            
+            float t = timeValue * uHoverMorphSpeed;
+            float n1 = sin((uv.x * uHoverNoiseScale) + t * 1.7 + sin(uv.y * 17.0 - t * 1.1) * 2.2);
+            float n2 = sin((uv.y * (uHoverNoiseScale * 0.82)) - t * 1.35 + sin(uv.x * 21.0 + t * 0.9) * 1.9);
+            float n3 = sin(((uv.x + uv.y) * (uHoverNoiseScale * 0.58)) + t * 1.9);
+            float n = (n1 * 0.42 + n2 * 0.35 + n3 * 0.23);
+            float irregularRadius = uPointerRadius * (1.0 + n * uHoverNoiseAmount);
+            float irregularSoftness = uPointerSoftness * (0.9 + (n * 0.5 + 0.5) * 0.8);
+            
+            float d = length(delta);
+            float base = 1.0 - smoothstep(irregularRadius, irregularRadius + irregularSoftness, d);
+            
+            float warp1 = sin((atan(delta.y, delta.x) * 5.0) + t * 1.4) * 0.08;
+            float warp2 = sin((delta.x * 28.0) - (delta.y * 19.0) + t * 2.1) * 0.06;
+            float warp3 = sin((delta.y * 34.0) + t * 1.6) * 0.05;
+            
+            float breakup = clamp(base + warp1 + warp2 + warp3, 0.0, 1.0);
+            return breakup;
+          }
+          
+          void main() {
+            vec2 sampleUv = coverUv(vUv, uVideoAspect, uCanvasAspect, uContentOffsetX, uContentOffsetY, uContentScale);
+            vec3 videoColor = texture2D(uVideo, sampleUv).rgb;
+            float luma = dot(videoColor, vec3(0.2126, 0.7152, 0.0722));
+            luma = pow(clamp(luma, 0.0, 1.0), uGamma);
+            
+            float videoTarget = smoothstep(uThreshold, uThreshold + uFeather, luma);
+            float hoverTarget = hoverField(vUv, uPointer, uCanvasAspect, uTime) * uPointerStrength * uPointerActive;
+            
+            float target = max(videoTarget * uVideoOpacity, hoverTarget);
+            float prev = texture2D(uPrev, vUv).r;
+            float nextValue = mix(prev, target, uSmoothing);
+            
+            gl_FragColor = vec4(nextValue, nextValue, nextValue, 1.0);
+          }
+        `
+      });
+
+      simQuad = new THREE.Mesh(plane, simMaterial);
+      simScene.add(simQuad);
+    }
+
+    function buildMaterial() {
+      const derived = getDerivedConfig();
+
+      if (material) material.dispose();
+
+      material = new THREE.ShaderMaterial({
+        uniforms: {
+          uBrightnessTex: { value: null },
+          uMinSize: { value: derived.minSize * renderer.getPixelRatio() },
+          uMaxSize: { value: derived.maxSize * renderer.getPixelRatio() },
+          uOpacity: { value: CONFIG.opacity },
+          uSoftness: { value: CONFIG.softness },
+          uColor: { value: new THREE.Color(CONFIG.dotColor) }
+        },
+        vertexShader: `
+          varying float vStrength;
+          uniform sampler2D uBrightnessTex;
+          uniform float uMinSize;
+          uniform float uMaxSize;
+          
+          void main() {
+            float strength = texture2D(uBrightnessTex, uv).r;
+            vStrength = strength;
+            gl_PointSize = mix(uMinSize, uMaxSize, strength);
+            gl_Position = vec4(position.xy, 0.0, 1.0);
+          }
+        `,
+        fragmentShader: `
+          varying float vStrength;
+          uniform float uOpacity;
+          uniform float uSoftness;
+          uniform vec3 uColor;
+          
+          void main() {
+            vec2 p = gl_PointCoord - vec2(0.5);
+            float d = length(p);
+            
+            float outer = smoothstep(0.5, 0.5 - uSoftness, d);
+            float inner = smoothstep(0.14, 0.0, d);
+            
+            float alpha = (outer * 0.75 + inner * 0.4) * vStrength * uOpacity;
+            
+            if (alpha < 0.008) discard;
+            gl_FragColor = vec4(uColor, alpha);
+          }
+        `,
+        transparent: true,
+        depthTest: false,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
+    }
+
+    function buildRenderTargets() {
+      disposeRenderTarget(prevRT);
+      disposeRenderTarget(currRT);
+
+      prevRT = new THREE.WebGLRenderTarget(cols, rows, {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat,
+        depthBuffer: false,
+        stencilBuffer: false,
+      });
+
+      currRT = new THREE.WebGLRenderTarget(cols, rows, {
+        minFilter: THREE.LinearFilter,
+        magFilter: THREE.LinearFilter,
+        format: THREE.RGBAFormat,
+        depthBuffer: false,
+        stencilBuffer: false,
+      });
+    }
+
+    function updateAspectUniforms(width, height) {
+      const canvasAspect = width / height;
+      const videoAspect = video.videoWidth && video.videoHeight ? video.videoWidth / video.videoHeight : 1;
+
+      if (simMaterial) {
+        simMaterial.uniforms.uCanvasAspect.value = canvasAspect;
+        simMaterial.uniforms.uVideoAspect.value = videoAspect;
+      }
+    }
+
+    function updateDerivedUniforms() {
+      const derived = getDerivedConfig();
+
+      if (material) {
+        material.uniforms.uMinSize.value = derived.minSize * renderer.getPixelRatio();
+        material.uniforms.uMaxSize.value = derived.maxSize * renderer.getPixelRatio();
+        material.uniforms.uOpacity.value = CONFIG.opacity;
+        material.uniforms.uSoftness.value = CONFIG.softness;
+        material.uniforms.uColor.value.set(CONFIG.dotColor);
+      }
+
+      if (simMaterial) {
+        simMaterial.uniforms.uThreshold.value = derived.threshold;
+        simMaterial.uniforms.uFeather.value = derived.feather;
+        simMaterial.uniforms.uGamma.value = CONFIG.gamma;
+        simMaterial.uniforms.uSmoothing.value = CONFIG.smoothing;
+        simMaterial.uniforms.uContentOffsetX.value = CONFIG.contentOffsetX;
+        simMaterial.uniforms.uContentOffsetY.value = CONFIG.contentOffsetY;
+        simMaterial.uniforms.uContentScale.value = CONFIG.contentScale;
+        simMaterial.uniforms.uPointerRadius.value = CONFIG.hoverRadius;
+        simMaterial.uniforms.uPointerSoftness.value = CONFIG.hoverSoftness;
+        simMaterial.uniforms.uPointerStrength.value = CONFIG.hoverStrength;
+        simMaterial.uniforms.uHoverMorphSpeed.value = CONFIG.hoverMorphSpeed;
+        simMaterial.uniforms.uHoverNoiseScale.value = CONFIG.hoverNoiseScale;
+        simMaterial.uniforms.uHoverNoiseAmount.value = CONFIG.hoverNoiseAmount;
+        simMaterial.uniforms.uVideoOpacity.value = CONFIG.videoOpacity;
+      }
+    }
+
+    function updatePointer(clientX, clientY) {
+      const rect = wrap.getBoundingClientRect();
+      const inside = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+
+      if (!inside) {
+        pointer.targetActive = 0;
+        return;
+      }
+
+      pointer.targetX = clamp((clientX - rect.left) / rect.width, 0, 1);
+      pointer.targetY = clamp(1 - (clientY - rect.top) / rect.height, 0, 1);
+      pointer.targetActive = CONFIG.hoverEnabled ? 1 : 0;
+    }
+
+    function handlePointerMove(e) {
+      updatePointer(e.clientX, e.clientY);
+    }
+
+    function handlePointerLeave() {
+      pointer.targetActive = 0;
+    }
+
+    function handleTouchMove(e) {
+      if (!e.touches || !e.touches.length) return;
+      const t = e.touches[0];
+      updatePointer(t.clientX, t.clientY);
+    }
+
+    function handleTouchEnd() {
+      pointer.targetActive = 0;
+    }
+
+    function updatePointerUniforms() {
+      pointer.currentX = lerp(pointer.currentX, pointer.targetX, CONFIG.hoverSmoothing);
+      pointer.currentY = lerp(pointer.currentY, pointer.targetY, CONFIG.hoverSmoothing);
+      pointer.currentActive = lerp(pointer.currentActive, pointer.targetActive, CONFIG.hoverSmoothing);
+
+      if (simMaterial) {
+        simMaterial.uniforms.uPointer.value.set(pointer.currentX, pointer.currentY);
+        simMaterial.uniforms.uPointerActive.value = pointer.currentActive;
+      }
+    }
+
+    function resize() {
+      const { width, height } = getWrapSize();
+      const isMobile = window.innerWidth < 768;
+
+      renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setSize(width, height, false);
+
+      renderer.domElement.style.position = 'absolute';
+      renderer.domElement.style.inset = '0';
+      renderer.domElement.style.width = '100%';
+      renderer.domElement.style.height = '100%';
+      renderer.domElement.style.display = 'block';
+
+      // Responsive positioning of the earth visual
+      CONFIG.contentOffsetX = 0.0;
+      CONFIG.contentOffsetY = isMobile ? 0.5 : 0.45;
+      CONFIG.contentScale = isMobile ? 1.16 : 1.04;
+
+      updateDerivedUniforms();
+      updateAspectUniforms(width, height);
+
+      if (started) {
+        buildPoints();
+        buildRenderTargets();
+        if (material) {
+          material.uniforms.uBrightnessTex.value = prevRT.texture;
+        }
+      }
+    }
+
+    function stepSimulation() {
+      if (!simMaterial || !prevRT || !currRT) return;
+
+      simMaterial.uniforms.uPrev.value = prevRT.texture;
+
+      renderer.setRenderTarget(currRT);
+      renderer.render(simScene, simCamera);
+      renderer.setRenderTarget(null);
+
+      const temp = prevRT;
+      prevRT = currRT;
+      currRT = temp;
+
+      material.uniforms.uBrightnessTex.value = prevRT.texture;
+    }
+
+    function animate(now) {
+      requestAnimationFrame(animate);
+
+      if (!isVisible) return;
+
+      const dt = Math.min(0.05, (now - lastTime) / 1000 || 0.016);
+      lastTime = now;
+      time += dt;
+
+      if (videoTexture && video && !video.paused && !video.ended) {
+        videoTexture.needsUpdate = true;
+      }
+
+      if (simMaterial) {
+        simMaterial.uniforms.uTime.value = time;
+      }
+
+      updatePointerUniforms();
+      stepSimulation();
+      renderer.render(scene, camera);
+    }
+
+    function startRenderer() {
+      if (started) return;
+      if (!video.videoWidth || !video.videoHeight) return;
+
+      videoTexture = new THREE.VideoTexture(video);
+      videoTexture.minFilter = THREE.LinearFilter;
+      videoTexture.magFilter = THREE.LinearFilter;
+      videoTexture.generateMipmaps = false;
+      videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+      videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+      videoTexture.colorSpace = THREE.SRGBColorSpace;
+
+      buildMaterial();
+      buildPoints();
+      buildRenderTargets();
+      buildSimulation();
+
+      material.uniforms.uBrightnessTex.value = prevRT.texture;
+
+      const { width, height } = getWrapSize();
+      updateDerivedUniforms();
+      updateAspectUniforms(width, height);
+      resize();
+
+      started = true;
+      lastTime = performance.now();
+      animate(lastTime);
+    }
+
+    async function tryPlay(forceReload = false) {
+      if (!video) return false;
+
+      try {
+        if (forceReload && video.readyState < 2) {
+          video.load();
+        }
+
+        const playPromise = video.play();
+
+        if (playPromise && typeof playPromise.then === 'function') {
+          await playPromise;
+        }
+
+        return !video.paused;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function initWebGL() {
+      renderer = new THREE.WebGLRenderer({
+        antialias: false,
+        alpha: true,
+        powerPreference: 'high-performance',
+      });
+
+      renderer.domElement.setAttribute('data-three-bg', 'true');
+      const isMobile = window.innerWidth < 768;
+      renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setClearColor(0x000000, 0);
+      wrap.appendChild(renderer.domElement);
+
+      scene = new THREE.Scene();
+      camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+      camera.position.z = 1;
+
+      // Event Listeners for Interaction
+      if (CONFIG.hoverEnabled) {
+        window.addEventListener('pointermove', handlePointerMove);
+        window.addEventListener('pointerleave', handlePointerLeave);
+      }
+
+      window.addEventListener('touchmove', handleTouchMove, { passive: true });
+      window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+      if (video.readyState >= 2 && video.videoWidth > 0) {
+        startRenderer();
+      } else {
+        video.addEventListener('loadedmetadata', () => {
+          tryPlay();
+          startRenderer();
+        });
+        video.addEventListener('loadeddata', () => {
+          tryPlay();
+          startRenderer();
+        });
+        video.addEventListener('canplay', () => {
+          tryPlay();
+          startRenderer();
+        });
+      }
+
+      setTimeout(() => {
+        tryPlay();
+        startRenderer();
+      }, 500);
+    }
+
+
+
+    // Window Events
+    window.addEventListener('resize', resize);
+    
+    if ('ResizeObserver' in window) {
+      resizeObserver = new ResizeObserver(() => {
+        resize();
+      });
+      resizeObserver.observe(wrap);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        isVisible = false;
+        pointer.targetActive = 0;
+        video.pause();
+      } else {
+        isVisible = true;
+        lastTime = performance.now();
+        tryPlay();
+      }
+    });
+
+    window.addEventListener('focus', () => {
+      isVisible = true;
+      lastTime = performance.now();
+      tryPlay();
+    });
+
+    // Boot on Dom Ready
+    document.addEventListener('DOMContentLoaded', () => {
+      tryPlay();
+      initWebGL();
+      resize();
+    });
+  </script>
+</body>
+</html>
