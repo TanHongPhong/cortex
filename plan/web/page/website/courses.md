@@ -320,5 +320,5 @@ Final CTA
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
 - **Incoming Links (Backlinks):** [[web/page|1. Public Website — phần người ngoài nhìn thấy]]

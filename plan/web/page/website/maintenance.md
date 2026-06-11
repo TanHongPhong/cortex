@@ -86,7 +86,7 @@ export function middleware(request: NextRequest) {
 ```text
 ┌─────────────────────────────────────────────┐
 │                                             │
-│         [Mascot Rubik đang sửa chữa]       │
+│   [Illustration bảo trì hoặc icon công cụ] │
 │                                             │
 │          🔧 Bảo trì hệ thống 🔧            │
 │                                             │
@@ -115,7 +115,7 @@ export function middleware(request: NextRequest) {
 
 | Thành phần | Nội dung | Dynamic? |
 |-----------|---------|:--------:|
-| Visual | Mascot đang sửa chữa hoặc illustration maintenance | ❌ |
+| Visual | Illustration maintenance hoặc icon công cụ | ❌ |
 | Tiêu đề | `Bảo trì hệ thống` | ❌ |
 | Mô tả | `Blueprint đang được nâng cấp để mang đến trải nghiệm tốt hơn cho bạn.` | ❌ |
 | Thời gian | `📅 [Ngày] từ [Giờ] đến [Giờ]` | ✅ |
@@ -224,8 +224,8 @@ Sau khi bảo trì:
 | Phần | Style |
 |------|-------|
 | Layout | Center aligned, đơn giản |
-| Visual | Mascot đang sửa chữa hoặc illustration |
-| Màu | Theo [[web/page/website/design|Blueprint Mono / Dark Mono]]: nền `--bg`, panel `--surface`, text phụ `--muted` |
+| Visual | Illustration maintenance hoặc icon công cụ |
+| Màu | Theo [[web/page/website/design|Blueprint Mono Blue / Dark Mono Blue]]: nền `--bg`, panel `--surface`, text phụ `--muted` |
 | Typography | Tiêu đề lớn, text nhỏ hơn |
 | Countdown | Timer nổi bật bằng `--primary` hoặc `--secondary`, không dùng màu nóng |
 | Mobile | Full width, responsive |
@@ -274,5 +274,5 @@ Sau khi bảo trì:
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]]
 - **Incoming Links (Backlinks):** [[web/infrastructure|Infrastructure — Hạ tầng triển khai Blueprint]]

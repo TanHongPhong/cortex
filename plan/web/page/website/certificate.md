@@ -58,7 +58,7 @@ status: "[[MVP]]"
 | Subtitle   | Giải thích đây là chứng chỉ hoàn thành khóa học AI thực chiến |
 | CTA chính  | `Xác thực chứng chỉ`                                          |
 | CTA phụ    | `Xem khóa học có chứng chỉ`                                   |
-| Visual     | Ảnh mockup certificate hoặc mascot cầm certificate            |
+| Visual     | Ảnh mockup certificate hoặc layout chứng chỉ nổi bật          |
 
 **Gợi ý nội dung:**
 
@@ -221,7 +221,7 @@ Trang này ưu tiên lấy dữ liệu từ `certificate_templates`. Nếu chưa
 | Phần               | Gợi ý                                    |
 | ------------------ | ---------------------------------------- |
 | Style              | Premium, sạch, đáng tin                  |
-| Màu                | Theo [[web/page/website/design|Blueprint Mono / Dark Mono]]: trắng/đen/xám than/xanh dương |
+| Màu                | Theo [[web/page/website/design|Blueprint Mono Blue / Dark Mono Blue]]: navy blue, sky blue, nền sáng và text xanh đen |
 | Certificate mockup | Nên lớn, rõ, có QR và ID                 |
 | Icon               | Dùng icon check, QR, shield, certificate |
 | Layout             | 2 cột ở desktop, 1 cột ở mobile          |
@@ -259,5 +259,5 @@ Trang `/certificate` đạt nếu:
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]]
 - **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/hard_notes|Hard Notes]], [[web/infrastructure|Infrastructure — Hạ tầng triển khai Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/admin/admin-audit-logs|/admin/audit-logs — Lịch sử thao tác]], [[web/page/admin/admin-certificate-templates|/admin/certificate-templates — Quản lý template chứng chỉ]], [[web/page/admin/admin-certificates|/admin/certificates — Quản lý chứng chỉ]], [[web/page/admin/admin-courses|/admin/courses — Quản lý khóa học]], [[web/page/admin/admin-lessons|/admin/lessons — Quản lý module/bài học]], [[web/page/admin/admin-overview|/admin — Admin Overview]], [[web/page/admin/admin-students|/admin/students — Quản lý học viên]], [[web/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/student/learn-course|/learn/[course] — Trang học của một khóa]], [[web/page/student/learn-lesson|/learn/[course]/[lesson] — Trang bài học]], [[web/page/student/my-certificates|/my-certificates — Chứng chỉ của tôi]], [[web/page/student/my-courses|/my-courses — Khóa học của tôi]], [[web/page/student/notifications|/notifications — Thông báo của tôi]], [[web/page/student/profile|/profile — Hồ sơ cá nhân]], [[web/page/student/submit-project|/submit-project — Legacy / Không ưu tiên MVP]], [[web/page/website/course-detail|/courses/[slug] — Trang chi tiết khóa học]], [[web/page/website/courses|/courses — Product Catalog Page]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page/website/privacy|/privacy — Chính sách dữ liệu]], [[web/page/website/projects|/projects — Trang dự án học viên]], [[web/page/website/terms|/terms — Điều khoản sử dụng]], [[web/page/website/verify-certificate|/verify-certificate — Trang xác thực chứng chỉ]], [[web/page_function_matrix|Page Function Matrix — Blueprint]], [[web/security|Security — Bảo mật hệ thống Blueprint]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

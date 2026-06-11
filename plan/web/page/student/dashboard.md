@@ -19,6 +19,7 @@ status: "[[MVP]]"
 **Owner area:** Student
 **Source of truth:** `plan/web/page_function_matrix.md`, `plan/web/unified_database_schema.md`
 **Design source:** [[web/page/student/design|Student Portal Design — Warm Learning Workspace]]
+**Alignment report:** [[web/page/student/dashboard-alignment-report|Dashboard Alignment Report - `/dashboard`]]
 **Build decision:** Build
 
 ## 1. Vai trò của trang

@@ -300,5 +300,5 @@ Trang `/blog` đạt nếu:
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page/admin/admin|Admin Dashboard — Requirement]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]]
 - **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

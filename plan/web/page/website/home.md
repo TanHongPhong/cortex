@@ -27,7 +27,7 @@ Trang chủ phải làm được 4 việc:
 | Mục tiêu         | Mô tả                                                             |
 | ---------------- | ----------------------------------------------------------------- |
 | Giới thiệu nhanh | Người xem hiểu Blueprint là nền tảng học AI / AI Agent / Vibe Coding |
-| Tạo ấn tượng     | Có visual 3D, mascot Rubik công nghệ, giao diện hiện đại          |
+| Tạo ấn tượng     | Có hero rõ ràng, nội dung nổi bật và khối minh họa phù hợp        |
 | Dẫn người dùng   | Điều hướng sang khóa học, lộ trình, [[web/page/website/certificate|certificate]], [[web/page/website/contact|contact]]          |
 | Thu lead         | Có CTA và form/nút đăng ký học thử                                |
 
@@ -44,8 +44,7 @@ Trang chủ phải làm được 4 việc:
 | Logo        | Hiển thị logo Blueprint                                |
 | Menu        | Home, Courses, Projects, Certificate, Blog, Contact |
 | CTA phải có | Nút `Đăng ký học thử`                               |
-| Responsive  | Mobile chuyển thành hamburger menu                  |
-| Sticky      | Nên sticky nhẹ khi scroll                           |
+| Menu mobile | Có menu thu gọn trên mobile                         |
 
 ---
 
@@ -59,7 +58,7 @@ Trang chủ phải làm được 4 việc:
 | Subheadline  | Giải thích ngắn Blueprint giúp ai, học gì                       |
 | CTA chính    | `Đăng ký học thử`                                            |
 | CTA phụ      | `Xem lộ trình học` hoặc `Khám phá khóa học`                  |
-| Visual       | Mascot Rubik 3D / khối Rubik công nghệ xoay nhẹ              |
+| Khối minh họa | Preview sản phẩm, hình minh họa hoặc mockup phù hợp           |
 | Trust badges | “Beginner-friendly”, “Project-based”, “Certificate included” |
 
 **Gợi ý nội dung:**
@@ -79,12 +78,10 @@ biết dùng AI, tạo sản phẩm, tự động hóa công việc và xây por
 
 | Nội dung cần có         | Cách thể hiện                                             |
 | ----------------------- | --------------------------------------------------------- |
-| Học AI bị rối           | Card: “Không biết bắt đầu từ đâu”                         |
-| Quá nhiều tool          | Card: “ChatGPT, Claude, Cursor, n8n… học cái nào trước?”  |
-| Học xong không làm được | Card: “Biết lý thuyết nhưng không tạo được sản phẩm”      |
-| Sợ code                 | Card: “Muốn làm web/app nhưng chưa đủ nền tảng lập trình” |
-
-**UI nên làm:** 3–4 card nhỏ, icon đơn giản, text ngắn.
+| Học AI bị rối           | “Không biết bắt đầu từ đâu”                               |
+| Quá nhiều tool          | “ChatGPT, Claude, Cursor, n8n… học cái nào trước?”        |
+| Học xong không làm được | “Biết lý thuyết nhưng không tạo được sản phẩm”            |
+| Sợ code                 | “Muốn làm web/app nhưng chưa đủ nền tảng lập trình”       |
 
 ---
 
@@ -96,8 +93,8 @@ biết dùng AI, tạo sản phẩm, tự động hóa công việc và xây por
 | --------------- | --------------------------------------------------------- |
 | Tiêu đề         | “Blueprint giúp bạn học AI theo cách thực chiến hơn”         |
 | 3 giá trị chính | Học có lộ trình, học qua project, có sản phẩm/certificate |
-| Visual phụ      | Có thể dùng diagram hoặc card flow                        |
-
+| Nội dung bổ trợ | Có thể kèm mô tả quy trình học hoặc luồng giá trị         |
+  
 **Nội dung nên nhấn mạnh:**
 
 ```text
@@ -117,8 +114,6 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | 2. Vibe Coding       | Tạo website, landing [[web/page|page]], prototype bằng AI        |
 | 3. AI Agent          | Xây chatbot, workflow, assistant tự động            |
 | 4. Portfolio Project | Làm project cuối khóa để đưa vào CV/portfolio       |
-
-**UI nên làm:** timeline ngang hoặc vertical stepper.
 
 **CTA:** `Xem chi tiết lộ trình`
 
@@ -169,7 +164,7 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 
 | Thành phần          | Yêu cầu                                                 |
 | ------------------- | ------------------------------------------------------- |
-| Ảnh mẫu [[web/page/website/certificate|certificate]] | Có tên học viên, khóa học, ngày cấp, Certificate ID, QR |
+| Mẫu [[web/page/website/certificate|certificate]] | Có tên học viên, khóa học, ngày cấp, Certificate ID, QR |
 | Điều kiện nhận      | Hoàn thành bài học + nộp project + được duyệt           |
 | CTA                 | `Tìm hiểu chứng chỉ` hoặc `Xác thực chứng chỉ`          |
 | Lưu ý               | Ghi rõ là Certificate of Completion                     |
@@ -190,8 +185,6 @@ Mỗi khóa học đều hướng đến một sản phẩm hoặc project cụ 
 | Portfolio-ready   | Có project để đưa vào CV               |
 | Certificate       | Có chứng chỉ hoàn thành                |
 | Community/support | Có hỗ trợ học viên                     |
-
-**UI:** 6 card nhỏ, icon rõ.
 
 ---
 
@@ -254,7 +247,6 @@ Bắt đầu với lộ trình học AI thực chiến từ Blueprint.
 | Course display   | Featured courses lấy dữ liệu từ bảng `courses`                          |
 | Project display  | Project showcase lấy dữ liệu từ bảng [[web/page/website/projects|`projects`]] hoặc data tĩnh ban đầu  |
 | Certificate link | Nút [[web/page/website/certificate|certificate]] dẫn đến `/certificate` hoặc `/verify-certificate`       |
-| Responsive       | Hiển thị tốt trên desktop, tablet, mobile                               |
 | Loading state    | Nếu analysis/project chưa load, hiển thị skeleton/loading                 |
 | Empty state      | Nếu chưa có khóa/project, hiển thị nội dung mẫu hoặc thông báo phù hợp  |
 
@@ -272,17 +264,21 @@ Bắt đầu với lộ trình học AI thực chiến từ Blueprint.
 
 ---
 
-# 5. UI/UX style đề xuất
+# 5. Bảng màu sử dụng
 
-| Phần      | Yêu cầu style                          |
-| --------- | -------------------------------------- |
-| Tổng thể  | Modern, clean, premium, đơn sắc theo [[web/page/website/design|Blueprint Mono / Dark Mono]] |
-| Màu       | Trắng/đen/xám than/xanh dương; không dùng neon hoặc màu nóng |
-| Visual    | Rubik 3D công nghệ nhưng giữ vật liệu/ánh sáng monochrome, điểm nhấn xanh dương |
-| Button    | CTA chính dùng `--primary`, hover `--secondary`, gradient xanh rất nhẹ nếu cần |
-| Card      | Nền `--surface`, card phụ `--surface-2`, border `--border`, shadow `--shadow` |
-| Animation | Nhẹ, không làm chậm web                |
-| Mobile    | Hero nên chuyển visual xuống dưới text |
+Áp dụng bảng màu `mono blue` cho trang chủ:
+
+| Token | Giá trị |
+| ----- | ------- |
+| `--bg` | `#F5F9FF` |
+| `--surface` | `#FFFFFF` |
+| `--surface-2` | `#EDF4FF` |
+| `--text` | `#061A33` |
+| `--muted` | `#667C99` |
+| `--primary` | `#0B3D91` |
+| `--secondary` | `#38BDF8` |
+| `--accent` | `#F4B942` |
+| `--border` | `rgba(6, 26, 51, 0.12)` |
 
 ---
 
@@ -299,8 +295,7 @@ Trang chủ được xem là đạt nếu:
 | Có project/certificate để tăng niềm tin        |             |
 | Form lead hoạt động và lưu vào database        |             |
 | Header/Footer đầy đủ link                      |             |
-| Responsive tốt trên mobile                     |             |
-| Không bị nặng vì hiệu ứng 3D                   |             |
+| Có bố cục đầy đủ trên mobile                   |             |
 
 ---
 
@@ -317,5 +312,5 @@ Trang chủ được xem là đạt nếu:
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/projects|/projects — Trang dự án học viên]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]], [[web/page/website/projects|/projects — Trang dự án học viên]]
 - **Incoming Links (Backlinks):** *None*

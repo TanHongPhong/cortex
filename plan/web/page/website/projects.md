@@ -59,7 +59,7 @@ status: "[[MVP]]"
 | Subtitle   | Nói rõ học viên học qua project thực tế               |
 | CTA chính  | `Xem khóa học`                                        |
 | CTA phụ    | `Đăng ký học thử`                                     |
-| Visual     | Có thể dùng mockup web/app/AI agent hoặc mascot Rubik |
+| Visual     | Có thể dùng mockup web/app/AI agent hoặc collage project |
 
 **Gợi ý nội dung:**
 
@@ -226,8 +226,8 @@ Bảng nên thêm: `projects`
 | Card        | Ảnh lớn, text ngắn, badge rõ            |
 | Hover       | Hover nhẹ, hiện nút xem demo            |
 | Visual      | Dùng screenshot thật/mockup đẹp         |
-| Category    | Dùng badge `--accent` theo [[web/page/website/design|Blueprint Mono / Dark Mono]], không dùng màu sặc sỡ |
-| Empty state | Có mascot + câu hướng dẫn               |
+| Category    | Dùng badge `--accent` theo [[web/page/website/design|Blueprint Mono Blue / Dark Mono Blue]], không dùng màu sặc sỡ |
+| Empty state | Có illustration nhẹ + câu hướng dẫn    |
 | Mobile      | Card 1 cột, CTA rõ                      |
 
 ---
@@ -275,5 +275,5 @@ Trang `/projects` đạt nếu:
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/instructor/submissions|/instructor/submissions — Duyệt bài nộp]], [[web/page/student/dashboard|/dashboard — Trang tổng quan học viên]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]]
 - **Incoming Links (Backlinks):** [[analysis/course_eng|A. Roadmap từng khóa AI Agent quốc tế]], [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]], [[web/page|1. Public Website — phần người ngoài nhìn thấy]], [[web/page/admin/admin-submissions|/admin/submissions — Duyệt bài nộp]], [[web/page/website/home|Trang chủ / — Home Page]], [[web/page_function_matrix|Page Function Matrix — Blueprint]], [[web/unified_database_schema|💎 Unified Database Schema - Blueprint Project]]

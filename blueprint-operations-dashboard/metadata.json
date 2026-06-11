@@ -1,0 +1,6 @@
+{
+  "name": "Blueprint Operations Dashboard",
+  "description": "LMS operations and billing management center for Blueprint training system",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

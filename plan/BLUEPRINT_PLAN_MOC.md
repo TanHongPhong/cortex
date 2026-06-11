@@ -60,6 +60,7 @@ Welcome to the Blueprint Product Plan & Specifications Dashboard. This Map of Co
 ### 🎓 Student Portal
 *The login-authenticated learning environment and student dashboard.*
 - **Main Hub Note:** [[web/page/student/dashboard|Student Dashboard]]
+- **Alignment Report:** [[web/page/student/dashboard-alignment-report|Dashboard Alignment Report - `/dashboard`]]
 - **All Pages:**
   - [[web/page/student/assignments|/assignments — Legacy / Không ưu tiên MVP]]
   - [[web/page/student/checkout|/checkout/:courseSlug — Thanh toán khóa học]]

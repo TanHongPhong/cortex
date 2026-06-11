@@ -19,7 +19,7 @@
 }
 
 .blueprint-brand-mark {
-  --brand-mark-size: 16px;
+  --brand-mark-size: 22px;
   width: var(--brand-mark-size);
   height: var(--brand-mark-size);
   display: inline-flex;

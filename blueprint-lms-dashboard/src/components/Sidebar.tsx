@@ -119,7 +119,7 @@ export default function Sidebar({ activeMenu, setActiveMenu, onOpenSupport, isMo
       </div>
 
       {/* Bottom Section */}
-      <div className="space-y-6 pt-6 border-t border-gray-50">
+      <div className="space-y-4 pt-3">
         {/* Support Card */}
         <div className="bg-gray-50/60 rounded-2xl p-4 border border-gray-100 flex flex-col space-y-3">
           <div className="flex items-center space-x-2 text-gray-800 font-semibold text-sm">

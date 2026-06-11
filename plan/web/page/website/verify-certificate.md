@@ -86,7 +86,7 @@ Certificate ID tuân theo định dạng:
 
 ## A. Khi chứng chỉ hợp lệ
 
-Hiển thị box trạng thái dùng [[web/page/website/design|Blueprint Mono / Dark Mono]]: nền `--surface`, border `--border`, badge `--accent`, text trạng thái `--primary`.
+Hiển thị box trạng thái dùng [[web/page/website/design|Blueprint Mono Blue / Dark Mono Blue]]: nền `--surface`, border `--border`, badge `--accent`, text trạng thái `--primary`.
 
 ```text
 Certificate is valid
@@ -191,5 +191,5 @@ Quét QR tự động mở và kiểm tra ID.
 - **Breadcrumbs:** [[BLUEPRINT_PLAN_MOC|Plan Home]] / [[web/page|Requirements]] / [[web/page/website/home|Public Website]]
 
 ### Relations
-- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono / Dark Mono]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
+- **Outgoing Links:** [[web/page/website/design|Website Design — Blueprint Mono Blue / Dark Mono Blue]], [[web/page/website/certificate|/certificate — Trang chứng chỉ]], [[web/page/website/contact|/contact — Trang liên hệ]]
 - **Incoming Links (Backlinks):** [[web/architecture|Architecture — Kiến trúc kỹ thuật Blueprint]]
